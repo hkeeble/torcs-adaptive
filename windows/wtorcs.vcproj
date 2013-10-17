@@ -287,35 +287,7 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath="..\libs\torcs\driverconfig.h"
-				>
-			</File>
-			<File
-				RelativePath="..\libs\torcs\exitmenu.h"
-				>
-			</File>
-			<File
-				RelativePath="..\libs\torcs\mainmenu.h"
-				>
-			</File>
-			<File
-				RelativePath="..\libs\torcs\optionmenu.h"
-				>
-			</File>
-			<File
 				RelativePath="osspec.h"
-				>
-			</File>
-			<File
-				RelativePath="..\libs\torcs\raceman.h"
-				>
-			</File>
-			<File
-				RelativePath="..\libs\torcs\splash.h"
-				>
-			</File>
-			<File
-				RelativePath="..\libs\torcs\torcs.h"
 				>
 			</File>
 			<File
