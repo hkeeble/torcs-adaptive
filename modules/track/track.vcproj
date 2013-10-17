@@ -118,7 +118,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)runtimed\modules\track"
+				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)..\runtimed\modules\track"
 			/>
 		</Configuration>
 		<Configuration

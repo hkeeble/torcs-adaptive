@@ -117,7 +117,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)runtimed\modules\simu"
+				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)..\runtimed\modules\simu"
 			/>
 		</Configuration>
 		<Configuration

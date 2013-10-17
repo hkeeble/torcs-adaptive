@@ -166,7 +166,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(TargetDir)*.lib ..\..\..\..\export\libd"
+				CommandLine="copy $(TargetDir)*.lib $(SolutionDir)..\export\libd"
 			/>
 		</Configuration>
 	</Configurations>

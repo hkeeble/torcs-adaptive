@@ -220,7 +220,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)runtimed\drivers\olethros"
+				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)..\runtimed\drivers\olethros"
 			/>
 		</Configuration>
 	</Configurations>

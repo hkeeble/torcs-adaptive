@@ -118,7 +118,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)runtimed\drivers\human"
+				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)..\runtimed\drivers\human"
 			/>
 		</Configuration>
 		<Configuration

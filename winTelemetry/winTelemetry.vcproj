@@ -84,7 +84,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy Debug/winTelemetry.dll $(SolutionDir)runtimed\"
+				CommandLine="copy $(TargetDir)winTelemetry.dll $(SolutionDir)..\runtimed"
 			/>
 		</Configuration>
 		<Configuration

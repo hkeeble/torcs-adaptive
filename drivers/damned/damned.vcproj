@@ -222,7 +222,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)runtimed\drivers\damned"
+				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)..\runtimed\drivers\damned"
 			/>
 		</Configuration>
 	</Configurations>

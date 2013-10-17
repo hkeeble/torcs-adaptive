@@ -222,7 +222,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)runtimed\drivers\tita"
+				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)..\runtimed\drivers\tita"
 			/>
 		</Configuration>
 	</Configurations>

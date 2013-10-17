@@ -214,7 +214,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="exports"
-				CommandLine="copy $(TargetDir)wtorcs.exe $(SolutionDir)runtimed&#x0D;&#x0A;copy dll\glut32.dll $(SolutionDir)runtimed&#x0D;&#x0A;copy dll\OpenAL32.dll $(SolutionDir)runtimed&#x0D;&#x0A;copy dll\libogg.dll $(SolutionDir)runtimed&#x0D;&#x0A;copy dll\libvorbis.dll $(SolutionDir)runtimed&#x0D;&#x0A;copy dll\libvorbisfile.dll $(SolutionDir)runtimed&#x0D;&#x0A;"
+				CommandLine="copy $(TargetDir)wtorcs.exe $(SolutionDir)..\runtimed&#x0D;&#x0A;copy dll\glut32.dll $(SolutionDir)..\runtimed&#x0D;&#x0A;copy dll\OpenAL32.dll $(SolutionDir)..\runtimed&#x0D;&#x0A;copy dll\libogg.dll $(SolutionDir)..\runtimed&#x0D;&#x0A;copy dll\libvorbis.dll $(SolutionDir)..\runtimed&#x0D;&#x0A;copy dll\libvorbisfile.dll $(SolutionDir)..\runtimed&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>
@@ -248,24 +248,14 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\torcs.rc"
+				RelativePath="..\torcs.rc"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories="\Users\berni\Development\torcs\torcs"
-					/>
-				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories="\Users\berni\Development\torcs\torcs"
+						Culture="2057"
 					/>
 				</FileConfiguration>
 			</File>

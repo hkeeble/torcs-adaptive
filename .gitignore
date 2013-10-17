@@ -9,3 +9,5 @@ CVS/
 windows/dll/
 windows/include/
 windows/lib/
+
+*.ico

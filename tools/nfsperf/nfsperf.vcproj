@@ -111,7 +111,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(TargetDir)nfsperf.exe $(SolutionDir)runtimed"
+				CommandLine="copy $(TargetDir)nfsperf.exe $(SolutionDir)..\runtimed"
 			/>
 		</Configuration>
 		<Configuration

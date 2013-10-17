@@ -222,7 +222,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)runtimed\drivers\lliaw"
+				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)..\runtimed\drivers\lliaw"
 			/>
 		</Configuration>
 	</Configurations>

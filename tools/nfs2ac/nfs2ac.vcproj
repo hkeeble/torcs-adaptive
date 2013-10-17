@@ -4,6 +4,7 @@
 	Version="9.00"
 	Name="nfs2ac"
 	ProjectGUID="{61EB09C8-4D12-45F9-9E5E-9BE0EFB71DE0}"
+	RootNamespace="nfs2ac"
 	TargetFrameworkVersion="0"
 	>
 	<Platforms>
@@ -200,7 +201,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(TargetDir)nfs2ac.exe $(SolutionDir)runtimed"
+				CommandLine="copy $(TargetDir)nfs2ac.exe $(SolutionDir)..\runtimed"
 			/>
 		</Configuration>
 	</Configurations>

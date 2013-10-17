@@ -214,7 +214,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(TargetDir)trackgen.exe $(SolutionDir)runtimed"
+				CommandLine="copy $(TargetDir)trackgen.exe $(SolutionDir)..\runtimed"
 			/>
 		</Configuration>
 	</Configurations>

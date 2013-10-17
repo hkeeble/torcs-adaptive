@@ -117,7 +117,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)runtimed&#x0D;&#x0A;copy $(TargetDir)*.lib $(SolutionDir)export\libd&#x0D;&#x0A;"
+				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)..\runtimed&#x0D;&#x0A;copy $(TargetDir)*.lib $(SolutionDir)..\export\libd&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration

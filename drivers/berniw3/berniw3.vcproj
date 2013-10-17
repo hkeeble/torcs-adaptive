@@ -222,7 +222,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)runtimed\drivers\berniw3"
+				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)..\runtimed\drivers\berniw3"
 			/>
 		</Configuration>
 	</Configurations>

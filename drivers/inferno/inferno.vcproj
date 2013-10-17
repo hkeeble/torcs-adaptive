@@ -117,7 +117,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)runtimed\drivers\inferno"
+				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)..\runtimed\drivers\inferno"
 			/>
 		</Configuration>
 		<Configuration

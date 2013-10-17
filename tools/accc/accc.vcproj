@@ -109,7 +109,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(TargetDir)accc.exe $(SolutionDir)runtimed"
+				CommandLine="copy $(TargetDir)accc.exe $(SolutionDir)..\runtimed"
 			/>
 		</Configuration>
 		<Configuration
