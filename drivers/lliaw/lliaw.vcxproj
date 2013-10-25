@@ -159,14 +159,13 @@
       <DataExecutionPrevention />
       <ImportLibrary>.\Debug/lliaw.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>.\Debug/lliaw.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll ..\runtimed\drivers\lliaw</Command>
+      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtimed\drivers\lliaw</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

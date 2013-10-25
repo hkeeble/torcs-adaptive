@@ -158,15 +158,14 @@ copy $(TargetDir)*.lib ..\..\..\export\lib
       <DataExecutionPrevention />
       <ImportLibrary>.\Debug/tgf.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>.\Debug/tgf.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll ..\runtimed
-copy $(TargetDir)*.lib ..\export\libd
+      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtimed
+copy $(TargetDir)*.lib $(SolutionDir)..\export\libd
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

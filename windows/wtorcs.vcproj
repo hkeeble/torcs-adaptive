@@ -214,7 +214,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="exports"
-				CommandLine="copy $(TargetDir)wtorcs.exe $(SolutionDir)..\runtimed&#x0D;&#x0A;copy dll\glut32.dll $(SolutionDir)..\runtimed&#x0D;&#x0A;copy dll\OpenAL32.dll $(SolutionDir)..\runtimed&#x0D;&#x0A;copy dll\libogg.dll $(SolutionDir)..\runtimed&#x0D;&#x0A;copy dll\libvorbis.dll $(SolutionDir)..\runtimed&#x0D;&#x0A;copy dll\libvorbisfile.dll $(SolutionDir)..\runtimed&#x0D;&#x0A;"
+				CommandLine="copy $(TargetDir)wtorcs.exe $(SolutionDir)runtimed&#x0D;&#x0A;copy dll\glut32.dll $(SolutionDir)runtimed&#x0D;&#x0A;copy dll\OpenAL32.dll $(SolutionDir)runtimed&#x0D;&#x0A;copy dll\libogg.dll $(SolutionDir)runtimed&#x0D;&#x0A;copy dll\libvorbis.dll $(SolutionDir)runtimed&#x0D;&#x0A;copy dll\libvorbisfile.dll $(SolutionDir)runtimed&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>
@@ -248,14 +248,24 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\torcs.rc"
+				RelativePath="..\..\torcs.rc"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						PreprocessorDefinitions=""
+						AdditionalIncludeDirectories="\Users\berni\Development\torcs\torcs"
+					/>
+				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCResourceCompilerTool"
-						Culture="2057"
+						PreprocessorDefinitions=""
+						AdditionalIncludeDirectories="\Users\berni\Development\torcs\torcs"
 					/>
 				</FileConfiguration>
 			</File>
@@ -287,7 +297,35 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
+				RelativePath="..\libs\torcs\driverconfig.h"
+				>
+			</File>
+			<File
+				RelativePath="..\libs\torcs\exitmenu.h"
+				>
+			</File>
+			<File
+				RelativePath="..\libs\torcs\mainmenu.h"
+				>
+			</File>
+			<File
+				RelativePath="..\libs\torcs\optionmenu.h"
+				>
+			</File>
+			<File
 				RelativePath="osspec.h"
+				>
+			</File>
+			<File
+				RelativePath="..\libs\torcs\raceman.h"
+				>
+			</File>
+			<File
+				RelativePath="..\libs\torcs\splash.h"
+				>
+			</File>
+			<File
+				RelativePath="..\libs\torcs\torcs.h"
 				>
 			</File>
 			<File

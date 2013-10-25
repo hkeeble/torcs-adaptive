@@ -113,7 +113,7 @@
       <OutputFile>.\Debug/ssggraphlib.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.lib ..\..\..\..\..\export\libd</Command>
+      <Command>copy $(TargetDir)*.lib $(SolutionDir)..\export\libd</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

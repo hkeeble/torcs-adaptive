@@ -159,14 +159,13 @@
       <DataExecutionPrevention />
       <ImportLibrary>.\Debug/damned.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>.\Debug/damned.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll ..\runtimed\drivers\damned</Command>
+      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtimed\drivers\damned</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

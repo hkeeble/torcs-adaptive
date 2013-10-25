@@ -159,14 +159,13 @@
       <DataExecutionPrevention />
       <ImportLibrary>.\Debug/inferno2.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>.\Debug/inferno2.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll ..\runtimed\drivers\inferno2</Command>
+      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtimed\drivers\inferno2</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

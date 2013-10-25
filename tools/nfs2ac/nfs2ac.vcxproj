@@ -12,6 +12,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{61EB09C8-4D12-45F9-9E5E-9BE0EFB71DE0}</ProjectGuid>
+    <RootNamespace>nfs2ac</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -135,14 +136,13 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention />
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>.\Debug/nfs2ac.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)nfs2ac.exe ..\runtimed</Command>
+      <Command>copy $(TargetDir)nfs2ac.exe $(SolutionDir)..\runtimed</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -155,7 +155,6 @@ copy dll\libvorbisfile.dll $(SolutionDir)runtime
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention />
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -163,24 +162,18 @@ copy dll\libvorbisfile.dll $(SolutionDir)runtime
     </Bscmake>
     <PostBuildEvent>
       <Message>exports</Message>
-      <Command>copy $(TargetDir)wtorcs.exe..\runtimed
-copy dll\glut32.dll ..\runtimed
-copy dll\OpenAL32.dll ..\runtimed
-copy dll\libogg.dll ..\runtimed
-copy dll\libvorbis.dll ..\runtimed
-copy dll\libvorbisfile.dll ..\runtimed
-</Command>
+      <Command>copy $(TargetDir)wtorcs.exe $(SolutionDir)..\runtimed
+copy dll\glut32.dll $(SolutionDir)..\runtimed
+copy dll\OpenAL32.dll $(SolutionDir)..\runtimed
+copy dll\libogg.dll $(SolutionDir)..\runtimed
+copy dll\libvorbis.dll $(SolutionDir)..\runtimed
+copy dll\libvorbisfile.dll $(SolutionDir)..\runtimed
+copy dll\alut.dll $(SolutionDir)..\runtimed</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="windowsspec.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="..\..\torcs.rc">
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">\Users\berni\Development\torcs\torcs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">\Users\berni\Development\torcs\torcs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\libs\torcs\driverconfig.h" />
@@ -209,6 +202,9 @@ copy dll\libvorbisfile.dll ..\runtimed
       <Project>{bef1b5f5-7b90-40f6-a96c-34d1e0c0a79d}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\torcs.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

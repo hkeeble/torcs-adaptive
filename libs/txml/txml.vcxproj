@@ -103,15 +103,14 @@
       <ImportLibrary>.\Debug/txml.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
       <AllowIsolation>true</AllowIsolation>
-      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>.\Debug/txml.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll ..\runtimed
-copy $(TargetDir)*.lib ..\export\libd
+      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtimed
+copy $(TargetDir)*.lib $(SolutionDir)..\export\libd
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

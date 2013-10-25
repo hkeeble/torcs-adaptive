@@ -159,14 +159,13 @@
       <DataExecutionPrevention />
       <ImportLibrary>.\Debug/tita.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>.\Debug/tita.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll ..\runtimed\drivers\tita</Command>
+      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtimed\drivers\tita</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

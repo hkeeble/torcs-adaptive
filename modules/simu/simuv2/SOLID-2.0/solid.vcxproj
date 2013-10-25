@@ -80,7 +80,7 @@
       <OutputFile>.\Debug/solid.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.lib ..\export\libd</Command>
+      <Command>copy $(TargetDir)*.lib $(SolutionDir)..\export\libd</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

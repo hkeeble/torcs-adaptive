@@ -54,6 +54,9 @@
       <TypeLibraryName>.\Debug/TORCS.tlb</TypeLibraryName>
       <HeaderFileName />
     </Midl>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)\windows\dll\alut.dll" "$(SolutionDir)\..\runtimed\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
@@ -162,6 +165,9 @@
       <Project>{31ca578b-13ca-4640-8d1a-95ed57c026a2}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="torcs.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
