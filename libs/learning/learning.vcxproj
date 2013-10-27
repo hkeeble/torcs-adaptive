@@ -68,7 +68,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../../export/include;../../..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;LEARNING_EXPORTS;DEBUG;DEBUG_OUT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -91,7 +91,7 @@
     <Link>
       <OutputFile>.\Debug/learning.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../../../export/libd;../../windows/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)/export/libd;../../windows/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EnableUAC>false</EnableUAC>
       <IgnoreSpecificDefaultLibraries>LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ModuleDefinitionFile>./learning.def</ModuleDefinitionFile>
@@ -111,7 +111,7 @@
     </Bscmake>
     <PostBuildEvent>
       <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtimed
-copy $(TargetDir)*.lib $(SolutionDir)..\export\libd
+copy $(TargetDir)*.lib $(SolutionDir)\export\libd
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -127,7 +127,7 @@ copy $(TargetDir)*.lib $(SolutionDir)..\export\libd
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>../../../export/include;../../..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;LEARNING_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -150,7 +150,7 @@ copy $(TargetDir)*.lib $(SolutionDir)..\export\libd
     <Link>
       <OutputFile>.\Release/learning.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../../../export/lib;../../windows/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)/export/lib;../../windows/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EnableUAC>false</EnableUAC>
       <ModuleDefinitionFile>.\learning.def</ModuleDefinitionFile>
       <ProgramDatabaseFile>.\Release/learning.pdb</ProgramDatabaseFile>

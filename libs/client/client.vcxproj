@@ -66,7 +66,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../../export/include;../../windows/include;../../interfaces;../../..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../windows/include;../../interfaces;../../..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CLIENT_EXPORTS;DEBUG;DEBUG_OUT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -90,7 +90,7 @@
       <AdditionalDependencies>txml.lib;libpng15_vs2008_32.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;tgf.lib;robottools.lib;ssggraphlib.lib;ssg_vs2008_32.lib;ssgAux_vs2008_32.lib;sl_vs2008_32.lib;OpenAL32.lib;Alut.lib;libogg.lib;libvorbis.lib;libvorbisfile.lib;zlib1_vs2008_32.lib;js_vs2008_32.lib;Advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Debug/client.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../../../export/libd;../../windows/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)/export/libd;../../windows/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EnableUAC>false</EnableUAC>
       <IgnoreSpecificDefaultLibraries>LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ModuleDefinitionFile>.\client.def</ModuleDefinitionFile>
@@ -109,7 +109,7 @@
     </Bscmake>
     <PostBuildEvent>
       <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtimed
-copy $(TargetDir)*.lib $(SolutionDir)..\export\libd
+copy $(TargetDir)*.lib $(SolutionDir)\export\libd
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -125,7 +125,7 @@ copy $(TargetDir)*.lib $(SolutionDir)..\export\libd
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>../../../export/include;../../interfaces;../../windows/include;../../..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../interfaces;../../windows/include;../../..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CLIENT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -149,7 +149,7 @@ copy $(TargetDir)*.lib $(SolutionDir)..\export\libd
       <AdditionalDependencies>txml.lib;libpng15_vs2008_32.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;tgf.lib;robottools.lib;ssggraphlib.lib;ssg_vs2008_32.lib;ssgAux_vs2008_32.lib;sl_vs2008_32.lib;OpenAL32.lib;Alut.lib;libogg.lib;libvorbis.lib;libvorbisfile.lib;zlib1_vs2008_32.lib;js_vs2008_32.lib;Advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Release/client.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../../../export/lib;../../windows/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)/export/lib;../../windows/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EnableUAC>false</EnableUAC>
       <ModuleDefinitionFile>.\client.def</ModuleDefinitionFile>
       <ProgramDatabaseFile>.\Release/client.pdb</ProgramDatabaseFile>

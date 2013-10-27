@@ -252,6 +252,13 @@ reRaceRealStart(void)
 		}
 	}
 
+	// Load WinTelemetry
+	RmLoadingScreenSetText("Loading Windows Telemetry Module...");
+	dllname = GfParmGetStr(ReInfo->_reParam, "Modules", "winTelemetry", "");
+	snprintf(buf, BUFSIZE, "%smodules/winTelemetry/%s.%s", GetLibDir (), dllname, DLLEXT);
+	if (GfModLoad(0, buf, &ReRaceModList)) return RM_QUIT;
+	ReRaceModList->modInfo->fctInit(ReRaceModList->modInfo->index, &ReInfo->_reSimItf);
+
 	RmLoadingScreenSetText("Ready.");
 
 	ReInfo->_reTimeMult = 1.0;

@@ -65,7 +65,8 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)winTelemetry.dll $(SolutionDir)..\runtimed</Command>
+      <Command>mkdir $(SolutionDir)..\runtimed\modules\winTelemetry\
+copy $(TargetDir)winTelemetry.dll $(SolutionDir)..\runtimed\modules\winTelemetry\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
