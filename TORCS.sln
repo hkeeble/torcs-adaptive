@@ -53,8 +53,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "txml", "libs\txml\txml.vcxp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wtorcs", "windows\wtorcs.vcxproj", "{31CA578B-13CA-4640-8D1A-95ED57C026A2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "winTelemetry", "winTelemetry\winTelemetry.vcxproj", "{EA73023F-68FD-432B-B4F0-39D3FEF55FDB}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -165,10 +163,6 @@ Global
 		{31CA578B-13CA-4640-8D1A-95ED57C026A2}.Debug|Win32.Build.0 = Debug|Win32
 		{31CA578B-13CA-4640-8D1A-95ED57C026A2}.Release|Win32.ActiveCfg = Release|Win32
 		{31CA578B-13CA-4640-8D1A-95ED57C026A2}.Release|Win32.Build.0 = Release|Win32
-		{EA73023F-68FD-432B-B4F0-39D3FEF55FDB}.Debug|Win32.ActiveCfg = Debug|Win32
-		{EA73023F-68FD-432B-B4F0-39D3FEF55FDB}.Debug|Win32.Build.0 = Debug|Win32
-		{EA73023F-68FD-432B-B4F0-39D3FEF55FDB}.Release|Win32.ActiveCfg = Release|Win32
-		{EA73023F-68FD-432B-B4F0-39D3FEF55FDB}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

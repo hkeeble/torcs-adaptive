@@ -55,6 +55,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../windows/include;../../..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <OutputFile>.\$(Configuration)/winTelemetry.dll</OutputFile>
@@ -77,6 +78,7 @@ copy $(TargetDir)winTelemetry.dll $(SolutionDir)..\runtimed\modules\winTelemetry
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../windows/include;../../..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <OutputFile>.\$(Configuration)/winTelemetry.dll</OutputFile>
@@ -93,13 +95,13 @@ copy $(TargetDir)winTelemetry.dll $(SolutionDir)..\runtimed\modules\winTelemetry
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="winTelemetry.cpp" />
+    <ClCompile Include="winTelitf.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="winTelemetry.def" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="winTelemetry.h" />
+    <ClInclude Include="winTel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
