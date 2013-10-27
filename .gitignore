@@ -10,4 +10,8 @@ windows/dll/
 windows/include/
 windows/lib/
 
+# Export Libraries
+export/lib/
+export/libd/
+
 *.ico
