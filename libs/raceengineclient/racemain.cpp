@@ -42,6 +42,8 @@
 
 #include "racemain.h"
 
+#include "perfMeasurement\perfMeasurement.h"
+
 /***************************************************************/
 /* ABANDON RACE HOOK */
 
@@ -127,6 +129,7 @@ ReRaceEventInit(void)
 		ReNewTrackMenu();
 		return RM_ASYNC | RM_NEXT_STEP;
 	}
+
 	return RM_SYNC | RM_NEXT_STEP;
 }
 

@@ -233,14 +233,6 @@ copy $(TargetDir)*.lib $(SolutionDir)export\lib
     <ClInclude Include="splash.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\drvTelemetry\drvTelemetry.vcxproj">
-      <Project>{9eb9f4c3-e32d-426e-8d63-6659aa624338}</Project>
-      <Private>false</Private>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
-      <LinkLibraryDependencies>false</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
-    </ProjectReference>
     <ProjectReference Include="..\..\modules\graphic\ssggraph\ssggraphlib.vcxproj">
       <Project>{87c850ad-e339-4687-83da-2f76aa0cd5db}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

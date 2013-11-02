@@ -56,10 +56,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "txml", "libs\txml\txml.vcxp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wtorcs", "windows\wtorcs.vcxproj", "{31CA578B-13CA-4640-8D1A-95ED57C026A2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "perfMeasurement", "drvTelemetry\drvTelemetry.vcxproj", "{9EB9F4C3-E32D-426E-8D63-6659AA624338}"
-	ProjectSection(ProjectDependencies) = postProject
-		{ACB16B61-2F7D-4E87-AD15-C95F16431137} = {ACB16B61-2F7D-4E87-AD15-C95F16431137}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "perfMeasurement", "libs\perfMeasurement\drvTelemetry.vcxproj", "{9EB9F4C3-E32D-426E-8D63-6659AA624338}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
