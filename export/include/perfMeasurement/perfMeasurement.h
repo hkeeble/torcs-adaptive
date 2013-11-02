@@ -18,14 +18,16 @@
 #define PERFMEASUREMENT_API __declspec(dllimport)
 #endif // PERFMEASUREMENT_EXPORT
 
+#define UPDATE_INTERVAL 0.4
+
 /* Class used as interface to performance measurement in a game session. */
-class PerfMeasurement
+class taPerfMeasurement
 {
 public:
-	PerfMeasurement();
-	~PerfMeasurement();
-	PerfMeasurement(const PerfMeasurement& param);
-	PerfMeasurement& operator=(const PerfMeasurement& param);
+	taPerfMeasurement();
+	~taPerfMeasurement();
+	taPerfMeasurement(const taPerfMeasurement& param);
+	taPerfMeasurement& operator=(const taPerfMeasurement& param);
 	
 	void SetDriver(CarElt* car);
 	void* getDataFromTag(std::string tag);

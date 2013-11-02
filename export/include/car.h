@@ -30,7 +30,7 @@
 #define __CARV1_H__
 
 #include <track.h>
-#include "../windows/include/plib/sg.h"
+#include "../../windows/include/plib/sg.h"
 
 #define CAR_IDENT	0
 

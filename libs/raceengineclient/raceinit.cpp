@@ -511,6 +511,17 @@ initPits(void)
 	}
 }
 
+/* Initialize performance measurement.
+	@param car	Car to be watched
+*/
+void
+initPerfMeasurement(CarElt* car)
+{
+	FREEZ(ReInfo->perfMeasurement);
+	ReInfo->perfMeasurement = new taPerfMeasurement();
+	ReInfo->perfMeasurement->SetDriver(car);
+}
+
 /** Initialize the cars for a race.
     The car are positionned on the starting grid.
     @return	0 Ok
@@ -690,6 +701,9 @@ ReInitCars(void)
     initStartingGrid();
 
     initPits();
+
+	if(ReInfo->raceEngineInfo.raceName == "Adaptive Race") // Initialize Performance Measurement
+		initPerfMeasurement(&ReInfo->carList[0]);
 
     return 0;
 }

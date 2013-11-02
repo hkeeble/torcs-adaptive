@@ -8,54 +8,65 @@
 
 #include "perfMeasurement\perfMeasurement.h"
 
-PerfMeasurement::PerfMeasurement()
+taPerfMeasurement::taPerfMeasurement()
+{
+	skillEstimate = 0;
+	driver = drvTelemetry();
+}
+
+taPerfMeasurement::~taPerfMeasurement()
 {
 
 }
 
-PerfMeasurement::~PerfMeasurement()
+taPerfMeasurement::taPerfMeasurement(const taPerfMeasurement& param)
 {
-
+	skillEstimate = param.skillEstimate;
+	driver = param.driver;
 }
 
-PerfMeasurement::PerfMeasurement(const PerfMeasurement& param)
+taPerfMeasurement& taPerfMeasurement::operator=(const taPerfMeasurement& param)
 {
-
-}
-
-PerfMeasurement& PerfMeasurement::operator=(const PerfMeasurement& param)
-{
-	return *this;
+	if(&param == this)
+		return *this;
+	else
+	{
+		skillEstimate = param.skillEstimate;
+		driver = param.driver;
+		return *this;
+	}
 }
 
 	
-void PerfMeasurement::SetDriver(CarElt* car)
+void taPerfMeasurement::SetDriver(CarElt* car)
+{
+	driver.SetDriver(car);
+}
+
+void* taPerfMeasurement::getDataFromTag(std::string tag)
+{
+	return driver.getDataFromTag(tag);
+}
+
+void taPerfMeasurement::Update()
 {
 
 }
 
-void* PerfMeasurement::getDataFromTag(std::string tag)
+void taPerfMeasurement::Clear()
 {
-	return 0;
+	driver.Clear();
 }
 
-void PerfMeasurement::Update()
+int taPerfMeasurement::GetSkillEstimate()
 {
-
-}
-
-void PerfMeasurement::Clear()
-{
-
-}
-
-int PerfMeasurement::GetSkillEstimate()
-{
-	return 0;
+	return skillEstimate;
 }
 
 
-void PerfMeasurement::Evaluate()
+void taPerfMeasurement::Evaluate()
 {
-
+	int eval = 0;
+	// ENTER EVALUATION FUNCTION HERE
+	skillEstimate = eval;
 }
