@@ -620,6 +620,10 @@ ReOneStep(double deltaTimeIncrement)
 			if ((s->cars[i]->_state & RM_CAR_STATE_NO_SIMU) == 0) {
 				robot = s->cars[i]->robot;
 				robot->rbDrive(robot->index, s->cars[i], s);
+				
+				// Track Performance
+				if(s->cars[i] == ReInfo->perfMeasurement->GetCar())
+					ReInfo->perfMeasurement->Update(deltaTimeIncrement, s->currentTime);
 			}
 		}
 		ReInfo->_reLastTime = s->currentTime;

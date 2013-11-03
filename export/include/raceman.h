@@ -203,7 +203,7 @@ typedef struct RmMovieCapture
 typedef struct RmInfo
 {
     tCarElt		*carList;	/**< List of all the cars racing */
-	taPerfMeasurement *perfMeasurement; /**< Performance measurement object */
+	torcsAdaptive::taPerfMeasurement *perfMeasurement; /**< Performance measurement object */
     tSituation		*s;		/**< Situation during race */
     tTrack		*track;		/**< Current track */
     void		*params;	/**< Raceman parameters */

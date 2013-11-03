@@ -9,36 +9,40 @@
 #ifndef _PERF_MEASUREMENT_H
 #define _PERF_MEASUREMENT_H
 
-#include "drvTel.h"
+#include "drvWatch.h"
 #include "car.h"
 
-#ifdef PERFMEASUREMENT_EXPORT
-#define PERFMEASUREMENT_API __declspec(dllexport)
-#else
-#define PERFMEASUREMENT_API __declspec(dllimport)
-#endif // PERFMEASUREMENT_EXPORT
-
-#define UPDATE_INTERVAL 0.4
-
-/* Class used as interface to performance measurement in a game session. */
-class taPerfMeasurement
+namespace torcsAdaptive
 {
-public:
-	taPerfMeasurement();
-	~taPerfMeasurement();
-	taPerfMeasurement(const taPerfMeasurement& param);
-	taPerfMeasurement& operator=(const taPerfMeasurement& param);
+	#define PERFMEASURE_UPDATE_INTERVAL 0.4
+	#define DATA_OUTPUT(tag, data, type) GfOut((tag ": " + dbleToStr(*REINTERPRET_CAST(data, type)) + "\n").c_str());
 	
-	void SetDriver(CarElt* car);
-	void* getDataFromTag(std::string tag);
-	void Update();
-	void Clear();
-	int GetSkillEstimate();
+	/* Class used as interface to performance measurement in a game session. */
+	class taPerfMeasurement
+	{
+	public:
+		taPerfMeasurement();
+		~taPerfMeasurement();
+		taPerfMeasurement(const taPerfMeasurement& param);
+		taPerfMeasurement& operator=(const taPerfMeasurement& param);
 	
-private:
-	void Evaluate();
-	drvTelemetry driver;
-	int skillEstimate;
-};
+		void SetDriver(CarElt* car);
+		const CarElt* GetCar() const;
+		void* getDataFromTag(std::string tag);
+		void Update(double deltaTimeIncrement, double currentTime);
+		void Clear();
+		int GetSkillEstimate();
 
+	private:
+		void Evaluate();
+		void CalculateAvgSpeed(double currentTime);
+		void OutputData(double currentTime);
+
+		drvWatch driver;
+		int skillEstimate;
+		
+		double cumulativeTime;
+		double timeOnLastUpdate;
+	};
+}
 #endif // _PERF_MEASUREMENT_H

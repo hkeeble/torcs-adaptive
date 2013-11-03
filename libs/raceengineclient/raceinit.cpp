@@ -513,13 +513,20 @@ initPits(void)
 
 /* Initialize performance measurement.
 	@param car	Car to be watched
+	@return	0 Ok
+		-1 Error
 */
-void
+int
 initPerfMeasurement(CarElt* car)
 {
 	FREEZ(ReInfo->perfMeasurement);
-	ReInfo->perfMeasurement = new taPerfMeasurement();
+	ReInfo->perfMeasurement = new torcsAdaptive::taPerfMeasurement();
 	ReInfo->perfMeasurement->SetDriver(car);
+
+	if(ReInfo->perfMeasurement->GetCar())
+		return 0;
+	else
+		return 1;
 }
 
 /** Initialize the cars for a race.
@@ -701,9 +708,10 @@ ReInitCars(void)
     initStartingGrid();
 
     initPits();
-
-	if(ReInfo->raceEngineInfo.raceName == "Adaptive Race") // Initialize Performance Measurement
-		initPerfMeasurement(&ReInfo->carList[0]);
+	
+	// Initialize Performance Measurement
+	if(initPerfMeasurement(&ReInfo->carList[0]) == 1)
+		GfOut("Error initializing performance measurement.");
 
     return 0;
 }
