@@ -13,6 +13,12 @@
       <UniqueIdentifier>{2b92a90d-e70a-4281-8c41-c2072e26c034}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
+    <Filter Include="Header Files\torcsAdaptive">
+      <UniqueIdentifier>{8d743af4-bed8-4d16-8e17-605c03026b6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\torcsAdaptive">
+      <UniqueIdentifier>{a9f42ba2-59d6-4769-b704-54ebe85ddc63}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\tgfclient\control.cpp">
@@ -163,7 +169,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\raceengineclient\torcsAdaptive.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\torcsAdaptive</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -186,7 +192,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\raceengineclient\torcsAdaptive.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\torcsAdaptive</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
