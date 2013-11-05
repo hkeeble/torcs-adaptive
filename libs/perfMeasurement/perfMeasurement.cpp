@@ -41,7 +41,6 @@ namespace torcsAdaptive
 			return *this;
 		}
 	}
-
 	
 	void taPerfMeasurement::SetDriver(CarElt* car)
 	{
@@ -68,11 +67,11 @@ namespace torcsAdaptive
 
 		if(cumulativeTime >= PERFMEASURE_UPDATE_INTERVAL)
 		{
-			CalculateAvgSpeed(currentTime);
+			driver.Update();
+
 			Evaluate();
 
 			timeOnLastUpdate = currentTime;
-			//driver.previousSegment = *REINTERPRET_CAST(driver.getDataFromTag(WT_CURRENT_SEG), WT_CURRENT_SEG_TYPE);
 			cumulativeTime = 0.0f;
 			OutputData(currentTime);
 		}
@@ -88,22 +87,6 @@ namespace torcsAdaptive
 		return skillEstimate;
 	}
 
-	void taPerfMeasurement::CalculateAvgSpeed(double currentTime)
-	{
-		if(driver.previousSegment)
-		{
-			tTrackSeg* curSeg = *REINTERPRET_CAST(driver.getDataFromTag(WT_CURRENT_SEG), WT_CURRENT_SEG_TYPE);
-			int distance = 0;
-			while(curSeg != driver.previousSegment)
-			{
-				distance += curSeg->length;
-				curSeg = curSeg->prev;
-			}
-			
-			driver.currentAvgSpeed = distance/(currentTime-timeOnLastUpdate);
-		}
-	}
-
 	void taPerfMeasurement::Evaluate()
 	{
 		int eval = 0;
@@ -115,14 +98,17 @@ namespace torcsAdaptive
 	{
 		GfOut((" ----- TA PerfMeasurement Output at " + dbleToStr(currentTime) + " ----- \n").c_str());
 		
-		GfOut("CONTROLS\n");
-		DATA_OUTPUT("\t" WT_CURRENT_STEER, driver.getDataFromTag(WT_CURRENT_STEER), WT_CURRENT_STEER_TYPE);	
-		DATA_OUTPUT("\t" WT_CURRENT_ACCEL, driver.getDataFromTag(WT_CURRENT_ACCEL), WT_CURRENT_ACCEL_TYPE);
-		DATA_OUTPUT("\t" WT_CURRENT_BRAKE, driver.getDataFromTag(WT_CURRENT_BRAKE), WT_CURRENT_BRAKE_TYPE);
-		DATA_OUTPUT("\t" WT_CURRENT_GEAR, driver.getDataFromTag(WT_CURRENT_GEAR), WT_CURRENT_GEAR_TYPE);
-		
-		GfOut("QUALITATIVE\n");
-		DATA_OUTPUT(WT_DAMAGE, driver.getDataFromTag(WT_DAMAGE), WT_DAMAGE_TYPE);
-		DATA_OUTPUT(WT_NUMBER_OF_COLLISIONS, driver.getDataFromTag(WT_NUMBER_OF_COLLISIONS), WT_NUMBER_OF_COLLISIONS_TYPE);
+		GfOut("DRIVER\n");
+		DATA_OUTPUT(WTD_CUR_STR,	driver.getDataFromTag(WTD_CUR_STR), WTD_CUR_STR_T);	
+		DATA_OUTPUT(WTD_CUR_ACCEL,  driver.getDataFromTag(WTD_CUR_ACCEL), WTD_CUR_ACCEL_T);
+		DATA_OUTPUT(WTD_CUR_BRK,	driver.getDataFromTag(WTD_CUR_BRK), WTD_CUR_BRK_T);
+		DATA_OUTPUT(WTD_CUR_GR,		driver.getDataFromTag(WTD_CUR_GR), WTD_CUR_GR_T);
+		DATA_OUTPUT(WTD_DMG,		driver.getDataFromTag(WTD_DMG), WTD_DMG_T);
+		DATA_OUTPUT(WTD_NB_COLL,	driver.getDataFromTag(WTD_NB_COLL), WTD_NB_COLL_T);
+
+		GfOut("PHYSICS\n");
+		DATA_OUTPUT(WTP_CUR_SPD_X, driver.getDataFromTag(WTP_CUR_SPD_X), WTP_CUR_SPD_T);
+		DATA_OUTPUT(WTP_CUR_SPD_Y, driver.getDataFromTag(WTP_CUR_SPD_Y), WTP_CUR_SPD_T);
+		GfOut(("\tSpeed (km/h): " + dbleToStr(driver.curSpeed) + "\n").c_str());
 	}
 }

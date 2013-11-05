@@ -174,6 +174,7 @@ copy $(TargetDir)*.lib $(SolutionDir)export\lib
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\raceengineclient\torcsAdaptive.cpp" />
     <ClCompile Include="..\tgfclient\control.cpp" />
     <ClCompile Include="..\confscreens\controlconfig.cpp" />
     <ClCompile Include="..\confscreens\driverconfig.cpp" />
@@ -225,6 +226,7 @@ copy $(TargetDir)*.lib $(SolutionDir)export\lib
     <ClCompile Include="..\racescreens\trackselect.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\raceengineclient\torcsAdaptive.h" />
     <ClInclude Include="client.h" />
     <ClInclude Include="driverconfig.h" />
     <ClInclude Include="exitmenu.h" />
@@ -236,14 +238,6 @@ copy $(TargetDir)*.lib $(SolutionDir)export\lib
     <ProjectReference Include="..\..\modules\graphic\ssggraph\ssggraphlib.vcxproj">
       <Project>{87c850ad-e339-4687-83da-2f76aa0cd5db}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\perfMeasurement\drvTelemetry.vcxproj">
-      <Project>{9eb9f4c3-e32d-426e-8d63-6659aa624338}</Project>
-      <Private>false</Private>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
-      <LinkLibraryDependencies>false</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <ProjectReference Include="..\robottools\robottools.vcxproj">
       <Project>{eacc0870-5315-41f9-ae61-b93c77334eae}</Project>

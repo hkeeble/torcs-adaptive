@@ -47,10 +47,14 @@
 
 #include "raceinit.h"
 
+#include "torcsAdaptive.h"
+
 static const char *level_str[] = { ROB_VAL_ROOKIE, ROB_VAL_AMATEUR, ROB_VAL_SEMI_PRO, ROB_VAL_PRO };
 
 static tModList *reEventModList = 0;
 tModList *ReRaceModList = 0;
+
+bool torcsAdaptive::taAdaptiveMode;
 
 typedef struct 
 {
@@ -130,6 +134,12 @@ void ReShutdown(void)
 void
 ReStartNewRace(void * /* dummy */)
 {
+	// Check if adaptive mode
+	if(strcmp(ReInfo->raceEngineInfo.name, ADAPTIVE_MAN_NAME) == 0)
+		torcsAdaptive::taAdaptiveMode = true;
+	else
+		torcsAdaptive::taAdaptiveMode = false;
+
 	ReInitResults();
 	ReStateManage();
 }
@@ -513,8 +523,8 @@ initPits(void)
 
 /* Initialize performance measurement.
 	@param car	Car to be watched
-	@return	0 Ok
-		-1 Error
+	@return		0 Ok
+				1 Error
 */
 int
 initPerfMeasurement(CarElt* car)
@@ -711,8 +721,10 @@ ReInitCars(void)
 	
 	// Initialize Performance Measurement
 	if(initPerfMeasurement(&ReInfo->carList[0]) == 1)
+	{
 		GfOut("Error initializing performance measurement.");
-
+		ReInfo->raceEngineInfo.state = RM_QUIT;
+	}
     return 0;
 }
 

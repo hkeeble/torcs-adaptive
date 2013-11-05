@@ -162,6 +162,9 @@
     <ClCompile Include="..\racescreens\trackselect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\raceengineclient\torcsAdaptive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h">
@@ -180,6 +183,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="splash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\raceengineclient\torcsAdaptive.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

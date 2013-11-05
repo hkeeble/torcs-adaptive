@@ -43,6 +43,7 @@
 #include "racemain.h"
 
 #include "perfMeasurement\perfMeasurement.h"
+#include "torcsAdaptive.h"
 
 /***************************************************************/
 /* ABANDON RACE HOOK */
@@ -111,14 +112,21 @@ ReRaceEventInit(void)
 	void *params = ReInfo->params;
 
 	RmLoadingScreenStart(ReInfo->_reName, "data/img/splash-qrloading.png");
-	ReInitTrack();
-	if (
-		(ReInfo->_displayMode != RM_DISP_MODE_CONSOLE) &&
-		(ReInfo->_reGraphicItf.inittrack != 0)
-	) {
-		RmLoadingScreenSetText("Loading Track 3D Description...");
-		ReInfo->_reGraphicItf.inittrack(ReInfo->track);
-	};
+	if(!torcsAdaptive::taAdaptiveMode)
+	{
+		ReInitTrack();
+
+		if (
+			(ReInfo->_displayMode != RM_DISP_MODE_CONSOLE) &&
+			(ReInfo->_reGraphicItf.inittrack != 0)
+		) {
+			RmLoadingScreenSetText("Loading Track 3D Description...");
+			ReInfo->_reGraphicItf.inittrack(ReInfo->track);
+		};
+	}
+	else
+		torcsAdaptive::TaInitTrack(ReInfo);
+
 	ReEventInitResults();
 
 	if (
@@ -194,6 +202,9 @@ reRaceRealStart(void)
 	snprintf(buf, BUFSIZE, "%smodules/simu/%s.%s", GetLibDir (), dllname, DLLEXT);
 	if (GfModLoad(0, buf, &ReRaceModList)) return RM_QUIT;
 	ReRaceModList->modInfo->fctInit(ReRaceModList->modInfo->index, &ReInfo->_reSimItf);
+
+	// Get Pointer to followed car
+
 
 	if (ReInitCars()) {
 		return RM_QUIT;

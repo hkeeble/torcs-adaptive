@@ -9,13 +9,13 @@
 #ifndef _PERF_MEASUREMENT_H
 #define _PERF_MEASUREMENT_H
 
-#include "drvWatch.h"
+#include "taWatch.h"
 #include "car.h"
 
 namespace torcsAdaptive
 {
 	#define PERFMEASURE_UPDATE_INTERVAL 0.4
-	#define DATA_OUTPUT(tag, data, type) GfOut((tag ": " + dbleToStr(*REINTERPRET_CAST(data, type)) + "\n").c_str());
+	#define DATA_OUTPUT(tag, data, type) GfOut(("\t" tag ":\t" + dbleToStr(*STATIC_CAST(data, type)) + "\n").c_str());
 	
 	/* Class used as interface to performance measurement in a game session. */
 	class taPerfMeasurement
@@ -35,7 +35,6 @@ namespace torcsAdaptive
 
 	private:
 		void Evaluate();
-		void CalculateAvgSpeed(double currentTime);
 		void OutputData(double currentTime);
 
 		drvWatch driver;
