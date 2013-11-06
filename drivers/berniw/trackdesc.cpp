@@ -90,7 +90,7 @@ TrackDesc::TrackDesc(const tTrack* track)
 	do {
 		tracklength += seg->length;
 		seg = seg->next;
-	} while (seg != first);
+	} while ((seg != first) && seg);
 	nsegments = (int) floor(tracklength);
 
 
@@ -169,7 +169,7 @@ TrackDesc::TrackDesc(const tTrack* track)
 		}
 
 		seg = seg->next;
-	} while ( seg != first);
+	} while (( seg != first) && seg);
 
 	if (currentts != nTrackSegments) printf("error: TrackDesc::TrackDesc currentts %d != nTrackSegments %d.\n", currentts, nTrackSegments);
 

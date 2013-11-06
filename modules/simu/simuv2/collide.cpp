@@ -515,7 +515,7 @@ static tTrackSeg *getFirstWallStart(tTrackSeg *start, int side)
 		} else {
 			break;
 		}
-	} while (first != start);
+	} while ((first != start) && first);
 
 	// Searching forward for the first wall segment.
 	start = first;
@@ -527,7 +527,7 @@ static tTrackSeg *getFirstWallStart(tTrackSeg *start, int side)
 		} else {
 			first = first->next;
 		}
-	} while (first != start);
+	} while ((first != start) && first);
 
 	return NULL;
 }

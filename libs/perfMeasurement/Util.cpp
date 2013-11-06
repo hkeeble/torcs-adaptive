@@ -16,4 +16,14 @@ namespace torcsAdaptive
 		s << dble;
 		return s.str();
 	}
+
+	char* conChar(const char* a, const char* b)
+	{
+		char* result;
+		result = (char*)calloc(strlen(a)+strlen(b)+1, sizeof(char));
+		strcpy(result, a);
+		strcat(result, b);
+		
+		return result;
+	}
 }
