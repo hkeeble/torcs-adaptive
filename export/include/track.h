@@ -401,7 +401,6 @@ typedef struct trackSeg {
 		struct { struct trackSeg *rside, *lside; };
 		struct trackSeg* side[2];
 	};
-
 } tTrackSeg;
 
 /* selection for local position structure */

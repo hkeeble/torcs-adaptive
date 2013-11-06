@@ -39,6 +39,8 @@
 
 #include "raceengine.h"
 
+#include "torcsAdaptive.h"
+
 static double	msgDisp;
 static double	bigMsgDisp;
 
@@ -621,9 +623,9 @@ ReOneStep(double deltaTimeIncrement)
 				robot = s->cars[i]->robot;
 				robot->rbDrive(robot->index, s->cars[i], s);
 				
-				// Track Performance
-				if(s->cars[i] == ReInfo->perfMeasurement->GetCar())
-					ReInfo->perfMeasurement->Update(deltaTimeIncrement, s->currentTime);
+				// --- Track Performance ---
+				if(s->cars[i] == torcsAdaptive::perfMeasurement->GetCar())
+					torcsAdaptive::perfMeasurement->Update(deltaTimeIncrement, s->currentTime);
 			}
 		}
 		ReInfo->_reLastTime = s->currentTime;

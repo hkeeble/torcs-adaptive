@@ -125,7 +125,9 @@ ReRaceEventInit(void)
 		};
 	}
 	else
-		torcsAdaptive::TaInitTrack(ReInfo);
+	{
+		torcsAdaptive::TaInitTrack(ReInfo, 200);
+	}
 
 	ReEventInitResults();
 

@@ -48,6 +48,7 @@
 #include "raceinit.h"
 
 #include "torcsAdaptive.h"
+#include "perfMeasurement\perfMeasurement.h"
 
 static const char *level_str[] = { ROB_VAL_ROOKIE, ROB_VAL_AMATEUR, ROB_VAL_SEMI_PRO, ROB_VAL_PRO };
 
@@ -55,6 +56,7 @@ static tModList *reEventModList = 0;
 tModList *ReRaceModList = 0;
 
 bool torcsAdaptive::taAdaptiveMode;
+torcsAdaptive::taPerfMeasurement* torcsAdaptive::perfMeasurement;
 
 typedef struct 
 {
@@ -529,11 +531,14 @@ initPits(void)
 int
 initPerfMeasurement(CarElt* car)
 {
-	FREEZ(ReInfo->perfMeasurement);
-	ReInfo->perfMeasurement = new torcsAdaptive::taPerfMeasurement();
-	ReInfo->perfMeasurement->SetDriver(car);
+	namespace ta = torcsAdaptive;
 
-	if(ReInfo->perfMeasurement->GetCar())
+	if(ta::perfMeasurement)
+		delete ta::perfMeasurement;
+	ta::perfMeasurement = new ta::taPerfMeasurement();
+	ta::perfMeasurement->SetDriver(car);
+
+	if(ta::perfMeasurement->GetCar())
 		return 0;
 	else
 		return 1;

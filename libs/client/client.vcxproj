@@ -66,7 +66,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../windows/include;../../interfaces;../../..;%(AdditionalIncludeDirectories);$(SolutionDir)\config\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../windows/include;../../interfaces;../../..;%(AdditionalIncludeDirectories);$(SolutionDir)\config\;$(SolutionDir)\libs\raceengineclient\torcsAdaptive\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CLIENT_EXPORTS;DEBUG;DEBUG_OUT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -174,7 +174,8 @@ copy $(TargetDir)*.lib $(SolutionDir)export\lib
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\raceengineclient\torcsAdaptive.cpp" />
+    <ClCompile Include="..\raceengineclient\torcsAdaptive\seg.cpp" />
+    <ClCompile Include="..\raceengineclient\torcsAdaptive\torcsAdaptive.cpp" />
     <ClCompile Include="..\tgfclient\control.cpp" />
     <ClCompile Include="..\confscreens\controlconfig.cpp" />
     <ClCompile Include="..\confscreens\driverconfig.cpp" />
@@ -226,7 +227,8 @@ copy $(TargetDir)*.lib $(SolutionDir)export\lib
     <ClCompile Include="..\racescreens\trackselect.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\raceengineclient\torcsAdaptive.h" />
+    <ClInclude Include="..\raceengineclient\torcsAdaptive\seg.h" />
+    <ClInclude Include="..\raceengineclient\torcsAdaptive\torcsAdaptive.h" />
     <ClInclude Include="client.h" />
     <ClInclude Include="driverconfig.h" />
     <ClInclude Include="exitmenu.h" />
