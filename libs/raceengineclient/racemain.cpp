@@ -125,9 +125,7 @@ ReRaceEventInit(void)
 		};
 	}
 	else
-	{
-		torcsAdaptive::TaInitTrack(ReInfo, 200);
-	}
+		ReInfo->track = ReInfo->_reTrackItf.taTrackInit(TA_TR_LENGTH);
 
 	ReEventInitResults();
 

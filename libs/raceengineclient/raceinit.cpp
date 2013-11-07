@@ -339,18 +339,16 @@ initStartingGrid(void)
 
 	snprintf(path, BUFSIZE, "%s/%s", ReInfo->_reRaceName, RM_SECT_STARTINGGRID);
 
-	// TODO-TA (THERE ARE NO CURVES! \/
-
 	/* Search for the first turn for find the pole side */
 	curseg = ReInfo->track->seg->next;
-	while (curseg->type == TR_STR) {
+	do {
 		/* skip the straight segments */
 		curseg = curseg->next;
-	}
+	} while(curseg != ReInfo->track->seg);
 	/* Set the pole for the inside of the first turn */
 	if (curseg->type == TR_LFT) {
 		pole = GfParmGetStr(params, path, RM_ATTR_POLE, "left");
-	} else {
+	} else { // Default to right-side if no turns
 		pole = GfParmGetStr(params, path, RM_ATTR_POLE, "right");
 	}
 	/* Tracks definitions can force the pole side */

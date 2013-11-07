@@ -9,6 +9,12 @@
       <UniqueIdentifier>{484166a4-2326-4326-83c8-2744785b202e}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
+    <Filter Include="Header Files\torcsAdaptive">
+      <UniqueIdentifier>{11814905-f652-4a67-8c76-8843cc776690}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\torcsAdaptive">
+      <UniqueIdentifier>{c4ab6686-109a-464a-a08c-3e53545771ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="track.cpp">
@@ -26,6 +32,9 @@
     <ClCompile Include="trackutil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="torcsAdaptive\taTrack.cpp">
+      <Filter>Source Files\torcsAdaptive</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="track.def">
@@ -35,6 +44,9 @@
   <ItemGroup>
     <ClInclude Include="trackinc.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="torcsAdaptive\taTrack.h">
+      <Filter>Header Files\torcsAdaptive</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

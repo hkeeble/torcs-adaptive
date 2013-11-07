@@ -33,7 +33,7 @@ static tTrack	*theTrack = NULL;
 static tRoadCam *theCamList;
 static void	*TrackHandle;
 
-static void GetTrackHeader(void *TrackHandle);
+
 
 
 /*
@@ -116,7 +116,7 @@ TrackBuildEx(char *trackfile)
  * Remarks
  *	
  */
-static void 
+void 
 GetTrackHeader(void *TrackHandle)
 {
 	tTrackGraphicInfo *graphic;

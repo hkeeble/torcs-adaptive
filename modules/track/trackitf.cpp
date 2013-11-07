@@ -22,6 +22,7 @@
 #include <tgf.h>
 #include <track.h>
 #include "trackinc.h"
+#include "torcsAdaptive\torcsAdaptive.h"
 
 #ifdef _WIN32
 BOOL WINAPI DllEntryPoint (HINSTANCE hDLL, DWORD dwReason, LPVOID Reserved)
@@ -53,6 +54,11 @@ trackInit(int /* index */, void *pt)
     
     ptf->trkBuild         = TrackBuildv1;
     ptf->trkBuildEx       = TrackBuildEx;
+
+	/* Torcs-Adaptive Interface */
+	ptf->taTrackInit	  = torcsAdaptive::TaInitTrack;
+	ptf->taAddSegment	  = torcsAdaptive::TaAddSegment;
+
     ptf->trkHeightG       = TrackHeightG;
     ptf->trkHeightL       = TrackHeightL;
     ptf->trkGlobal2Local  = TrackGlobal2Local;
@@ -64,7 +70,6 @@ trackInit(int /* index */, void *pt)
     return 0;
 }
 
-
 /*
  * Function
  *	trackv1
@@ -73,7 +78,7 @@ trackInit(int /* index */, void *pt)
  *	
  *
  * Parameters
- *	
+ *	adaptiveModule = Is the track adaptive?
  *
  * Return
  *	
@@ -86,12 +91,9 @@ track(tModInfo *modInfo)
 {
     modInfo->name = strdup("trackv1");		/* name of the module (short) */
     modInfo->desc = strdup("Track V1.0");	/* description of the module (can be long) */
-    modInfo->fctInit = trackInit;	/* init function */
-    modInfo->gfId = TRK_IDENT;		/* always loaded  */
+	modInfo->fctInit = trackInit;
+	modInfo->gfId = TRK_IDENT;		/* always loaded  */
     modInfo->index = 0;
 
     return 0;
 }
-
-
-

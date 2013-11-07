@@ -169,6 +169,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="torcsAdaptive\taTrack.cpp" />
     <ClCompile Include="track.cpp" />
     <ClCompile Include="track3.cpp" />
     <ClCompile Include="track4.cpp" />
@@ -179,6 +180,7 @@
     <None Include="track.def" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="torcsAdaptive\taTrack.h" />
     <ClInclude Include="trackinc.h" />
   </ItemGroup>
   <ItemGroup>
