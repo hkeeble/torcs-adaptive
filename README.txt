@@ -8,3 +8,5 @@ torcs-adaptive is a work-in-progress modification to The Open Source Racing Car 
 TORCS can be found at: http://torcs.sourceforge.net/
 
 torcs-adaptive is inspired by previous work, including the existing evolutionary track-generator for TORCS:http://trackgen.pierlucalanzi.net/index.php
+
+torcs-adaptive is a Final Year Undergraduate Project currently being carried out at the University of Lincoln - UK.

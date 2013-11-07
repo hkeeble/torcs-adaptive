@@ -15,18 +15,24 @@
 
 namespace torcsAdaptive
 {
-	#define ADAPTIVE_MAN_NAME "Adaptive Race" // Name of adaptive race manager
-	#define LENGTH_PER_SEG 40 // Length in meters of each segment
+	#define TA_ADAPTIVE_MAN_NAME "Adaptive Race" // Name of adaptive race manager
+	#define TA_LENGTH_PER_SEG 40 // Length in meters of each segment
+
+	// Surface Array Indices
+	#define TA_MAX_SF 2
+	#define TA_SF_INDEX_ROAD 0
+	#define TA_SF_INDEX_BARRIER 1
 
 	extern bool taAdaptiveMode;
 	extern taPerfMeasurement* perfMeasurement;
 
 	// TA Functions
 	int TaInitTrack(tRmInfo* ReInfo, int trkLength);
+	void TaInitPits();
+	void TaInitSurfaces();
+	void TaInitGraphicInfo();
 	void TaShutDown();
 	void TaAddSegment(taSeg seg);
-
-	
 }
 
 #endif // _TORCS_ADAPTIVE_

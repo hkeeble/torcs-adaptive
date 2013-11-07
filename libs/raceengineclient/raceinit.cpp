@@ -137,7 +137,7 @@ void
 ReStartNewRace(void * /* dummy */)
 {
 	// Check if adaptive mode
-	if(strcmp(ReInfo->raceEngineInfo.name, ADAPTIVE_MAN_NAME) == 0)
+	if(strcmp(ReInfo->raceEngineInfo.name, TA_ADAPTIVE_MAN_NAME) == 0)
 		torcsAdaptive::taAdaptiveMode = true;
 	else
 		torcsAdaptive::taAdaptiveMode = false;
@@ -338,6 +338,8 @@ initStartingGrid(void)
 	char path[BUFSIZE];
 
 	snprintf(path, BUFSIZE, "%s/%s", ReInfo->_reRaceName, RM_SECT_STARTINGGRID);
+
+	// TODO-TA (THERE ARE NO CURVES! \/
 
 	/* Search for the first turn for find the pole side */
 	curseg = ReInfo->track->seg->next;

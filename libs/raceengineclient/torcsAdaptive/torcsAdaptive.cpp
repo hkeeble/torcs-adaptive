@@ -12,6 +12,12 @@ namespace torcsAdaptive
 {
 	static tTrack* taTrack;
 	static int segsAdded;
+	
+	// Track accessors for ease of reading
+	#define taGraphicInfo taTrack->graphic
+	#define taSegments taTrack->seg
+	#define taSurfaces taTrack->surfaces
+	#define taPits taTrack->pits
 
 	// ----- ta Functions ------
 	int TaInitTrack(tRmInfo* ReInfo, int trkLength)
@@ -34,8 +40,14 @@ namespace torcsAdaptive
 		// Length and segment memory allocation
 		GfOut("Allocating Segment Memory...\n");
 		taTrack->length = trkLength;
-		taTrack->nseg = abs(trkLength/LENGTH_PER_SEG);
+		taTrack->nseg = abs(trkLength/TA_LENGTH_PER_SEG);
 		taTrack->seg = new tTrackSeg[taTrack->nseg];
+
+		// Handle Pits
+		TaInitPits();
+
+		// Surface List
+		TaInitSurfaces();
 
 		// Add Initial Segments
 		GfOut("Adding Initial Segments...\n");
@@ -46,8 +58,8 @@ namespace torcsAdaptive
 		TaAddSegment(taSeg(TR_LAST, TR_STR, segsAdded, TR_MAIN, 0));
 
 		// Ensure segment pointers loop
-		taTrack->seg[taTrack->nseg-1].next = &taTrack->seg[0];
-		taTrack->seg[0].prev = &taTrack->seg[taTrack->nseg-1];
+		taSegments[taTrack->nseg-1].next = &taSegments[0];
+		taSegments[0].prev = &taSegments[taTrack->nseg-1];
 
 		return 0;
 	}
@@ -56,6 +68,8 @@ namespace torcsAdaptive
 	{
 		if(perfMeasurement)
 			delete perfMeasurement;
+		if(taTrack)
+			delete taTrack;
 	}
 
 	void TaAddSegment(taSeg seg)
@@ -63,17 +77,17 @@ namespace torcsAdaptive
 		if(segsAdded <= taTrack->nseg)
 		{
 			// Create new Seg Object
-			taTrack->seg[segsAdded] = tTrackSeg();
+			taSegments[segsAdded] = tTrackSeg();
 
 			// Obtain Pointer to Segment
-			tTrackSeg* curSeg = &(taTrack->seg[segsAdded]);
+			tTrackSeg* curSeg = &(taSegments[segsAdded]);
 
 			// Next and Prev Pointers
 			if(segsAdded != 0)
-				curSeg->prev = &taTrack->seg[segsAdded-1];
+				curSeg->prev = &taSegments[segsAdded-1];
 			else
 				curSeg->prev = NULL;
-			curSeg->next = &taTrack->seg[segsAdded+1];
+			curSeg->next = &taSegments[segsAdded+1];
 
 			// Assign Name (based on ID for debugging)
 			std::string n = "ID" + std::to_string(seg.id);
@@ -109,5 +123,61 @@ namespace torcsAdaptive
 			GfOut("\tCannot add new track segment, track is full!\n");
 	}
 
+	void TaInitPits()
+	{
+		GfOut("Initializing Pits...\n");
+		taTrack->pits = tTrackPitInfo(); // Should default all pit values to 0 - pits don't exist
 
+		// ADD CODE HERE
+	}
+
+	void TaInitSurfaces()
+	{
+		GfOut("Initializing Surfaces...\n");
+
+		taSurfaces = new tTrackSurface[TA_MAX_SF]; // Allocate more memory here for more surfaces
+
+		// Next pointers
+		for(int i = 0; i < TA_MAX_SF-1; i++)
+			taSurfaces[i].next = &taSurfaces[i+1];
+		taSurfaces[TA_MAX_SF-1].next = NULL;
+
+		// Road Surface
+		taSurfaces[TA_SF_INDEX_ROAD].material	= "asphalt";
+		taSurfaces[TA_SF_INDEX_ROAD].kFriction	= 1.2f;
+		taSurfaces[TA_SF_INDEX_ROAD].kDammage	= 10.0f;
+		taSurfaces[TA_SF_INDEX_ROAD].kRebound	= 1.f;
+		taSurfaces[TA_SF_INDEX_ROAD].kRollRes	= 0.001f;
+		taSurfaces[TA_SF_INDEX_ROAD].kRoughness	= 0.f;
+		taSurfaces[TA_SF_INDEX_ROAD].kRoughWaveLen = 6.2f;
+		GfOut("\tAdded Surface ");
+		GfOut(taSurfaces[TA_SF_INDEX_ROAD].material);
+		GfOut("\n");
+
+		// Barrier Surface
+		taSurfaces[TA_SF_INDEX_BARRIER].material		= "barrier";
+		taSurfaces[TA_SF_INDEX_BARRIER].kFriction	= 0.f;
+		taSurfaces[TA_SF_INDEX_BARRIER].kDammage		= 10.f;
+		taSurfaces[TA_SF_INDEX_BARRIER].kRebound		= 1.f;
+		taSurfaces[TA_SF_INDEX_BARRIER].kRollRes		= 0.001f;
+		taSurfaces[TA_SF_INDEX_BARRIER].kRoughness	= 0.01f;
+		taSurfaces[TA_SF_INDEX_BARRIER].kRoughWaveLen = 1.57f;
+		GfOut("\tAdded Surface ");
+		GfOut(taSurfaces[TA_SF_INDEX_BARRIER].material);
+		GfOut("\n");
+	}
+
+	void TaInitGraphicInfo()
+	{
+		GfOut("Initializing Track Graphical Info...\n");
+		
+		taGraphicInfo = tTrackGraphicInfo(); // Initialize
+		taGraphicInfo.background = "background.png";
+		taGraphicInfo.background2 = " ";
+		taGraphicInfo.bgtype; // ?
+		taGraphicInfo.bgColor; // ?
+		taGraphicInfo.envnb = 0; // Number of environments?
+		taGraphicInfo.env; // char** to name of map, why is this double indirect?
+		taGraphicInfo.turnMarksInfo; // ? Is this an array or single object?
+	}
 }

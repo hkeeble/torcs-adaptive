@@ -205,9 +205,6 @@ reRaceRealStart(void)
 	if (GfModLoad(0, buf, &ReRaceModList)) return RM_QUIT;
 	ReRaceModList->modInfo->fctInit(ReRaceModList->modInfo->index, &ReInfo->_reSimItf);
 
-	// Get Pointer to followed car
-
-
 	if (ReInitCars()) {
 		return RM_QUIT;
 	}
