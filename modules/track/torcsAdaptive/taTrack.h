@@ -16,15 +16,7 @@
 // General Initialization
 extern void				GetTrackHeader	(void *TrackHandle);
 extern inline void		SetTrack		(tTrack* track, char* trFile);
-
-// Surfaces
-extern tTrackSurface* AddTrackSurface	(void *TrackHandle, tTrack *theTrack, const char *material);
-
-// Sides
-extern void	InitSides(void *TrackHandle, tTrack *theTrack);
-
-// Segment Ring
-extern void CreateSegRing(void *TrackHandle, tTrack *theTrack, tTrackSeg *start, tTrackSeg *end, int ext);
+extern void				ReadTrack3(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext);
 
 // TORCS-ADAPTIVE SPECIFIC FUNCTIONS AND DEFINES
 namespace torcsAdaptive
@@ -37,8 +29,6 @@ namespace torcsAdaptive
 
 	// TA FUNCTIONS
 	extern tTrack*	TaInitTrack			(int trkLength);
-	extern void		TaInitPits			();
-	extern void		TaInitSurfaces		();
 	extern void		TaShutDown			();
 	extern void		TaAddSegment		(taSeg seg);
 }

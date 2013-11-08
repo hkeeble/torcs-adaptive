@@ -38,24 +38,13 @@ namespace torcsAdaptive
 		// Main info
 		GfOut("Assigning Main Track Info...\n");
 		char* fName = strcat(GetLocalDir(), "tracks/adaptive/taTrack1/taTrack1.xml");
-		taTrack->params = GfParmReadFile(fName, GFPARM_RMODE_STD);
-		SetTrack(taTrack, fName); // Set the track pointer for use in track.cpp
-		GetTrackHeader(taTrack->params);
+		taTrack = TrackBuildv1(fName);
 
 		// Length and segment memory allocation
 		GfOut("Allocating Segment Memory...\n");
 		taTrack->length = trkLength;
 		taTrack->nseg = abs(trkLength/TA_LENGTH_PER_SEG);
 		taTrack->seg = new tTrackSeg[taTrack->nseg];
-
-		// Initialize Pits
-		TaInitPits();
-
-		// Initialize Surface List
-		TaInitSurfaces();
-
-		// Initialize Sides
-		InitSides(taTrack->params, taTrack);
 
 		// Add Initial Segments
 		GfOut("Adding Initial Segments...\n");
@@ -64,14 +53,6 @@ namespace torcsAdaptive
 		for(int i = 0; i < (taTrack->nseg - 2); i++)
 			TaAddSegment(taSeg(TR_NORMAL, TR_STR, segsAdded, TR_MAIN, 0));
 		TaAddSegment(taSeg(TR_LAST, TR_STR, segsAdded, TR_MAIN, 0));
-
-		// Ensure segment pointers loop
-		//taSegments[taTrack->nseg-1].next = &taSegments[0];
-		//taSegments[0].prev = &taSegments[taTrack->nseg-1];
-
-		// Parameter File
-		snprintf(buf, BUFSIZE, "%s%s", GetLocalDir(), "torcsAdaptive.xml");
-		taTrack->params = GfParmReadFile(buf, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT | GFPARM_RMODE_PRIVATE);
 
 		return taTrack;
 	}
@@ -160,30 +141,5 @@ namespace torcsAdaptive
 		}
 		else
 			GfFatal("\tCannot add new track segment, track is full!\n");
-	}
-
-	void TaInitPits()
-	{
-		GfOut("Initializing Pits...\n");
-		taTrack->pits = tTrackPitInfo(); // Should default all pit values to 0 - pits don't exist
-
-		// ADD CODE HERE
-	}
-
-	void TaInitSurfaces()
-	{
-		GfOut("Initializing Surfaces...\n");
-
-		// Barrier Surface
-		AddTrackSurface(taTrack->params, taTrack, "concrete");
-		GfOut("\tAdded Surface ");
-		GfOut(taSurfaces[TA_SF_INDEX_ROAD].material);
-		GfOut("\n");
-
-		// Road Surface
-		AddTrackSurface(taTrack->params, taTrack, "asphalt");
-		GfOut("\tAdded Surface ");
-		GfOut(taSurfaces[TA_SF_INDEX_ROAD].material);
-		GfOut("\n");
 	}
 }
