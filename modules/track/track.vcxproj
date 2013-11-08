@@ -169,6 +169,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="torcsAdaptive\addSegment.cpp" />
     <ClCompile Include="torcsAdaptive\taTrack.cpp" />
     <ClCompile Include="track.cpp" />
     <ClCompile Include="track3.cpp" />

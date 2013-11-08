@@ -35,6 +35,9 @@
     <ClCompile Include="torcsAdaptive\taTrack.cpp">
       <Filter>Source Files\torcsAdaptive</Filter>
     </ClCompile>
+    <ClCompile Include="torcsAdaptive\addSegment.cpp">
+      <Filter>Source Files\torcsAdaptive</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="track.def">

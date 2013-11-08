@@ -57,7 +57,7 @@ trackInit(int /* index */, void *pt)
 
 	/* Torcs-Adaptive Interface */
 	ptf->taTrackInit	  = torcsAdaptive::TaInitTrack;
-	ptf->taAddSegment	  = torcsAdaptive::TaAddSegment;
+	//ptf->taAddSegment	  = torcsAdaptive::TaAddSegment;
 
     ptf->trkHeightG       = TrackHeightG;
     ptf->trkHeightL       = TrackHeightL;
