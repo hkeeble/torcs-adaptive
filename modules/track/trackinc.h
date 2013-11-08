@@ -36,9 +36,5 @@ extern void TrackSideNormal(tTrackSeg*, tdble, tdble, int, t3Dd*);
 extern void TrackSurfaceNormal(tTrkLocPos *p, t3Dd *norm);
 extern tRoadCam *TrackGetCamList(void);
 extern tdble TrackSpline(tdble p0, tdble p1, tdble t0, tdble t1, tdble t);
-extern void GetTrackHeader(void *TrackHandle);
 
 #endif /* _TRACKINC_H__ */ 
-
-
-

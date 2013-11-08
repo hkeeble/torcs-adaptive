@@ -27,6 +27,8 @@
 #include <portability.h>
 #include "trackinc.h"
 
+#include "torcsAdaptive\taTrack.h"
+
 static tdble	xmin, xmax, ymin, ymax, zmin, zmax;
 
 #define TSTX(x)			\
@@ -86,7 +88,7 @@ static tTrackSurface *barrierSurface[2];
 
 static tdble	GlobalStepLen = 0;
 
-static tTrackSurface*
+tTrackSurface*
 AddTrackSurface(void *TrackHandle, tTrack *theTrack, const char *material)
 {
 	const int BUFSIZE = 256;
@@ -124,7 +126,7 @@ AddTrackSurface(void *TrackHandle, tTrack *theTrack, const char *material)
 }
 
 
-static void
+void
 InitSides(void *TrackHandle, tTrack *theTrack)
 {
 	int side;
@@ -172,7 +174,7 @@ InitSides(void *TrackHandle, tTrack *theTrack)
 }
 
 
-static void
+void
 AddSides(tTrackSeg *curSeg, void *TrackHandle, tTrack *theTrack, int curStep, int steps)
 {
     tTrackSeg	*curSide;

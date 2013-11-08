@@ -22,7 +22,7 @@
 #include <tgf.h>
 #include <track.h>
 #include "trackinc.h"
-#include "torcsAdaptive\torcsAdaptive.h"
+#include "torcsAdaptive\taTrack.h"
 
 #ifdef _WIN32
 BOOL WINAPI DllEntryPoint (HINSTANCE hDLL, DWORD dwReason, LPVOID Reserved)

@@ -778,7 +778,7 @@ normSeg(tTrackSeg *curSeg)
 	curSeg->center.y -= ymin;
 }
 
-static void
+void
 CreateSegRing(void *TrackHandle, tTrack *theTrack, tTrackSeg *start, tTrackSeg *end, int ext)
 {
     int		j;

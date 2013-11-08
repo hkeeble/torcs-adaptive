@@ -26,15 +26,13 @@
 #include <track.h>
 #include <portability.h>
 #include "trackinc.h"
+#include "torcsAdaptive\taTrack.h"
 
 const tdble DEGPRAD = 180.0 / PI;   /* degrees per radian */
 
 static tTrack	*theTrack = NULL;
 static tRoadCam *theCamList;
 static void	*TrackHandle;
-
-
-
 
 /*
  * External function used to (re)build a track
@@ -68,6 +66,16 @@ TrackBuildv1(char *trackfile)
     }
 
     return theTrack;
+}
+
+/*
+ Externally set the track pointer without calling TrackBuildv1 (used for torcs-adaptive track
+ initialization)
+*/
+void SetTrack(tTrack* track, char* trFile)
+{
+	theTrack = track;
+	theTrack->filename = strdup(trFile);
 }
 
 tTrack *

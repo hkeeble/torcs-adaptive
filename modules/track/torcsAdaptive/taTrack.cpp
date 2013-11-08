@@ -37,11 +37,10 @@ namespace torcsAdaptive
 
 		// Main info
 		GfOut("Assigning Main Track Info...\n");
-		taTrack->author = "Torcs-Adaptive";
-		taTrack->category = "Adaptive Track";
-		taTrack->filename = "AdaptiveTrack";
-		taTrack->internalname = "AdaptiveTrack";
-		taTrack->name = "Adaptive Track";
+		char* fName = strcat(GetLocalDir(), "tracks/adaptive/taTrack1/taTrack1.xml");
+		taTrack->params = GfParmReadFile(fName, GFPARM_RMODE_STD);
+		SetTrack(taTrack, fName); // Set the track pointer for use in track.cpp
+		GetTrackHeader(taTrack->params);
 
 		// Length and segment memory allocation
 		GfOut("Allocating Segment Memory...\n");
@@ -49,14 +48,14 @@ namespace torcsAdaptive
 		taTrack->nseg = abs(trkLength/TA_LENGTH_PER_SEG);
 		taTrack->seg = new tTrackSeg[taTrack->nseg];
 
-		// Handle Pits
+		// Initialize Pits
 		TaInitPits();
 
-		// Surface List
+		// Initialize Surface List
 		TaInitSurfaces();
 
-		// Graphics Info
-		TaInitGraphicInfo();
+		// Initialize Sides
+		InitSides(taTrack->params, taTrack);
 
 		// Add Initial Segments
 		GfOut("Adding Initial Segments...\n");
@@ -67,8 +66,8 @@ namespace torcsAdaptive
 		TaAddSegment(taSeg(TR_LAST, TR_STR, segsAdded, TR_MAIN, 0));
 
 		// Ensure segment pointers loop
-		taSegments[taTrack->nseg-1].next = &taSegments[0];
-		taSegments[0].prev = &taSegments[taTrack->nseg-1];
+		//taSegments[taTrack->nseg-1].next = &taSegments[0];
+		//taSegments[0].prev = &taSegments[taTrack->nseg-1];
 
 		// Parameter File
 		snprintf(buf, BUFSIZE, "%s%s", GetLocalDir(), "torcsAdaptive.xml");
@@ -150,6 +149,9 @@ namespace torcsAdaptive
 			// DoVFactor (???)
 			curSeg->DoVfactor = 0.f;
 
+			// Add Sides
+			//AddSides(curSeg, taTrack->params, taTrack, 
+
 			segsAdded++;
 
 			GfOut("\t- Added Segment ");
@@ -172,63 +174,16 @@ namespace torcsAdaptive
 	{
 		GfOut("Initializing Surfaces...\n");
 
-		taSurfaces = new tTrackSurface[TA_MAX_SF]; // Allocate more memory here for more surfaces
-
-		// Next pointers
-		for(int i = 0; i < TA_MAX_SF-1; i++)
-			taSurfaces[i].next = &taSurfaces[i+1];
-		taSurfaces[TA_MAX_SF-1].next = NULL;
-
-		// Road Surface
-		taSurfaces[TA_SF_INDEX_ROAD].material	= "asphalt";
-		taSurfaces[TA_SF_INDEX_ROAD].kFriction	= 1.2f;
-		taSurfaces[TA_SF_INDEX_ROAD].kDammage	= 10.0f;
-		taSurfaces[TA_SF_INDEX_ROAD].kRebound	= 1.f;
-		taSurfaces[TA_SF_INDEX_ROAD].kRollRes	= 0.001f;
-		taSurfaces[TA_SF_INDEX_ROAD].kRoughness	= 0.f;
-		taSurfaces[TA_SF_INDEX_ROAD].kRoughWaveLen = 6.2f;
+		// Barrier Surface
+		AddTrackSurface(taTrack->params, taTrack, "concrete");
 		GfOut("\tAdded Surface ");
 		GfOut(taSurfaces[TA_SF_INDEX_ROAD].material);
 		GfOut("\n");
 
-		// Barrier Surface
-		taSurfaces[TA_SF_INDEX_BARRIER].material	= "barrier";
-		taSurfaces[TA_SF_INDEX_BARRIER].kFriction	= 0.f;
-		taSurfaces[TA_SF_INDEX_BARRIER].kDammage	= 10.f;
-		taSurfaces[TA_SF_INDEX_BARRIER].kRebound	= 1.f;
-		taSurfaces[TA_SF_INDEX_BARRIER].kRollRes	= 0.001f;
-		taSurfaces[TA_SF_INDEX_BARRIER].kRoughness	= 0.01f;
-		taSurfaces[TA_SF_INDEX_BARRIER].kRoughWaveLen = 1.57f;
+		// Road Surface
+		AddTrackSurface(taTrack->params, taTrack, "asphalt");
 		GfOut("\tAdded Surface ");
-		GfOut(taSurfaces[TA_SF_INDEX_BARRIER].material);
+		GfOut(taSurfaces[TA_SF_INDEX_ROAD].material);
 		GfOut("\n");
-	}
-
-	void TaInitGraphicInfo()
-	{
-		GfOut("Initializing Track Graphical Info...\n");
-		
-		taGraphicInfo = tTrackGraphicInfo(); // Initialize
-
-		// Background
-		GfOut("\tInitializing Backround...\n");
-		taGraphicInfo.background = "background.png";
-		taGraphicInfo.background2 = " ";
-		taGraphicInfo.bgtype = 0; // ???
-		taGraphicInfo.bgColor[0] = 0.5f;
-		taGraphicInfo.bgColor[1] = 0.5f;
-		taGraphicInfo.bgColor[2] = 0.5f;
-
-		// Env (map of track?)
-		GfOut("\tInitializing env...\n");
-		taGraphicInfo.envnb = 0; // Number of environments?
-		taGraphicInfo.env = NULL; // char** to name of map, why is this double indirect? Must be NULL, there is no map...
-
-		// Turn Marks info
-		GfOut("\tInitializing Turn Marks Info...\n");
-		taGraphicInfo.turnMarksInfo.height = 1.f;
-		taGraphicInfo.turnMarksInfo.width = 1.f;
-		taGraphicInfo.turnMarksInfo.hSpace = 0.f;
-		taGraphicInfo.turnMarksInfo.vSpace = 0.f;
 	}
 }

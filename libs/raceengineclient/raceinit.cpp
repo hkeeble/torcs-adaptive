@@ -344,7 +344,7 @@ initStartingGrid(void)
 	do {
 		/* skip the straight segments */
 		curseg = curseg->next;
-	} while(curseg != ReInfo->track->seg);
+	} while(curseg);
 	/* Set the pole for the inside of the first turn */
 	if (curseg->type == TR_LFT) {
 		pole = GfParmGetStr(params, path, RM_ATTR_POLE, "left");
@@ -727,7 +727,7 @@ ReInitCars(void)
 	// Initialize Performance Measurement
 	if(initPerfMeasurement(&ReInfo->carList[0]) == 1)
 	{
-		GfOut("Error initializing performance measurement.");
+		GfFatal("Error initializing performance measurement.");
 		ReInfo->raceEngineInfo.state = RM_QUIT;
 	}
     return 0;
