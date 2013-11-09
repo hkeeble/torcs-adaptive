@@ -33,6 +33,7 @@ namespace torcsAdaptive
 
 	// TA FUNCTIONS
 	extern tTrack*	TaInitTrack			(int trkLength);
+	extern void		TaInitTrackState	();
 	extern void		TaShutDown			();
 	extern void		TaAddSegment		(taSeg seg, tTrack* taTrack, tTrackSeg* start, tTrackSeg* end, int ext);
 
@@ -43,6 +44,11 @@ namespace torcsAdaptive
 		int		envIndex;
 		int		curSegIndex;
 		tdble	totLength;
+		const char* material;
+		tTrackSurface* surface;
+		tTrackSeg* root;
+		tdble wi2;
+		tdble grade;
 	};
 
 	/* Instance of TrackState */

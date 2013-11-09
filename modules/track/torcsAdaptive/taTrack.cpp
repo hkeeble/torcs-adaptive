@@ -36,10 +36,6 @@ namespace torcsAdaptive
 			delete taTrack;
 		taTrack	=  new tTrack(); // Allocate memory for track
 
-		if(trackState)
-			delete trackState;
-		trackState	=  new TrackState(); // Allocate memory for track state
-
 		if(!taTrack)
 			GfFatal("Error allocating memory for adaptive track!\n");
 		if(!trackState)
@@ -48,23 +44,47 @@ namespace torcsAdaptive
 		// Main info
 		GfOut("Assigning Main Track Info...\n");
 		char* fName = strcat(GetLocalDir(), "tracks/adaptive/taTrack1/taTrack1.xml");
-		taTrack = TrackBuildv1(fName); // Load in track details, should return with no segments
+		taTrack = TrackBuildv1(fName); // Load in track details, should return with no segments;
 
-		// Length and segment memory allocation
-		GfOut("Allocating Segment Memory...\n");
-		taTrack->length = trkLength;
-		taTrack->nseg = abs(trkLength/TA_LENGTH_PER_SEG);
+		// Initialize Track State
+		TaInitTrackState();
 
 		// Add Initial Segments
 		GfOut("Adding Initial Segments...\n");
 		segsAdded = 0;
-		TaAddSegment(taSeg(TR_START, TR_STR, segsAdded, TR_MAIN, 0), taTrack, NULL, NULL, 0);
-		for(int i = 0; i < (taTrack->nseg - 2); i++)
-			TaAddSegment(taSeg(TR_NORMAL, TR_STR, segsAdded, TR_MAIN, 0), taTrack, taTrack->seg, NULL, 0);
-		TaAddSegment(taSeg(TR_LAST, TR_STR, segsAdded, TR_MAIN, 0), taTrack, taTrack->seg, NULL, 0);
+		TaAddSegment(taSeg(TR_START, TR_STR, trackState->curSegIndex, TR_MAIN, 0), taTrack, NULL, NULL, 0);
+		for(int i = 0; i < 6; i++)
+			TaAddSegment(taSeg(TR_NORMAL, TR_STR, trackState->curSegIndex, TR_MAIN, 0), taTrack, taTrack->seg, NULL, 0);
+		TaAddSegment(taSeg(TR_LAST, TR_STR, trackState->curSegIndex, TR_MAIN, 0), taTrack, taTrack->seg, NULL, 0);
 
 		return taTrack;
 	}
+
+	/* TrackState Constructor */
+	TrackState::TrackState()
+	{
+		envIndex = 0;
+		curSegIndex = 0;
+		totLength = 0;
+
+		material = GfParmGetStr(taTrack->params, TRK_SECT_MAIN, TRK_ATT_SURF, TRK_VAL_ASPHALT);
+		surface = AddTrackSurface(taTrack->params, taTrack, material);
+
+		wi2 = taTrack->width/2.0f;
+		grade = -100000.0;
+
+		root = NULL;
+		surface = NULL;
+	}
+
+	 void TaInitTrackState()
+	 {
+		 if(trackState)
+			delete trackState;
+		trackState	=  new TrackState(); // Allocate memory for track state
+
+		InitSides(taTrack->params, taTrack);
+	 }
 
 	void TaShutDown()
 	{

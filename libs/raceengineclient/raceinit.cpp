@@ -323,7 +323,7 @@ static void
 initStartingGrid(void)
 {
 	int i;
-	tTrackSeg *curseg;
+	tTrackSeg *curseg, *rootSeg;
 	int rows;
 	tdble a, b; //, wi2;
 	tdble d1, d2,d3;
@@ -341,10 +341,11 @@ initStartingGrid(void)
 
 	/* Search for the first turn for find the pole side */
 	curseg = ReInfo->track->seg->next;
+	rootSeg = curseg;
 	do {
 		/* skip the straight segments */
 		curseg = curseg->next;
-	} while(curseg);
+	} while(curseg && curseg != rootSeg);
 	/* Set the pole for the inside of the first turn */
 	if (curseg->type == TR_LFT) {
 		pole = GfParmGetStr(params, path, RM_ATTR_POLE, "left");
