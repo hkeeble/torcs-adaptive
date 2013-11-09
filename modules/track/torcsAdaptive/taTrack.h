@@ -14,6 +14,7 @@
 
 // TORCS-ADAPTIVE EXTERN ADDITIONS
 // General Initialization
+/* Defined as extern here for use outside of track3.cpp, for use in taTrack.cpp (static declarations also removed in track3.cpp) */
 extern void				GetTrackHeader	(void *TrackHandle);
 extern inline void		SetTrack		(tTrack* track, char* trFile);
 extern void				ReadTrack3      (tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext);
@@ -33,7 +34,19 @@ namespace torcsAdaptive
 	// TA FUNCTIONS
 	extern tTrack*	TaInitTrack			(int trkLength);
 	extern void		TaShutDown			();
-	// extern void		TaAddSegment		(taSeg seg);
+	extern void		TaAddSegment		(taSeg seg, tTrack* taTrack, tTrackSeg* start, tTrackSeg* end, int ext);
+
+	/* Used to store the current state of the track */
+	struct TrackState
+	{
+		TrackState();
+		int		envIndex;
+		int		curSegIndex;
+		tdble	totLength;
+	};
+
+	/* Instance of TrackState */
+	extern TrackState* trackState;
 }
 
 #endif // _TORCS_ADAPTIVE_

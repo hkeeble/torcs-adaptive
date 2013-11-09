@@ -51,14 +51,10 @@ static int
 trackInit(int /* index */, void *pt)
 {
     tTrackItf	*ptf = (tTrackItf*)pt;
-    
-    ptf->trkBuild         = TrackBuildv1;
+
+	/* Default Track Interface */
+	ptf->trkBuild         = TrackBuildv1;
     ptf->trkBuildEx       = TrackBuildEx;
-
-	/* Torcs-Adaptive Interface */
-	ptf->taTrackInit	  = torcsAdaptive::TaInitTrack;
-	//ptf->taAddSegment	  = torcsAdaptive::TaAddSegment;
-
     ptf->trkHeightG       = TrackHeightG;
     ptf->trkHeightL       = TrackHeightL;
     ptf->trkGlobal2Local  = TrackGlobal2Local;
@@ -66,7 +62,14 @@ trackInit(int /* index */, void *pt)
     ptf->trkSideNormal    = TrackSideNormal;
     ptf->trkSurfaceNormal = TrackSurfaceNormal;
     ptf->trkShutdown      = TrackShutdown;
-    
+    /* Default Track Interface */
+
+	/* Adaptive Track Interface */
+	ptf->taTrackInit	  = torcsAdaptive::TaInitTrack;
+	ptf->taAddSegment	  = torcsAdaptive::TaAddSegment;
+	ptf->taTrackShutDown  = torcsAdaptive::TaShutDown;
+	/* Adaptive Track Interface */
+
     return 0;
 }
 

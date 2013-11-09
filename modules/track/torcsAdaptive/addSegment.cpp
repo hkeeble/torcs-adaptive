@@ -1,6 +1,7 @@
 #include "../trackinc.h"
 #include "track.h"
 #include "taTrack.h"
+#include <sstream>
 
 namespace torcsAdaptive
 {
@@ -18,16 +19,18 @@ namespace torcsAdaptive
     if (zmin > (z)) zmin = (z);	\
     if (zmax < (z)) zmax = (z);
 
-    static int   envIndex;
-    static int	 curSegIndex = 0;
-    static int   curStep = 0;
-    static tdble radius = 0;
-    static tdble totLength = 0;
+	TrackState::TrackState()
+	{
+		envIndex = 0;
+		curSegIndex = 0;
+		totLength = 0;
+	}
 
     void TaAddSegment(taSeg seg, tTrack* taTrack, tTrackSeg* start, tTrackSeg* end, int ext)
     {
         int		        j;
-        tdble	        radiusend = 0, dradius;
+		int				segread;
+		tdble			radius, radiusend = 0, dradius;
         tdble	        innerradius;
         tdble	        arc;
         tdble	        length;
@@ -46,7 +49,7 @@ namespace torcsAdaptive
         tdble	        etgtl, stgtl;
         tdble	        etgtr, stgtr;
         tdble	        stepslg = 0;
-        int		        steps;
+		int				steps, curStep;
         tTrackSurface   *surface;
         char	        *segName;
         int		        type;
@@ -74,7 +77,7 @@ namespace torcsAdaptive
 		width = taTrack->width;
 		wi2 = width / 2.0;
 
-        grade = -100000.0;
+        grade = -100000.0; // Initialize Grade
 		root = taTrack->seg; // Root is first segment of track
 
 		if (start == NULL)
@@ -110,26 +113,28 @@ namespace torcsAdaptive
         /* Main Track */
 		const char* material = GfParmGetStr(trHandle, TRK_SECT_MAIN, TRK_ATT_SURF, TRK_VAL_ASPHALT);
         surface = AddTrackSurface(trHandle, taTrack, material);
-        envIndex = 0;
+		trackState->envIndex = 0;
 
         InitSides(trHandle, taTrack);
 
-        curSegIndex = 0;
-
         // --- START OF OLD LOOP ---
+
 		zsl = zel;
 		zsr = zer;
 		TSTZ(zsl);
 		TSTZ(zsr);
 
-		/* Turn Marks */
-		if (ext) {
+		/* Turn Marks (may not be neccesary) */
+		if (ext)
+		{
 			const char *marks = GfParmGetCurStr(trHandle, path, TRK_ATT_MARKS, NULL);
 			ind = 0;
-			if (marks) {
+			if (marks)
+			{
 				char* tmpmarks = strdup(marks);
 				char *s = strtok(tmpmarks, ";");
-				while ((s != NULL) && (ind < MAX_TMP_INTS)) {
+				while ((s != NULL) && (ind < MAX_TMP_INTS))
+				{
 					mi[ind] = (int)strtol(s, NULL, 0);
 					ind++;
 					s = strtok(NULL, ";");
@@ -141,7 +146,7 @@ namespace torcsAdaptive
 		/* surface change */
 		material = GfParmGetCurStr(trHandle, path, TRK_ATT_SURF, material);
 		surface = AddTrackSurface(trHandle, taTrack, material);
-		envIndex = (int)GfParmGetCurNum(trHandle, path, TRK_ATT_ENVIND, (char*)NULL, (float) (envIndex+1)) - 1;
+		trackState->envIndex = (int)GfParmGetCurNum(trHandle, path, TRK_ATT_ENVIND, (char*)NULL, (float) (trackState->envIndex+1)) - 1;
 
 		/* Segment type and length */
 		type = seg.type;
@@ -162,9 +167,8 @@ namespace torcsAdaptive
 		}
 
         // Name Segment
-		std::string sName = "ID" + seg.id;
-		segName = new char[strlen(sName.c_str())];
-		strcpy(segName, sName.c_str());
+		std::stringstream ssSegName;
+		ssSegName << "ID" << seg.id;
 
 		/* elevation and banking (add these to seg?? should def. to 0 */
 		/*
@@ -172,75 +176,78 @@ namespace torcsAdaptive
 		zsr =
 		zel = 
 		zer =
-		ze = zs = -100000.0;
 		ze = 
 		zs =
 		grade = 
 		*/
+		ze = zs = -100000.0;
 
         // Additional Banking and gradient calculations
-        /*
-		if (zs != -100000.0) {
+		if (zs != -100000.0)
 			zsr = zsl = zs;
-		} else {
+		else
 			zs = (zsl + zsr) / 2.0;
-		}
-		if (ze != -100000.0) {
+		if (ze != -100000.0)
 			zer = zel = ze;
-		} else if (grade != -100000.0) {
+		else if (grade != -100000.0)
 			ze = zs + length * grade;
-		} else {
+		else
 			ze = (zel + zer) / 2.0;
-		}
+
+		// Calculate Banking
 		bankings = atan2(zsl - zsr, width);
 		bankinge = atan2(zel - zer, width);
-		bankings = GfParmGetCurNum(TrackHandle, path, TRK_ATT_BKS, (char*)NULL, bankings);
-		bankinge = GfParmGetCurNum(TrackHandle, path, TRK_ATT_BKE, (char*)NULL, bankinge);
+		bankings = GfParmGetCurNum(trHandle, path, TRK_ATT_BKS, (char*)NULL, bankings);
+		bankinge = GfParmGetCurNum(trHandle, path, TRK_ATT_BKE, (char*)NULL, bankinge);
 		dz = tan(bankings) * width / 2.0;
 		zsl = zs + dz;
 		zsr = zs - dz;
 		dz = tan(bankinge) * width / 2.0;
 		zel = ze + dz;
 		zer = ze - dz;
-        */
 
         // Clamps
 		TSTZ(zsl);
 		TSTZ(zsr);
 
-		/* Get segment profil */
-		profil = GfParmGetCurStr(TrackHandle, path, TRK_ATT_PROFIL, TRK_VAL_SPLINE);
+		/* 
+		**	Get segment profil
+		**	Profil appears to influence number of steps. Seems to default to Spline, if not specified within track parameters.
+		*/
+		profil = GfParmGetCurStr(trHandle, path, TRK_ATT_PROFIL, TRK_VAL_SPLINE);
 		stgtl = etgtl;
 		stgtr = etgtr;
-		if (strcmp(profil, TRK_VAL_SPLINE) == 0) {
-			steps = (int)GfParmGetCurNum(TrackHandle, path, TRK_ATT_PROFSTEPS, (char*)NULL, 1.0);
-			if (steps == 1) {
-				stepslg = GfParmGetCurNum(TrackHandle, path, TRK_ATT_PROFSTEPSLEN, (char*)NULL, GlobalStepLen);
-			if (stepslg) {
-				steps = (int)(length / stepslg) + 1;
-			} else {
-				steps = 1;
+		if (strcmp(profil, TRK_VAL_SPLINE) == 0)
+		{
+			steps = (int)GfParmGetCurNum(trHandle, path, TRK_ATT_PROFSTEPS, (char*)NULL, 1.0);
+			if (steps == 1)
+			{
+				stepslg = GfParmGetCurNum(trHandle, path, TRK_ATT_PROFSTEPSLEN, (char*)NULL, 0);
+				if (stepslg)
+					steps = (int)(length / stepslg) + 1;
+				else
+					steps = 1;
 			}
-			}
-			stgtl = GfParmGetCurNum(TrackHandle, path, TRK_ATT_PROFTGTSL, (char*)NULL, stgtl);
-			etgtl = GfParmGetCurNum(TrackHandle, path, TRK_ATT_PROFTGTEL, (char*)NULL, etgtl);
-			stgtr = GfParmGetCurNum(TrackHandle, path, TRK_ATT_PROFTGTSR, (char*)NULL, stgtr);
-			etgtr = GfParmGetCurNum(TrackHandle, path, TRK_ATT_PROFTGTER, (char*)NULL, etgtr);
+			stgtl = GfParmGetCurNum(trHandle, path, TRK_ATT_PROFTGTSL, (char*)NULL, stgtl);
+			etgtl = GfParmGetCurNum(trHandle, path, TRK_ATT_PROFTGTEL, (char*)NULL, etgtl);
+			stgtr = GfParmGetCurNum(trHandle, path, TRK_ATT_PROFTGTSR, (char*)NULL, stgtr);
+			etgtr = GfParmGetCurNum(trHandle, path, TRK_ATT_PROFTGTER, (char*)NULL, etgtr);
 			stgt = etgt = -100000.0;
-			stgt = GfParmGetCurNum(TrackHandle, path, TRK_ATT_PROFTGTS, (char*)NULL, stgt);
-			etgt = GfParmGetCurNum(TrackHandle, path, TRK_ATT_PROFTGTE, (char*)NULL, etgt);
-			if (stgt != -100000.0) {
+			stgt = GfParmGetCurNum(trHandle, path, TRK_ATT_PROFTGTS, (char*)NULL, stgt);
+			etgt = GfParmGetCurNum(trHandle, path, TRK_ATT_PROFTGTE, (char*)NULL, etgt);
+			if (stgt != -100000.0)
 				stgtl = stgtr = stgt;
-			}
-			if (etgt != -100000.0) {
+			if (etgt != -100000.0)
 				etgtl = etgtr = etgt;
-			}
-		} else {
+		}
+		else
+		{
 			steps = 1;
 			stgtl = etgtl = (zel - zsl) / length;
 			stgtr = etgtr = (zer - zsr) / length;
 		}
-		GfParmSetCurNum(TrackHandle, path, TRK_ATT_ID, (char*)NULL, (tdble)curindex);
+
+		GfParmSetCurNum(trHandle, path, TRK_ATT_ID, (char*)NULL, (tdble)trackState->curSegIndex);
 
 		//dzl = zel - zsl;
 		//dzr = zer - zsr;
@@ -259,22 +266,27 @@ namespace torcsAdaptive
 		curArc = arc / (tdble)steps;
 		curLength = length / (tdble)steps;
 		dradius = (radiusend - radius) / (tdble)steps;
-		if (radiusend != radius) {
+		if (radiusend != radius)
+		{
 			/* Compute the correct curLength... */
-			if (steps != 1) {
-			dradius = (radiusend - radius) / (tdble)(steps - 1);
-			tdble tmpAngle = 0;
-			tdble tmpRadius = radius;
-			for (curStep = 0; curStep < steps; curStep++) {
-				tmpAngle += curLength / tmpRadius;
-				tmpRadius += dradius;
-			}
-			curLength *= arc / tmpAngle;
+			if (steps != 1)
+			{
+				dradius = (radiusend - radius) / (tdble)(steps - 1);
+				tdble tmpAngle = 0;
+				tdble tmpRadius = radius;
+				for (curStep = 0; curStep < steps; curStep++)
+				{
+					tmpAngle += curLength / tmpRadius;
+					tmpRadius += dradius;
+				}
+				curLength *= arc / tmpAngle;
 			}
 		}
+
 		curStep = 0;
 
-		while (curStep < steps) {
+		while (curStep < steps)
+		{
 
 			tl += dtl;
 			tr += dtr;
@@ -285,32 +297,39 @@ namespace torcsAdaptive
 			curzsr = curzer;
 			curzer = TrackSpline(zsr, zer, T1r, T2r, tr);
 
-			if (dradius != 0) {
+			if (dradius != 0)
 				curArc = curLength / radius;
-			}
 
 			/* allocate a new segment */
 			curSeg = (tTrackSeg*)calloc(1, sizeof(tTrackSeg));
-			if (root == NULL) {
+			if (root == NULL)
+			{
 				root = curSeg;
 				curSeg->next = curSeg;
 				curSeg->prev = curSeg;
-			} else {
+			}
+			else
+			{
 				curSeg->next = root->next;
 				curSeg->next->prev = curSeg;
 				curSeg->prev = root;
 				root->next = curSeg;
 				root = curSeg;
 			}
+
 			curSeg->type2 = TR_MAIN;
-			curSeg->name = segName;
-			curSeg->id = curindex;
+
+			curSeg->name = new const char[strlen(ssSegName.str().c_str())];
+			strcpy((char*)curSeg->name, ssSegName.str().c_str());
+
+			curSeg->id = trackState->curSegIndex;
 			curSeg->width = curSeg->startWidth = curSeg->endWidth = width;
 			curSeg->surface = surface;
-			curSeg->envIndex = envIndex;
-			curSeg->lgfromstart = totLength;
+			curSeg->envIndex = trackState->envIndex;
+			curSeg->lgfromstart = trackState->totLength;
 
-			if (ext && ind) {
+			if (ext && ind)
+			{
 				int	*mrks = (int*)calloc(ind, sizeof(int));
 				tSegExt	*segExt = (tSegExt*)calloc(1, sizeof(tSegExt));
 
@@ -322,199 +341,201 @@ namespace torcsAdaptive
 			}
 
 
-			switch (type) {
-			case TR_STR:
-			/* straight */
-			curSeg->type = TR_STR;
-			curSeg->length = curLength;
+			switch (type)
+			{
+				case TR_STR:
+				/* straight */
+				curSeg->type = TR_STR;
+				curSeg->length = curLength;
 
-			newxr = xr + curLength * cos(alf);      /* find end coordinates */
-			newyr = yr + curLength * sin(alf);
-			newxl = xl + curLength * cos(alf);
-			newyl = yl + curLength * sin(alf);
+				newxr = xr + curLength * cos(alf);      /* find end coordinates */
+				newyr = yr + curLength * sin(alf);
+				newxl = xl + curLength * cos(alf);
+				newyl = yl + curLength * sin(alf);
 
-			curSeg->vertex[TR_SR].x = xr;
-			curSeg->vertex[TR_SR].y = yr;
-			curSeg->vertex[TR_SR].z = curzsr;
+				curSeg->vertex[TR_SR].x = xr;
+				curSeg->vertex[TR_SR].y = yr;
+				curSeg->vertex[TR_SR].z = curzsr;
 
-			curSeg->vertex[TR_SL].x = xl;
-			curSeg->vertex[TR_SL].y = yl;
-			curSeg->vertex[TR_SL].z = curzsl;
+				curSeg->vertex[TR_SL].x = xl;
+				curSeg->vertex[TR_SL].y = yl;
+				curSeg->vertex[TR_SL].z = curzsl;
 
-			curSeg->vertex[TR_ER].x = newxr;
-			curSeg->vertex[TR_ER].y = newyr;
-			curSeg->vertex[TR_ER].z = curzer;
+				curSeg->vertex[TR_ER].x = newxr;
+				curSeg->vertex[TR_ER].y = newyr;
+				curSeg->vertex[TR_ER].z = curzer;
 
-			curSeg->vertex[TR_EL].x = newxl;
-			curSeg->vertex[TR_EL].y = newyl;
-			curSeg->vertex[TR_EL].z = curzel;
+				curSeg->vertex[TR_EL].x = newxl;
+				curSeg->vertex[TR_EL].y = newyl;
+				curSeg->vertex[TR_EL].z = curzel;
 
-			curSeg->angle[TR_ZS] = alf;
-			curSeg->angle[TR_ZE] = alf;
-			curSeg->angle[TR_YR] = atan2(curSeg->vertex[TR_ER].z - curSeg->vertex[TR_SR].z, curLength);
-			curSeg->angle[TR_YL] = atan2(curSeg->vertex[TR_EL].z - curSeg->vertex[TR_SL].z, curLength);
-			curSeg->angle[TR_XS] = atan2(curSeg->vertex[TR_SL].z - curSeg->vertex[TR_SR].z, width);
-			curSeg->angle[TR_XE] = atan2(curSeg->vertex[TR_EL].z - curSeg->vertex[TR_ER].z, width);
+				curSeg->angle[TR_ZS] = alf;
+				curSeg->angle[TR_ZE] = alf;
+				curSeg->angle[TR_YR] = atan2(curSeg->vertex[TR_ER].z - curSeg->vertex[TR_SR].z, curLength);
+				curSeg->angle[TR_YL] = atan2(curSeg->vertex[TR_EL].z - curSeg->vertex[TR_SL].z, curLength);
+				curSeg->angle[TR_XS] = atan2(curSeg->vertex[TR_SL].z - curSeg->vertex[TR_SR].z, width);
+				curSeg->angle[TR_XE] = atan2(curSeg->vertex[TR_EL].z - curSeg->vertex[TR_ER].z, width);
 
-			curSeg->Kzl = tan(curSeg->angle[TR_YR]);
-			curSeg->Kzw = (curSeg->angle[TR_XE] - curSeg->angle[TR_XS]) / curLength;
-			curSeg->Kyl = 0;
+				curSeg->Kzl = tan(curSeg->angle[TR_YR]);
+				curSeg->Kzw = (curSeg->angle[TR_XE] - curSeg->angle[TR_XS]) / curLength;
+				curSeg->Kyl = 0;
 
-			curSeg->rgtSideNormal.x = -sin(alf);
-			curSeg->rgtSideNormal.y = cos(alf);
+				curSeg->rgtSideNormal.x = -sin(alf);
+				curSeg->rgtSideNormal.y = cos(alf);
 
-			TSTX(newxr); TSTX(newxl);
-			TSTY(newyr); TSTY(newyl);
+				TSTX(newxr); TSTX(newxl);
+				TSTY(newyr); TSTY(newyl);
 
-			break;
+				break;
 
-			case TR_LFT:
-			/* left curve */
-			curSeg->type = TR_LFT;
-			curSeg->radius = radius;
-			curSeg->radiusr = radius + wi2;
-			curSeg->radiusl = radius - wi2;
-			curSeg->arc = curArc;
-			curSeg->length = curLength;
+				case TR_LFT:
+				/* left curve */
+				curSeg->type = TR_LFT;
+				curSeg->radius = radius;
+				curSeg->radiusr = radius + wi2;
+				curSeg->radiusl = radius - wi2;
+				curSeg->arc = curArc;
+				curSeg->length = curLength;
 
-			innerradius = radius - wi2; /* left side aligned */
-			cenx = xl - innerradius * sin(alf);  /* compute center location: */
-			ceny = yl + innerradius * cos(alf);
-			curSeg->center.x = cenx;
-			curSeg->center.y = ceny;
+				innerradius = radius - wi2; /* left side aligned */
+				cenx = xl - innerradius * sin(alf);  /* compute center location: */
+				ceny = yl + innerradius * cos(alf);
+				curSeg->center.x = cenx;
+				curSeg->center.y = ceny;
 
-			curSeg->angle[TR_ZS] = alf;
-			curSeg->angle[TR_CS] = alf - PI / 2.0;
-			alf += curArc;
-			curSeg->angle[TR_ZE] = alf;
+				curSeg->angle[TR_ZS] = alf;
+				curSeg->angle[TR_CS] = alf - PI / 2.0;
+				alf += curArc;
+				curSeg->angle[TR_ZE] = alf;
 
-			newxl = cenx + innerradius * sin(alf);   /* location of end */
-			newyl = ceny - innerradius * cos(alf);
-			newxr = cenx + (innerradius + width) * sin(alf);   /* location of end */
-			newyr = ceny - (innerradius + width) * cos(alf);
+				newxl = cenx + innerradius * sin(alf);   /* location of end */
+				newyl = ceny - innerradius * cos(alf);
+				newxr = cenx + (innerradius + width) * sin(alf);   /* location of end */
+				newyr = ceny - (innerradius + width) * cos(alf);
 
-			curSeg->vertex[TR_SR].x = xr;
-			curSeg->vertex[TR_SR].y = yr;
-			curSeg->vertex[TR_SR].z = curzsr;
+				curSeg->vertex[TR_SR].x = xr;
+				curSeg->vertex[TR_SR].y = yr;
+				curSeg->vertex[TR_SR].z = curzsr;
 
-			curSeg->vertex[TR_SL].x = xl;
-			curSeg->vertex[TR_SL].y = yl;
-			curSeg->vertex[TR_SL].z = curzsl;
+				curSeg->vertex[TR_SL].x = xl;
+				curSeg->vertex[TR_SL].y = yl;
+				curSeg->vertex[TR_SL].z = curzsl;
 
-			curSeg->vertex[TR_ER].x = newxr;
-			curSeg->vertex[TR_ER].y = newyr;
-			curSeg->vertex[TR_ER].z = curzer;
+				curSeg->vertex[TR_ER].x = newxr;
+				curSeg->vertex[TR_ER].y = newyr;
+				curSeg->vertex[TR_ER].z = curzer;
 
-			curSeg->vertex[TR_EL].x = newxl;
-			curSeg->vertex[TR_EL].y = newyl;
-			curSeg->vertex[TR_EL].z = curzel;
+				curSeg->vertex[TR_EL].x = newxl;
+				curSeg->vertex[TR_EL].y = newyl;
+				curSeg->vertex[TR_EL].z = curzel;
 
-			curSeg->angle[TR_YR] = atan2(curSeg->vertex[TR_ER].z - curSeg->vertex[TR_SR].z, curArc * (innerradius + width));
-			curSeg->angle[TR_YL] = atan2(curSeg->vertex[TR_EL].z - curSeg->vertex[TR_SL].z, curArc * innerradius);
-			curSeg->angle[TR_XS] = atan2(curSeg->vertex[TR_SL].z - curSeg->vertex[TR_SR].z, width);
-			curSeg->angle[TR_XE] = atan2(curSeg->vertex[TR_EL].z - curSeg->vertex[TR_ER].z, width);
+				curSeg->angle[TR_YR] = atan2(curSeg->vertex[TR_ER].z - curSeg->vertex[TR_SR].z, curArc * (innerradius + width));
+				curSeg->angle[TR_YL] = atan2(curSeg->vertex[TR_EL].z - curSeg->vertex[TR_SL].z, curArc * innerradius);
+				curSeg->angle[TR_XS] = atan2(curSeg->vertex[TR_SL].z - curSeg->vertex[TR_SR].z, width);
+				curSeg->angle[TR_XE] = atan2(curSeg->vertex[TR_EL].z - curSeg->vertex[TR_ER].z, width);
 
-			curSeg->Kzl = tan(curSeg->angle[TR_YR]) * (innerradius + width);
-			curSeg->Kzw = (curSeg->angle[TR_XE] - curSeg->angle[TR_XS]) / curArc;
-			curSeg->Kyl = 0;
+				curSeg->Kzl = tan(curSeg->angle[TR_YR]) * (innerradius + width);
+				curSeg->Kzw = (curSeg->angle[TR_XE] - curSeg->angle[TR_XS]) / curArc;
+				curSeg->Kyl = 0;
 
-			/* to find the boundary */
-			al = (curSeg->angle[TR_ZE] - curSeg->angle[TR_ZS])/36.0;
-			alfl = curSeg->angle[TR_ZS];
+				/* to find the boundary */
+				al = (curSeg->angle[TR_ZE] - curSeg->angle[TR_ZS])/36.0;
+				alfl = curSeg->angle[TR_ZS];
 
-			for (j = 0; j < 36; j++) {
-				alfl += al;
-				x1 = curSeg->center.x + (innerradius) * sin(alfl);   /* location of end */
-				y1 = curSeg->center.y - (innerradius) * cos(alfl);
-				x2 = curSeg->center.x + (innerradius + width) * sin(alfl);   /* location of end */
-				y2 = curSeg->center.y - (innerradius + width) * cos(alfl);
-				TSTX(x1); TSTX(x2);
-				TSTY(y1); TSTY(y2);
+				for (j = 0; j < 36; j++)
+				{
+					alfl += al;
+					x1 = curSeg->center.x + (innerradius) * sin(alfl);   /* location of end */
+					y1 = curSeg->center.y - (innerradius) * cos(alfl);
+					x2 = curSeg->center.x + (innerradius + width) * sin(alfl);   /* location of end */
+					y2 = curSeg->center.y - (innerradius + width) * cos(alfl);
+					TSTX(x1); TSTX(x2);
+					TSTY(y1); TSTY(y2);
+				}
+				break;
+
+				case TR_RGT:
+				/* right curve */
+				curSeg->type = TR_RGT;
+				curSeg->radius = radius;
+				curSeg->radiusr = radius - wi2;
+				curSeg->radiusl = radius + wi2;
+				curSeg->arc = curArc;
+				curSeg->length = curLength;
+
+				innerradius = radius - wi2; /* right side aligned */
+				cenx = xr + innerradius * sin(alf);  /* compute center location */
+				ceny = yr - innerradius * cos(alf);
+				curSeg->center.x = cenx;
+				curSeg->center.y = ceny;
+
+				curSeg->angle[TR_ZS] = alf;
+				curSeg->angle[TR_CS] = alf + PI / 2.0;
+				alf -= curSeg->arc;
+				curSeg->angle[TR_ZE] = alf;
+
+				newxl = cenx - (innerradius + width) * sin(alf);   /* location of end */
+				newyl = ceny + (innerradius + width) * cos(alf);
+				newxr = cenx - innerradius * sin(alf);   /* location of end */
+				newyr = ceny + innerradius * cos(alf);
+
+				curSeg->vertex[TR_SR].x = xr;
+				curSeg->vertex[TR_SR].y = yr;
+				curSeg->vertex[TR_SR].z = curzsr;
+
+				curSeg->vertex[TR_SL].x = xl;
+				curSeg->vertex[TR_SL].y = yl;
+				curSeg->vertex[TR_SL].z = curzsl;
+
+				curSeg->vertex[TR_ER].x = newxr;
+				curSeg->vertex[TR_ER].y = newyr;
+				curSeg->vertex[TR_ER].z = curzer;
+
+				curSeg->vertex[TR_EL].x = newxl;
+				curSeg->vertex[TR_EL].y = newyl;
+				curSeg->vertex[TR_EL].z = curzel;
+
+				curSeg->angle[TR_YR] = atan2(curSeg->vertex[TR_ER].z - curSeg->vertex[TR_SR].z, curArc * innerradius);
+				curSeg->angle[TR_YL] = atan2(curSeg->vertex[TR_EL].z - curSeg->vertex[TR_SL].z, curArc * (innerradius + width));
+				curSeg->angle[TR_XS] = atan2(curSeg->vertex[TR_SL].z - curSeg->vertex[TR_SR].z, width);
+				curSeg->angle[TR_XE] = atan2(curSeg->vertex[TR_EL].z - curSeg->vertex[TR_ER].z, width);
+
+				curSeg->Kzl = tan(curSeg->angle[TR_YR]) * innerradius;
+				curSeg->Kzw = (curSeg->angle[TR_XE] - curSeg->angle[TR_XS]) / curArc;
+				curSeg->Kyl = 0;
+
+				/* to find the boundaries */
+				al = (curSeg->angle[TR_ZE] - curSeg->angle[TR_ZS])/36.0;
+				alfl = curSeg->angle[TR_ZS];
+
+				for (j = 0; j < 36; j++)
+				{
+					alfl += al;
+					x1 = curSeg->center.x - (innerradius + width) * sin(alfl);   /* location of end */
+					y1 = curSeg->center.y + (innerradius + width) * cos(alfl);
+					x2 = curSeg->center.x - innerradius * sin(alfl);   /* location of end */
+					y2 = curSeg->center.y + innerradius * cos(alfl);
+					TSTX(x1); TSTX(x2);
+					TSTY(y1); TSTY(y2);
+				}
+				break;
+
 			}
 
-			break;
+			AddSides(curSeg, trHandle, taTrack, curStep, steps);
 
-			case TR_RGT:
-			/* right curve */
-			curSeg->type = TR_RGT;
-			curSeg->radius = radius;
-			curSeg->radiusr = radius - wi2;
-			curSeg->radiusl = radius + wi2;
-			curSeg->arc = curArc;
-			curSeg->length = curLength;
+			trackState->totLength += curSeg->length;
 
-			innerradius = radius - wi2; /* right side aligned */
-			cenx = xr + innerradius * sin(alf);  /* compute center location */
-			ceny = yr - innerradius * cos(alf);
-			curSeg->center.x = cenx;
-			curSeg->center.y = ceny;
-
-			curSeg->angle[TR_ZS] = alf;
-			curSeg->angle[TR_CS] = alf + PI / 2.0;
-			alf -= curSeg->arc;
-			curSeg->angle[TR_ZE] = alf;
-
-			newxl = cenx - (innerradius + width) * sin(alf);   /* location of end */
-			newyl = ceny + (innerradius + width) * cos(alf);
-			newxr = cenx - innerradius * sin(alf);   /* location of end */
-			newyr = ceny + innerradius * cos(alf);
-
-			curSeg->vertex[TR_SR].x = xr;
-			curSeg->vertex[TR_SR].y = yr;
-			curSeg->vertex[TR_SR].z = curzsr;
-
-			curSeg->vertex[TR_SL].x = xl;
-			curSeg->vertex[TR_SL].y = yl;
-			curSeg->vertex[TR_SL].z = curzsl;
-
-			curSeg->vertex[TR_ER].x = newxr;
-			curSeg->vertex[TR_ER].y = newyr;
-			curSeg->vertex[TR_ER].z = curzer;
-
-			curSeg->vertex[TR_EL].x = newxl;
-			curSeg->vertex[TR_EL].y = newyl;
-			curSeg->vertex[TR_EL].z = curzel;
-
-			curSeg->angle[TR_YR] = atan2(curSeg->vertex[TR_ER].z - curSeg->vertex[TR_SR].z, curArc * innerradius);
-			curSeg->angle[TR_YL] = atan2(curSeg->vertex[TR_EL].z - curSeg->vertex[TR_SL].z, curArc * (innerradius + width));
-			curSeg->angle[TR_XS] = atan2(curSeg->vertex[TR_SL].z - curSeg->vertex[TR_SR].z, width);
-			curSeg->angle[TR_XE] = atan2(curSeg->vertex[TR_EL].z - curSeg->vertex[TR_ER].z, width);
-
-			curSeg->Kzl = tan(curSeg->angle[TR_YR]) * innerradius;
-			curSeg->Kzw = (curSeg->angle[TR_XE] - curSeg->angle[TR_XS]) / curArc;
-			curSeg->Kyl = 0;
-
-			/* to find the boundaries */
-			al = (curSeg->angle[TR_ZE] - curSeg->angle[TR_ZS])/36.0;
-			alfl = curSeg->angle[TR_ZS];
-
-			for (j = 0; j < 36; j++) {
-				alfl += al;
-				x1 = curSeg->center.x - (innerradius + width) * sin(alfl);   /* location of end */
-				y1 = curSeg->center.y + (innerradius + width) * cos(alfl);
-				x2 = curSeg->center.x - innerradius * sin(alfl);   /* location of end */
-				y2 = curSeg->center.y + innerradius * cos(alfl);
-				TSTX(x1); TSTX(x2);
-				TSTY(y1); TSTY(y2);
-			}
-			break;
-
-			}
-
-			AddSides(curSeg, TrackHandle, theTrack, curStep, steps);
-
-			totLength += curSeg->length;
 			xr = newxr;
 			yr = newyr;
 			xl = newxl;
 			yl = newyl;
-			curindex++;
-			curStep++;
-			if (type != TR_STR) {
-	/* 		printf("radius = %f arc = %f steps %d, length %f, stepslg %f\n", radius, RAD2DEG(curArc), steps, length, curLength); */
-			radius += dradius;
-			}
-		}
 
-    } while (GfParmListSeekNext(TrackHandle, path) == 0);
+			trackState->curSegIndex++;
+			curStep++;
+
+			if (type != TR_STR)
+				radius += dradius;
+		}
+	}
 }

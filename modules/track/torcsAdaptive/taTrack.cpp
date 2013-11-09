@@ -11,12 +11,14 @@
 
 namespace torcsAdaptive
 {
-	static tTrack* taTrack;
-	static int segsAdded;
+	static tTrack*		taTrack;
+	static int			segsAdded;
 	
+	TrackState*	trackState;
+
 	// Track accessors for ease of reading
 	#define taGraphicInfo taTrack->graphic
-	#define taSegments taTrack->seg
+	#define taSegments	taTrack->seg
 	#define taSurfaces taTrack->surfaces
 	#define taPits taTrack->pits
 
@@ -30,36 +32,45 @@ namespace torcsAdaptive
 		GfOut("INITIALIZING TORCS-ADAPTIVE TRACK...");
 		GfOut("\n-------------------------------------\n");
 
-		taTrack =  new tTrack(); // Allocate memory for track
+		if(taTrack)
+			delete taTrack;
+		taTrack	=  new tTrack(); // Allocate memory for track
+
+		if(trackState)
+			delete trackState;
+		trackState	=  new TrackState(); // Allocate memory for track state
 
 		if(!taTrack)
 			GfFatal("Error allocating memory for adaptive track!\n");
+		if(!trackState)
+			GfFatal("Error allocating memory for track state!\n");
 
 		// Main info
 		GfOut("Assigning Main Track Info...\n");
 		char* fName = strcat(GetLocalDir(), "tracks/adaptive/taTrack1/taTrack1.xml");
-		taTrack = TrackBuildv1(fName);
+		taTrack = TrackBuildv1(fName); // Load in track details, should return with no segments
 
 		// Length and segment memory allocation
 		GfOut("Allocating Segment Memory...\n");
 		taTrack->length = trkLength;
 		taTrack->nseg = abs(trkLength/TA_LENGTH_PER_SEG);
-		taTrack->seg = new tTrackSeg[taTrack->nseg];
 
 		// Add Initial Segments
-		//GfOut("Adding Initial Segments...\n");
-		//segsAdded = 0;
-		//TaAddSegment(taSeg(TR_START, TR_STR, segsAdded, TR_MAIN, 0));
-		//for(int i = 0; i < (taTrack->nseg - 2); i++)
-		//	TaAddSegment(taSeg(TR_NORMAL, TR_STR, segsAdded, TR_MAIN, 0));
-		//TaAddSegment(taSeg(TR_LAST, TR_STR, segsAdded, TR_MAIN, 0));
+		GfOut("Adding Initial Segments...\n");
+		segsAdded = 0;
+		TaAddSegment(taSeg(TR_START, TR_STR, segsAdded, TR_MAIN, 0), taTrack, NULL, NULL, 0);
+		for(int i = 0; i < (taTrack->nseg - 2); i++)
+			TaAddSegment(taSeg(TR_NORMAL, TR_STR, segsAdded, TR_MAIN, 0), taTrack, taTrack->seg, NULL, 0);
+		TaAddSegment(taSeg(TR_LAST, TR_STR, segsAdded, TR_MAIN, 0), taTrack, taTrack->seg, NULL, 0);
 
 		return taTrack;
 	}
 
 	void TaShutDown()
 	{
-		if(taTrack)
-			delete taTrack;
+		TrackShutdown();
+
+		if(trackState)
+			delete trackState;
 	}
 }

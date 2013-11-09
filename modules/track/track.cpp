@@ -30,9 +30,9 @@
 
 const tdble DEGPRAD = 180.0 / PI;   /* degrees per radian */
 
-static tTrack	*theTrack = NULL;
-static tRoadCam *theCamList;
-static void	*TrackHandle;
+static tTrack	*theTrack		= NULL;
+static tRoadCam *theCamList		= NULL;
+static void		*TrackHandle	= NULL;
 
 /*
  * External function used to (re)build a track

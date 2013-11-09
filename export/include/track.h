@@ -562,17 +562,14 @@ typedef void(*tfTrackSurfaceNormal)(tTrkLocPos *, t3Dd*);
 typedef void(*tfTrackShutdown)(void);
 
 /* Torcs-Adaptive Interface */
-typedef tTrack*(*tfTaTrackInit)(int);
-typedef void(*tfTaAddSegment)(taSeg);
+typedef tTrack* (*tfTaTrackInit)	 (int);
+typedef void	(*tfTaAddSegment)	 (taSeg, tTrack*, tTrackSeg*, tTrackSeg*, int);
+typedef void	(*tfTaTrackShutDown) ();
 
 typedef struct {
+	
     tfTrackBuild		trkBuild;		/* build track structure for simu */
     tfTrackBuild		trkBuildEx;		/* build with graphic extensions  */
-	
-	/* Torcs-Adaptive Interface */
-	tfTaTrackInit			taTrackInit;
-	tfTaAddSegment			taAddSegment;
-    
 	tfTrackHeightG		trkHeightG;
     tfTrackHeightL		trkHeightL;
     tfTrackGlobal2Local		trkGlobal2Local;
@@ -581,6 +578,11 @@ typedef struct {
     tfTrackSurfaceNormal	trkSurfaceNormal;
     tfTrackShutdown		trkShutdown;
 
+	/* Torcs-Adaptive Interface */
+	tfTaTrackInit			taTrackInit;
+	tfTaAddSegment			taAddSegment;
+	tfTaTrackShutDown		taTrackShutDown;
+	
 } tTrackItf;
 
 /* For Type 3 tracks (now obsolete) */

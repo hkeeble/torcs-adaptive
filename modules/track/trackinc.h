@@ -21,6 +21,7 @@
 #ifndef _TRACKINC_H__
 #define _TRACKINC_H__
 
+#include "track.h"
 
 extern void TrackShutdown(void);
 extern void ReadTrack3(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext);
