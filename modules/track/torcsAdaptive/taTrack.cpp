@@ -43,7 +43,9 @@ namespace torcsAdaptive
 
 		// Main info
 		GfOut("Assigning Main Track Info...\n");
-		char* fName = strcat(GetLocalDir(), "tracks/adaptive/taTrack1/taTrack1.xml");
+		char* fName = new char[strlen(GetLocalDir()) + strlen("tracks/adaptive/taTrack1/taTrack1.xml")];
+		strcpy(fName, GetLocalDir());
+		strcat(fName, "tracks/adaptive/taTrack1/taTrack1.xml");
 		taTrack = TrackBuildv1(fName); // Load in track details, should return with no segments;
 
 		// Initialize Track State
