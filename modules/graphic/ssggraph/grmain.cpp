@@ -45,6 +45,8 @@
 #include "grcarlight.h"
 #include <glfeatures.h>
 
+#include "../libs/raceengineclient/torcsAdaptive/torcsAdaptive.h" // For use of boolean
+
 int maxTextureUnits = 0;
 static double OldTime;
 static int nFrame;
@@ -251,8 +253,12 @@ initView(int x, int y, int width, int height, int /* flag */, void *screen)
 	snprintf(buf, BUFSIZE, "%s%s", GetLocalDir(), GR_PARAM_FILE);
 	grHandle = GfParmReadFile(buf, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT);
 
-	for (i = 0; i < GR_NB_MAX_SCREEN; i++) {
-		grScreens[i]->initBoard ();
+	// Initializes Maps? Do not initialize if adaptive!
+	if(torcsAdaptive::taAdaptiveMode == false)
+	{
+		for (i = 0; i < GR_NB_MAX_SCREEN; i++) {
+			grScreens[i]->initBoard ();
+		}
 	}
 
 	GfuiAddSKey(screen, GLUT_KEY_HOME, "Zoom Maximum",     (void*)GR_ZOOM_MAX,	grSetZoom, NULL);
@@ -458,6 +464,8 @@ initTrack(tTrack *track)
 	grContext.makeCurrent();
 
 	grTrackHandle = GfParmReadFile(track->filename, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT);
+	
+	// Initialize Scene
 	grLoadScene(track);
 
 	for (i = 0; i < GR_NB_MAX_SCREEN; i++) {

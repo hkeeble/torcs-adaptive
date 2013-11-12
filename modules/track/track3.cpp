@@ -1312,7 +1312,7 @@ ReadTrack3(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
     pits = &(theTrack->pits);
     pitType = GfParmGetStr(TrackHandle, TRK_SECT_MAIN, TRK_ATT_PIT_TYPE, TRK_VAL_PIT_TYPE_NONE);
 
-
+#pragma region Pit Initialization
 	if (strcmp(pitType, TRK_VAL_PIT_TYPE_NONE) != 0) {
 		segName = GfParmGetStr(TrackHandle, TRK_SECT_MAIN, TRK_ATT_PIT_ENTRY, NULL);
 		if (segName != 0) {
@@ -1513,7 +1513,9 @@ ReadTrack3(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
 	}
 	    
     }
+#pragma endregion
 
+#pragma region Camera Definitions
     /* 
      * camera definitions
      */
@@ -1579,6 +1581,7 @@ ReadTrack3(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
 	    } while (curSeg->id != segId);
 	} while (GfParmListSeekNext(TrackHandle, path) == 0);
     }
+#pragma endregion
 
     /* Update the coord to be positives */
     theTrack->min.x = 0;

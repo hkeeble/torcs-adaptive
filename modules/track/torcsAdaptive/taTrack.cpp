@@ -59,6 +59,14 @@ namespace torcsAdaptive
 			TaAddSegment(taSeg(TR_NORMAL, TR_STR, trackState->curSegIndex, TR_MAIN, 0), taTrack, taTrack->seg, NULL, 0);
 		TaAddSegment(taSeg(TR_LAST, TR_STR, trackState->curSegIndex, TR_MAIN, 0), taTrack, taTrack->seg, NULL, 0);
 
+		// Track Min and Max (Make Assumptions Here?)
+		taTrack->min.x = 0;
+		taTrack->min.y = 0;
+		taTrack->min.z = 0;
+		taTrack->max.x = 1000;
+		taTrack->max.y = 1000;
+		taTrack->max.z = 1000;
+
 		return taTrack;
 	}
 

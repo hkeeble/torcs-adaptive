@@ -38,6 +38,8 @@
 
 #include "grscreen.h"
 
+#include "../libs//raceengineclient/torcsAdaptive/torcsAdaptive.h" // For use of boolean
+
 cGrScreen::cGrScreen(int myid)
 {
 	id = myid;
@@ -446,7 +448,9 @@ void cGrScreen::loadParams(tSituation *s)
 	snprintf(buf, BUFSIZE, "%s-%d-%d", GR_ATT_FOVY, curCamHead, curCam->getId());
 	curCam->loadDefaults(buf);
 	drawCurrent = curCam->getDrawCurrent();
-	board->loadDefaults(curCar);
+
+	if(torcsAdaptive::taAdaptiveMode == false) // Only initialize board if track not adaptive
+		board->loadDefaults(curCar);
 }
 
 

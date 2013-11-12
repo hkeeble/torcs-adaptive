@@ -112,20 +112,21 @@ ReRaceEventInit(void)
 	void *params = ReInfo->params;
 
 	RmLoadingScreenStart(ReInfo->_reName, "data/img/splash-qrloading.png");
+	
+	// Initialize Track
 	if(!torcsAdaptive::taAdaptiveMode)
-	{
 		ReInitTrack();
-
-		if (
-			(ReInfo->_displayMode != RM_DISP_MODE_CONSOLE) &&
-			(ReInfo->_reGraphicItf.inittrack != 0)
-		) {
-			RmLoadingScreenSetText("Loading Track 3D Description...");
-			ReInfo->_reGraphicItf.inittrack(ReInfo->track);
-		};
-	}
 	else
 		ReInfo->track = ReInfo->_reTrackItf.taTrackInit(TA_TR_LENGTH);
+
+	// Initialize Graphics
+	if (
+		(ReInfo->_displayMode != RM_DISP_MODE_CONSOLE) &&
+		(ReInfo->_reGraphicItf.inittrack != 0)
+	) {
+		RmLoadingScreenSetText("Loading Track 3D Description...");
+		ReInfo->_reGraphicItf.inittrack(ReInfo->track);
+	};
 
 	ReEventInitResults();
 

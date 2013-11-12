@@ -16,9 +16,6 @@
     <Filter Include="Header Files\torcsAdaptive">
       <UniqueIdentifier>{8d743af4-bed8-4d16-8e17-605c03026b6c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\torcsAdaptive">
-      <UniqueIdentifier>{a9f42ba2-59d6-4769-b704-54ebe85ddc63}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\tgfclient\control.cpp">

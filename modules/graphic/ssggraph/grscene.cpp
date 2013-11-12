@@ -49,6 +49,7 @@
 #include "grssgext.h"
 #include "grtexture.h"
 
+#include "../libs//raceengineclient/torcsAdaptive/torcsAdaptive.h" // For use of boolean
 
 int grWrldX;
 int grWrldY;
@@ -216,7 +217,6 @@ grLoadScene(tTrack *track)
 	SunAnchor = new ssgBranch;
 	TheScene->addKid(SunAnchor);
 
-
 	initBackground();
 
 	grWrldX = (int)(track->max.x - track->min.x + 1);
@@ -224,18 +224,23 @@ grLoadScene(tTrack *track)
 	grWrldZ = (int)(track->max.z - track->min.z + 1);
 	grWrldMaxSize = (int)(MAX(MAX(grWrldX, grWrldY), grWrldZ));
 
-	acname = GfParmGetStr(hndl, TRK_SECT_GRAPH, TRK_ATT_3DDESC, "track.ac");
-	if (strlen(acname) == 0) {
-		return -1;
-	}
-
 	snprintf(buf, BUFSIZE, "tracks/%s/%s;data/textures;data/img;.", grTrack->category, grTrack->internalname);
 	ssgTexturePath(buf);
 	snprintf(buf, BUFSIZE, "tracks/%s/%s", grTrack->category, grTrack->internalname);
 	ssgModelPath(buf);
 
-	desc = grssgLoadAC3D(acname, NULL);
-	LandAnchor->addKid(desc);
+	// Only load 3d description if track not adaptive
+	if(torcsAdaptive::taAdaptiveMode == false)
+	{
+		acname = GfParmGetStr(hndl, TRK_SECT_GRAPH, TRK_ATT_3DDESC, "track.ac");
+		if (strlen(acname) == 0)
+			return -1;
+
+		desc = grssgLoadAC3D(acname, NULL);
+		LandAnchor->addKid(desc);
+	}
+	else
+		desc = NULL;
 
 	return 0;
 }
