@@ -63,7 +63,7 @@ namespace torcsAdaptive
 		GfOut("Adding Initial Segments...\n");
 		segsAdded = 0;
 		for(int i = 0; i < 6; i++)
-			TaAddSegment2(taSeg(TR_NORMAL, TR_STR, trackState->curSegIndex, TR_MAIN, 0), taTrack);
+			TaAddSegment(taSeg(TR_NORMAL, TR_STR, trackState->curSegIndex, TR_MAIN, 0), taTrack);
 
 		// Track Min and Max (Make Assumptions Here?)
 		taTrack->min.x = 0;
@@ -79,18 +79,11 @@ namespace torcsAdaptive
 	/* TrackState Constructor */
 	TrackState::TrackState()
 	{
-		envIndex = 0;
-		curSegIndex = 0;
-		totLength = 0;
-
-		material = GfParmGetStr(taTrack->params, TRK_SECT_MAIN, TRK_ATT_SURF, TRK_VAL_ASPHALT);
-		surface = AddTrackSurface(taTrack->params, taTrack, material);
-
+		totLength = curSegIndex = envIndex = xr = yr = xl = yl = radius = 0;
 		wi2 = taTrack->width/2.0f;
 		grade = -100000.0;
 
 		root = NULL;
-		surface = NULL;
 	}
 
 	 void TaInitTrackState()

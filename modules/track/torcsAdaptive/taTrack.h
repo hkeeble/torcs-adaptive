@@ -42,27 +42,23 @@ namespace torcsAdaptive
 
 	// Defaults
 	#define DEFAULT_SEG_STYLE	TR_WALL
-	#define DEFAULT_SEG_STYLE2	TR_MAIN
+	#define DEFAULT_SEG_TYPE2	TR_MAIN
+	#define STEPS 1 // Steps Per Segment
 
 	// TA FUNCTIONS
 	extern tTrack*	TaInitTrack			(int trkLength);
 	extern void		TaInitTrackState	();
 	extern void		TaShutDown			();
-	extern void		TaAddSegment		(taSeg seg, tTrack* taTrack, tTrackSeg* start, tTrackSeg* end, int ext);
+	extern void		TaAddSegment		(taSeg seg, tTrack* taTrack);
 	extern void		TaAddSegment2		(taSeg seg, tTrack* taTrack);
 
 	/* Used to store the current state of the track */
 	struct TrackState
 	{
 		TrackState();
-		int		envIndex;
-		int		curSegIndex;
-		tdble	totLength;
-		const char* material;
-		tTrackSurface* surface;
 		tTrackSeg* root;
-		tdble wi2;
-		tdble grade;
+		int	curSegIndex, envIndex;
+		tdble totLength, wi2, grade, xr, yr, xl, yl, radius;
 	};
 
 	/* Instance of TrackState */

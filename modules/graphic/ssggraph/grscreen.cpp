@@ -383,9 +383,13 @@ void cGrScreen::update(tSituation *s, float Fps)
 	START_PROFILE("grDisp**");
 	glDisable(GL_TEXTURE_2D);
 	
-	TRACE_GL("cGrScreen::update glDisable(GL_DEPTH_TEST)");
-	board->refreshBoard(s, Fps, 0, curCar);
-	TRACE_GL("cGrScreen::update display boards");
+	// Only update boards if not in adaptive mode
+	if(torcsAdaptive::taAdaptiveMode == false)
+	{
+		TRACE_GL("cGrScreen::update glDisable(GL_DEPTH_TEST)");
+		board->refreshBoard(s, Fps, 0, curCar);
+		TRACE_GL("cGrScreen::update display boards");
+	}
 	
 	STOP_PROFILE("grDisp**");
 }

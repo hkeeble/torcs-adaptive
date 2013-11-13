@@ -563,7 +563,7 @@ typedef void(*tfTrackShutdown)(void);
 
 /* Torcs-Adaptive Interface */
 typedef tTrack* (*tfTaTrackInit)	 (int);
-typedef void	(*tfTaAddSegment)	 (taSeg, tTrack*, tTrackSeg*, tTrackSeg*, int);
+typedef void	(*tfTaAddSegment)	 (taSeg, tTrack*);
 typedef void	(*tfTaTrackShutDown) ();
 
 typedef struct {
