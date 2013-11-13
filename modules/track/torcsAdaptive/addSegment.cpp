@@ -485,7 +485,6 @@ namespace torcsAdaptive
 				TSTY(y1); TSTY(y2);
 			}
 			break;
-
 		}
 
 		// Add Sides
