@@ -19,6 +19,151 @@ namespace torcsAdaptive
     if (zmin > (z)) zmin = (z);	\
     if (zmax < (z)) zmax = (z);
 
+	void TaAddSegment2(taSeg seg, tTrack* taTrack)
+	{
+		// Used to store vertex positions
+		Vec3 startRight;
+		Vec3 startLeft;
+		Vec3 endRight;
+		Vec3 endLeft;
+
+		void* trHandle = taTrack->params; // Obtain Track Handle
+		tTrackSeg* curSeg;
+
+		if(taTrack->seg == NULL) // If this is the first segment
+		{
+			taTrack->nseg = 0;
+			taTrack->seg = new tTrackSeg(); // Allocate Memory
+			curSeg = taTrack->seg;
+			curSeg->next = curSeg;
+			curSeg->prev = curSeg;
+			curSeg->lgfromstart = 0;
+
+			// Assign Start positions
+			startLeft.x = 0;
+			startLeft.y = 0;
+			startLeft.z = 0;
+
+			startRight.x = startLeft.x + taTrack->width;
+			startRight.y = 0;
+			startRight.z = 0;
+		}
+		else
+		{
+			tdble lengthFromStart = 0;
+			tTrackSeg* lastSeg;
+			lastSeg = taTrack->seg;
+
+			for(int i = 0; i < taTrack->nseg-1; i++) // Obtain last segment
+			{
+				lengthFromStart += lastSeg->length;
+				lastSeg = lastSeg->next;
+			}
+
+			// Allocate memory and assign current segment pointer
+			lastSeg->next = NULL; // Override pointer to self
+			lastSeg->next = new tTrackSeg(); // Allocate new memory
+			curSeg = lastSeg->next; // Assign curseg
+
+			// Close Loop
+			lastSeg->next = curSeg;
+			curSeg->prev = lastSeg; // Assign prev pointer to last segment
+			curSeg->next = taTrack->seg; // Close loop by pointing to Start
+			taTrack->seg->prev = curSeg; // Start Previous Pointer to this pointer
+
+			// Assign length from start
+			curSeg->lgfromstart = lengthFromStart;
+
+			// Assign Start positions
+			startLeft.x = lastSeg->vertex[TR_EL].x;
+			startLeft.y = lastSeg->vertex[TR_EL].y;
+			startLeft.z = lastSeg->vertex[TR_EL].z;
+
+			startRight.x = lastSeg->vertex[TR_ER].x;
+			startRight.y = lastSeg->vertex[TR_ER].y;
+			startRight.z = lastSeg->vertex[TR_ER].z;
+		}
+
+		// Assign End Positions
+		endLeft.x = startLeft.x;
+		endLeft.y = startLeft.y;
+		endLeft.z = startLeft.z + seg.length;
+
+		endRight.x = startRight.x;
+		endRight.y = startRight.y;
+		endRight.z = startLeft.z + seg.length;
+
+		// Assign Non-Type specifics
+		curSeg->type = seg.type;
+		curSeg->id = seg.id;
+
+		// Assign Name
+		std::stringstream ssSegName;
+		ssSegName << "ID" << seg.id;
+		curSeg->name = new const char[strlen(ssSegName.str().c_str())];
+		strcpy((char*)curSeg->name, ssSegName.str().c_str());
+
+		// Width
+		curSeg->width = taTrack->width;
+		curSeg->startWidth = curSeg->width;
+		curSeg->endWidth = curSeg->width;
+
+		curSeg->DoVfactor = 0.0f; // DoV Factor (?)
+
+		curSeg->envIndex = 0; // Env Index (?)
+
+		curSeg->height = 1.f; // Max Height of Curbs
+
+		curSeg->ext = NULL; // No Track Extension
+
+		// Assign Segment Styles
+		curSeg->style = DEFAULT_SEG_STYLE;
+		curSeg->type2 = DEFAULT_SEG_STYLE2;
+			
+		// Surface
+		curSeg->surface = new tTrackSurface(); // Allocate Memory
+		*curSeg->surface = taTrack->surfaces[TA_SF_INDEX_ROAD];
+
+		// Corner Details
+		curSeg->arc = seg.arc;
+		curSeg->radius = seg.radius;
+		curSeg->radiusl = seg.radiusl;
+		curSeg->radiusr = seg.radiusr;
+
+		// Length
+		curSeg->length = seg.length;
+
+		// Vertex Assignment
+		switch(curSeg->type)
+		{
+		case TR_STR:
+			curSeg->vertex[TR_SR].x = startRight.x;
+			curSeg->vertex[TR_SR].y = startRight.y;
+			curSeg->vertex[TR_SR].z = startRight.z;
+
+			curSeg->vertex[TR_SL].x = startLeft.x;
+			curSeg->vertex[TR_SL].y = startLeft.y;
+			curSeg->vertex[TR_SL].z = startLeft.z;
+			
+			curSeg->vertex[TR_ER].x = endRight.x;
+			curSeg->vertex[TR_ER].y = endRight.y;
+			curSeg->vertex[TR_ER].z = endRight.z;
+			
+			curSeg->vertex[TR_EL].x = endLeft.x;
+			curSeg->vertex[TR_EL].y = endLeft.y;
+			curSeg->vertex[TR_EL].z = endLeft.z;
+			break;
+		case TR_RGT || TR_LFT:
+			break;
+		}
+
+		AddSides(curSeg, trHandle, taTrack, 0, 1);
+
+		trackState->curSegIndex++;
+		taTrack->length += curSeg->length;
+		taTrack->nseg++;
+	}
+
     void TaAddSegment(taSeg seg, tTrack* taTrack, tTrackSeg* start, tTrackSeg* end, int ext)
     {
         int		        j;

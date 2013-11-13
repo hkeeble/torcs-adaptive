@@ -22,6 +22,14 @@ namespace torcsAdaptive
 	#define taSurfaces taTrack->surfaces
 	#define taPits taTrack->pits
 
+	// Vector Constructor
+	Vec3::Vec3()
+	{
+		x = 0;
+		y = 0;
+		z = 0;
+	}
+
 	// ----- ta Functions ------
 	tTrack* TaInitTrack(int trkLength)
 	{
@@ -54,10 +62,8 @@ namespace torcsAdaptive
 		// Add Initial Segments
 		GfOut("Adding Initial Segments...\n");
 		segsAdded = 0;
-		TaAddSegment(taSeg(TR_START, TR_STR, trackState->curSegIndex, TR_MAIN, 0), taTrack, NULL, NULL, 0);
 		for(int i = 0; i < 6; i++)
-			TaAddSegment(taSeg(TR_NORMAL, TR_STR, trackState->curSegIndex, TR_MAIN, 0), taTrack, taTrack->seg, NULL, 0);
-		TaAddSegment(taSeg(TR_LAST, TR_STR, trackState->curSegIndex, TR_MAIN, 0), taTrack, taTrack->seg, NULL, 0);
+			TaAddSegment2(taSeg(TR_NORMAL, TR_STR, trackState->curSegIndex, TR_MAIN, 0), taTrack);
 
 		// Track Min and Max (Make Assumptions Here?)
 		taTrack->min.x = 0;
