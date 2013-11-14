@@ -16,6 +16,9 @@
     <Filter Include="Header Files\torcsAdaptive">
       <UniqueIdentifier>{8d743af4-bed8-4d16-8e17-605c03026b6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\torcsAdaptive">
+      <UniqueIdentifier>{a371d380-41cd-4f3d-a53c-f980c8e465ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\tgfclient\control.cpp">
@@ -164,6 +167,12 @@
     </ClCompile>
     <ClCompile Include="..\racescreens\trackselect.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="addSegment.cpp">
+      <Filter>Source Files\torcsAdaptive</Filter>
+    </ClCompile>
+    <ClCompile Include="updateDesc.cpp">
+      <Filter>Source Files\torcsAdaptive</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

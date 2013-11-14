@@ -42,6 +42,10 @@ graphInit(int /* idx */, void *pt)
     itf->shutdowncars  = shutdownCars;
     itf->shutdowntrack = shutdownTrack;
     //itf->bendcar       = bendCar;
+
+	/* TORCS-ADAPTIVE INTERFACE */
+	itf->taUpdate3DDesc = TaUpdate3DDesc;
+
     return 0;
 }
 

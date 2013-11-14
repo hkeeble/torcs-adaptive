@@ -38,4 +38,14 @@ extern void TrackSurfaceNormal(tTrkLocPos *p, t3Dd *norm);
 extern tRoadCam *TrackGetCamList(void);
 extern tdble TrackSpline(tdble p0, tdble p1, tdble t0, tdble t1, tdble t);
 
+// TORCS-ADAPTIVE EXTERN ADDITIONS
+// General Initialization
+/* Defined as extern here for use outside of track3.cpp, for use in taTrack.cpp (static declarations also removed in track3.cpp) */
+extern void				GetTrackHeader	(void *TrackHandle);
+extern inline void		SetTrack		(tTrack* track, char* trFile);
+extern void				ReadTrack3      (tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext);
+extern void             InitSides       (void *TrackHandle, tTrack *theTrack);
+extern tTrackSurface*   AddTrackSurface (void *TrackHandle, tTrack *theTrack, const char *material);
+extern void             AddSides        (tTrackSeg *curSeg, void *TrackHandle, tTrack *theTrack, int curStep, int steps);
+
 #endif /* _TRACKINC_H__ */ 

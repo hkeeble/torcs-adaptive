@@ -49,7 +49,7 @@
     <GenerateManifest>false</GenerateManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>.\Debug\</OutDir>
+    <OutDir>C:\Users\Henri\Documents\Projects\torcsadaptive\runtimed\</OutDir>
     <IntDir>.\Debug\</IntDir>
     <EnableManagedIncrementalBuild>false</EnableManagedIncrementalBuild>
     <LinkIncremental>false</LinkIncremental>
@@ -88,7 +88,7 @@
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>sl_vs2008_32.lib;client.lib;robottools.lib;sg_vs2008_32.lib;ssg_vs2008_32.lib;ssggraphlib.lib;txml.lib;ul_vs2008_32.lib;libpng15_vs2008_32.lib;tgf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sl_vs2008_32.lib;client.lib;robottools.lib;sg_vs2008_32.lib;ssg_vs2008_32.lib;ssggraphlib.lib;txml.lib;ul_vs2008_32.lib;libpng15_vs2008_32.lib;tgf.lib;trackGeneration.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Release/trackgen.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(SolutionDir)/export/lib;../../windows/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -116,7 +116,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../windows/include;../../..;$(SolutionDir)\config\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../windows/include;../../..;$(SolutionDir)\config\;$(SolutionDir)\export\include\trackgen\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -137,10 +137,10 @@
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>sl_vs2008_32.lib;client.lib;robottools.lib;sg_vs2008_32.lib;ssg_vs2008_32.lib;ssggraphlib.lib;txml.lib;ul_vs2008_32.lib;libpng15_vs2008_32.lib;tgf.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>.\Debug/trackgen.exe</OutputFile>
+      <AdditionalDependencies>sl_vs2008_32.lib;client.lib;robottools.lib;sg_vs2008_32.lib;ssg_vs2008_32.lib;trackGeneration.lib;ssggraphlib.lib;txml.lib;ul_vs2008_32.lib;libpng15_vs2008_32.lib;tgf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>C:\Users\Henri\Documents\Projects\torcsadaptive\runtimed\trackgen.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>$(SolutionDir)/export/libd;../../windows/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)/export/libd;../../windows/lib;$(SolutionDir)libs\trackGeneration\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EnableUAC>false</EnableUAC>
       <IgnoreSpecificDefaultLibraries>LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -157,28 +157,21 @@
       <OutputFile>.\Debug/trackgen.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)trackgen.exe $(SolutionDir)..\runtimed</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ac3d.cpp" />
-    <ClCompile Include="easymesh.cpp" />
-    <ClCompile Include="elevation.cpp" />
     <ClCompile Include="maintrackgen.cpp" />
-    <ClCompile Include="objects.cpp" />
-    <ClCompile Include="raceline.cpp" />
-    <ClCompile Include="relief.cpp" />
-    <ClCompile Include="track.cpp" />
-    <ClCompile Include="util.cpp" />
     <ClCompile Include="..\..\windows\windowsspec.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="trackgen.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\libs\client\client.vcxproj">
       <Project>{000f3a08-7079-4480-93e3-dc3bacc72017}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libs\trackGeneration\trackGeneration.vcxproj">
+      <Project>{3bb04266-e436-4bb0-93ef-f544da92503b}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

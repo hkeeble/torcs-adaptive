@@ -1,6 +1,6 @@
 #include "../trackinc.h"
 #include "track.h"
-#include "taTrack.h"
+#include "torcsAdaptive.h"
 #include <sstream>
 
 namespace torcsAdaptive
@@ -269,19 +269,19 @@ namespace torcsAdaptive
 
 		/* allocate a new segment */
 		curSeg = new tTrackSeg();
-		if (trackState->root == NULL)
+		if (root == NULL)
 		{
-			trackState->root = curSeg;
+			root = curSeg;
 			curSeg->next = curSeg;
 			curSeg->prev = curSeg;
 		}
 		else
 		{
-			curSeg->next = trackState->root->next;
+			curSeg->next = root->next;
 			curSeg->next->prev = curSeg;
-			curSeg->prev = trackState->root;
-			trackState->root->next = curSeg;
-			trackState->root = curSeg;
+			curSeg->prev = root;
+			root->next = curSeg;
+			root = curSeg;
 		}
 
 		// Name Segment
@@ -494,7 +494,7 @@ namespace torcsAdaptive
 		if (curSeg->type != TR_STR)
 			trackState->radius += dradius;
 
-		trackState->root = curSeg;
+		root = curSeg;
 		trackState->totLength += curSeg->length;
 		trackState->curSegIndex++;
 		trackState->xr = newxr;
@@ -503,7 +503,7 @@ namespace torcsAdaptive
 		trackState->yl = newyl;
 
 		// Update Track with new segment
-		taTrack->seg = trackState->root;
+		taTrack->seg = root;
 		taTrack->length = trackState->totLength;
 		taTrack->nseg = trackState->curSegIndex;
 	}

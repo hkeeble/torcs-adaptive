@@ -115,6 +115,9 @@ typedef void (*tfGraphicShutdwnTrack)(void);
 class ssgEntity;
 typedef void (*tfGraphicBendCar) (int /*index*/, sgVec3 /*poc*/, sgVec3 /*force*/, int /*cnt*/);
 
+/* TORCS-ADAPTIVE INTERFACE */
+typedef void (*tfTaUpdate3DDesc)(torcsAdaptive::EntityDesc* curDesc, const char* acName);
+
 /* Interface with the graphic lib */
 typedef struct {
     tfGraphicInitTrack	    inittrack;	    /* Graphic init function */
@@ -123,6 +126,10 @@ typedef struct {
     tfGraphicRefresh	    refresh;	    /* Graphic refresh function */
     tfGraphicShutdwnCars    shutdowncars;   /* Graphic shutdown function */
     tfGraphicShutdwnTrack   shutdowntrack;  /* Graphic shutdown function */
+
+	/* TORCS-ADAPTIVE INTERFACE */
+	tfTaUpdate3DDesc		taUpdate3DDesc;
+
 	//tfGraphicBendCar        bendcar;
 } tGraphicItf;
 

@@ -55,6 +55,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wtorcs", "windows\wtorcs.vc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "perfMeasurement", "libs\perfMeasurement\perfMeasurement.vcxproj", "{47599C0A-B931-48C4-8EDF-2AAC318E04DF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "trackGeneration", "libs\trackGeneration\trackGeneration.vcxproj", "{3BB04266-E436-4BB0-93EF-F544DA92503B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -281,6 +283,14 @@ Global
 		{47599C0A-B931-48C4-8EDF-2AAC318E04DF}.Release|Win32.ActiveCfg = Release|Win32
 		{47599C0A-B931-48C4-8EDF-2AAC318E04DF}.Release|Win32.Build.0 = Release|Win32
 		{47599C0A-B931-48C4-8EDF-2AAC318E04DF}.Release|x64.ActiveCfg = Release|Win32
+		{3BB04266-E436-4BB0-93EF-F544DA92503B}.Debug|ARM.ActiveCfg = Debug|Win32
+		{3BB04266-E436-4BB0-93EF-F544DA92503B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3BB04266-E436-4BB0-93EF-F544DA92503B}.Debug|Win32.Build.0 = Debug|Win32
+		{3BB04266-E436-4BB0-93EF-F544DA92503B}.Debug|x64.ActiveCfg = Debug|Win32
+		{3BB04266-E436-4BB0-93EF-F544DA92503B}.Release|ARM.ActiveCfg = Release|Win32
+		{3BB04266-E436-4BB0-93EF-F544DA92503B}.Release|Win32.ActiveCfg = Release|Win32
+		{3BB04266-E436-4BB0-93EF-F544DA92503B}.Release|Win32.Build.0 = Release|Win32
+		{3BB04266-E436-4BB0-93EF-F544DA92503B}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

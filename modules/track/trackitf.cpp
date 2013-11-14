@@ -22,7 +22,7 @@
 #include <tgf.h>
 #include <track.h>
 #include "trackinc.h"
-#include "torcsAdaptive\taTrack.h"
+#include "torcsAdaptive\torcsAdaptive.h"
 
 #ifdef _WIN32
 BOOL WINAPI DllEntryPoint (HINSTANCE hDLL, DWORD dwReason, LPVOID Reserved)
@@ -68,6 +68,9 @@ trackInit(int /* index */, void *pt)
 	ptf->taTrackInit	  = torcsAdaptive::TaInitTrack;
 	ptf->taAddSegment	  = torcsAdaptive::TaAddSegment;
 	ptf->taTrackShutDown  = torcsAdaptive::TaShutDown;
+	ptf->taGetTrackState  = torcsAdaptive::TaGetTrackState;
+	ptf->taGetTrackDesc	  = torcsAdaptive::TaGetTrackDesc;
+	ptf->taGetACName	  = torcsAdaptive::TaGetACName;
 	/* Adaptive Track Interface */
 
     return 0;

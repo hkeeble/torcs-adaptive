@@ -159,7 +159,6 @@ typedef struct
 #define _reTrackItf	raceEngineInfo.itf.trackItf
 #define _reGraphicItf	raceEngineInfo.itf.graphicItf
 #define _reSimItf	raceEngineInfo.itf.simItf
-#define _reWinTelemetryItf raceEngineInfo.itf.winTelemetryItf;
 #define _reGameScreen	raceEngineInfo.gameScreen
 #define _reMenuScreen	raceEngineInfo.menuScreen
 #define _reFilename	raceEngineInfo.filename

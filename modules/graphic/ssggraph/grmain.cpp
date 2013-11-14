@@ -311,6 +311,7 @@ initView(int x, int y, int width, int height, int /* flag */, void *screen)
 }
 
 
+
 int
 refresh(tSituation *s)
 {
@@ -492,6 +493,11 @@ shutdownTrack(void)
 	}
 
 	GfParmReleaseHandle(grTrackHandle);
+}
+
+void TaUpdate3DDesc(torcsAdaptive::EntityDesc* curDesc, const char* acName)
+{
+	Update3DDesc(curDesc, acName);
 }
 
 /*void bendCar (int index, sgVec3 poc, sgVec3 force, int cnt)

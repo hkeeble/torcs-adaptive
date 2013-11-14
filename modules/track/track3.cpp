@@ -27,7 +27,7 @@
 #include <portability.h>
 #include "trackinc.h"
 
-#include "torcsAdaptive\taTrack.h"
+#include "torcsAdaptive\taSeg.h"
 
 static tdble	xmin, xmax, ymin, ymax, zmin, zmax;
 

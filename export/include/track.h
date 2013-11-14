@@ -31,6 +31,11 @@
 #include <tgf.h>
 #include <tmath/linalg_t.h>
 
+// Torcs-Adaptive Structs and Defines
+#include "torcsAdaptive\taSeg.h"
+#include "torcsAdaptive\taTrackState.h"
+#include "torcsAdaptive\taDefs.h"
+
 #include <string>
 
 #define TRK_IDENT	0	/* from 0x01 to 0xFF */
@@ -516,42 +521,6 @@ typedef struct
     tTrackGraphicInfo	graphic;
 } tTrack;
 
-/* Represents segment data.
-	A simplified version of tTrackSeg, with an additional constructor for ease of use for torcs-adaptive.
-	Internal DLL Use Only, not exported
-*/
-class taSeg
-{
-public:
-	taSeg(int RaceInfo = 0, int Type = 0, int ID = 0, int Type2 = 0, int Style = 0,
-		tdble Length = 10, tdble Radius = 0, tdble Radiusr = 0, tdble Radiusl = 0, tdble Arc = 0)
-		: raceInfo(raceInfo), type(Type), id(ID), type2(Type2), style(Style), length(Length),
-			radius(Radius), radiusr(Radiusr), radiusl(Radiusl), arc(Arc) { }
-	~taSeg() { };
-
-	std::string name;
-			
-	int	id;	
-	int type;
-	int type2;
-	int style;
-	int raceInfo;
-
-	// Data
-	tdble length;
-	tdble lgfromstart;
-			
-	// For Corners
-	tdble radius;
-	tdble radiusr;
-	tdble radiusl;
-	tdble arc;	
-			
-	// 3D Data
-	t3Dd center;		
-	t3Dd vertex[4];
-};
-
 typedef tTrack*(*tfTrackBuild)(char*);
 typedef tdble(*tfTrackHeightG)(tTrackSeg*, tdble, tdble);
 typedef tdble(*tfTrackHeightL)(tTrkLocPos*);
@@ -561,10 +530,15 @@ typedef void(*tfTrackSideNormal)(tTrackSeg*, tdble, tdble, int, t3Dd*);
 typedef void(*tfTrackSurfaceNormal)(tTrkLocPos *, t3Dd*);
 typedef void(*tfTrackShutdown)(void);
 
+namespace ta = torcsAdaptive;
+
 /* Torcs-Adaptive Interface */
-typedef tTrack* (*tfTaTrackInit)	 (int);
-typedef void	(*tfTaAddSegment)	 (taSeg, tTrack*);
-typedef void	(*tfTaTrackShutDown) ();
+typedef tTrack*				(*tfTaTrackInit)		(int);
+typedef void				(*tfTaAddSegment)		(ta::taSeg, tTrack*);
+typedef void				(*tfTaTrackShutDown)	();
+typedef ta::taTrackState*	(*tfTaGetTrackState)	();
+typedef ta::EntityDesc*		(*tfTaGetTrackDesc)		();
+typedef  char*				(*tfTaGetACName)		();
 
 typedef struct {
 	
@@ -582,6 +556,9 @@ typedef struct {
 	tfTaTrackInit			taTrackInit;
 	tfTaAddSegment			taAddSegment;
 	tfTaTrackShutDown		taTrackShutDown;
+	tfTaGetTrackState		taGetTrackState;
+	tfTaGetTrackDesc		taGetTrackDesc;
+	tfTaGetACName			taGetACName;
 	
 } tTrackItf;
 

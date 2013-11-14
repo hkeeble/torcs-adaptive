@@ -9,11 +9,11 @@
       <UniqueIdentifier>{484166a4-2326-4326-83c8-2744785b202e}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
-    <Filter Include="Header Files\torcsAdaptive">
-      <UniqueIdentifier>{11814905-f652-4a67-8c76-8843cc776690}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\torcsAdaptive">
       <UniqueIdentifier>{c4ab6686-109a-464a-a08c-3e53545771ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\torcsAdaptive">
+      <UniqueIdentifier>{b9e49df0-245a-4912-b6b8-ac28c0e00b8d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -48,7 +48,7 @@
     <ClInclude Include="trackinc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="torcsAdaptive\taTrack.h">
+    <ClInclude Include="torcsAdaptive\torcsAdaptive.h">
       <Filter>Header Files\torcsAdaptive</Filter>
     </ClInclude>
   </ItemGroup>

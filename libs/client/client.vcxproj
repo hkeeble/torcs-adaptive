@@ -87,7 +87,7 @@
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>txml.lib;libpng15_vs2008_32.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;tgf.lib;robottools.lib;ssggraphlib.lib;ssg_vs2008_32.lib;ssgAux_vs2008_32.lib;sl_vs2008_32.lib;OpenAL32.lib;Alut.lib;libogg.lib;libvorbis.lib;libvorbisfile.lib;zlib1_vs2008_32.lib;js_vs2008_32.lib;Advapi32.lib;perfMeasurement.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>txml.lib;libpng15_vs2008_32.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;tgf.lib;robottools.lib;ssggraphlib.lib;ssg_vs2008_32.lib;ssgAux_vs2008_32.lib;sl_vs2008_32.lib;OpenAL32.lib;Alut.lib;libogg.lib;libvorbis.lib;libvorbisfile.lib;zlib1_vs2008_32.lib;js_vs2008_32.lib;Advapi32.lib;perfMeasurement.lib;trackGeneration.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Debug/client.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(SolutionDir)/export/libd;../../windows/lib;$(SolutionDir)libs\perfMeasurement\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -178,6 +178,7 @@ copy $(TargetDir)*.lib $(SolutionDir)export\lib
     <ClCompile Include="..\confscreens\controlconfig.cpp" />
     <ClCompile Include="..\confscreens\driverconfig.cpp" />
     <ClCompile Include="..\racescreens\driverselect.cpp" />
+    <ClCompile Include="addSegment.cpp" />
     <ClCompile Include="entry.cpp" />
     <ClCompile Include="exitmenu.cpp" />
     <ClCompile Include="..\racescreens\fileselect.cpp" />
@@ -223,6 +224,7 @@ copy $(TargetDir)*.lib $(SolutionDir)export\lib
     <ClCompile Include="splash.cpp" />
     <ClCompile Include="..\tgfclient\tgfclient.cpp" />
     <ClCompile Include="..\racescreens\trackselect.cpp" />
+    <ClCompile Include="updateDesc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\raceengineclient\torcsAdaptive\torcsAdaptive.h" />
@@ -245,6 +247,9 @@ copy $(TargetDir)*.lib $(SolutionDir)export\lib
     <ProjectReference Include="..\tgf\tgf.vcxproj">
       <Project>{acb16b61-2f7d-4e87-ad15-c95f16431137}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\trackGeneration\trackGeneration.vcxproj">
+      <Project>{3bb04266-e436-4bb0-93ef-f544da92503b}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

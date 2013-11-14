@@ -241,10 +241,21 @@ grLoadScene(tTrack *track)
 	}
 	else
 		desc = NULL;
-
 	return 0;
 }
 
+/* Updates a 3D Description for an adaptive track */
+void Update3DDesc(torcsAdaptive::EntityDesc* curDesc, const char* acName)
+{
+	// Remove Current ssgEntity
+	LandAnchor->removeKid(curDesc);
+
+	// Reload data
+	curDesc = grssgLoadAC3D(acName, NULL);
+
+	// Add new data
+	LandAnchor->addKid(curDesc);
+}
 
 void grDrawScene(void)
 {
