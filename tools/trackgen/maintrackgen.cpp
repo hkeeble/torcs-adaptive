@@ -83,6 +83,8 @@ tModList *modlist = NULL;
 int saveElevation;
 char *ElevationFile;
 
+int startBridge;
+
 static void Generate(void);
 
 void usage(void)
@@ -124,6 +126,7 @@ void init_args(int argc, char **argv)
     TrackName = NULL;
     TrackCategory = NULL;
     saveElevation = -1;
+	startBridge = 0;
 
 #ifndef WIN32
 	const int BUFSIZE = 1024;
@@ -267,6 +270,9 @@ void init_args(int argc, char **argv)
 			usage();
 			exit(0);
 			}
+		} 
+		else if(strncmp(argv[i], "-sb", 3) == 0) {
+			startBridge = 1;
 		} else {
 			usage();
 			exit(0);
@@ -384,7 +390,7 @@ static void Generate(void)
 		return;
 	}
 
-	GenerateTrack(Track, TrackHandle, OutTrackName, outfd, bump, raceline);
+	GenerateTrack(Track, TrackHandle, OutTrackName, outfd, bump, raceline, startBridge);
 
 	if (TrackOnly) {
 		return;

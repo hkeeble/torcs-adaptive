@@ -3,6 +3,7 @@
 
 #include "perfMeasurement\perfMeasurement.h"
 #include "torcsAdaptive\taSeg.h"
+#include "raceman.h"
 
 namespace torcsAdaptive
 {
@@ -12,8 +13,8 @@ namespace torcsAdaptive
 	extern bool taAdaptiveMode;
 	extern taPerfMeasurement* perfMeasurement;
 
-	void AddSegment(tTrack* track, const taSeg& segment);
-	void UpdateACFile(tTrack* track, const char* fName);
+	void AddSegment(tRmInfo* ReInfo, const taSeg& segment);
+	void UpdateACFile(taTrackState state, tTrack* track, const char* fName);
 }
 
 #endif // _TORCS_ADAPTIVE_H_

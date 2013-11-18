@@ -23,29 +23,35 @@
 // TORCS-ADAPTIVE SPECIFIC FUNCTIONS AND DEFINES
 namespace torcsAdaptive
 {
+	/* Represents the lifetime of an adaptive track */
+	class taTrackInfo
+	{
+	public:
+		taTrackInfo();
+		~taTrackInfo();
+
+		taTrackState state;
+		EntityDesc* trackDesc;
+		tTrackSeg* root;
+		char* acName;
+	};
+
+	/* Instance of the current track */
+	extern taTrackInfo* trInfo;
+
+	#define TrackState	trInfo->state
+	#define TrackDesc	trInfo->trackDesc
+	#define Root		trInfo->root
+	#define ACName		trInfo->acName
+
 	// TA INTERFACE FUNCTIONS
 	tTrack*			TaInitTrack			(int trkLength);
 	void			TaShutDown			();
 	void			TaAddSegment		(taSeg seg, tTrack* taTrack);
 	void			TaAddSegment2		(taSeg seg, tTrack* taTrack);
-	taTrackState*	TaGetTrackState		();
+	taTrackState	TaGetTrackState		();
 	EntityDesc*		TaGetTrackDesc		();
 	char*			TaGetACName			();
-
-	// Internal Use Only
-	void TaInitTrackState ();
-
-	// Instance of TrackState
-	extern taTrackState* trackState;
-
-	// Current 3D Description
-	extern EntityDesc*	trackDesc;
-
-	// Current Root
-	extern tTrackSeg* root;
-
-	// Current AC Name
-	extern char* acName;
 }
 
 #endif // _TORCS_ADAPTIVE_H_

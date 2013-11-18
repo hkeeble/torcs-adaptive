@@ -3,11 +3,13 @@
 
 namespace torcsAdaptive
 {
-	void UpdateACFile(tTrack* track, const char* fName)
+	void UpdateACFile(taTrackState state, tTrack* track, const char* fName)
 	{
-		gzFile currentFile = gzopen(fName, "rb");
+		FILE* currentFile = fopen(fName, "a");
 
 		if(currentFile == NULL)
 			GfFatal("Error! Could not load current track AC file '%900s'.", fName);
+
+		state.segsSinceLastUpdate = 0;
 	}
 }

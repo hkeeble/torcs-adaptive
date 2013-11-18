@@ -13,10 +13,7 @@ namespace torcsAdaptive
 {
 	static tTrack*		taTrack;
 	
-	taTrackState*	trackState;
-	EntityDesc*		trackDesc;
-	tTrackSeg*		root;
-	char*			acName;
+	taTrackInfo* trInfo;
 
 	// Track accessors for ease of reading
 	#define taGraphicInfo	taTrack->graphic
@@ -32,6 +29,25 @@ namespace torcsAdaptive
 		z = 0;
 	}
 
+	// Track Info Definitions
+	taTrackInfo::taTrackInfo()
+	{
+		trackDesc = NULL;
+		root = NULL;
+		acName = NULL;
+		state = taTrackState();
+	}
+
+	taTrackInfo::~taTrackInfo()
+	{
+		if(trackDesc)
+			delete trackDesc;
+		if(root)
+			delete root;
+		if(acName)
+			delete acName;
+	}
+
 	// ----- ta Functions ------
 	tTrack* TaInitTrack(int trkLength)
 	{
@@ -41,6 +57,10 @@ namespace torcsAdaptive
 		GfOut("\n\n-------------------------------------\n");
 		GfOut("INITIALIZING TORCS-ADAPTIVE TRACK...");
 		GfOut("\n-------------------------------------\n");
+
+		if(trInfo)
+			delete trInfo;
+		trInfo = new taTrackInfo(); // Allocate memory for track info
 
 		if(taTrack)
 			delete taTrack;
@@ -57,73 +77,49 @@ namespace torcsAdaptive
 		taTrack = TrackBuildv1(fName); // Load in track details, should return with no segments;
 
 		// Get AC File Name
-		acName = "tracks/adaptive/taTrack1/taTrack1.ac";
+		ACName = "tracks/adaptive/taTrack1/taTrack1.ac";
 
-		// Initialize Track State
-		TaInitTrackState();
+		// Initialize Sides
+		InitSides(taTrack->params, taTrack);
 
 		// Initialize 3D Description
-		trackDesc = NULL;
+		TrackDesc = NULL;
 
 		// Initialize Root
-		root = NULL;
+		Root = NULL;
 
 		// Add Initial Segment
 		GfOut("Adding Initial Segments...\n");
-		TaAddSegment(taSeg(TR_NORMAL, TR_STR, trackState->curSegIndex, TR_MAIN, 0, 50.f), taTrack);
+		TaAddSegment(taSeg(TR_NORMAL, TR_STR, TrackState.curSegIndex, TR_MAIN, 0, 50.f), taTrack);
 
 		// Generate Initial 3D Description
-		GenerateTrack(taTrack, taTrack->params, acName, NULL, NULL, NULL);
-
-		// Track Min and Max (Make Assumptions Here?)
-		taTrack->min.x = 0;
-		taTrack->min.y = 0;
-		taTrack->min.z = 0;
-		taTrack->max.x = 1000;
-		taTrack->max.y = 1000;
-		taTrack->max.z = 1000;
+		GenerateTrack(taTrack, taTrack->params, ACName, NULL, NULL, NULL, 0);
 
 		return taTrack;
 	}
 
-	 void TaInitTrackState()
-	 {
-		 if(trackState)
-			delete trackState;
-		trackState	=  new taTrackState(); // Allocate memory for track state
-
-		if(!trackState)
-			GfFatal("Error allocating memory for track state!\n");
-
-		InitSides(taTrack->params, taTrack);
-	 }
-
 	 /* Retrieve Current Track State */
-	 taTrackState* TaGetTrackState()
+	 taTrackState TaGetTrackState()
 	 {
-		 return trackState;
+		 return TrackState;
 	 }
 
 	 /* Retrieve Current Track 3D Description */
 	 ssgEntity*	TaGetTrackDesc()
 	 {
-		 return trackDesc;
+		 return TrackDesc;
 	 }
 
 	 char* TaGetACName()
 	 {
-		 return acName;
+		 return ACName;
 	 }
 
 	void TaShutDown()
 	{
 		TrackShutdown();
 
-		if(trackState)
-			delete trackState;
-		if(trackDesc)
-			delete trackDesc;
-		if(acName)
-			delete[] acName;
+		if(trInfo)
+			delete trInfo;
 	}
 }

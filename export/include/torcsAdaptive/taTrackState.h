@@ -8,8 +8,8 @@ namespace torcsAdaptive
 	/* Used to store the current state of the track for torcs-adaptive */
 	struct taTrackState
 	{
-		taTrackState() { curSegIndex = envIndex = totLength = wi2 = xr = yr = xl = yl = radius = 0.f; };
-		int	curSegIndex, envIndex;
+		taTrackState() { segsSinceLastUpdate = curSegIndex = envIndex = totLength = wi2 = xr = yr = xl = yl = radius = 0.f; };
+		int	curSegIndex, envIndex, segsSinceLastUpdate;
 		tdble totLength, wi2, xr, yr, xl, yl, radius;
 	};
 }

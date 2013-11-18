@@ -536,7 +536,7 @@ namespace ta = torcsAdaptive;
 typedef tTrack*				(*tfTaTrackInit)		(int);
 typedef void				(*tfTaAddSegment)		(ta::taSeg, tTrack*);
 typedef void				(*tfTaTrackShutDown)	();
-typedef ta::taTrackState*	(*tfTaGetTrackState)	();
+typedef ta::taTrackState	(*tfTaGetTrackState)	();
 typedef ta::EntityDesc*		(*tfTaGetTrackDesc)		();
 typedef  char*				(*tfTaGetACName)		();
 

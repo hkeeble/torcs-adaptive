@@ -19,7 +19,7 @@ namespace torcsAdaptive
 
 		// Generate new 3D Description
 		taOut("\tUpdating 3D Description.\n");
-		UpdateACFile(ReInfo->track, acName);
+		UpdateACFile(ReInfo->_reTrackItf.taGetTrackState(), ReInfo->track, ReInfo->_reTrackItf.taGetACName());
 
 		// Update Graphics Module
 		taOut("\tUpdating Graphics Module.\n");

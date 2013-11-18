@@ -485,7 +485,7 @@ void pitCapCW(tTexElt *curTexElt, unsigned int &nbvert, tdble x, tdble y, tdble 
 
 
 
-int InitScene(tTrack *Track, void *TrackHandle, int bump, int raceline)
+int InitScene(tTrack *Track, void *TrackHandle, int bump, int raceline, int startBridge)
 {
 	int i, j;
 	tTrackSeg *seg;
@@ -2439,280 +2439,282 @@ int InitScene(tTrack *Track, void *TrackHandle, int bump, int raceline)
 
 
 
-//		/* Start Bridge */
-//		checkDispList2("pylon1", "S0Bg", 0, bump, nbvert, &texList, &curTexElt, &theCurDispElt, curTexId, prevTexId, startNeeded);
-//
-//#define BR_HEIGHT_1	8.0
-//#define BR_HEIGHT_2	6.0
-//#define BR_WIDTH_0	2.0
-//#define BR_WIDTH_1	2.0
-//		mseg = Track->seg->next;
-//		if (mseg->rside) {
-//			seg = mseg->rside;
-//			if (seg->rside) {
-//				seg = seg->rside;
-//			}
-//		} else {
-//			seg = mseg;
-//		}
-//
-//		x = seg->vertex[TR_SR].x;
-//		y = seg->vertex[TR_SR].y - 0.1;
-//		z = seg->vertex[TR_SR].z;
-//
-//		setPoint(curTexElt, 0, 0, x, y, z, nbvert);
-//		setPoint(curTexElt, 0, 1, x, y, z + BR_HEIGHT_2, nbvert);
-//
-//		x += BR_WIDTH_0;
-//
-//		setPoint(curTexElt, 1, 0, x, y, z, nbvert);
-//		setPoint(curTexElt, 1, 1, x, y, z + BR_HEIGHT_2, nbvert);
-//
-//		y -= BR_WIDTH_1;
-//
-//		setPoint(curTexElt, 2, 0, x, y, z, nbvert);
-//		setPoint(curTexElt, 2, 1, x, y, z + BR_HEIGHT_2, nbvert);
-//
-//		x -= BR_WIDTH_0;
-//
-//		setPoint(curTexElt, 3, 0, x, y, z, nbvert);
-//		setPoint(curTexElt, 3, 1, x, y, z + BR_HEIGHT_2, nbvert);
-//
-//		y += BR_WIDTH_1;
-//
-//		setPoint(curTexElt, 4, 0, x, y, z, nbvert);
-//		setPoint(curTexElt, 4, 1, x, y, z + BR_HEIGHT_2, nbvert);
-//
-//		newDispList(0, bump, nbvert, startNeeded, "S1Bg", 0, &theCurDispElt, curTexElt);
-//
-//		if (mseg->lside) {
-//			seg = mseg->lside;
-//			if (seg->lside) {
-//				seg = seg->lside;
-//			}
-//		} else {
-//			seg = mseg;
-//		}
-//		x2 = seg->vertex[TR_SL].x;
-//		y2 = seg->vertex[TR_SL].y + 0.1;
-//		z2 = seg->vertex[TR_SL].z;
-//
-//		setPoint(curTexElt, 0, 1, x2, y2, z + BR_HEIGHT_2, nbvert);
-//		setPoint(curTexElt, 0, 0, x2, y2, z2, nbvert);
-//
-//		x2 += BR_WIDTH_0;
-//
-//		setPoint(curTexElt, 1, 1, x2, y2, z + BR_HEIGHT_2, nbvert);
-//		setPoint(curTexElt, 1, 0, x2, y2, z2, nbvert);
-//
-//		y2 += BR_WIDTH_1;
-//
-//		setPoint(curTexElt, 2, 1, x2, y2, z + BR_HEIGHT_2, nbvert);
-//		setPoint(curTexElt, 2, 0, x2, y2, z2, nbvert);
-//
-//		x2 -= BR_WIDTH_0;
-//
-//		setPoint(curTexElt, 3, 1, x2, y2, z + BR_HEIGHT_2, nbvert);
-//		setPoint(curTexElt, 3, 0, x2, y2, z2, nbvert);
-//
-//		y2 -= BR_WIDTH_1;
-//
-//		setPoint(curTexElt, 4, 1, x2, y2, z + BR_HEIGHT_2, nbvert);
-//		setPoint(curTexElt, 4, 0, x2, y2, z2, nbvert);
-//
-//		checkDispList2("pylon2", "S2Bg", 0, bump, nbvert, &texList, &curTexElt, &theCurDispElt, curTexId, prevTexId, startNeeded);
-//
-//
-//		setPoint(curTexElt, 0, 1, x, y, z + BR_HEIGHT_1, nbvert);
-//		setPoint(curTexElt, 0, 0, x, y, z + BR_HEIGHT_2, nbvert);
-//
-//		y -= BR_WIDTH_1;
-//
-//		setPoint(curTexElt, 1, 1, x, y, z + BR_HEIGHT_1, nbvert);
-//		setPoint(curTexElt, 1, 0, x, y, z + BR_HEIGHT_2, nbvert);
-//
-//		x += BR_WIDTH_0;
-//
-//		setPoint(curTexElt, 2, 1, x, y, z + BR_HEIGHT_1, nbvert);
-//		setPoint(curTexElt, 2, 0, x, y, z + BR_HEIGHT_2, nbvert);
-//
-//		y += BR_WIDTH_1;
-//
-//		setPoint(curTexElt, 3, 1, x, y, z + BR_HEIGHT_1, nbvert);
-//		setPoint(curTexElt, 3, 0, x, y, z + BR_HEIGHT_2, nbvert);
-//
-//		x -= BR_WIDTH_0;
-//
-//		setPoint(curTexElt, 3, 1, x + BR_WIDTH_0, y, z + BR_HEIGHT_1, nbvert);
-//		setPoint(curTexElt, 3, 0, x, y, z + BR_HEIGHT_1, nbvert);
-//
-//		y -= BR_WIDTH_1;
-//
-//		setPoint(curTexElt, 4, 1, x + BR_WIDTH_0, y, z + BR_HEIGHT_1, nbvert);
-//		setPoint(curTexElt, 4, 0, x, y, z + BR_HEIGHT_1, nbvert);
-//
-//		y += BR_WIDTH_1;	/* back to origin */
-//
-//		newDispList(0, bump, nbvert, startNeeded, "S3Bg", 0, &theCurDispElt, curTexElt);
-//
-//		y2 += BR_WIDTH_1;
-//
-//		setPoint(curTexElt, 0, 1, x2 + BR_WIDTH_0, y2, z + BR_HEIGHT_1, nbvert);
-//		setPoint(curTexElt, 0, 0, x2, y2, z + BR_HEIGHT_1, nbvert);
-//
-//		y2 -= BR_WIDTH_1;
-//
-//		setPoint(curTexElt, 1, 1, x2 + BR_WIDTH_0, y2, z + BR_HEIGHT_1, nbvert);
-//		setPoint(curTexElt, 1, 0, x2, y2, z + BR_HEIGHT_1, nbvert);
-//
-//		x2 += BR_WIDTH_0;
-//
-//		setPoint(curTexElt, 1, 1, x2, y2, z + BR_HEIGHT_1, nbvert);
-//		setPoint(curTexElt, 1, 0, x2, y2, z + BR_HEIGHT_2, nbvert);
-//
-//		y2 += BR_WIDTH_1;
-//
-//		setPoint(curTexElt, 2, 1, x2, y2, z + BR_HEIGHT_1, nbvert);
-//		setPoint(curTexElt, 2, 0, x2, y2, z + BR_HEIGHT_2, nbvert);
-//
-//		x2 -= BR_WIDTH_0;
-//
-//		setPoint(curTexElt, 3, 1, x2, y2, z + BR_HEIGHT_1, nbvert);
-//		setPoint(curTexElt, 3, 0, x2, y2, z + BR_HEIGHT_2, nbvert);
-//
-//		y2 -= BR_WIDTH_1;
-//
-//		setPoint(curTexElt, 4, 1, x2, y2, z + BR_HEIGHT_1, nbvert);
-//		setPoint(curTexElt, 4, 0, x2, y2, z + BR_HEIGHT_2, nbvert);
-//
-//		/* Middle on the bridge */
-//		checkDispList2("pylon3", "S4Bg", 2, bump, nbvert, &texList, &curTexElt, &theCurDispElt, curTexId, prevTexId, startNeeded);
-//
-//		setPoint(curTexElt, 0, 0, x2, y2, z + BR_HEIGHT_2, nbvert);
-//		setPoint(curTexElt, 1, 0, x, y, z + BR_HEIGHT_2, nbvert);
-//		setPoint(curTexElt, 0, 0.25, x2, y2, z + BR_HEIGHT_1, nbvert);
-//		setPoint(curTexElt, 1, 0.25, x, y, z + BR_HEIGHT_1, nbvert);
-//
-//		x += BR_WIDTH_0;
-//		x2 += BR_WIDTH_0;
-//
-//		setPoint(curTexElt, 0, 0.5, x2, y2, z + BR_HEIGHT_1, nbvert);
-//		setPoint(curTexElt, 1, 0.5, x, y, z + BR_HEIGHT_1, nbvert);
-//
-//
-//		setPoint(curTexElt, 0, 0.75, x2, y2, z + BR_HEIGHT_2, nbvert);
-//		setPoint(curTexElt, 1, 0.75, x, y, z + BR_HEIGHT_2, nbvert);
-//
-//		x -= BR_WIDTH_0;
-//		x2 -= BR_WIDTH_0;
-//
-//		setPoint(curTexElt, 0, 1, x2, y2, z + BR_HEIGHT_2, nbvert);
-//		setPoint(curTexElt, 1, 1, x, y, z + BR_HEIGHT_2, nbvert);
-//
-//
-//
-//
-//		/* draw the pits */
-//
-//		pits = &(Track->pits);
-//		initPits(pits);
-//
-//		if (pits->type == TR_PIT_ON_TRACK_SIDE) {
-//			int		uid = 1;
-//			t3Dd	normvec;
-//
-//			startNeeded = 1;
-//			snprintf(sname, BUFSIZE, "P%dts", uid++);
-//			checkDispList3("concrete2.rgb", sname, pits->driversPits[0].pos.seg->id, bump, nbvert, &texList, &curTexElt, &theCurDispElt, curTexId, prevTexId, startNeeded);
-//
-//			RtTrackLocal2Global(&(pits->driversPits[0].pos), &x, &y, pits->driversPits[0].pos.type);
-//			RtTrackSideNormalG(pits->driversPits[0].pos.seg, x, y, pits->side, &normvec);
-//			z2 = RtTrackHeightG(pits->driversPits[0].pos.seg, x, y);
-//
-//			// To get the normal right choose the right winding.
-//			if (pits->side == TR_RGT) {
-//				pitCapCW(curTexElt, nbvert, x, y, z2, normvec);
-//			} else {
-//				pitCapCCW(curTexElt, nbvert, x, y, z2, normvec);
-//			}
-//
-//			// Pit front, roof and back.
-//			for (i = 0; i < pits->driversPitsNb; i++) {
-//
-//				startNeeded = 1;
-//				snprintf(sname, BUFSIZE, "P%dts", uid++);
-//				checkDispList3("concrete.rgb", sname, pits->driversPits[i].pos.seg->id, bump, nbvert, &texList, &curTexElt, &theCurDispElt, curTexId, prevTexId, startNeeded);
-//
-//				RtTrackLocal2Global(&(pits->driversPits[i].pos), &x, &y, pits->driversPits[i].pos.type);
-//				RtTrackSideNormalG(pits->driversPits[i].pos.seg, x, y, pits->side, &normvec);
-//				x2 = x;
-//				y2 = y;
-//				z2 = RtTrackHeightG(pits->driversPits[i].pos.seg, x2, y2);
-//
-//				// Different ordering for left and right to get correct face normals
-//				int leftpoints[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};	// ordering for pit on the left
-//				int rightpoints[10] = {1, 0, 3, 2, 5, 4, 7, 6, 9, 8};	// ordering for pit on the right
-//				int *pindex;
-//
-//				if (pits->side == TR_RGT) {
-//					x3 = x + pits->len * normvec.y;
-//					y3 = y - pits->len * normvec.x;
-//					pindex = rightpoints;
-//				} else {
-//					x3 = x - pits->len * normvec.y;
-//					y3 = y + pits->len * normvec.x;
-//					pindex = leftpoints;
-//				}
-//
-//				z3 = RtTrackHeightG(pits->driversPits[i].pos.seg, x3, y3);
-//
-//				tPoint parray[10] = {
-//					{pits->len,	0.0f,									x2,							y2,							z2 + PIT_HEIGHT - PIT_TOP},
-//					{0.0f,		0.0f,									x3,							y3,							z3 + PIT_HEIGHT - PIT_TOP},
-//					{pits->len, PIT_TOP,								x2 + PIT_TOP * normvec.x,	y2 + PIT_TOP * normvec.y,	z2 + PIT_HEIGHT - PIT_TOP},
-//					{0.0f,		PIT_TOP,								x3 + PIT_TOP * normvec.x,	y3 + PIT_TOP * normvec.y,	z3 + PIT_HEIGHT - PIT_TOP},
-//					{pits->len, 2.0f * PIT_TOP,							x2 + PIT_TOP * normvec.x,	y2 + PIT_TOP * normvec.y,	z2 + PIT_HEIGHT},
-//					{0.0f,		2.0f * PIT_TOP,							x3 + PIT_TOP * normvec.x,	y3 + PIT_TOP * normvec.y,	z3 + PIT_HEIGHT},
-//					{pits->len, 2.0f * PIT_TOP + PIT_DEEP,				x2 - PIT_DEEP * normvec.x,	y2 - PIT_DEEP * normvec.y,	z2 + PIT_HEIGHT},
-//					{0.0f,		2.0f * PIT_TOP + PIT_DEEP,				x3 - PIT_DEEP * normvec.x,	y3 - PIT_DEEP * normvec.y,	z3 + PIT_HEIGHT},
-//					{pits->len, 2.0f * PIT_TOP + PIT_DEEP + PIT_HEIGHT, x2 - PIT_DEEP * normvec.x,	y2 - PIT_DEEP * normvec.y,	z2},
-//					{0.0f,		2.0f * PIT_TOP + PIT_DEEP + PIT_HEIGHT, x3 - PIT_DEEP * normvec.x,	y3 - PIT_DEEP * normvec.y,	z3}
-//				};
-//
-//				int pp;
-//
-//				for (pp = 0; pp < 10; pp++) {
-//					tPoint &p = parray[pindex[pp]]; 
-//					setPoint(curTexElt, p.tx, p.ty, p.x, p.y, p.z, nbvert);
-//				} 
-//			}
-//			startNeeded = 1;
-//			i--;
-//			snprintf(sname, BUFSIZE, "P%dts", uid++);
-//			checkDispList3("concrete2.rgb", sname, pits->driversPits[i].pos.seg->id, bump, nbvert, &texList, &curTexElt, &theCurDispElt, curTexId, prevTexId, startNeeded);
-//
-//			RtTrackLocal2Global(&(pits->driversPits[i].pos), &x, &y, pits->driversPits[i].pos.type);
-//			RtTrackSideNormalG(pits->driversPits[i].pos.seg, x, y, pits->side, &normvec);
-//
-//			if (pits->side == TR_RGT) {
-//				x = x + pits->len * normvec.y;
-//				y = y - pits->len * normvec.x;
-//			} else {
-//				x = x - pits->len * normvec.y;
-//				y = y + pits->len * normvec.x;
-//			}
-//
-//			z2 = RtTrackHeightG(pits->driversPits[i].pos.seg, x, y);
-//
-//			// To get the normal right choose the right winding.
-//			if (pits->side == TR_RGT) {
-//				pitCapCCW(curTexElt, nbvert, x, y, z2, normvec);
-//			} else {
-//				pitCapCW(curTexElt, nbvert, x, y, z2, normvec);
-//			}
-//		}
-//	}
-}
+		/* Start Bridge */
+		if(startBridge)
+		{
+			checkDispList2("pylon1", "S0Bg", 0, bump, nbvert, &texList, &curTexElt, &theCurDispElt, curTexId, prevTexId, startNeeded);
+
+	#define BR_HEIGHT_1	8.0
+	#define BR_HEIGHT_2	6.0
+	#define BR_WIDTH_0	2.0
+	#define BR_WIDTH_1	2.0
+
+			mseg = Track->seg->next;
+			if (mseg->rside) {
+				seg = mseg->rside;
+				if (seg->rside) {
+					seg = seg->rside;
+				}
+			} else {
+				seg = mseg;
+			}
+
+			x = seg->vertex[TR_SR].x;
+			y = seg->vertex[TR_SR].y - 0.1;
+			z = seg->vertex[TR_SR].z;
+
+			setPoint(curTexElt, 0, 0, x, y, z, nbvert);
+			setPoint(curTexElt, 0, 1, x, y, z + BR_HEIGHT_2, nbvert);
+
+			x += BR_WIDTH_0;
+
+			setPoint(curTexElt, 1, 0, x, y, z, nbvert);
+			setPoint(curTexElt, 1, 1, x, y, z + BR_HEIGHT_2, nbvert);
+
+			y -= BR_WIDTH_1;
+
+			setPoint(curTexElt, 2, 0, x, y, z, nbvert);
+			setPoint(curTexElt, 2, 1, x, y, z + BR_HEIGHT_2, nbvert);
+
+			x -= BR_WIDTH_0;
+
+			setPoint(curTexElt, 3, 0, x, y, z, nbvert);
+			setPoint(curTexElt, 3, 1, x, y, z + BR_HEIGHT_2, nbvert);
+
+			y += BR_WIDTH_1;
+
+			setPoint(curTexElt, 4, 0, x, y, z, nbvert);
+			setPoint(curTexElt, 4, 1, x, y, z + BR_HEIGHT_2, nbvert);
+
+			newDispList(0, bump, nbvert, startNeeded, "S1Bg", 0, &theCurDispElt, curTexElt);
+
+			if (mseg->lside) {
+				seg = mseg->lside;
+				if (seg->lside) {
+					seg = seg->lside;
+				}
+			} else {
+				seg = mseg;
+			}
+			x2 = seg->vertex[TR_SL].x;
+			y2 = seg->vertex[TR_SL].y + 0.1;
+			z2 = seg->vertex[TR_SL].z;
+
+			setPoint(curTexElt, 0, 1, x2, y2, z + BR_HEIGHT_2, nbvert);
+			setPoint(curTexElt, 0, 0, x2, y2, z2, nbvert);
+
+			x2 += BR_WIDTH_0;
+
+			setPoint(curTexElt, 1, 1, x2, y2, z + BR_HEIGHT_2, nbvert);
+			setPoint(curTexElt, 1, 0, x2, y2, z2, nbvert);
+
+			y2 += BR_WIDTH_1;
+
+			setPoint(curTexElt, 2, 1, x2, y2, z + BR_HEIGHT_2, nbvert);
+			setPoint(curTexElt, 2, 0, x2, y2, z2, nbvert);
+
+			x2 -= BR_WIDTH_0;
+
+			setPoint(curTexElt, 3, 1, x2, y2, z + BR_HEIGHT_2, nbvert);
+			setPoint(curTexElt, 3, 0, x2, y2, z2, nbvert);
+
+			y2 -= BR_WIDTH_1;
+
+			setPoint(curTexElt, 4, 1, x2, y2, z + BR_HEIGHT_2, nbvert);
+			setPoint(curTexElt, 4, 0, x2, y2, z2, nbvert);
+
+			checkDispList2("pylon2", "S2Bg", 0, bump, nbvert, &texList, &curTexElt, &theCurDispElt, curTexId, prevTexId, startNeeded);
+
+
+			setPoint(curTexElt, 0, 1, x, y, z + BR_HEIGHT_1, nbvert);
+			setPoint(curTexElt, 0, 0, x, y, z + BR_HEIGHT_2, nbvert);
+
+			y -= BR_WIDTH_1;
+
+			setPoint(curTexElt, 1, 1, x, y, z + BR_HEIGHT_1, nbvert);
+			setPoint(curTexElt, 1, 0, x, y, z + BR_HEIGHT_2, nbvert);
+
+			x += BR_WIDTH_0;
+
+			setPoint(curTexElt, 2, 1, x, y, z + BR_HEIGHT_1, nbvert);
+			setPoint(curTexElt, 2, 0, x, y, z + BR_HEIGHT_2, nbvert);
+
+			y += BR_WIDTH_1;
+
+			setPoint(curTexElt, 3, 1, x, y, z + BR_HEIGHT_1, nbvert);
+			setPoint(curTexElt, 3, 0, x, y, z + BR_HEIGHT_2, nbvert);
+
+			x -= BR_WIDTH_0;
+
+			setPoint(curTexElt, 3, 1, x + BR_WIDTH_0, y, z + BR_HEIGHT_1, nbvert);
+			setPoint(curTexElt, 3, 0, x, y, z + BR_HEIGHT_1, nbvert);
+
+			y -= BR_WIDTH_1;
+
+			setPoint(curTexElt, 4, 1, x + BR_WIDTH_0, y, z + BR_HEIGHT_1, nbvert);
+			setPoint(curTexElt, 4, 0, x, y, z + BR_HEIGHT_1, nbvert);
+
+			y += BR_WIDTH_1;	/* back to origin */
+
+			newDispList(0, bump, nbvert, startNeeded, "S3Bg", 0, &theCurDispElt, curTexElt);
+
+			y2 += BR_WIDTH_1;
+
+			setPoint(curTexElt, 0, 1, x2 + BR_WIDTH_0, y2, z + BR_HEIGHT_1, nbvert);
+			setPoint(curTexElt, 0, 0, x2, y2, z + BR_HEIGHT_1, nbvert);
+
+			y2 -= BR_WIDTH_1;
+
+			setPoint(curTexElt, 1, 1, x2 + BR_WIDTH_0, y2, z + BR_HEIGHT_1, nbvert);
+			setPoint(curTexElt, 1, 0, x2, y2, z + BR_HEIGHT_1, nbvert);
+
+			x2 += BR_WIDTH_0;
+
+			setPoint(curTexElt, 1, 1, x2, y2, z + BR_HEIGHT_1, nbvert);
+			setPoint(curTexElt, 1, 0, x2, y2, z + BR_HEIGHT_2, nbvert);
+
+			y2 += BR_WIDTH_1;
+
+			setPoint(curTexElt, 2, 1, x2, y2, z + BR_HEIGHT_1, nbvert);
+			setPoint(curTexElt, 2, 0, x2, y2, z + BR_HEIGHT_2, nbvert);
+
+			x2 -= BR_WIDTH_0;
+
+			setPoint(curTexElt, 3, 1, x2, y2, z + BR_HEIGHT_1, nbvert);
+			setPoint(curTexElt, 3, 0, x2, y2, z + BR_HEIGHT_2, nbvert);
+
+			y2 -= BR_WIDTH_1;
+
+			setPoint(curTexElt, 4, 1, x2, y2, z + BR_HEIGHT_1, nbvert);
+			setPoint(curTexElt, 4, 0, x2, y2, z + BR_HEIGHT_2, nbvert);
+
+			/* Middle on the bridge */
+			checkDispList2("pylon3", "S4Bg", 2, bump, nbvert, &texList, &curTexElt, &theCurDispElt, curTexId, prevTexId, startNeeded);
+
+			setPoint(curTexElt, 0, 0, x2, y2, z + BR_HEIGHT_2, nbvert);
+			setPoint(curTexElt, 1, 0, x, y, z + BR_HEIGHT_2, nbvert);
+			setPoint(curTexElt, 0, 0.25, x2, y2, z + BR_HEIGHT_1, nbvert);
+			setPoint(curTexElt, 1, 0.25, x, y, z + BR_HEIGHT_1, nbvert);
+
+			x += BR_WIDTH_0;
+			x2 += BR_WIDTH_0;
+
+			setPoint(curTexElt, 0, 0.5, x2, y2, z + BR_HEIGHT_1, nbvert);
+			setPoint(curTexElt, 1, 0.5, x, y, z + BR_HEIGHT_1, nbvert);
+
+
+			setPoint(curTexElt, 0, 0.75, x2, y2, z + BR_HEIGHT_2, nbvert);
+			setPoint(curTexElt, 1, 0.75, x, y, z + BR_HEIGHT_2, nbvert);
+
+			x -= BR_WIDTH_0;
+			x2 -= BR_WIDTH_0;
+
+			setPoint(curTexElt, 0, 1, x2, y2, z + BR_HEIGHT_2, nbvert);
+			setPoint(curTexElt, 1, 1, x, y, z + BR_HEIGHT_2, nbvert);
+		}
+
+
+
+		/* draw the pits */
+
+		pits = &(Track->pits);
+		initPits(pits);
+
+		if (pits->type == TR_PIT_ON_TRACK_SIDE) {
+			int		uid = 1;
+			t3Dd	normvec;
+
+			startNeeded = 1;
+			snprintf(sname, BUFSIZE, "P%dts", uid++);
+			checkDispList3("concrete2.rgb", sname, pits->driversPits[0].pos.seg->id, bump, nbvert, &texList, &curTexElt, &theCurDispElt, curTexId, prevTexId, startNeeded);
+
+			RtTrackLocal2Global(&(pits->driversPits[0].pos), &x, &y, pits->driversPits[0].pos.type);
+			RtTrackSideNormalG(pits->driversPits[0].pos.seg, x, y, pits->side, &normvec);
+			z2 = RtTrackHeightG(pits->driversPits[0].pos.seg, x, y);
+
+			// To get the normal right choose the right winding.
+			if (pits->side == TR_RGT) {
+				pitCapCW(curTexElt, nbvert, x, y, z2, normvec);
+			} else {
+				pitCapCCW(curTexElt, nbvert, x, y, z2, normvec);
+			}
+
+			// Pit front, roof and back.
+			for (i = 0; i < pits->driversPitsNb; i++) {
+
+				startNeeded = 1;
+				snprintf(sname, BUFSIZE, "P%dts", uid++);
+				checkDispList3("concrete.rgb", sname, pits->driversPits[i].pos.seg->id, bump, nbvert, &texList, &curTexElt, &theCurDispElt, curTexId, prevTexId, startNeeded);
+
+				RtTrackLocal2Global(&(pits->driversPits[i].pos), &x, &y, pits->driversPits[i].pos.type);
+				RtTrackSideNormalG(pits->driversPits[i].pos.seg, x, y, pits->side, &normvec);
+				x2 = x;
+				y2 = y;
+				z2 = RtTrackHeightG(pits->driversPits[i].pos.seg, x2, y2);
+
+				// Different ordering for left and right to get correct face normals
+				int leftpoints[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};	// ordering for pit on the left
+				int rightpoints[10] = {1, 0, 3, 2, 5, 4, 7, 6, 9, 8};	// ordering for pit on the right
+				int *pindex;
+
+				if (pits->side == TR_RGT) {
+					x3 = x + pits->len * normvec.y;
+					y3 = y - pits->len * normvec.x;
+					pindex = rightpoints;
+				} else {
+					x3 = x - pits->len * normvec.y;
+					y3 = y + pits->len * normvec.x;
+					pindex = leftpoints;
+				}
+
+				z3 = RtTrackHeightG(pits->driversPits[i].pos.seg, x3, y3);
+
+				tPoint parray[10] = {
+					{pits->len,	0.0f,									x2,							y2,							z2 + PIT_HEIGHT - PIT_TOP},
+					{0.0f,		0.0f,									x3,							y3,							z3 + PIT_HEIGHT - PIT_TOP},
+					{pits->len, PIT_TOP,								x2 + PIT_TOP * normvec.x,	y2 + PIT_TOP * normvec.y,	z2 + PIT_HEIGHT - PIT_TOP},
+					{0.0f,		PIT_TOP,								x3 + PIT_TOP * normvec.x,	y3 + PIT_TOP * normvec.y,	z3 + PIT_HEIGHT - PIT_TOP},
+					{pits->len, 2.0f * PIT_TOP,							x2 + PIT_TOP * normvec.x,	y2 + PIT_TOP * normvec.y,	z2 + PIT_HEIGHT},
+					{0.0f,		2.0f * PIT_TOP,							x3 + PIT_TOP * normvec.x,	y3 + PIT_TOP * normvec.y,	z3 + PIT_HEIGHT},
+					{pits->len, 2.0f * PIT_TOP + PIT_DEEP,				x2 - PIT_DEEP * normvec.x,	y2 - PIT_DEEP * normvec.y,	z2 + PIT_HEIGHT},
+					{0.0f,		2.0f * PIT_TOP + PIT_DEEP,				x3 - PIT_DEEP * normvec.x,	y3 - PIT_DEEP * normvec.y,	z3 + PIT_HEIGHT},
+					{pits->len, 2.0f * PIT_TOP + PIT_DEEP + PIT_HEIGHT, x2 - PIT_DEEP * normvec.x,	y2 - PIT_DEEP * normvec.y,	z2},
+					{0.0f,		2.0f * PIT_TOP + PIT_DEEP + PIT_HEIGHT, x3 - PIT_DEEP * normvec.x,	y3 - PIT_DEEP * normvec.y,	z3}
+				};
+
+				int pp;
+
+				for (pp = 0; pp < 10; pp++) {
+					tPoint &p = parray[pindex[pp]]; 
+					setPoint(curTexElt, p.tx, p.ty, p.x, p.y, p.z, nbvert);
+				} 
+			}
+			startNeeded = 1;
+			i--;
+			snprintf(sname, BUFSIZE, "P%dts", uid++);
+			checkDispList3("concrete2.rgb", sname, pits->driversPits[i].pos.seg->id, bump, nbvert, &texList, &curTexElt, &theCurDispElt, curTexId, prevTexId, startNeeded);
+
+			RtTrackLocal2Global(&(pits->driversPits[i].pos), &x, &y, pits->driversPits[i].pos.type);
+			RtTrackSideNormalG(pits->driversPits[i].pos.seg, x, y, pits->side, &normvec);
+
+			if (pits->side == TR_RGT) {
+				x = x + pits->len * normvec.y;
+				y = y - pits->len * normvec.x;
+			} else {
+				x = x - pits->len * normvec.y;
+				y = y + pits->len * normvec.x;
+			}
+
+			z2 = RtTrackHeightG(pits->driversPits[i].pos.seg, x, y);
+
+			// To get the normal right choose the right winding.
+			if (pits->side == TR_RGT) {
+				pitCapCCW(curTexElt, nbvert, x, y, z2, normvec);
+			} else {
+				pitCapCW(curTexElt, nbvert, x, y, z2, normvec);
+			}
+		}
+	}
 	CLOSEDISPLIST();
 	printf("=== Indices really used = %d\n", nbvert);
 	return 0;
@@ -2808,7 +2810,7 @@ void CalculateTrack(tTrack *Track, void *TrackHandle)
 {
 	TrackStep = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_TSTEP, NULL, TrackStep);
 	GfOut("Track step: %.2f ", TrackStep);
-	InitScene(Track, TrackHandle, 0, 0);
+	InitScene(Track, TrackHandle, 0, 0, 0);
 	printf("Calculation finished\n");
 }
 
@@ -2821,14 +2823,14 @@ void CalculateTrack(tTrack *Track, void *TrackHandle)
     @return	none
 */
 void
-GenerateTrack(tTrack *Track, void *TrackHandle, char *outFile, FILE *AllFd, int bump, int raceline)
+GenerateTrack(tTrack *Track, void *TrackHandle, char *outFile, FILE *AllFd, int bump, int raceline, int startBridge)
 {
 	FILE *curFd;
 
 	TrackStep = GfParmGetNum(TrackHandle, TRK_SECT_TERRAIN, TRK_ATT_TSTEP, NULL, TrackStep);
 	GfOut("Track step: %.2f ", TrackStep);
 
-	InitScene(Track, TrackHandle, bump, raceline);
+	InitScene(Track, TrackHandle, bump, raceline, startBridge);
 
 	if (outFile) {
 		curFd = Ac3dOpen(outFile, 1);
