@@ -10,3 +10,5 @@ TORCS can be found at: http://torcs.sourceforge.net/
 torcs-adaptive is inspired by previous work, including the existing evolutionary track-generator for TORCS:http://trackgen.pierlucalanzi.net/index.php
 
 torcs-adaptive is a Final Year Undergraduate Project currently being carried out at the University of Lincoln - UK.
+
+More information can be found on the developer's personal blog: http://hk-gamedev.blogspot.co.uk/

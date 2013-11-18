@@ -57,7 +57,7 @@ namespace torcsAdaptive
 		taTrack = TrackBuildv1(fName); // Load in track details, should return with no segments;
 
 		// Get AC File Name
-		acName = (char*)GfParmGetStr(taTrack->params, TRK_SECT_GRAPH, TRK_ATT_3DDESC, "track.ac");
+		acName = "tracks/adaptive/taTrack1/taTrack1.ac";
 
 		// Initialize Track State
 		TaInitTrackState();
@@ -70,7 +70,7 @@ namespace torcsAdaptive
 
 		// Add Initial Segment
 		GfOut("Adding Initial Segments...\n");
-		TaAddSegment(taSeg(TR_NORMAL, TR_STR, trackState->curSegIndex, TR_MAIN, 0), taTrack);
+		TaAddSegment(taSeg(TR_NORMAL, TR_STR, trackState->curSegIndex, TR_MAIN, 0, 50.f), taTrack);
 
 		// Generate Initial 3D Description
 		GenerateTrack(taTrack, taTrack->params, acName, NULL, NULL, NULL);

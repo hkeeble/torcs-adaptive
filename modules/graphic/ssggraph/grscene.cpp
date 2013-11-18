@@ -229,18 +229,13 @@ grLoadScene(tTrack *track)
 	snprintf(buf, BUFSIZE, "tracks/%s/%s", grTrack->category, grTrack->internalname);
 	ssgModelPath(buf);
 
-	// Only load 3d description if track not adaptive
-	if(torcsAdaptive::taAdaptiveMode == false)
-	{
-		acname = GfParmGetStr(hndl, TRK_SECT_GRAPH, TRK_ATT_3DDESC, "track.ac");
-		if (strlen(acname) == 0)
-			return -1;
+	acname = GfParmGetStr(hndl, TRK_SECT_GRAPH, TRK_ATT_3DDESC, "track.ac");
+	if (strlen(acname) == 0)
+		return -1;
 
-		desc = grssgLoadAC3D(acname, NULL);
-		LandAnchor->addKid(desc);
-	}
-	else
-		desc = NULL;
+	desc = grssgLoadAC3D(acname, NULL);
+	LandAnchor->addKid(desc);
+
 	return 0;
 }
 

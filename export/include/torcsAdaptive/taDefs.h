@@ -8,8 +8,8 @@ namespace torcsAdaptive
 	#define TA_LENGTH_PER_SEG	40 // Length in meters of each segment
 
 	// Surface Array Indices
-	#define TA_SF_INDEX_ROAD	0
-	#define TA_SF_INDEX_BARRIER 1
+	#define TA_SF_INDEX_ROAD	4
+	#define TA_SF_INDEX_BARRIER 0
 
 	// Defaults
 	#define DEFAULT_SEG_STYLE	TR_WALL

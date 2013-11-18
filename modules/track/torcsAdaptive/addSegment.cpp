@@ -302,7 +302,7 @@ namespace torcsAdaptive
 
 		// Assign Surface
 		curSeg->surface = new tTrackSurface();
-		*curSeg->surface = taTrack->surfaces[TA_SF_INDEX_ROAD];
+		curSeg->surface = AddTrackSurface(trHandle, taTrack, "asphalt-lines");
 
 		curSeg->envIndex = trackState->envIndex;
 

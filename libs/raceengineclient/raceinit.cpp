@@ -386,8 +386,11 @@ initStartingGrid(void)
 		startpos = ReInfo->track->length - (d1 + (i / rows) * d2 + (i % rows) * d3);
 		tr = a + b * ((i % rows) + 1) / (rows + 1);
 		curseg = ReInfo->track->seg;  /* last segment */
-		while (startpos < curseg->lgfromstart) {
-			curseg = curseg->prev;
+		if(torcsAdaptive::taAdaptiveMode == false)
+		{
+			while (startpos < curseg->lgfromstart) {
+				curseg = curseg->prev;
+			}
 		}
 		ts = startpos - curseg->lgfromstart;
 		car->_trkPos.seg = curseg;
@@ -721,7 +724,7 @@ ReInitCars(void)
 	// locations (because the library maintains global state like a default collision handler etc.).
     ReInfo->_reSimItf.init(nCars, ReInfo->track);
 
-    initStartingGrid();
+	initStartingGrid();
 
     initPits();
 	
