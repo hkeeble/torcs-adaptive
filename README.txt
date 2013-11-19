@@ -11,4 +11,4 @@ torcs-adaptive is inspired by previous work, including the existing evolutionary
 
 torcs-adaptive is a Final Year Undergraduate Project currently being carried out at the University of Lincoln - UK.
 
-More information can be found on the developer's personal blog: http://hk-gamedev.blogspot.co.uk/
+More information can be found on the developer's personal blog: http://hk-gamedev.blogspot.co.uk/search/label/TORCS
