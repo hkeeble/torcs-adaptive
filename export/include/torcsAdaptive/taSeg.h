@@ -14,8 +14,6 @@ namespace torcsAdaptive
 			: raceInfo(raceInfo), type(Type), id(ID), type2(Type2), style(Style), length(Length),
 				radius(Radius), radiusr(Radiusr), radiusl(Radiusl), arc(Arc) { }
 		~taSeg() { };
-
-		std::string name;
 				
 		int	id;	
 		int type;

@@ -59,7 +59,12 @@ extern int  refresh(tSituation *s);
 extern void shutdownCars(void);
 extern int  initTrack(tTrack *track);
 extern void shutdownTrack(void);
-extern void TaUpdate3DDesc(torcsAdaptive::EntityDesc* curDesc, const char* acName);
+
+/* TORCS-ADAPTIVE */
+extern torcsAdaptive::EntityDesc* TaLoad3DDesc(const char* acName);
+extern void TaAttach3DDesc(torcsAdaptive::EntityDesc* curDesc);
+extern void TaDetach3DDesc(torcsAdaptive::EntityDesc* curDesc);
+
 //extern void bendCar (int index, sgVec3 poc, sgVec3 force, int cnt);
 extern int maxTextureUnits;
 extern tdble grMaxDammage;

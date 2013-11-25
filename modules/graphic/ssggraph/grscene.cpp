@@ -233,22 +233,28 @@ grLoadScene(tTrack *track)
 	if (strlen(acname) == 0)
 		return -1;
 
-	desc = grssgLoadAC3D(acname, NULL);
-	LandAnchor->addKid(desc);
+	//desc = grssgLoadAC3D(acname, NULL);
+	//LandAnchor->addKid(desc);
 
 	return 0;
 }
 
-/* Updates a 3D Description for an adaptive track */
-void Update3DDesc(torcsAdaptive::EntityDesc* curDesc, const char* acName)
+/* Loads a 3D Description and returns a pointer to it's entity */
+torcsAdaptive::EntityDesc* Load3DDesc(const char* acName)
 {
-	// Remove Current ssgEntity
+	// Return pointer to entity data
+	return grssgLoadAC3D(acName, NULL);
+}
+
+/* Remove given entity from scene graph */
+void Detach3DDesc(torcsAdaptive::EntityDesc* curDesc)
+{
 	LandAnchor->removeKid(curDesc);
+}
 
-	// Reload data
-	curDesc = grssgLoadAC3D(acName, NULL);
-
-	// Add new data
+/* Add given entity to scene graph */
+void Attach3DDesc(torcsAdaptive::EntityDesc* curDesc)
+{
 	LandAnchor->addKid(curDesc);
 }
 

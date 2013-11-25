@@ -110,5 +110,8 @@ namespace torcsAdaptive
 		DATA_OUTPUT(WTP_CUR_SPD_X, driver.getDataFromTag(WTP_CUR_SPD_X), WTP_CUR_SPD_T);
 		DATA_OUTPUT(WTP_CUR_SPD_Y, driver.getDataFromTag(WTP_CUR_SPD_Y), WTP_CUR_SPD_T);
 		GfOut(("\tSpeed (km/h): " + dbleToStr(driver.curSpeed) + "\n").c_str());
+
+		GfOut("MISC\n");
+		DATA_OUTPUT(DIST_TO_STR_SEG, driver.getDataFromTag(DIST_TO_STR_SEG), DIST_TO_STR_SEG_T);
 	}
 }

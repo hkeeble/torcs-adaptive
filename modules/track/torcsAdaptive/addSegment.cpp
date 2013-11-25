@@ -140,10 +140,9 @@ namespace torcsAdaptive
 		}
 
 		// Name Segment
-		std::stringstream ssSegName;
-		ssSegName << "ID" << seg.id;
-		curSeg->name = new const char[strlen(ssSegName.str().c_str())];
-		strcpy((char*)curSeg->name, ssSegName.str().c_str());
+		std::string str = "ID" + std::to_string(seg.id);
+		curSeg->name = new const char[strlen(str.c_str())];
+		strcpy((char*)curSeg->name, str.c_str());
 
 		// Assign Types
 		curSeg->type = seg.type;

@@ -606,9 +606,6 @@ ReOneStep(double deltaTimeIncrement)
 	ReInfo->_reCurTime += deltaTimeIncrement * ReInfo->_reTimeMult; /* "Real" time */
 	s->currentTime += deltaTimeIncrement; /* Simulated time */
 
-	if(ReInfo->_reCurTime == 1)
-		torcsAdaptive::AddSegment(ReInfo, torcsAdaptive::taSeg(TR_NORMAL, TR_STR, ReInfo->_reTrackItf.taGetTrackState().curSegIndex, TR_MAIN, 0, 50.f));
-
 	if (s->currentTime < 0) {
 		/* no simu yet */
 		ReInfo->s->_raceState = RM_RACE_PRESTART;
@@ -708,6 +705,9 @@ ReUpdate(void)
 				ReOneStep(RCM_MAX_DT_SIMU);
 			}
 			STOP_PROFILE("ReOneStep*");
+
+			if(ta::taAdaptiveMode)
+				ta::UpdateTrack(ReInfo);
 
 			if (i > MAXSTEPS) {
 				// Cannot keep up with time warp, reset time to avoid lag when running slower again

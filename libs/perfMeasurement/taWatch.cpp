@@ -148,6 +148,9 @@ namespace torcsAdaptive
 		// Physics
 		items.push_back(watchItem(WTP_CUR_SPD_X, &car->_speed_x));
 		items.push_back(watchItem(WTP_CUR_SPD_Y, &car->_speed_y));
+
+		// Misc
+		items.push_back(watchItem(DIST_TO_STR_SEG, &car->pub.trkPos.toStart));
 	}
 
 	const CarElt* drvWatch::GetCar() const

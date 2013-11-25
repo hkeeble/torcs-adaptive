@@ -168,10 +168,7 @@
     <ClCompile Include="..\racescreens\trackselect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="addSegment.cpp">
-      <Filter>Source Files\torcsAdaptive</Filter>
-    </ClCompile>
-    <ClCompile Include="updateDesc.cpp">
+    <ClCompile Include="..\raceengineclient\torcsAdaptive\torcsAdaptive.cpp">
       <Filter>Source Files\torcsAdaptive</Filter>
     </ClCompile>
   </ItemGroup>

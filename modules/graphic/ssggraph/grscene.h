@@ -49,7 +49,11 @@ extern int grLoadScene(tTrack *track);
 extern void grDrawScene(void);
 extern void grShutdownScene(void);
 extern void grCustomizePits(void);
-extern void Update3DDesc(torcsAdaptive::EntityDesc* curDesc, const char* acName);
+
+/* TORCS-ADAPTIVE additional extern functions */
+extern torcsAdaptive::EntityDesc* Load3DDesc	(const char* acName);
+extern void						  Detach3DDesc	(torcsAdaptive::EntityDesc* curDesc);
+extern void						  Attach3DDesc	(torcsAdaptive::EntityDesc* curDesc);
 
 struct Camera;
 extern void grDrawBackground(class cGrCamera *, class cGrBackgroundCam *bgCam);

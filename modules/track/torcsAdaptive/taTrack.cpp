@@ -11,8 +11,10 @@
 
 namespace torcsAdaptive
 {
+	// static pointer to the adaptive track, scoped to single file
 	static tTrack*		taTrack;
 	
+	// Contains all current adaptive track information
 	taTrackInfo* trInfo;
 
 	// Track accessors for ease of reading
@@ -35,6 +37,7 @@ namespace torcsAdaptive
 		trackDesc = NULL;
 		root = NULL;
 		acName = NULL;
+		acPath = NULL;
 		state = taTrackState();
 	}
 
@@ -46,9 +49,11 @@ namespace torcsAdaptive
 			delete root;
 		if(acName)
 			delete acName;
+		if(acPath)
+			delete acPath;
 	}
 
-	// ----- ta Functions ------
+	/* Initialize torcs-adaptive track */
 	tTrack* TaInitTrack(int trkLength)
 	{
 		const int BUFSIZE = 256;
@@ -77,7 +82,8 @@ namespace torcsAdaptive
 		taTrack = TrackBuildv1(fName); // Load in track details, should return with no segments;
 
 		// Get AC File Name
-		ACName = "tracks/adaptive/taTrack1/taTrack1.ac";
+		ACName = "taTrack1.ac";
+		ACPath = "tracks/adaptive/taTrack1/";
 
 		// Initialize Sides
 		InitSides(taTrack->params, taTrack);
@@ -90,10 +96,10 @@ namespace torcsAdaptive
 
 		// Add Initial Segment
 		GfOut("Adding Initial Segments...\n");
-		TaAddSegment(taSeg(TR_NORMAL, TR_STR, TrackState.curSegIndex, TR_MAIN, 0, 50.f), taTrack);
+		TaAddSegment(taSeg(TR_NORMAL, TR_STR, TrackState.curSegIndex, TR_MAIN, 0, 200.f), taTrack);
 
 		// Generate Initial 3D Description
-		GenerateTrack(taTrack, taTrack->params, ACName, NULL, NULL, NULL, 0);
+		GenerateTrack(taTrack, taTrack->params, TaGetAcPathAndName(), NULL, NULL, NULL, 0);
 
 		return taTrack;
 	}
@@ -105,16 +111,41 @@ namespace torcsAdaptive
 	 }
 
 	 /* Retrieve Current Track 3D Description */
-	 ssgEntity*	TaGetTrackDesc()
+	 torcsAdaptive::EntityDesc*	TaGetTrackDesc()
 	 {
 		 return TrackDesc;
 	 }
 
+	 /* Sets track description pointer in track info */
+	 void TaSetTrackDesc(torcsAdaptive::EntityDesc* newDesc)
+	 {
+		 if(TrackDesc)
+			 delete TrackDesc;
+		 TrackDesc = newDesc;
+	 }
+
+	 /* Retrieve just the name and file extension of the AC file */
 	 char* TaGetACName()
 	 {
 		 return ACName;
 	 }
 
+	 /* Retrieve just the path to the AC file */
+	 char* TaGetACPath()
+	 {
+		 return ACPath;
+	 }
+
+	 /* Retrieve name and path of AC file */
+	 char* TaGetAcPathAndName()
+	 {
+		 char* c = new char[strlen(ACName) + strlen(ACPath)];
+		 c = strcpy(c, ACPath);
+		 c = strcat(c, ACName);
+		 return c;
+	 }
+
+	 /* Release all torcs-adaptive track module resources */
 	void TaShutDown()
 	{
 		TrackShutdown();

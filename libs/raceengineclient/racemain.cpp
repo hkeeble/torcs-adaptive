@@ -128,6 +128,9 @@ ReRaceEventInit(void)
 		ReInfo->_reGraphicItf.inittrack(ReInfo->track);
 	};
 
+	ReInfo->_reTrackItf.taSetTrackDesc(ReInfo->_reGraphicItf.taLoad3DDesc(ReInfo->_reTrackItf.taGetACName()));
+	ReInfo->_reGraphicItf.taAttach3DDesc(ReInfo->_reTrackItf.taGetTrackDesc());
+
 	ReEventInitResults();
 
 	if (

@@ -34,6 +34,7 @@ namespace torcsAdaptive
 		EntityDesc* trackDesc;
 		tTrackSeg* root;
 		char* acName;
+		char* acPath;
 	};
 
 	/* Instance of the current track */
@@ -43,15 +44,18 @@ namespace torcsAdaptive
 	#define TrackDesc	trInfo->trackDesc
 	#define Root		trInfo->root
 	#define ACName		trInfo->acName
+	#define ACPath		trInfo->acPath
 
 	// TA INTERFACE FUNCTIONS
 	tTrack*			TaInitTrack			(int trkLength);
 	void			TaShutDown			();
 	void			TaAddSegment		(taSeg seg, tTrack* taTrack);
-	void			TaAddSegment2		(taSeg seg, tTrack* taTrack);
 	taTrackState	TaGetTrackState		();
 	EntityDesc*		TaGetTrackDesc		();
+	void			TaSetTrackDesc		(torcsAdaptive::EntityDesc*);
 	char*			TaGetACName			();
+	char*			TaGetACPath			();
+	char*			TaGetAcPathAndName	();
 }
 
 #endif // _TORCS_ADAPTIVE_H_

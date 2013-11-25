@@ -174,11 +174,11 @@ copy $(TargetDir)*.lib $(SolutionDir)export\lib
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\raceengineclient\torcsAdaptive\torcsAdaptive.cpp" />
     <ClCompile Include="..\tgfclient\control.cpp" />
     <ClCompile Include="..\confscreens\controlconfig.cpp" />
     <ClCompile Include="..\confscreens\driverconfig.cpp" />
     <ClCompile Include="..\racescreens\driverselect.cpp" />
-    <ClCompile Include="addSegment.cpp" />
     <ClCompile Include="entry.cpp" />
     <ClCompile Include="exitmenu.cpp" />
     <ClCompile Include="..\racescreens\fileselect.cpp" />
@@ -224,7 +224,6 @@ copy $(TargetDir)*.lib $(SolutionDir)export\lib
     <ClCompile Include="splash.cpp" />
     <ClCompile Include="..\tgfclient\tgfclient.cpp" />
     <ClCompile Include="..\racescreens\trackselect.cpp" />
-    <ClCompile Include="updateDesc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\raceengineclient\torcsAdaptive\torcsAdaptive.h" />

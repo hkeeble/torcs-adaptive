@@ -538,7 +538,10 @@ typedef void				(*tfTaAddSegment)		(ta::taSeg, tTrack*);
 typedef void				(*tfTaTrackShutDown)	();
 typedef ta::taTrackState	(*tfTaGetTrackState)	();
 typedef ta::EntityDesc*		(*tfTaGetTrackDesc)		();
-typedef  char*				(*tfTaGetACName)		();
+typedef void				(*tfTaSetTrackDesc)		(torcsAdaptive::EntityDesc*);
+typedef char*				(*tfTaGetACName)		();
+typedef	char*				(*tfTaGetACPath)		();
+typedef char*				(*tfTaGetACNameAndPath)	();
 
 typedef struct {
 	
@@ -558,7 +561,10 @@ typedef struct {
 	tfTaTrackShutDown		taTrackShutDown;
 	tfTaGetTrackState		taGetTrackState;
 	tfTaGetTrackDesc		taGetTrackDesc;
+	tfTaSetTrackDesc		taSetTrackDesc;
 	tfTaGetACName			taGetACName;
+	tfTaGetACPath			taGetACPath;
+	tfTaGetACNameAndPath	taGetACNameAndPath;
 	
 } tTrackItf;
 

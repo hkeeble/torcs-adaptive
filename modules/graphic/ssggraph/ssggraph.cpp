@@ -44,7 +44,9 @@ graphInit(int /* idx */, void *pt)
     //itf->bendcar       = bendCar;
 
 	/* TORCS-ADAPTIVE INTERFACE */
-	itf->taUpdate3DDesc = TaUpdate3DDesc;
+	itf->taLoad3DDesc   = TaLoad3DDesc;
+	itf->taAttach3DDesc = TaAttach3DDesc;
+	itf->taDetach3DDesc = TaDetach3DDesc;
 
     return 0;
 }

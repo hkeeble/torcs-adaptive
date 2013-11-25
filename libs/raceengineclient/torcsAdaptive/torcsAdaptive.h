@@ -15,6 +15,7 @@ namespace torcsAdaptive
 
 	void AddSegment(tRmInfo* ReInfo, const taSeg& segment);
 	void UpdateACFile(taTrackState state, tTrack* track, const char* fName);
+	void UpdateTrack(tRmInfo* ReInfo);
 }
 
 #endif // _TORCS_ADAPTIVE_H_

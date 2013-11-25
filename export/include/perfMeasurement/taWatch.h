@@ -46,6 +46,9 @@ namespace torcsAdaptive
 	#define WTP_CUR_SPD			"Current Speed"
 	#define WTP_CUR_SPD_T		tdble
 	
+	#define DIST_TO_STR_SEG		"Distance To Start of Seg"
+	#define DIST_TO_STR_SEG_T	tdble
+	
 	/* Generic Torcs-Adaptive Watch Class */
 	class taWatch
 	{

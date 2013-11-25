@@ -495,9 +495,19 @@ shutdownTrack(void)
 	GfParmReleaseHandle(grTrackHandle);
 }
 
-void TaUpdate3DDesc(torcsAdaptive::EntityDesc* curDesc, const char* acName)
+torcsAdaptive::EntityDesc* TaLoad3DDesc(const char* acName)
 {
-	Update3DDesc(curDesc, acName);
+	return Load3DDesc(acName);
+}
+
+void TaDetach3DDesc(torcsAdaptive::EntityDesc* curDesc)
+{
+	Detach3DDesc(curDesc);
+}
+
+void TaAttach3DDesc(torcsAdaptive::EntityDesc* curDesc)
+{
+	Attach3DDesc(curDesc);
 }
 
 /*void bendCar (int index, sgVec3 poc, sgVec3 force, int cnt)
