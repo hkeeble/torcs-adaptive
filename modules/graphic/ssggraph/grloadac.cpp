@@ -1193,11 +1193,11 @@ static ssgEntity *myssgLoadAC ( const char *fname, const ssgLoaderOptions* optio
       InitMultiTex();
     }
 
-  ssgSetCurrentOptions ( (ssgLoaderOptions*)options ) ;
+  ssgSetCurrentOptions((ssgLoaderOptions*)options);
   current_options = ssgGetCurrentOptions () ;
 
   char filename [ 1024 ] ;
-  current_options -> makeModelPath ( filename, fname ) ;
+  current_options->makeModelPath(filename, fname);
 
   num_materials = 0 ;
   vtab = NULL ;

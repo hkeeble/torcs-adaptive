@@ -128,8 +128,12 @@ ReRaceEventInit(void)
 		ReInfo->_reGraphicItf.inittrack(ReInfo->track);
 	};
 
-	ReInfo->_reTrackItf.taSetTrackDesc(ReInfo->_reGraphicItf.taLoad3DDesc(ReInfo->_reTrackItf.taGetACName()));
-	ReInfo->_reGraphicItf.taAttach3DDesc(ReInfo->_reTrackItf.taGetTrackDesc());
+	// Initialize 3D Description for Torcs-Adaptive
+	if(torcsAdaptive::taAdaptiveMode)
+	{
+		ReInfo->_reTrackItf.taSetTrackDesc(ReInfo->_reGraphicItf.taLoad3DDesc(ReInfo->_reTrackItf.taGetACName()));
+		ReInfo->_reGraphicItf.taAttach3DDesc(ReInfo->_reTrackItf.taGetTrackDesc());
+	}
 
 	ReEventInitResults();
 

@@ -28,9 +28,8 @@ namespace torcsAdaptive
 		taOut("\tGenerating new 3D Description.\n");
 		GenerateTrack(ReInfo->track, ReInfo->track->params, acNameAndPath, NULL, NULL, NULL, 0); // Generate new 3d desc
 		
-		EntityDesc* entity = ReInfo->_reGraphicItf.taLoad3DDesc(acName); // Reload 3D Descriptor
-		ReInfo->_reTrackItf.taSetTrackDesc(entity); // Assign correct pointer to track info
-		ReInfo->_reGraphicItf.taAttach3DDesc(ReInfo->_reTrackItf.taGetTrackDesc()); // attach new desc to scene graph
+		ReInfo->_reTrackItf.taSetTrackDesc(ReInfo->_reGraphicItf.taLoad3DDesc(ReInfo->_reTrackItf.taGetACName()));
+		ReInfo->_reGraphicItf.taAttach3DDesc(ReInfo->_reTrackItf.taGetTrackDesc());
 
 		taOut("New segment added.\n");
 	}
