@@ -1196,7 +1196,7 @@ static ssgEntity *myssgLoadAC ( const char *fname, const ssgLoaderOptions* optio
   ssgSetCurrentOptions((ssgLoaderOptions*)options);
   current_options = ssgGetCurrentOptions () ;
 
-  char filename [ 1024 ] ;
+  char filename [1024];
   current_options->makeModelPath(filename, fname);
 
   num_materials = 0 ;
@@ -1264,7 +1264,7 @@ static ssgEntity *myssgLoadAC ( const char *fname, const ssgLoaderOptions* optio
 	}
 
   FCLOSE ( loader_fd ) ;
-
+  
   return current_branch ;
 
 }

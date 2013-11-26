@@ -119,8 +119,6 @@ namespace torcsAdaptive
 	 /* Sets track description pointer in track info */
 	 void TaSetTrackDesc(torcsAdaptive::EntityDesc* newDesc)
 	 {
-		 if(TrackDesc)
-			 delete TrackDesc;
 		 TrackDesc = newDesc;
 	 }
 

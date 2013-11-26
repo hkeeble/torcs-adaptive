@@ -542,6 +542,7 @@ typedef void				(*tfTaSetTrackDesc)		(torcsAdaptive::EntityDesc*);
 typedef char*				(*tfTaGetACName)		();
 typedef	char*				(*tfTaGetACPath)		();
 typedef char*				(*tfTaGetACNameAndPath)	();
+typedef ssgLoaderOptions	(*tfTaGetLoaderOptions)	();
 
 typedef struct {
 	

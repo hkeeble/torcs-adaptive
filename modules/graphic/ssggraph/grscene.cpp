@@ -246,8 +246,12 @@ grLoadScene(tTrack *track)
 /* Loads a 3D Description and returns a pointer to it's entity */
 torcsAdaptive::EntityDesc* Load3DDesc(const char* acName)
 {
+	ssgLoaderOptions* options = new ssgLoaderOptions();
+	options->setModelDir("tracks\\adaptive\\taTrack1");
+	options->setTextureDir("data\\textures");
+
 	// Return pointer to entity data
-	return grssgLoadAC3D(acName, NULL);
+	return grssgLoadAC3D(acName, options);
 }
 
 /* Remove given entity from scene graph */

@@ -27,13 +27,14 @@ namespace torcsAdaptive
 		
 		taOut("\tGenerating new 3D Description.\n");
 		GenerateTrack(ReInfo->track, ReInfo->track->params, acNameAndPath, NULL, NULL, NULL, 0); // Generate new 3d desc
-		
-		ReInfo->_reTrackItf.taSetTrackDesc(ReInfo->_reGraphicItf.taLoad3DDesc(ReInfo->_reTrackItf.taGetACName()));
+		desc = ReInfo->_reGraphicItf.taLoad3DDesc(ReInfo->_reTrackItf.taGetACName());
+		ReInfo->_reTrackItf.taSetTrackDesc(desc);
 		ReInfo->_reGraphicItf.taAttach3DDesc(ReInfo->_reTrackItf.taGetTrackDesc());
 
 		taOut("New segment added.\n");
 	}
 	
+	/* Potentially could be used to append AC file where neccesary */
 	void UpdateACFile(taTrackState state, tTrack* track, const char* fName)
 	{
 		FILE* currentFile = fopen(fName, "a");
@@ -46,17 +47,32 @@ namespace torcsAdaptive
 
 	void UpdateTrack(tRmInfo* ReInfo)
 	{
-		tdble curSegLength, distFromStart, segLeft;
-		curSegLength = distFromStart = segLeft = 0;
+		tTrackSeg* curSeg;
+		tCarElt* car;
+		tdble curSegLength, distFromStart, segLeft, segPerc;
+		curSegLength = distFromStart = segLeft = segPerc = 0;
+		curSeg = NULL;
+		car = NULL;
 
-		curSegLength = perfMeasurement->GetCar()->priv.wheel[0].seg->length;
-		if(curSegLength == 0)
-			curSegLength = perfMeasurement->GetCar()->priv.wheel[0].seg->arc;
-		distFromStart = perfMeasurement->GetCar()->pub.trkPos.toStart;
+		car = (tCarElt*)perfMeasurement->GetCar();
+		if(car == NULL)
+			taOut("Error getting car from perfMeasurement!\n");
 
-		segLeft = curSegLength-distFromStart;
+		curSeg = car->priv.wheel[0].seg;
+		if(curSeg == NULL)
+			taOut("Error getting current segment!\n");
 
-		if(segLeft > curSegLength/4)
-			AddSegment(ReInfo, taSeg(TR_NORMAL, TR_STR, ReInfo->_reTrackItf.taGetTrackState().curSegIndex, TR_MAIN, 0, 200.f));
+		if(curSeg->next == ReInfo->track->seg)
+		{
+			curSegLength = curSeg->length;
+			if(curSegLength == 0)
+				curSegLength = curSeg->arc;
+			distFromStart = car->pub.trkPos.toStart;
+
+			segLeft = curSegLength-distFromStart;
+
+			if(segLeft < curSegLength/10)
+				AddSegment(ReInfo, taSeg(TR_NORMAL, TR_STR, ReInfo->_reTrackItf.taGetTrackState().curSegIndex, TR_MAIN, 0, 200.f));
+		}
 	}
 }
