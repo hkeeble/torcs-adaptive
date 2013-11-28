@@ -61,9 +61,12 @@ extern int  initTrack(tTrack *track);
 extern void shutdownTrack(void);
 
 /* TORCS-ADAPTIVE */
-extern torcsAdaptive::EntityDesc* TaLoad3DDesc(const char* acName);
-extern void TaAttach3DDesc(torcsAdaptive::EntityDesc* curDesc);
-extern void TaDetach3DDesc(torcsAdaptive::EntityDesc* curDesc);
+namespace torcsAdaptive
+{
+	extern EntityDesc*  TaLoad3DDesc(const char* acName, ssgLoaderOptions* options);
+	extern void			TaAttach3DDesc(torcsAdaptive::EntityDesc* curDesc);
+	extern void			TaDetach3DDesc(torcsAdaptive::EntityDesc* curDesc);
+}
 
 //extern void bendCar (int index, sgVec3 poc, sgVec3 force, int cnt);
 extern int maxTextureUnits;

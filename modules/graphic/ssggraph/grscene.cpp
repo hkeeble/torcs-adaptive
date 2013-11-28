@@ -243,27 +243,26 @@ grLoadScene(tTrack *track)
 	return 0;
 }
 
-/* Loads a 3D Description and returns a pointer to it's entity */
-torcsAdaptive::EntityDesc* Load3DDesc(const char* acName)
+namespace torcsAdaptive
 {
-	ssgLoaderOptions* options = new ssgLoaderOptions();
-	options->setModelDir("tracks\\adaptive\\taTrack1");
-	options->setTextureDir("data\\textures");
+	/* Loads a 3D Description and returns a pointer to it's entity */
+	EntityDesc* Load3DDesc(const char* acName, ssgLoaderOptions* options)
+	{
+		// Return pointer to entity data
+		return grssgLoadAC3D(acName, options);
+	}
 
-	// Return pointer to entity data
-	return grssgLoadAC3D(acName, options);
-}
+	/* Remove given entity from scene graph */
+	void Detach3DDesc(torcsAdaptive::EntityDesc* curDesc)
+	{
+		LandAnchor->removeKid(curDesc);
+	}
 
-/* Remove given entity from scene graph */
-void Detach3DDesc(torcsAdaptive::EntityDesc* curDesc)
-{
-	LandAnchor->removeKid(curDesc);
-}
-
-/* Add given entity to scene graph */
-void Attach3DDesc(torcsAdaptive::EntityDesc* curDesc)
-{
-	LandAnchor->addKid(curDesc);
+	/* Add given entity to scene graph */
+	void Attach3DDesc(torcsAdaptive::EntityDesc* curDesc)
+	{
+		LandAnchor->addKid(curDesc);
+	}
 }
 
 void grDrawScene(void)

@@ -116,7 +116,7 @@ class ssgEntity;
 typedef void (*tfGraphicBendCar) (int /*index*/, sgVec3 /*poc*/, sgVec3 /*force*/, int /*cnt*/);
 
 /* TORCS-ADAPTIVE INTERFACE */
-typedef torcsAdaptive::EntityDesc*  (*tfTaLoad3DDesc)(const char* acName);
+typedef torcsAdaptive::EntityDesc*  (*tfTaLoad3DDesc)(const char* acName, ssgLoaderOptions* options);
 typedef void (*tfTaAttach3DDesc)	(torcsAdaptive::EntityDesc* curDesc);
 typedef void (*tfTaDetach3DDesc)	(torcsAdaptive::EntityDesc* curDesc);
 /* TORCS-ADAPTIVE INTERFACE */

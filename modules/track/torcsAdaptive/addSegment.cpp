@@ -124,19 +124,19 @@ namespace torcsAdaptive
 
 		/* allocate a new segment */
 		curSeg = new tTrackSeg();
-		if (Root == NULL)
+		if (trInfo->root == NULL)
 		{
-			Root = curSeg;
+			trInfo->root = curSeg;
 			curSeg->next = curSeg;
 			curSeg->prev = curSeg;
 		}
 		else
 		{
-			curSeg->next = Root->next;
+			curSeg->next = trInfo->root->next;
 			curSeg->next->prev = curSeg;
-			curSeg->prev = Root;
-			Root->next = curSeg;
-			Root = curSeg;
+			curSeg->prev = trInfo->root;
+			trInfo->root->next = curSeg;
+			trInfo->root = curSeg;
 		}
 
 		// Name Segment
@@ -153,6 +153,7 @@ namespace torcsAdaptive
 
 		// Assign Width
 		curSeg->width = curSeg->startWidth = curSeg->endWidth = taTrack->width;
+		TrackState.wi2 = taTrack->width / 2.0f;
 
 		// Assign Surface
 		curSeg->surface = new tTrackSurface();
@@ -346,19 +347,20 @@ namespace torcsAdaptive
 
 		// Update Track State
 		if (curSeg->type != TR_STR)
-			TrackState.radius += dradius;
+			trInfo->state.radius += dradius;
 
-		Root = curSeg;
-		TrackState.totLength += curSeg->length;
-		TrackState.curSegIndex++;
-		TrackState.xr = newxr;
-		TrackState.yr = newyr;
-		TrackState.xl = newxl;
-		TrackState.yl = newyl;
-		TrackState.segsSinceLastUpdate++;
+		trInfo->root = curSeg;
+
+		trInfo->state.totLength += curSeg->length;
+		trInfo->state.curSegIndex++;
+		trInfo->state.xr = newxr;
+		trInfo->state.yr = newyr;
+		trInfo->state.xl = newxl;
+		trInfo->state.yl = newyl;
+		trInfo->state.segsSinceLastUpdate++;
 
 		// Update Track with new segment
-		taTrack->seg = Root;
+		taTrack->seg = trInfo->root;
 		taTrack->length = TrackState.totLength;
 		taTrack->nseg = TrackState.curSegIndex;
 	}

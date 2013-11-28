@@ -68,13 +68,7 @@ trackInit(int /* index */, void *pt)
 	ptf->taTrackInit	  = torcsAdaptive::TaInitTrack;
 	ptf->taAddSegment	  = torcsAdaptive::TaAddSegment;
 	ptf->taTrackShutDown  = torcsAdaptive::TaShutDown;
-	ptf->taGetTrackState  = torcsAdaptive::TaGetTrackState;
-	ptf->taGetTrackDesc	  = torcsAdaptive::TaGetTrackDesc;
-	ptf->taSetTrackDesc	  = torcsAdaptive::TaSetTrackDesc;
-	ptf->taGetACName	  = torcsAdaptive::TaGetACName;
-	ptf->taGetACPath	  = torcsAdaptive::TaGetACPath;
-	ptf->taGetACNameAndPath = torcsAdaptive::TaGetAcPathAndName;
-	/* Adaptive Track Interface */
+	ptf->taGetTrackInfo  = torcsAdaptive::TaGetTrackInfo;
 
     return 0;
 }

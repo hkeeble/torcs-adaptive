@@ -495,19 +495,22 @@ shutdownTrack(void)
 	GfParmReleaseHandle(grTrackHandle);
 }
 
-torcsAdaptive::EntityDesc* TaLoad3DDesc(const char* acName)
+namespace torcsAdaptive
 {
-	return Load3DDesc(acName);
-}
+	EntityDesc* TaLoad3DDesc(const char* acName, ssgLoaderOptions* options)
+	{
+		return Load3DDesc(acName, options);
+	}
 
-void TaDetach3DDesc(torcsAdaptive::EntityDesc* curDesc)
-{
-	Detach3DDesc(curDesc);
-}
+	void TaDetach3DDesc(torcsAdaptive::EntityDesc* curDesc)
+	{
+		Detach3DDesc(curDesc);
+	}
 
-void TaAttach3DDesc(torcsAdaptive::EntityDesc* curDesc)
-{
-	Attach3DDesc(curDesc);
+	void TaAttach3DDesc(torcsAdaptive::EntityDesc* curDesc)
+	{
+		Attach3DDesc(curDesc);
+	}
 }
 
 /*void bendCar (int index, sgVec3 poc, sgVec3 force, int cnt)

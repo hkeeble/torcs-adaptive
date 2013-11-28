@@ -706,8 +706,8 @@ ReUpdate(void)
 			}
 			STOP_PROFILE("ReOneStep*");
 
-			if(ta::taAdaptiveMode)
-				ta::UpdateTrack(ReInfo);
+			if(torcsAdaptive::taAdaptiveMode)
+				torcsAdaptive::UpdateTrack(ReInfo);
 
 			if (i > MAXSTEPS) {
 				// Cannot keep up with time warp, reset time to avoid lag when running slower again

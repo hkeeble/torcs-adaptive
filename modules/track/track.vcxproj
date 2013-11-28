@@ -90,7 +90,7 @@
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>tgf.lib;robottools.lib;txml.lib;ssg_vs2008_32.lib;ul_vs2008_32.lib;sg_vs2008_32.lib;trackGeneration.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>tgf.lib;robottools.lib;txml.lib;ssg_vs2008_32.lib;ul_vs2008_32.lib;sg_vs2008_32.lib;trackGeneration.lib;adaptive.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Debug/track.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(SolutionDir)/export/libd;../../windows/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -147,7 +147,7 @@
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>sg_vs2008_32.lib;tgf.lib;robottools.lib;txml.lib;ssg_vs2008_32.lib;ul_vs2008_32.lib;trackGeneration.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sg_vs2008_32.lib;tgf.lib;robottools.lib;txml.lib;ssg_vs2008_32.lib;ul_vs2008_32.lib;trackGeneration.lib;adaptive.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Release/track.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(SolutionDir)/export/lib;../../windows/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -185,6 +185,9 @@
     <ClInclude Include="trackinc.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\libs\adaptive\adaptive.vcxproj">
+      <Project>{30cd6a7a-7e7d-4c1e-869e-86e163b276d8}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\libs\robottools\robottools.vcxproj">
       <Project>{eacc0870-5315-41f9-ae61-b93c77334eae}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

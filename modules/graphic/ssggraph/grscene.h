@@ -50,10 +50,13 @@ extern void grDrawScene(void);
 extern void grShutdownScene(void);
 extern void grCustomizePits(void);
 
-/* TORCS-ADAPTIVE additional extern functions */
-extern torcsAdaptive::EntityDesc* Load3DDesc	(const char* acName);
-extern void						  Detach3DDesc	(torcsAdaptive::EntityDesc* curDesc);
-extern void						  Attach3DDesc	(torcsAdaptive::EntityDesc* curDesc);
+namespace torcsAdaptive
+{
+	/* TORCS-ADAPTIVE additional extern functions */
+	extern EntityDesc*				  Load3DDesc	(const char* acName, ssgLoaderOptions* options);
+	extern void						  Detach3DDesc	(EntityDesc* curDesc);
+	extern void						  Attach3DDesc	(EntityDesc* curDesc);
+}
 
 struct Camera;
 extern void grDrawBackground(class cGrCamera *, class cGrBackgroundCam *bgCam);

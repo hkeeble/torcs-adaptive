@@ -34,6 +34,7 @@
 // Torcs-Adaptive Structs and Defines
 #include "torcsAdaptive\taSeg.h"
 #include "torcsAdaptive\taTrackState.h"
+#include "torcsAdaptive\taTrackInfo.h"
 #include "torcsAdaptive\taDefs.h"
 
 #include <string>
@@ -530,19 +531,12 @@ typedef void(*tfTrackSideNormal)(tTrackSeg*, tdble, tdble, int, t3Dd*);
 typedef void(*tfTrackSurfaceNormal)(tTrkLocPos *, t3Dd*);
 typedef void(*tfTrackShutdown)(void);
 
-namespace ta = torcsAdaptive;
 
 /* Torcs-Adaptive Interface */
-typedef tTrack*				(*tfTaTrackInit)		(int);
-typedef void				(*tfTaAddSegment)		(ta::taSeg, tTrack*);
-typedef void				(*tfTaTrackShutDown)	();
-typedef ta::taTrackState	(*tfTaGetTrackState)	();
-typedef ta::EntityDesc*		(*tfTaGetTrackDesc)		();
-typedef void				(*tfTaSetTrackDesc)		(torcsAdaptive::EntityDesc*);
-typedef char*				(*tfTaGetACName)		();
-typedef	char*				(*tfTaGetACPath)		();
-typedef char*				(*tfTaGetACNameAndPath)	();
-typedef ssgLoaderOptions	(*tfTaGetLoaderOptions)	();
+typedef tTrack*						(*tfTaTrackInit)		(int);
+typedef void						(*tfTaAddSegment)		(torcsAdaptive::taSeg, tTrack*);
+typedef void						(*tfTaTrackShutDown)	();
+typedef torcsAdaptive::taTrackInfo*	(*tfTaGetTrackInfo)		();
 
 typedef struct {
 	
@@ -560,12 +554,7 @@ typedef struct {
 	tfTaTrackInit			taTrackInit;
 	tfTaAddSegment			taAddSegment;
 	tfTaTrackShutDown		taTrackShutDown;
-	tfTaGetTrackState		taGetTrackState;
-	tfTaGetTrackDesc		taGetTrackDesc;
-	tfTaSetTrackDesc		taSetTrackDesc;
-	tfTaGetACName			taGetACName;
-	tfTaGetACPath			taGetACPath;
-	tfTaGetACNameAndPath	taGetACNameAndPath;
+	tfTaGetTrackInfo		taGetTrackInfo;
 	
 } tTrackItf;
 

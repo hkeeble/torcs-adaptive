@@ -22,9 +22,9 @@ namespace torcsAdaptive
 	struct Vec3
 	{
 		Vec3();
-		tdble x;
-		tdble y;
-		tdble z;
+		float x;
+		float y;
+		float z;
 	};
 }
 #endif _TA_DEFS_

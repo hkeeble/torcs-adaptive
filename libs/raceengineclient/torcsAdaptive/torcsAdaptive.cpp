@@ -13,23 +13,22 @@ namespace torcsAdaptive
 		taOut("Adding new Segment....\n");
 
 		// Obtain pointers to neccesary data
-		EntityDesc* desc	= ReInfo->_reTrackItf.taGetTrackDesc();
-		char* acNameAndPath = ReInfo->_reTrackItf.taGetACNameAndPath();
-		char* acName		= ReInfo->_reTrackItf.taGetACName();
+		taTrackInfo*	  trInfo		= ReInfo->_reTrackItf.taGetTrackInfo();
+		const char *const acName		= trInfo->GetACName();
+		const char *const acNameAndPath = trInfo->GetACPathAndName();
 
-		// Add Segment
+			// Add Segment
 		taOut("\tAdding segment to track.\n");
 		ReInfo->_reTrackItf.taAddSegment(segment, ReInfo->track);
 
 		// Update Graphics Module
 		taOut("\tUpdating Graphics Module.\n");
-		ReInfo->_reGraphicItf.taDetach3DDesc(desc); // Detach existing description from scene graph
+		ReInfo->_reGraphicItf.taDetach3DDesc(trInfo->GetTrackDesc()); // Detach existing description from scene graph
 		
 		taOut("\tGenerating new 3D Description.\n");
-		GenerateTrack(ReInfo->track, ReInfo->track->params, acNameAndPath, NULL, NULL, NULL, 0); // Generate new 3d desc
-		desc = ReInfo->_reGraphicItf.taLoad3DDesc(ReInfo->_reTrackItf.taGetACName());
-		ReInfo->_reTrackItf.taSetTrackDesc(desc);
-		ReInfo->_reGraphicItf.taAttach3DDesc(ReInfo->_reTrackItf.taGetTrackDesc());
+		GenerateTrack(ReInfo->track, ReInfo->track->params, (char*)acNameAndPath, NULL, NULL, NULL, 0); // Generate new 3d desc
+		trInfo->SetTrackDesc(ReInfo->_reGraphicItf.taLoad3DDesc(acName, (ssgLoaderOptions*)trInfo->GetLoaderOptions()));
+		ReInfo->_reGraphicItf.taAttach3DDesc(trInfo->GetTrackDesc());
 
 		taOut("New segment added.\n");
 	}
@@ -47,6 +46,7 @@ namespace torcsAdaptive
 
 	void UpdateTrack(tRmInfo* ReInfo)
 	{
+		taTrackInfo* trInfo;
 		tTrackSeg* curSeg;
 		tCarElt* car;
 		tdble curSegLength, distFromStart, segLeft, segPerc;
@@ -58,9 +58,13 @@ namespace torcsAdaptive
 		if(car == NULL)
 			taOut("Error getting car from perfMeasurement!\n");
 
-		curSeg = car->priv.wheel[0].seg;
+		curSeg = car->priv.wheel[3].seg;
 		if(curSeg == NULL)
 			taOut("Error getting current segment!\n");
+
+		trInfo = ReInfo->_reTrackItf.taGetTrackInfo();
+		if(trInfo == NULL)
+			taOut("Error getting track info!\n");
 
 		if(curSeg->next == ReInfo->track->seg)
 		{
@@ -69,10 +73,12 @@ namespace torcsAdaptive
 				curSegLength = curSeg->arc;
 			distFromStart = car->pub.trkPos.toStart;
 
+			segPerc = curSegLength/100;
 			segLeft = curSegLength-distFromStart;
+			segLeft = segLeft/segPerc;
 
-			if(segLeft < curSegLength/10)
-				AddSegment(ReInfo, taSeg(TR_NORMAL, TR_STR, ReInfo->_reTrackItf.taGetTrackState().curSegIndex, TR_MAIN, 0, 200.f));
+			if(segLeft < 10) // If car is in last 10 percent of a segment, add a new segment
+				AddSegment(ReInfo, taSeg(TR_NORMAL, TR_STR, trInfo->state.curSegIndex, TR_MAIN, 0, 200.f));
 		}
 	}
 }
