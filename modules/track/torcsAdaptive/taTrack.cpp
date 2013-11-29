@@ -70,7 +70,8 @@ namespace torcsAdaptive
 
 		// Add Initial Segment
 		GfOut("Adding Initial Segment...\n");
-		TaAddSegment(taSeg(TR_NORMAL, TR_STR, TrackState.curSegIndex, TR_MAIN, 0, 200.f), taTrack);
+		TaAddSegment(TaSegFactory::GetInstance()->CreateSegCnr(0, TaRight, 90.f, 90.f, 90.f, 1.5f), taTrack);
+		TaAddSegment(TaSegFactory::GetInstance()->CreateSegStr(1, 200.f), taTrack);
 
 		// Generate Initial 3D Description
 		GenerateTrack(taTrack, taTrack->params, (char*)trInfo->GetACPathAndName(), NULL, NULL, NULL, 0);

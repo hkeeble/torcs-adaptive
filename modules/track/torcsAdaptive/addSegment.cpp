@@ -79,10 +79,9 @@ namespace torcsAdaptive
 				break;
 			case TR_LFT || TR_RGT:
 				TrackState.radius = seg.radius;
-				radiusend = GfParmGetCurNum(trHandle, path, TRK_ATT_RADIUSEND, (char*)NULL, TrackState.radius);
-				arc = seg.arc;
+				radiusend = seg.radius;
+				arc =seg.arc;
 				length = (TrackState.radius + radiusend) / 2.0 * arc;
-				seg.length = length;
 				break;
 		}
 
@@ -164,7 +163,7 @@ namespace torcsAdaptive
 		// Assign Length From Start
 		curSeg->lgfromstart = TrackState.totLength;
 
-		// Calcualte Vertices
+		// Calculate Vertices
 		switch (curSeg->type)
 		{
 			case TR_STR:
@@ -300,7 +299,7 @@ namespace torcsAdaptive
 			newxr = cenx - innerradius * sin(alf);   /* location of end */
 			newyr = ceny + innerradius * cos(alf);
 
-			curSeg->vertex[TR_SR].x = TrackState. xr;
+			curSeg->vertex[TR_SR].x = TrackState.xr;
 			curSeg->vertex[TR_SR].y = TrackState.yr;
 			curSeg->vertex[TR_SR].z = curzsr;
 

@@ -8,6 +8,8 @@
 
 namespace torcsAdaptive
 {
+	TaSegFactory* segFactory = TaSegFactory::GetInstance();
+
 	void AddSegment(tRmInfo* ReInfo, const taSeg& segment)
 	{
 		taOut("Adding new Segment....\n");
@@ -78,7 +80,7 @@ namespace torcsAdaptive
 			segLeft = segLeft/segPerc;
 
 			if(segLeft < 10) // If car is in last 10 percent of a segment, add a new segment
-				AddSegment(ReInfo, taSeg(TR_NORMAL, TR_STR, trInfo->state.curSegIndex, TR_MAIN, 0, 200.f));
+				AddSegment(ReInfo, segFactory->CreateSegStr(trInfo->state.curSegIndex, 200.f));
 		}
 	}
 }

@@ -5,16 +5,18 @@
 
 namespace torcsAdaptive
 {
-/* Represents segment data for torcs-adaptive. */
+	class TaSegFactory;
+
+	/* Represents segment data for torcs-adaptive. */
 	class taSeg
 	{
-	public:
-		taSeg(int RaceInfo = 0, int Type = 0, int ID = 0, int Type2 = 0, int Style = 0,
-			tdble Length = 10, tdble Radius = 0, tdble Radiusr = 0, tdble Radiusl = 0, tdble Arc = 0)
-			: raceInfo(raceInfo), type(Type), id(ID), type2(Type2), style(Style), length(Length),
-				radius(Radius), radiusr(Radiusr), radiusl(Radiusl), arc(Arc) { }
-		~taSeg() { };
-				
+	private:
+		taSeg();
+	public:	
+		friend class TaSegFactory;
+
+		virtual ~taSeg();
+
 		int	id;	
 		int type;
 		int type2;
@@ -22,13 +24,36 @@ namespace torcsAdaptive
 		int raceInfo;
 
 		// Data
-		tdble length;
+		float length;
 				
 		// For Corners
-		tdble radius;
-		tdble radiusr;
-		tdble radiusl;
-		tdble arc;	
+		float radius;
+		float radiusr;
+		float radiusl;
+		float arc;	
+	};
+
+	enum TaCornerType
+	{
+		TaRight = 1,
+		TaLeft = 2
+	};
+
+	/* Factory for segments, singleton class */
+	class TaSegFactory
+	{
+	private:
+		TaSegFactory();
+		virtual ~TaSegFactory();
+		static TaSegFactory* instance;
+	public:
+		static TaSegFactory* GetInstance();
+
+		// Creates a straight segment
+		taSeg CreateSegStr(int id, float length);
+
+		// Creates a corner segment
+		taSeg CreateSegCnr(int id, TaCornerType cType, float radius, float radiusr, float radiusl, float arc);
 	};
 }
 #endif // _TA_SEG_H_

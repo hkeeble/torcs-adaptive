@@ -12,6 +12,7 @@ namespace torcsAdaptive
 
 	extern bool taAdaptiveMode;
 	extern taPerfMeasurement* perfMeasurement;
+	extern TaSegFactory* segFactory;
 
 	void AddSegment(tRmInfo* ReInfo, const taSeg& segment);
 	void UpdateACFile(taTrackState state, tTrack* track, const char* fName);

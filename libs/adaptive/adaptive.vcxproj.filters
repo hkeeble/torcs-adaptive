@@ -21,5 +21,8 @@
     <ClCompile Include="taTrackState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="taSeg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

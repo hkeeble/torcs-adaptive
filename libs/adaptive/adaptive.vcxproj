@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="taSeg.cpp" />
     <ClCompile Include="taTrackInfo.cpp" />
     <ClCompile Include="taTrackState.cpp" />
   </ItemGroup>
