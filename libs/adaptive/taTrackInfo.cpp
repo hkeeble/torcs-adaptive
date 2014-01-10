@@ -27,20 +27,20 @@ namespace torcsAdaptive
 
 	taTrackInfo& taTrackInfo::operator=(const taTrackInfo& param)
 	{
-		if(this == &param)
+		if (this == &param)
 			return *this;
 		else
 		{
-			if(acName)
+			if (acName)
 				delete acName;
-			if(acPath)
+			if (acPath)
 				delete acPath;
-			if(loaderOptions)
+			if (loaderOptions)
 				delete loaderOptions;
-			if(trackDesc)
+			if (trackDesc)
 				delete trackDesc;
 
-			if(param.acPath)
+			if (param.acPath)
 			{
 				acPath = new char[strlen(param.acPath)];
 				strcpy(acPath, param.acPath);
@@ -48,7 +48,7 @@ namespace torcsAdaptive
 			else
 				acPath = NULL;
 
-			if(param.acName)
+			if (param.acName)
 			{
 				acName = new char[strlen(param.acName)];
 				strcpy(acName, param.acName);
@@ -56,7 +56,7 @@ namespace torcsAdaptive
 			else
 				acName = NULL;
 
-			if(param.loaderOptions)
+			if (param.loaderOptions)
 			{
 				loaderOptions = new ssgLoaderOptions();
 				*loaderOptions = *param.loaderOptions;
@@ -64,7 +64,7 @@ namespace torcsAdaptive
 			else
 				loaderOptions = NULL;
 
-			if(param.trackDesc)
+			if (param.trackDesc)
 				trackDesc = param.trackDesc;
 			else
 				trackDesc = NULL;
@@ -104,6 +104,26 @@ namespace torcsAdaptive
 		c = strcpy(c, acPath);
 		c = strcat(c, acName);
 		return c;
+	}
+
+	trackSeg* taTrackInfo::GetStart() const
+	{
+		return start;
+	}
+
+	trackSeg* taTrackInfo::GetEnd() const
+	{
+		return end;
+	}
+
+	void taTrackInfo::SetStart(trackSeg* start)
+	{
+		this->start = start;
+	}
+
+	void taTrackInfo::SetEnd(trackSeg* end)
+	{
+		this->end = end;
 	}
 
 	taTrackInfo::~taTrackInfo()

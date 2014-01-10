@@ -23,6 +23,7 @@ namespace torcsAdaptive
 		ssgLoaderOptions* loaderOptions;
 		char* acName;
 		char* acPath;
+		trackSeg *start, *end;
 
 	public:
 		taTrackInfo(char* acname, char* acpath, ssgLoaderOptions* loaderoptions);
@@ -39,9 +40,13 @@ namespace torcsAdaptive
 		const char			   *const GetACPath();
 		const char			   *const GetACPathAndName();
 		EntityDesc*	GetTrackDesc() const;
+		trackSeg* GetStart() const;
+		trackSeg* GetEnd() const;
 
 		// Set Accessors
 		void SetTrackDesc(EntityDesc* newDesc);
+		void SetStart(trackSeg* start);
+		void SetEnd(trackSeg* end);
 	};
 }
 

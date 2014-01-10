@@ -393,7 +393,7 @@ initStartingGrid(void)
 			}
 			ts = startpos - curseg->lgfromstart;
 		}
-		else
+		else // If torcs adaptive, start at first segment 10m from start
 		{
 			while (curseg->id != 0)
 				curseg = curseg->prev;

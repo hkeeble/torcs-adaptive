@@ -358,6 +358,10 @@ namespace torcsAdaptive
 		TrackState.yl = newyl;
 		TrackState.segsSinceLastUpdate++;
 
+		if (taTrack->seg == nullptr)
+			trInfo->SetStart(curSeg);
+		trInfo->SetEnd(curSeg);
+
 		// Update Track with new segment
 		taTrack->seg = trInfo->root;
 		taTrack->length = TrackState.totLength;

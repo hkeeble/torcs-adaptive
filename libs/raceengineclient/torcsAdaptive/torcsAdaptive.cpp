@@ -68,10 +68,11 @@ namespace torcsAdaptive
 		if(trInfo == NULL)
 			taOut("Error getting track info!\n");
 
-		if(curSeg->next == ReInfo->track->seg)
+		if (curSeg->next == trInfo->GetStart())
 		{
-			curSegLength = curSeg->length;
-			if(curSegLength == 0)
+			if (curSeg->type == TR_STR)
+				curSegLength = curSeg->length;
+			else
 				curSegLength = curSeg->arc;
 			distFromStart = car->pub.trkPos.toStart;
 
