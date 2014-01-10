@@ -391,8 +391,14 @@ initStartingGrid(void)
 			while (startpos < curseg->lgfromstart) {
 				curseg = curseg->prev;
 			}
+			ts = startpos - curseg->lgfromstart;
 		}
-		ts = startpos - curseg->lgfromstart;
+		else
+		{
+			while (curseg->id != 0)
+				curseg = curseg->prev;
+			ts = 10;
+		}
 		car->_trkPos.seg = curseg;
 		car->_trkPos.toRight = tr;
 		switch (curseg->type) {

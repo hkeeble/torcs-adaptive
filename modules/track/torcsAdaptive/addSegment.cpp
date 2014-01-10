@@ -27,7 +27,6 @@ namespace torcsAdaptive
         tdble	        innerradius;
         tdble	        arc;
         tdble	        length;
-        tdble	        alf;
         tdble	        newxr, newyr, newxl, newyl;
         tdble	        cenx, ceny;
         tdble	        x1, x2, y1, y2;
@@ -43,6 +42,8 @@ namespace torcsAdaptive
 
 		void* trHandle = taTrack->params; // Obtain Track Handle
 
+		TrackState.ReportState();
+
 		// Initialize Buffer
         const int BUFSIZE = 256;
         char	path[BUFSIZE];
@@ -51,7 +52,7 @@ namespace torcsAdaptive
         int		ind = 0;
 
         // Initialize Variables
-        arc = length = alf = newxr = newyr = 0;
+        arc = length = newxr = newyr = 0;
         zel = zer = etgtl = etgtr = newxl = newyl = 0;
 
 		if (taTrack->seg == NULL) // If Segment Is Start
@@ -59,7 +60,7 @@ namespace torcsAdaptive
 			TrackState.xr = TrackState.xl = 0.0;
 			TrackState.yr = 0.0;
 			TrackState.yl = taTrack->width;
-			alf = 0.0;
+			TrackState.alf = 0.0;
 			zsl = zsr = zel = zer = zs = ze = 0.0;
 			stgt = etgt = 0.0;
 			stgtl = etgtl = 0.0;
@@ -71,18 +72,17 @@ namespace torcsAdaptive
 		TSTZ(zsl);
 		TSTZ(zsr);
 
-		switch(seg.type)
+		if (seg.type == TR_STR)
 		{
-			case TR_STR:
-				length = seg.length;
-				TrackState.radius = radiusend = 0;
-				break;
-			case TR_LFT || TR_RGT:
-				TrackState.radius = seg.radius;
-				radiusend = seg.radius;
-				arc =seg.arc;
-				length = (TrackState.radius + radiusend) / 2.0 * arc;
-				break;
+			length = seg.length;
+			TrackState.radius = radiusend = 0;
+		}
+		else if (seg.type == TR_LFT || seg.type == TR_RGT)
+		{
+			TrackState.radius = seg.radius;
+			radiusend = seg.radius;
+			arc = seg.arc;
+			length = (TrackState.radius + radiusend) / 2.0 * arc;
 		}
 
 		stgtl = etgtl;
@@ -170,10 +170,10 @@ namespace torcsAdaptive
 			/* straight */
 			curSeg->length = curLength;
 
-			newxr = TrackState.xr + curLength * cos(alf);      /* find end coordinates */
-			newyr = TrackState.yr + curLength * sin(alf);
-			newxl = TrackState.xl + curLength * cos(alf);
-			newyl = TrackState.yl + curLength * sin(alf);
+			newxr = TrackState.xr + curLength * cos(TrackState.alf);      /* find end coordinates */
+			newyr = TrackState.yr + curLength * sin(TrackState.alf);
+			newxl = TrackState.xl + curLength * cos(TrackState.alf);
+			newyl = TrackState.yl + curLength * sin(TrackState.alf);
 
 			curSeg->vertex[TR_SR].x = TrackState.xr;
 			curSeg->vertex[TR_SR].y = TrackState.yr;
@@ -191,8 +191,8 @@ namespace torcsAdaptive
 			curSeg->vertex[TR_EL].y = newyl;
 			curSeg->vertex[TR_EL].z = curzel;
 
-			curSeg->angle[TR_ZS] = alf;
-			curSeg->angle[TR_ZE] = alf;
+			curSeg->angle[TR_ZS] = TrackState.alf;
+			curSeg->angle[TR_ZE] = TrackState.alf;
 			curSeg->angle[TR_YR] = atan2(curSeg->vertex[TR_ER].z - curSeg->vertex[TR_SR].z, curLength);
 			curSeg->angle[TR_YL] = atan2(curSeg->vertex[TR_EL].z - curSeg->vertex[TR_SL].z, curLength);
 			curSeg->angle[TR_XS] = atan2(curSeg->vertex[TR_SL].z - curSeg->vertex[TR_SR].z, taTrack->width);
@@ -202,8 +202,8 @@ namespace torcsAdaptive
 			curSeg->Kzw = (curSeg->angle[TR_XE] - curSeg->angle[TR_XS]) / curLength;
 			curSeg->Kyl = 0;
 
-			curSeg->rgtSideNormal.x = -sin(alf);
-			curSeg->rgtSideNormal.y = cos(alf);
+			curSeg->rgtSideNormal.x = -sin(TrackState.alf);
+			curSeg->rgtSideNormal.y = cos(TrackState.alf);
 
 			TSTX(newxr); TSTX(newxl);
 			TSTY(newyr); TSTY(newyl);
@@ -219,20 +219,20 @@ namespace torcsAdaptive
 			curSeg->length = curLength;
 
 			innerradius = TrackState.radius - TrackState.wi2; /* left side aligned */
-			cenx = TrackState.xl - innerradius * sin(alf);  /* compute center location: */
-			ceny = TrackState.yl + innerradius * cos(alf);
+			cenx = TrackState.xl - innerradius * sin(TrackState.alf);  /* compute center location: */
+			ceny = TrackState.yl + innerradius * cos(TrackState.alf);
 			curSeg->center.x = cenx;
 			curSeg->center.y = ceny;
 
-			curSeg->angle[TR_ZS] = alf;
-			curSeg->angle[TR_CS] = alf - PI / 2.0;
-			alf += curArc;
-			curSeg->angle[TR_ZE] = alf;
+			curSeg->angle[TR_ZS] = TrackState.alf;
+			curSeg->angle[TR_CS] = TrackState.alf - PI / 2.0;
+			TrackState.alf += curArc;
+			curSeg->angle[TR_ZE] = TrackState.alf;
 
-			newxl = cenx + innerradius * sin(alf);   /* location of end */
-			newyl = ceny - innerradius * cos(alf);
-			newxr = cenx + (innerradius + taTrack->width) * sin(alf);   /* location of end */
-			newyr = ceny - (innerradius + taTrack->width) * cos(alf);
+			newxl = cenx + innerradius * sin(TrackState.alf);   /* location of end */
+			newyl = ceny - innerradius * cos(TrackState.alf);
+			newxr = cenx + (innerradius + taTrack->width) * sin(TrackState.alf);   /* location of end */
+			newyr = ceny - (innerradius + taTrack->width) * cos(TrackState.alf);
 
 			curSeg->vertex[TR_SR].x = TrackState.xr;
 			curSeg->vertex[TR_SR].y = TrackState.yr;
@@ -284,20 +284,20 @@ namespace torcsAdaptive
 			curSeg->length = curLength;
 
 			innerradius = TrackState.radius - TrackState.wi2; /* right side aligned */
-			cenx = TrackState.xr + innerradius * sin(alf);  /* compute center location */
-			ceny = TrackState.yr - innerradius * cos(alf);
+			cenx = TrackState.xr + innerradius * sin(TrackState.alf);  /* compute center location */
+			ceny = TrackState.yr - innerradius * cos(TrackState.alf);
 			curSeg->center.x = cenx;
 			curSeg->center.y = ceny;
 
-			curSeg->angle[TR_ZS] = alf;
-			curSeg->angle[TR_CS] = alf + PI / 2.0;
-			alf -= curSeg->arc;
-			curSeg->angle[TR_ZE] = alf;
+			curSeg->angle[TR_ZS] = TrackState.alf;
+			curSeg->angle[TR_CS] = TrackState.alf + PI / 2.0;
+			TrackState.alf -= curSeg->arc;
+			curSeg->angle[TR_ZE] = TrackState.alf;
 
-			newxl = cenx - (innerradius + taTrack->width) * sin(alf);   /* location of end */
-			newyl = ceny + (innerradius + taTrack->width) * cos(alf);
-			newxr = cenx - innerradius * sin(alf);   /* location of end */
-			newyr = ceny + innerradius * cos(alf);
+			newxl = cenx - (innerradius + taTrack->width) * sin(TrackState.alf);   /* location of end */
+			newyl = ceny + (innerradius + taTrack->width) * cos(TrackState.alf);
+			newxr = cenx - innerradius * sin(TrackState.alf);   /* location of end */
+			newyr = ceny + innerradius * cos(TrackState.alf);
 
 			curSeg->vertex[TR_SR].x = TrackState.xr;
 			curSeg->vertex[TR_SR].y = TrackState.yr;
@@ -346,17 +346,17 @@ namespace torcsAdaptive
 
 		// Update Track State
 		if (curSeg->type != TR_STR)
-			trInfo->state.radius += dradius;
+			TrackState.radius += dradius;
 
 		trInfo->root = curSeg;
 
-		trInfo->state.totLength += curSeg->length;
-		trInfo->state.curSegIndex++;
-		trInfo->state.xr = newxr;
-		trInfo->state.yr = newyr;
-		trInfo->state.xl = newxl;
-		trInfo->state.yl = newyl;
-		trInfo->state.segsSinceLastUpdate++;
+		TrackState.totLength += curSeg->length;
+		TrackState.curSegIndex++;
+		TrackState.xr = newxr;
+		TrackState.yr = newyr;
+		TrackState.xl = newxl;
+		TrackState.yl = newyl;
+		TrackState.segsSinceLastUpdate++;
 
 		// Update Track with new segment
 		taTrack->seg = trInfo->root;

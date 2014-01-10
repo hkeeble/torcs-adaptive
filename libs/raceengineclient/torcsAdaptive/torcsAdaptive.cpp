@@ -19,7 +19,7 @@ namespace torcsAdaptive
 		const char *const acName		= trInfo->GetACName();
 		const char *const acNameAndPath = trInfo->GetACPathAndName();
 
-			// Add Segment
+		// Add Segment
 		taOut("\tAdding segment to track.\n");
 		ReInfo->_reTrackItf.taAddSegment(segment, ReInfo->track);
 

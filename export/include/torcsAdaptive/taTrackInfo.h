@@ -38,7 +38,7 @@ namespace torcsAdaptive
 		const char			   *const GetACName();
 		const char			   *const GetACPath();
 		const char			   *const GetACPathAndName();
-		EntityDesc* GetTrackDesc() const;
+		EntityDesc*	GetTrackDesc() const;
 
 		// Set Accessors
 		void SetTrackDesc(EntityDesc* newDesc);

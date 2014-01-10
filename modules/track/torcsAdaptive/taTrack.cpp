@@ -70,8 +70,14 @@ namespace torcsAdaptive
 
 		// Add Initial Segment
 		GfOut("Adding Initial Segment...\n");
-		TaAddSegment(TaSegFactory::GetInstance()->CreateSegCnr(0, TaRight, 90.f, 90.f, 90.f, 1.5f), taTrack);
-		TaAddSegment(TaSegFactory::GetInstance()->CreateSegStr(1, 200.f), taTrack);
+		TaAddSegment(TaSegFactory::GetInstance()->CreateSegStr(0, 200.f), taTrack);
+		TaAddSegment(TaSegFactory::GetInstance()->CreateSegCnr(1, TaRight, 90.f, 90.f, 90.f, 1.5f), taTrack);
+		TaAddSegment(TaSegFactory::GetInstance()->CreateSegCnr(2, TaLeft, 90.f, 90.f, 90.f, 1.5f), taTrack);
+		TaAddSegment(TaSegFactory::GetInstance()->CreateSegStr(3, 200.f), taTrack);
+		TaAddSegment(TaSegFactory::GetInstance()->CreateSegCnr(4, TaLeft, 90.f, 90.f, 90.f, 1.5f), taTrack);
+		TaAddSegment(TaSegFactory::GetInstance()->CreateSegStr(5, 200.f), taTrack);
+		TaAddSegment(TaSegFactory::GetInstance()->CreateSegStr(6, 200.f), taTrack);
+		TaAddSegment(TaSegFactory::GetInstance()->CreateSegCnr(7, TaLeft, 90.f, 90.f, 90.f, 1.5f), taTrack);
 
 		// Generate Initial 3D Description
 		GenerateTrack(taTrack, taTrack->params, (char*)trInfo->GetACPathAndName(), NULL, NULL, NULL, 0);
