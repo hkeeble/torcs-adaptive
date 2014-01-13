@@ -19,7 +19,7 @@ namespace torcsAdaptive
     if (zmin > (z)) zmin = (z);	\
     if (zmax < (z)) zmax = (z);
 
-    void TaAddSegment(taSeg seg, tTrack* taTrack)
+	void TaAddSegment(taSeg seg, taTrack* trInfo)
     {
         int		        j;
 		tTrackSeg	    *curSeg;
@@ -40,9 +40,10 @@ namespace torcsAdaptive
         tdble	        tr, dtr, T1r, T2r;
         tdble	        curzel, curzer, curArc, curLength, curzsl, curzsr;
 
-		void* trHandle = taTrack->params; // Obtain Track Handle
+		tTrack* track = trInfo->track;
+		tTrack* trackCache = trInfo->trackCache;
 
-		TrackState.ReportState();
+		void* trHandle = track->params; // Obtain Track Handle
 
 		// Initialize Buffer
         const int BUFSIZE = 256;
@@ -55,11 +56,11 @@ namespace torcsAdaptive
         arc = length = newxr = newyr = 0;
         zel = zer = etgtl = etgtr = newxl = newyl = 0;
 
-		if (taTrack->seg == NULL) // If Segment Is Start
+		if (track->seg == NULL) // If Segment Is Start
 		{
 			TrackState.xr = TrackState.xl = 0.0;
 			TrackState.yr = 0.0;
-			TrackState.yl = taTrack->width;
+			TrackState.yl = track->width;
 			TrackState.alf = 0.0;
 			zsl = zsr = zel = zer = zs = ze = 0.0;
 			stgt = etgt = 0.0;
@@ -123,19 +124,19 @@ namespace torcsAdaptive
 
 		/* allocate a new segment */
 		curSeg = new tTrackSeg();
-		if (trInfo->root == NULL)
+		if (adaptiveTrack->root == NULL)
 		{
-			trInfo->root = curSeg;
+			adaptiveTrack->root = curSeg;
 			curSeg->next = curSeg;
 			curSeg->prev = curSeg;
 		}
 		else
 		{
-			curSeg->next = trInfo->root->next;
+			curSeg->next = adaptiveTrack->root->next;
 			curSeg->next->prev = curSeg;
-			curSeg->prev = trInfo->root;
-			trInfo->root->next = curSeg;
-			trInfo->root = curSeg;
+			curSeg->prev = adaptiveTrack->root;
+			adaptiveTrack->root->next = curSeg;
+			adaptiveTrack->root = curSeg;
 		}
 
 		// Name Segment
@@ -151,12 +152,12 @@ namespace torcsAdaptive
 		curSeg->id = TrackState.curSegIndex;
 
 		// Assign Width
-		curSeg->width = curSeg->startWidth = curSeg->endWidth = taTrack->width;
-		TrackState.wi2 = taTrack->width / 2.0f;
+		curSeg->width = curSeg->startWidth = curSeg->endWidth = track->width;
+		TrackState.wi2 = track->width / 2.0f;
 
 		// Assign Surface
 		curSeg->surface = new tTrackSurface();
-		curSeg->surface = AddTrackSurface(trHandle, taTrack, "asphalt-lines");
+		curSeg->surface = AddTrackSurface(trHandle, track, "asphalt-lines");
 
 		curSeg->envIndex = TrackState.envIndex;
 
@@ -195,8 +196,8 @@ namespace torcsAdaptive
 			curSeg->angle[TR_ZE] = TrackState.alf;
 			curSeg->angle[TR_YR] = atan2(curSeg->vertex[TR_ER].z - curSeg->vertex[TR_SR].z, curLength);
 			curSeg->angle[TR_YL] = atan2(curSeg->vertex[TR_EL].z - curSeg->vertex[TR_SL].z, curLength);
-			curSeg->angle[TR_XS] = atan2(curSeg->vertex[TR_SL].z - curSeg->vertex[TR_SR].z, taTrack->width);
-			curSeg->angle[TR_XE] = atan2(curSeg->vertex[TR_EL].z - curSeg->vertex[TR_ER].z, taTrack->width);
+			curSeg->angle[TR_XS] = atan2(curSeg->vertex[TR_SL].z - curSeg->vertex[TR_SR].z, track->width);
+			curSeg->angle[TR_XE] = atan2(curSeg->vertex[TR_EL].z - curSeg->vertex[TR_ER].z, track->width);
 
 			curSeg->Kzl = tan(curSeg->angle[TR_YR]);
 			curSeg->Kzw = (curSeg->angle[TR_XE] - curSeg->angle[TR_XS]) / curLength;
@@ -231,8 +232,8 @@ namespace torcsAdaptive
 
 			newxl = cenx + innerradius * sin(TrackState.alf);   /* location of end */
 			newyl = ceny - innerradius * cos(TrackState.alf);
-			newxr = cenx + (innerradius + taTrack->width) * sin(TrackState.alf);   /* location of end */
-			newyr = ceny - (innerradius + taTrack->width) * cos(TrackState.alf);
+			newxr = cenx + (innerradius + track->width) * sin(TrackState.alf);   /* location of end */
+			newyr = ceny - (innerradius + track->width) * cos(TrackState.alf);
 
 			curSeg->vertex[TR_SR].x = TrackState.xr;
 			curSeg->vertex[TR_SR].y = TrackState.yr;
@@ -250,12 +251,12 @@ namespace torcsAdaptive
 			curSeg->vertex[TR_EL].y = newyl;
 			curSeg->vertex[TR_EL].z = curzel;
 
-			curSeg->angle[TR_YR] = atan2(curSeg->vertex[TR_ER].z - curSeg->vertex[TR_SR].z, curArc * (innerradius + taTrack->width));
+			curSeg->angle[TR_YR] = atan2(curSeg->vertex[TR_ER].z - curSeg->vertex[TR_SR].z, curArc * (innerradius + track->width));
 			curSeg->angle[TR_YL] = atan2(curSeg->vertex[TR_EL].z - curSeg->vertex[TR_SL].z, curArc * innerradius);
-			curSeg->angle[TR_XS] = atan2(curSeg->vertex[TR_SL].z - curSeg->vertex[TR_SR].z, taTrack->width);
-			curSeg->angle[TR_XE] = atan2(curSeg->vertex[TR_EL].z - curSeg->vertex[TR_ER].z, taTrack->width);
+			curSeg->angle[TR_XS] = atan2(curSeg->vertex[TR_SL].z - curSeg->vertex[TR_SR].z, track->width);
+			curSeg->angle[TR_XE] = atan2(curSeg->vertex[TR_EL].z - curSeg->vertex[TR_ER].z, track->width);
 
-			curSeg->Kzl = tan(curSeg->angle[TR_YR]) * (innerradius + taTrack->width);
+			curSeg->Kzl = tan(curSeg->angle[TR_YR]) * (innerradius + track->width);
 			curSeg->Kzw = (curSeg->angle[TR_XE] - curSeg->angle[TR_XS]) / curArc;
 			curSeg->Kyl = 0;
 
@@ -268,8 +269,8 @@ namespace torcsAdaptive
 				alfl += al;
 				x1 = curSeg->center.x + (innerradius) * sin(alfl);   /* location of end */
 				y1 = curSeg->center.y - (innerradius) * cos(alfl);
-				x2 = curSeg->center.x + (innerradius + taTrack->width) * sin(alfl);   /* location of end */
-				y2 = curSeg->center.y - (innerradius + taTrack->width) * cos(alfl);
+				x2 = curSeg->center.x + (innerradius + track->width) * sin(alfl);   /* location of end */
+				y2 = curSeg->center.y - (innerradius + track->width) * cos(alfl);
 				TSTX(x1); TSTX(x2);
 				TSTY(y1); TSTY(y2);
 			}
@@ -294,8 +295,8 @@ namespace torcsAdaptive
 			TrackState.alf -= curSeg->arc;
 			curSeg->angle[TR_ZE] = TrackState.alf;
 
-			newxl = cenx - (innerradius + taTrack->width) * sin(TrackState.alf);   /* location of end */
-			newyl = ceny + (innerradius + taTrack->width) * cos(TrackState.alf);
+			newxl = cenx - (innerradius + track->width) * sin(TrackState.alf);   /* location of end */
+			newyl = ceny + (innerradius + track->width) * cos(TrackState.alf);
 			newxr = cenx - innerradius * sin(TrackState.alf);   /* location of end */
 			newyr = ceny + innerradius * cos(TrackState.alf);
 
@@ -316,9 +317,9 @@ namespace torcsAdaptive
 			curSeg->vertex[TR_EL].z = curzel;
 
 			curSeg->angle[TR_YR] = atan2(curSeg->vertex[TR_ER].z - curSeg->vertex[TR_SR].z, curArc * innerradius);
-			curSeg->angle[TR_YL] = atan2(curSeg->vertex[TR_EL].z - curSeg->vertex[TR_SL].z, curArc * (innerradius + taTrack->width));
-			curSeg->angle[TR_XS] = atan2(curSeg->vertex[TR_SL].z - curSeg->vertex[TR_SR].z, taTrack->width);
-			curSeg->angle[TR_XE] = atan2(curSeg->vertex[TR_EL].z - curSeg->vertex[TR_ER].z, taTrack->width);
+			curSeg->angle[TR_YL] = atan2(curSeg->vertex[TR_EL].z - curSeg->vertex[TR_SL].z, curArc * (innerradius + track->width));
+			curSeg->angle[TR_XS] = atan2(curSeg->vertex[TR_SL].z - curSeg->vertex[TR_SR].z, track->width);
+			curSeg->angle[TR_XE] = atan2(curSeg->vertex[TR_EL].z - curSeg->vertex[TR_ER].z, track->width);
 
 			curSeg->Kzl = tan(curSeg->angle[TR_YR]) * innerradius;
 			curSeg->Kzw = (curSeg->angle[TR_XE] - curSeg->angle[TR_XS]) / curArc;
@@ -331,8 +332,8 @@ namespace torcsAdaptive
 			for (j = 0; j < 36; j++)
 			{
 				alfl += al;
-				x1 = curSeg->center.x - (innerradius + taTrack->width) * sin(alfl);   /* location of end */
-				y1 = curSeg->center.y + (innerradius + taTrack->width) * cos(alfl);
+				x1 = curSeg->center.x - (innerradius + track->width) * sin(alfl);   /* location of end */
+				y1 = curSeg->center.y + (innerradius + track->width) * cos(alfl);
 				x2 = curSeg->center.x - innerradius * sin(alfl);   /* location of end */
 				y2 = curSeg->center.y + innerradius * cos(alfl);
 				TSTX(x1); TSTX(x2);
@@ -342,13 +343,13 @@ namespace torcsAdaptive
 		}
 
 		// Add Sides
-		AddSides(curSeg, trHandle, taTrack, 0, 1);
+		AddSides(curSeg, trHandle, track, 0, 1);
 
 		// Update Track State
 		if (curSeg->type != TR_STR)
 			TrackState.radius += dradius;
 
-		trInfo->root = curSeg;
+		adaptiveTrack->root = curSeg;
 
 		TrackState.totLength += curSeg->length;
 		TrackState.curSegIndex++;
@@ -358,13 +359,18 @@ namespace torcsAdaptive
 		TrackState.yl = newyl;
 		TrackState.segsSinceLastUpdate++;
 
-		if (taTrack->seg == nullptr)
-			trInfo->SetStart(curSeg);
-		trInfo->SetEnd(curSeg);
+		if (track->seg == nullptr)
+			adaptiveTrack->SetStart(curSeg);
+		adaptiveTrack->SetEnd(curSeg);
 
 		// Update Track with new segment
-		taTrack->seg = trInfo->root;
-		taTrack->length = TrackState.totLength;
-		taTrack->nseg = TrackState.curSegIndex;
+		track->seg = adaptiveTrack->root;
+		track->length = TrackState.totLength;
+		track->nseg = TrackState.curSegIndex;
+
+		// Update the Track Cache
+		trackCache->seg = track->seg;
+		trackCache->length = track->length;
+		trackCache->nseg = track->nseg;
 	}
 }

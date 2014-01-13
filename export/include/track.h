@@ -34,7 +34,6 @@
 // Torcs-Adaptive Structs and Defines
 #include "torcsAdaptive\taSeg.h"
 #include "torcsAdaptive\taTrackState.h"
-#include "torcsAdaptive\taTrackInfo.h"
 #include "torcsAdaptive\taDefs.h"
 
 #include <string>
@@ -501,7 +500,7 @@ typedef struct
 /** Track structure
     @ingroup trackstruct
 */
-typedef struct
+struct tTrack
 {
     const char *name;	/**< Name of the track */
     const char *author;	/**< Author's name */
@@ -520,7 +519,7 @@ typedef struct
     t3Dd		min;
     t3Dd		max;
     tTrackGraphicInfo	graphic;
-} tTrack;
+};
 
 typedef tTrack*(*tfTrackBuild)(char*);
 typedef tdble(*tfTrackHeightG)(tTrackSeg*, tdble, tdble);
@@ -533,10 +532,18 @@ typedef void(*tfTrackShutdown)(void);
 
 
 /* Torcs-Adaptive Interface */
+
+// Forward Declarations
+namespace torcsAdaptive
+{
+	class taSeg;
+	class taTrack;
+}
+
 typedef tTrack*						(*tfTaTrackInit)		(int);
-typedef void						(*tfTaAddSegment)		(torcsAdaptive::taSeg, tTrack*);
+typedef void						(*tfTaAddSegment)		(torcsAdaptive::taSeg, torcsAdaptive::taTrack*);
 typedef void						(*tfTaTrackShutDown)	();
-typedef torcsAdaptive::taTrackInfo*	(*tfTaGetTrackInfo)		();
+typedef torcsAdaptive::taTrack*		(*tfTaGetTrackInfo)		();
 
 typedef struct {
 	

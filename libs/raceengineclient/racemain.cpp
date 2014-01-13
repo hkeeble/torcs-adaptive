@@ -44,7 +44,7 @@
 
 #include "perfMeasurement\perfMeasurement.h"
 #include "torcsAdaptive.h"
-#include "torcsAdaptive\taTrackInfo.h"
+#include "torcsAdaptive\taTrack.h"
 
 /***************************************************************/
 /* ABANDON RACE HOOK */
@@ -132,7 +132,7 @@ ReRaceEventInit(void)
 	// Initialize 3D Description for Torcs-Adaptive
 	if(torcsAdaptive::taAdaptiveMode)
 	{
-		torcsAdaptive::taTrackInfo* trInfo = ReInfo->_reTrackItf.taGetTrackInfo();
+		torcsAdaptive::taTrack* trInfo = ReInfo->_reTrackItf.taGetTrackInfo();
 		trInfo->SetTrackDesc(ReInfo->_reGraphicItf.taLoad3DDesc(trInfo->GetACName(), (ssgLoaderOptions*)trInfo->GetLoaderOptions()));
 		ReInfo->_reGraphicItf.taAttach3DDesc(trInfo->GetTrackDesc());
 	}

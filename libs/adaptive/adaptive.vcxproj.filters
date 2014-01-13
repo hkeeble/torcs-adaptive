@@ -15,13 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="taTrackInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="taTrackState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="taSeg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="taTrack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

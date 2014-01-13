@@ -15,7 +15,7 @@
 #include "torcsAdaptive\taSeg.h"
 #include "torcsAdaptive\taTrackState.h"
 #include "torcsAdaptive\taDefs.h"
-#include "torcsAdaptive\taTrackInfo.h"
+#include "torcsAdaptive\taTrack.h"
 
 #include <string>
 
@@ -23,15 +23,15 @@
 namespace torcsAdaptive
 {
 	/* Instance of the current track */
-	extern taTrackInfo* trInfo;
+	extern taTrack* adaptiveTrack;
 
-	#define TrackState		trInfo->state
+	#define TrackState		adaptiveTrack->state
 
 	// TA INTERFACE FUNCTIONS
 	tTrack*				TaInitTrack			(int trkLength);
 	void				TaShutDown			();
-	void				TaAddSegment		(taSeg seg, tTrack* taTrack);
-	taTrackInfo*		TaGetTrackInfo		();
+	void				TaAddSegment		(taSeg seg, taTrack* trInfo);
+	taTrack*			TaGetTrackInfo		();
 }
 
 #endif // _TORCS_ADAPTIVE_H_

@@ -9,11 +9,8 @@
 
 namespace torcsAdaptive
 {
-	// static pointer to the adaptive track, scoped to single file
-	static tTrack* taTrack;
-	
 	// Contains all current adaptive track information
-	taTrackInfo* trInfo;
+	taTrack* adaptiveTrack;
 
 	// Track accessors for ease of reading
 	#define taGraphicInfo	taTrack->graphic
@@ -45,49 +42,37 @@ namespace torcsAdaptive
 		lopts->setTextureDir("data\\textures");
 
 		GfOut("Initializing track info object...\n");
-		if(trInfo)
-			delete trInfo;
-		trInfo = new taTrackInfo("taTrack1.ac", "tracks/adaptive/taTrack1/", lopts); 
-		if(!trInfo)
+		if(adaptiveTrack)
+			delete adaptiveTrack;
+		adaptiveTrack = new taTrack(new tTrack(), new tTrack(), "taTrack1.ac", "tracks/adaptive/taTrack1/", lopts);
+		if (!adaptiveTrack)
 			GfFatal("Error initializing track info object!\n");
-
-		GfOut("Allocating initial memory for track...\n");
-		if(taTrack)
-			delete taTrack;
-		taTrack	=  new tTrack(); 
-		if(!taTrack)
-			GfFatal("Error allocating memory for adaptive track!\n");
 
 		// Main info
 		GfOut("Assigning Main Track Info...\n");
 		char* fName = new char[strlen(GetLocalDir()) + strlen("tracks/adaptive/taTrack1/taTrack1.xml")];
 		strcpy(fName, GetLocalDir());
 		strcat(fName, "tracks/adaptive/taTrack1/taTrack1.xml");
-		taTrack = TrackBuildv1(fName); // Load in track details, should return with no segments;
+		adaptiveTrack->track = TrackBuildv1(fName); // Load in track details, should return with no segments;
 
 		// Initialize Sides
-		InitSides(taTrack->params, taTrack);
+		InitSides(adaptiveTrack->track->params, adaptiveTrack->track);
 
 		// Add Initial Segment
 		GfOut("Adding Initial Segment...\n");
-		TaAddSegment(TaSegFactory::GetInstance()->CreateSegStr(0, 200.f), taTrack);
-		TaAddSegment(TaSegFactory::GetInstance()->CreateSegCnr(1, TaRight, 90.f, 90.f, 90.f, 1.5f), taTrack);
-		TaAddSegment(TaSegFactory::GetInstance()->CreateSegCnr(2, TaLeft, 90.f, 90.f, 90.f, 1.5f), taTrack);
-		TaAddSegment(TaSegFactory::GetInstance()->CreateSegStr(3, 200.f), taTrack);
-		TaAddSegment(TaSegFactory::GetInstance()->CreateSegCnr(4, TaLeft, 90.f, 90.f, 90.f, 1.5f), taTrack);
-		TaAddSegment(TaSegFactory::GetInstance()->CreateSegStr(5, 200.f), taTrack);
-		TaAddSegment(TaSegFactory::GetInstance()->CreateSegStr(6, 200.f), taTrack);
-		TaAddSegment(TaSegFactory::GetInstance()->CreateSegCnr(7, TaLeft, 90.f, 90.f, 90.f, 1.5f), taTrack);
+		TaAddSegment(TaSegFactory::GetInstance()->CreateSegStr(0, 200.f), adaptiveTrack);
+		TaAddSegment(TaSegFactory::GetInstance()->CreateSegStr(1, 200.f), adaptiveTrack);
+		TaAddSegment(TaSegFactory::GetInstance()->CreateSegStr(2, 200.f), adaptiveTrack);
 
 		// Generate Initial 3D Description
-		GenerateTrack(taTrack, taTrack->params, (char*)trInfo->GetACPathAndName(), NULL, NULL, NULL, 0);
+		GenerateTrack(adaptiveTrack->track, adaptiveTrack->track->params, (char*)adaptiveTrack->GetACPathAndName(), NULL, NULL, NULL, 0);
 
-		return taTrack;
+		return adaptiveTrack->track;
 	}
 
-	taTrackInfo* TaGetTrackInfo()
+	taTrack* TaGetTrackInfo()
 	{
-		return trInfo;
+		return adaptiveTrack;
 	}
 
 	/* Release all torcs-adaptive track module resources */
@@ -95,7 +80,7 @@ namespace torcsAdaptive
 	{
 		TrackShutdown();
 
-		if(trInfo)
-			delete trInfo;
+		if (adaptiveTrack)
+			delete adaptiveTrack;
 	}
 }

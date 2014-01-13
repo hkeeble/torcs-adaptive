@@ -12,7 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="taSeg.cpp" />
-    <ClCompile Include="taTrackInfo.cpp" />
+    <ClCompile Include="taTrack.cpp" />
     <ClCompile Include="taTrackState.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
