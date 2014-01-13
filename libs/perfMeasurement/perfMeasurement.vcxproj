@@ -64,7 +64,8 @@
       <AdditionalDependencies>tgf.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtimed\</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

@@ -5,13 +5,4 @@ Debug/
 # CVS Folders (Kept in case data needs re-installing)
 CVS/
 
-# Windows Dependencies
-windows/dll/
-windows/include/
-windows/lib/
-
-# Export Libraries
-export/lib/
-export/libd/
-
 *.ico
