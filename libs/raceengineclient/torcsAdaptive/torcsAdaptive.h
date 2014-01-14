@@ -15,7 +15,7 @@ namespace torcsAdaptive
 	extern TaSegFactory* segFactory;
 
 	void AddSegment(tRmInfo* ReInfo, const taSeg& segment);
-	void UpdateACFile(taTrackState state, tTrack* track, const char* fName);
+	void UpdateACFile(tRmInfo* ReInfo, taTrack* trInfo);
 	void UpdateTrack(tRmInfo* ReInfo);
 }
 

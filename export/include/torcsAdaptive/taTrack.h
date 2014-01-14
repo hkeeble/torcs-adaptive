@@ -9,6 +9,7 @@
 
 #include "taTrackState.h"
 #include "taDefs.h"
+#include "taTrackCache.h"
 #include "track.h"
 #include "../../../windows/include/plib/ssg.h"
 
@@ -35,7 +36,7 @@ namespace torcsAdaptive
 		/* Number of segments stored in memory either side of occupied segment */
 		const int SEG_MEMORY_SIZE = 3;
 
-		taTrack(tTrack* track, tTrack* trackCache, char* acname, char* acpath, ssgLoaderOptions* loaderoptions);
+		taTrack(tTrack* track, char* acname, char* acpath, ssgLoaderOptions* loaderoptions);
 		~taTrack();
 		taTrack(const taTrack& param);
 		taTrack& operator=(const taTrack& param);
@@ -48,7 +49,9 @@ namespace torcsAdaptive
 		
 		/* The TORCS track structure */
 		tTrack* track;
-		tTrack* trackCache;
+
+		/* Cache for storing all segments */
+		taTrackCache trackCache;
 
 		/* Remove a segment at the start */
 		void RemoveSegAtStart();
@@ -59,17 +62,20 @@ namespace torcsAdaptive
 		/* Add a segment at the start */
 		void AddSegmentAtStart();
 
-		/* Add a segmetn at the end */
+		/* Add a segment at the end */
 		void AddSegmentAtEnd();
+
+		/* Get segment with the specified ID */
+		tTrackSeg* GetSeg(int id);
 
 		/* Get Accessors */
 		const ssgLoaderOptions *const GetLoaderOptions();
 		const char			   *const GetACName();
 		const char			   *const GetACPath();
 		const char			   *const GetACPathAndName();
-		EntityDesc*	GetTrackDesc() const;
-		trackSeg* GetStart() const;
-		trackSeg* GetEnd() const;
+		EntityDesc*					  GetTrackDesc() const;
+		trackSeg*					  GetStart() const;
+		trackSeg*					  GetEnd() const;
 
 		// Set Accessors
 		void SetTrackDesc(EntityDesc* newDesc);

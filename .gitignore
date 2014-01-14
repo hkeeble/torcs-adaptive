@@ -2,7 +2,8 @@
 Release/
 Debug/
 
+# Binaries
+*.exe
+
 # CVS Folders (Kept in case data needs re-installing)
 CVS/
-
-*.ico

@@ -41,7 +41,6 @@ namespace torcsAdaptive
         tdble	        curzel, curzer, curArc, curLength, curzsl, curzsr;
 
 		tTrack* track = trInfo->track;
-		tTrack* trackCache = trInfo->trackCache;
 
 		void* trHandle = track->params; // Obtain Track Handle
 
@@ -369,8 +368,6 @@ namespace torcsAdaptive
 		track->nseg = TrackState.curSegIndex;
 
 		// Update the Track Cache
-		trackCache->seg = track->seg;
-		trackCache->length = track->length;
-		trackCache->nseg = track->nseg;
+		trInfo->trackCache.AddSegment(track->seg);
 	}
 }

@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="taSeg.cpp" />
     <ClCompile Include="taTrack.cpp" />
+    <ClCompile Include="taTrackCache.cpp" />
     <ClCompile Include="taTrackState.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

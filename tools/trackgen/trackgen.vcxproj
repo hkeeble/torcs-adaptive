@@ -49,7 +49,7 @@
     <GenerateManifest>false</GenerateManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>C:\Users\Henri\Documents\Projects\torcsadaptive\runtimed\</OutDir>
+    <OutDir>C:\Users\Henri\Documents\Projects\torcs-adaptive\runtimed\</OutDir>
     <IntDir>.\Debug\</IntDir>
     <EnableManagedIncrementalBuild>false</EnableManagedIncrementalBuild>
     <LinkIncremental>false</LinkIncremental>

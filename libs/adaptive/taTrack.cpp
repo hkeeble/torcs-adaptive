@@ -10,10 +10,10 @@
 namespace torcsAdaptive
 {
 	// Track Info Definitions
-	taTrack::taTrack(tTrack* track, tTrack* trackCache, char* acname, char* acpath, ssgLoaderOptions* loaderoptions)
+	taTrack::taTrack(tTrack* track, char* acname, char* acpath, ssgLoaderOptions* loaderoptions)
 	{
 		this->track = track;
-		this->trackCache = trackCache;
+		this->trackCache = taTrackCache();
 		acName = acname;
 		acPath = acpath;
 		loaderOptions = loaderoptions;
@@ -166,29 +166,126 @@ namespace torcsAdaptive
 
 	void taTrack::RemoveSegAtStart()
 	{
-		tTrackSeg* lastSeg = end;
-		tTrackSeg* firstSeg = start;
+		if (track->nseg > 1)
+		{
+			tTrackSeg* lastSeg = end;
+			tTrackSeg* firstSeg = start;
 
-		firstSeg->next->prev = lastSeg;
-		lastSeg->next = firstSeg->next;
+			firstSeg->next->prev = lastSeg;
+			lastSeg->next = firstSeg->next;
+			start = firstSeg->next;
 
-		delete firstSeg;
+			delete firstSeg;
 
-		track->nseg -= 1;
+			track->nseg -= 1;
+		}
+		else
+			GfOut("Attempted to remove segment, but only one exists!\n");
 	}
 
 	void taTrack::RemoveSegAtEnd()
 	{
+		if (track->nseg > 1)
+		{
+			tTrackSeg* lastSeg = end;
+			tTrackSeg* firstSeg = start;
 
+			lastSeg->prev->next = firstSeg;
+			firstSeg->prev = lastSeg->prev;
+			end = lastSeg->prev;
+			track->seg = end;
+
+			delete lastSeg;
+
+			track->nseg -= 1;
+		}
+		else
+			GfOut("Attempted to remove segment, but only one exists!\n");
 	}
 
 	void taTrack::AddSegmentAtStart()
 	{
+		if (track->nseg < trackCache.nSegs())
+		{
+			// Pointers used for clarity
+			tTrackSeg* lastSeg = end;
+			tTrackSeg* firstSeg = start;
 
+			// Find the segment to be added in the cache
+			tTrackSeg* segToAdd = trackCache(firstSeg->id - 1);
+			
+			if (segToAdd == nullptr)
+			{
+				GfOut("Error finding segment to add in cache!\n");
+				return;
+			}
+
+			// Allocate memory for the segment in the track
+			firstSeg->prev = new tTrackSeg();
+
+			*firstSeg->prev = *segToAdd; // Copy segment from cache to track
+
+			// Reassign first seg and start
+			firstSeg = firstSeg->prev;
+			start = firstSeg;
+
+			// Link last segment to new segment
+			firstSeg->next = lastSeg;
+			lastSeg->prev = firstSeg;
+		}
+		else
+			GfOut("Attempted to add segment, but no more stored in the cache!\n");
 	}
 
 	void taTrack::AddSegmentAtEnd()
 	{
+		if (track->nseg < trackCache.nSegs())
+		{
+			// Pointers used for clarity
+			tTrackSeg* lastSeg = end;
+			tTrackSeg* firstSeg = start;
 
+			// Find the segment to be added in the cache
+			tTrackSeg* segToAdd = trackCache(lastSeg->id + 1);
+
+			if (segToAdd == nullptr)
+			{
+				GfOut("Error finding segment to add in cache!\n");
+				return;
+			}
+
+			lastSeg->next = new tTrackSeg(); // Allocate memory for seg
+
+			*lastSeg->next = *segToAdd; // Copy seg from cache
+
+			// Reassign end
+			lastSeg = lastSeg->next;
+			end = lastSeg;
+
+			// Link first segment to new segment
+			firstSeg->prev = lastSeg;
+			lastSeg->next = firstSeg;
+		}
+		else
+			GfOut("Attempted to add segment, but no more stored in the cache!\n");
+	}
+
+	tTrackSeg* taTrack::GetSeg(int id)
+	{
+		tTrackSeg* curSeg = track->seg;
+		do {
+			curSeg = curSeg->prev;
+		} while (curSeg->id != id || curSeg == track->seg);
+
+		const char* segID = std::to_string(id).c_str();
+
+		if (curSeg->id != id)
+		{
+			GfOut("Can't find segment with ID ");
+			GfOut(segID);
+			GfOut("!\n");
+			return nullptr;
+		}
+		else return curSeg;
 	}
 }

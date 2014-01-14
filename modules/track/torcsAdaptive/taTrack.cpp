@@ -44,7 +44,7 @@ namespace torcsAdaptive
 		GfOut("Initializing track info object...\n");
 		if(adaptiveTrack)
 			delete adaptiveTrack;
-		adaptiveTrack = new taTrack(new tTrack(), new tTrack(), "taTrack1.ac", "tracks/adaptive/taTrack1/", lopts);
+		adaptiveTrack = new taTrack(new tTrack(), "taTrack1.ac", "tracks/adaptive/taTrack1/", lopts);
 		if (!adaptiveTrack)
 			GfFatal("Error initializing track info object!\n");
 
