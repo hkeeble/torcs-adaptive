@@ -12,6 +12,7 @@ namespace torcsAdaptive
 	TaSegFactory* segFactory = TaSegFactory::GetInstance();
 
 	int i = 0;
+	int c = 0;
 
 	void AddSegment(tRmInfo* ReInfo, const taSeg& segment)
 	{
@@ -56,7 +57,7 @@ namespace torcsAdaptive
 		if (car == NULL)
 			taOut("Error getting car from perfMeasurement!\n");
 
-		curSeg = car->priv.wheel[3].seg;
+		curSeg = car->pub.trkPos.seg;
 		if (curSeg == NULL)
 			taOut("Error getting current segment!\n");
 
@@ -67,12 +68,21 @@ namespace torcsAdaptive
 		if (i == 0)
 		{
 			trInfo->RemoveSegAtEnd();
-			trInfo->RemoveSegAtEnd();
-			trInfo->AddSegmentAtEnd();
+			UpdateACFile(ReInfo, trInfo);
 			trInfo->AddSegmentAtEnd();
 			UpdateACFile(ReInfo, trInfo);
 			i = 1;
 		}
+
+		if (curSeg->id == 2 && c == 0)
+		{
+			trInfo->RemoveSegAtStart();
+			UpdateACFile(ReInfo, trInfo);
+			trInfo->AddSegmentAtStart();
+			UpdateACFile(ReInfo, trInfo);
+			c = 1;
+		}
+
 		//if (curSeg->id + trInfo->SEG_MEMORY_SIZE > trInfo->track->nseg)
 		//{
 		//	AddSegment(ReInfo, segFactory->CreateSegStr(trInfo->state.curSegIndex, 200.f));

@@ -168,13 +168,22 @@ namespace torcsAdaptive
 	{
 		if (track->nseg > 1)
 		{
+			// Pointers obtained for code clarity
 			tTrackSeg* lastSeg = end;
 			tTrackSeg* firstSeg = start;
 
+			// Adjust track length
+			if (start->type == TR_STR)
+				track->length -= start->length;
+			else
+				track->length -= start->arc;
+
+			// Re-arrange pointers accordingly
 			firstSeg->next->prev = lastSeg;
 			lastSeg->next = firstSeg->next;
 			start = firstSeg->next;
 
+			// Delete first segment from memory - is stored in trackCache for re-enstatement
 			delete firstSeg;
 
 			track->nseg -= 1;
@@ -187,14 +196,23 @@ namespace torcsAdaptive
 	{
 		if (track->nseg > 1)
 		{
+			// Pointers obtained for code clarity
 			tTrackSeg* lastSeg = end;
 			tTrackSeg* firstSeg = start;
 
+			// Adjust track length
+			if (end->type == TR_STR)
+				track->length -= end->length;
+			else
+				track->length -= end->arc;
+
+			// Rearrange pointers accordingly
 			lastSeg->prev->next = firstSeg;
 			firstSeg->prev = lastSeg->prev;
 			end = lastSeg->prev;
 			track->seg = end;
 
+			// Delete last segment from memory - is stored in trackCache for re-enstatement
 			delete lastSeg;
 
 			track->nseg -= 1;
@@ -205,6 +223,8 @@ namespace torcsAdaptive
 
 	void taTrack::AddSegmentAtStart()
 	{
+		GfOut("Adding TORCS-Adaptive Segment from cache...\n");
+
 		if (track->nseg < trackCache.nSegs())
 		{
 			// Pointers used for clarity
@@ -212,26 +232,27 @@ namespace torcsAdaptive
 			tTrackSeg* firstSeg = start;
 
 			// Find the segment to be added in the cache
-			tTrackSeg* segToAdd = trackCache(firstSeg->id - 1);
-			
-			if (segToAdd == nullptr)
+			if (firstSeg->id - 1 < 0)
 			{
-				GfOut("Error finding segment to add in cache!\n");
+				GfOut("Error: Cannot add segment with negative ID!\n");
 				return;
 			}
 
-			// Allocate memory for the segment in the track
-			firstSeg->prev = new tTrackSeg();
+			tTrackSeg* segToAdd = new tTrackSeg();
+			*segToAdd = *trackCache(firstSeg->id - 1);
 
-			*firstSeg->prev = *segToAdd; // Copy segment from cache to track
+			segToAdd->prev = lastSeg;
+			segToAdd->next = firstSeg;
+			firstSeg->prev = segToAdd;
+			lastSeg->next = segToAdd;
+			start = segToAdd;
 
-			// Reassign first seg and start
-			firstSeg = firstSeg->prev;
-			start = firstSeg;
+			if (segToAdd->type == TR_STR)
+				track->length += segToAdd->length;
+			else
+				track->length += segToAdd->arc;
 
-			// Link last segment to new segment
-			firstSeg->next = lastSeg;
-			lastSeg->prev = firstSeg;
+			track->nseg++;
 		}
 		else
 			GfOut("Attempted to add segment, but no more stored in the cache!\n");
@@ -246,25 +267,27 @@ namespace torcsAdaptive
 			tTrackSeg* firstSeg = start;
 
 			// Find the segment to be added in the cache
-			tTrackSeg* segToAdd = trackCache(lastSeg->id + 1);
-
-			if (segToAdd == nullptr)
+			if (firstSeg->id - 1 < 0)
 			{
-				GfOut("Error finding segment to add in cache!\n");
+				GfOut("Error: Cannot add segment with negative ID!\n");
 				return;
 			}
 
-			lastSeg->next = new tTrackSeg(); // Allocate memory for seg
+			tTrackSeg* segToAdd = new tTrackSeg();
+			*segToAdd = *trackCache(lastSeg->id + 1);
 
-			*lastSeg->next = *segToAdd; // Copy seg from cache
+			segToAdd->prev = lastSeg;
+			segToAdd->next = firstSeg;
+			lastSeg->next = segToAdd;
+			firstSeg->prev = segToAdd;
+			end = segToAdd;
 
-			// Reassign end
-			lastSeg = lastSeg->next;
-			end = lastSeg;
+			if (segToAdd->type == TR_STR)
+				track->length += segToAdd->length;
+			else
+				track->length += segToAdd->arc;
 
-			// Link first segment to new segment
-			firstSeg->prev = lastSeg;
-			lastSeg->next = firstSeg;
+			track->nseg++;
 		}
 		else
 			GfOut("Attempted to add segment, but no more stored in the cache!\n");
@@ -288,4 +311,28 @@ namespace torcsAdaptive
 		}
 		else return curSeg;
 	}
+
+#ifdef _DEBUG
+	void taTrack::PrintSegsInOrder()
+	{
+		tTrackSeg* curSeg = start;
+
+		do
+		{
+			std::cout << curSeg->name << std::endl;
+			curSeg = curSeg->next;
+		} while (curSeg != start);
+	}
+
+	void taTrack::PrintSegsBackwards()
+	{
+		tTrackSeg* curSeg = end;
+
+		do
+		{
+			std::cout << curSeg->name << std::endl;
+			curSeg = curSeg->prev;
+		} while (curSeg != end);
+	}
+#endif // _DEBUG
 }

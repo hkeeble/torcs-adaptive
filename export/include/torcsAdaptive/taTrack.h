@@ -77,10 +77,16 @@ namespace torcsAdaptive
 		trackSeg*					  GetStart() const;
 		trackSeg*					  GetEnd() const;
 
-		// Set Accessors
+		/* Set Accessors */
 		void SetTrackDesc(EntityDesc* newDesc);
 		void SetStart(trackSeg* start);
 		void SetEnd(trackSeg* end);
+
+		/* Debugging Functions */
+#ifdef _DEBUG
+		void PrintSegsInOrder();
+		void PrintSegsBackwards();
+#endif // _DEBUG
 	};
 }
 

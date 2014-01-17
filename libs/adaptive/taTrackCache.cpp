@@ -49,7 +49,7 @@ namespace torcsAdaptive
 		tTrackSeg* curSeg = start;
 		do {
 			curSeg = curSeg->next;
-		} while (curSeg->id != id || curSeg == start);
+		} while (curSeg->id != id && curSeg != start);
 
 		if (curSeg->id != id)
 			return nullptr;
