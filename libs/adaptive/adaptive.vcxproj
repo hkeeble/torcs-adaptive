@@ -11,15 +11,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="taSeg.cpp" />
-    <ClCompile Include="taTrack.cpp" />
-    <ClCompile Include="taTrackCache.cpp" />
-    <ClCompile Include="taTrackState.cpp" />
+    <ClCompile Include="pCarData.cpp" />
+    <ClCompile Include="pSeg.cpp" />
+    <ClCompile Include="pTrack.cpp" />
+    <ClCompile Include="pSegCollection.cpp" />
+    <ClCompile Include="pTrackState.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{30CD6A7A-7E7D-4C1E-869E-86E163B276D8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>adaptive</RootNamespace>
+    <ProjectName>procedural</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -60,7 +62,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\export\include;$(SolutionDir)\windows\include\plib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\export\include;$(SolutionDir)\windows\include\plib;$(SolutionDir)\export\include\procedural;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
@@ -82,7 +84,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\export\include;$(SolutionDir)\windows\include\plib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\export\include;$(SolutionDir)\windows\include\plib;$(SolutionDir)\export\include\procedural;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />

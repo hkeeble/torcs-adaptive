@@ -32,9 +32,9 @@
 #include <tmath/linalg_t.h>
 
 // Torcs-Adaptive Structs and Defines
-#include "torcsAdaptive\taSeg.h"
-#include "torcsAdaptive\taTrackState.h"
-#include "torcsAdaptive\taDefs.h"
+#include "procedural\pSeg.h"
+#include "procedural\pTrackState.h"
+#include "procedural\pDefs.h"
 
 #include <string>
 
@@ -534,16 +534,16 @@ typedef void(*tfTrackShutdown)(void);
 /* Torcs-Adaptive Interface */
 
 // Forward Declarations
-namespace torcsAdaptive
+namespace procedural
 {
-	class taSeg;
-	class taTrack;
+	class pSeg;
+	class pTrack;
 }
 
-typedef tTrack*						(*tfTaTrackInit)		(int);
-typedef void						(*tfTaAddSegment)		(torcsAdaptive::taSeg, torcsAdaptive::taTrack*);
-typedef void						(*tfTaTrackShutDown)	();
-typedef torcsAdaptive::taTrack*		(*tfTaGetTrackInfo)		();
+typedef tTrack*						(*tfPTrackInit)			(int);
+typedef void						(*tfPAddSegment)		(procedural::pSeg, procedural::pTrack*);
+typedef void						(*tfPTrackShutDown)		();
+typedef procedural::pTrack*			(*tfPGetTrackInfo)		();
 
 typedef struct {
 	
@@ -558,10 +558,10 @@ typedef struct {
     tfTrackShutdown		trkShutdown;
 
 	/* Torcs-Adaptive Interface */
-	tfTaTrackInit			taTrackInit;
-	tfTaAddSegment			taAddSegment;
-	tfTaTrackShutDown		taTrackShutDown;
-	tfTaGetTrackInfo		taGetTrackInfo;
+	tfPTrackInit			PTrackInit;
+	tfPAddSegment			PAddSegment;
+	tfPTrackShutDown		PTrackShutDown;
+	tfPGetTrackInfo			PGetTrackInfo;
 	
 } tTrackItf;
 

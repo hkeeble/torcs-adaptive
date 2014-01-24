@@ -43,10 +43,10 @@ graphInit(int /* idx */, void *pt)
     itf->shutdowntrack = shutdownTrack;
     //itf->bendcar       = bendCar;
 
-	/* TORCS-ADAPTIVE INTERFACE */
-	itf->taLoad3DDesc   = torcsAdaptive::TaLoad3DDesc;
-	itf->taAttach3DDesc = torcsAdaptive::TaAttach3DDesc;
-	itf->taDetach3DDesc = torcsAdaptive::TaDetach3DDesc;
+	/* PROCEDURAL INTERFACE */
+	itf->pLoad3DDesc   = procedural::PLoad3DDesc;
+	itf->pAttach3DDesc = procedural::PAttach3DDesc;
+	itf->pDetach3DDesc = procedural::PDetach3DDesc;
 
     return 0;
 }

@@ -735,11 +735,18 @@ ReInitCars(void)
     initPits();
 	
 	// Initialize Performance Measurement
-	if(initPerfMeasurement(&ReInfo->carList[0]) == 1)
+	if (torcsAdaptive::taAdaptiveMode)
 	{
-		GfFatal("Error initializing performance measurement.");
-		ReInfo->raceEngineInfo.state = RM_QUIT;
+		if (initPerfMeasurement(&ReInfo->carList[0]) == 1)
+		{
+			GfFatal("Error initializing performance measurement.");
+			ReInfo->raceEngineInfo.state = RM_QUIT;
+		}
+
+		// Initialize Procedural Car Tracking
+		torcsAdaptive::InitCarData(&ReInfo->carList[0]);
 	}
+
     return 0;
 }
 

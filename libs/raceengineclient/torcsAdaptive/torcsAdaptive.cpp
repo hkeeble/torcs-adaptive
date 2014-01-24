@@ -1,108 +1,129 @@
 #include "torcsAdaptive.h"
-#include "torcsAdaptive\taSeg.h"
+#include "procedural\pSeg.h"
 #include "raceman.h"
 #include "trackgen\trackgen.h"
-#include "torcsAdaptive\taTrack.h"
+#include "procedural\pTrack.h"
+#include "robottools.h"
 #include <zlib.h>
 
 #define taOut(out) printf("ta >> " out)
 
+using namespace procedural;
+
 namespace torcsAdaptive
 {
-	TaSegFactory* segFactory = TaSegFactory::GetInstance();
+	pSegFactory* segFactory = pSegFactory::GetInstance();
 
-	int i = 0;
-	int c = 0;
+	pCarData carData = pCarData();
 
-	void AddSegment(tRmInfo* ReInfo, const taSeg& segment)
+	void InitCarData(tCarElt* car)
+	{
+		carData = pCarData(car);
+	}
+
+	void AddSegment(tRmInfo* ReInfo, const pSeg& segment)
 	{
 		taOut("Adding new Segment....\n");
 
 		// Obtain pointers to neccesary data
-		taTrack*		  atrack		= ReInfo->_reTrackItf.taGetTrackInfo();
+		pTrack*		  atrack			= ReInfo->_reTrackItf.PGetTrackInfo();
 		const char *const acName		= atrack->GetACName();
 		const char *const acNameAndPath = atrack->GetACPathAndName();
 
 		// Add Segment
 		taOut("\tAdding segment to track.\n");
-		ReInfo->_reTrackItf.taAddSegment(segment, atrack);
+		ReInfo->_reTrackItf.PAddSegment(segment, atrack);
 		taOut("New segment added.\n");
 	}
 	
 	/* Potentially could be used to append AC file where neccesary */
-	void UpdateACFile(tRmInfo* ReInfo, taTrack* trInfo)
+	void UpdateACFile(tRmInfo* ReInfo, pTrack* trInfo)
 	{
 		// Update Graphics Module
 		taOut("\tUpdating Graphics Module.\n");
-		ReInfo->_reGraphicItf.taDetach3DDesc(trInfo->GetTrackDesc()); // Detach existing description from scene graph
+		ReInfo->_reGraphicItf.pDetach3DDesc(trInfo->GetTrackDesc()); // Detach existing description from scene graph
 
 		taOut("\tGenerating new 3D Description.\n");
 		GenerateTrack(ReInfo->track, ReInfo->track->params, (char*)trInfo->GetACPathAndName(), NULL, NULL, NULL, 0); // Generate new 3d desc
-		trInfo->SetTrackDesc(ReInfo->_reGraphicItf.taLoad3DDesc(trInfo->GetACName(), (ssgLoaderOptions*)trInfo->GetLoaderOptions()));
-		ReInfo->_reGraphicItf.taAttach3DDesc(trInfo->GetTrackDesc());
+		trInfo->SetTrackDesc(ReInfo->_reGraphicItf.pLoad3DDesc(trInfo->GetACName(), (ssgLoaderOptions*)trInfo->GetLoaderOptions()));
+		ReInfo->_reGraphicItf.pAttach3DDesc(trInfo->GetTrackDesc());
 	}
 
 	void UpdateTrack(tRmInfo* ReInfo)
 	{
 		bool updateAC = false;
-		taTrack* trInfo;
-		tTrackSeg* curSeg;
-		tCarElt* car;
-		tdble curSegLength, distFromStart, segLeft, segPerc;
-		curSegLength = distFromStart = segLeft = segPerc = 0;
-		curSeg = NULL;
-		car = NULL;
+		pTrack* trInfo;
 
-		car = (tCarElt*)perfMeasurement->GetCar();
-		if (car == NULL)
-			taOut("Error getting car from perfMeasurement!\n");
+		// Update data on the car
+		carData.Update();
 
-		curSeg = car->pub.trkPos.seg;
-		if (curSeg == NULL)
-			taOut("Error getting current segment!\n");
+		if (carData.DirOfTravel() == DirectionOfTravel::BACKWARD)
+			taOut("BACKWARD!?\n");
 
-		trInfo = ReInfo->_reTrackItf.taGetTrackInfo();
-		if (trInfo == NULL)
-			taOut("Error getting track info!\n");
+		// Retrieve current procedural track info
+		trInfo = ReInfo->_reTrackItf.PGetTrackInfo();
+		if (trInfo == nullptr)
+			taOut("Error getting procedural track info!\n");
 
-		if (i == 0)
+		// If car is on last segment and travelling forward, remove one at the start
+		if (carData.CurrentSeg()->id == trInfo->GetEnd()->id)
 		{
-			trInfo->RemoveSegAtEnd();
-			UpdateACFile(ReInfo, trInfo);
-			trInfo->AddSegmentAtEnd();
-			UpdateACFile(ReInfo, trInfo);
-			i = 1;
+			if (carData.DirOfTravel() == DirectionOfTravel::FORWARD)
+			{
+				trInfo->RemoveSegAtStart();
+				updateAC = true;
+			}
 		}
 
-		if (curSeg->id == 2 && c == 0)
+		// Else if car travelling backwards and on first segment, remove a segment at the end. If car on first segment generated, do nothing (THIS NEEDS ANOTHER SOLUTION!)
+		else if (carData.CurrentSeg()->id == trInfo->GetStart()->id && carData.CurrentSeg()->id != 0)
 		{
-			trInfo->RemoveSegAtStart();
-			UpdateACFile(ReInfo, trInfo);
-			trInfo->AddSegmentAtStart();
-			UpdateACFile(ReInfo, trInfo);
-			c = 1;
+			if (carData.DirOfTravel() == DirectionOfTravel::BACKWARD)
+			{
+				trInfo->RemoveSegAtEnd();
+				updateAC = true;
+			}
+		}
+		
+		std::cout << trInfo->GetStart()->id << std::endl;
+		std::cout << carData.CurrentSeg()->id << std::endl;
+
+		// Determine if another segment needs to be added to the cache and/or track
+		if (trInfo->SEG_MEMORY_SIZE > trInfo->trackCache->nseg)
+		{
+			switch (carData.DirOfTravel())
+			{
+			case DirectionOfTravel::FORWARD:
+				// Determine if new segment needs to be generated
+				if (trInfo->trackCache->seg->id == trInfo->segs.End()->id)
+					AddSegment(ReInfo, segFactory->CreateSegStr(trInfo->state.curSegIndex, 200.f)); // Generate new segment
+				else
+					trInfo->AddSegmentAtEnd(); // Add existing segment
+
+				updateAC = true;
+				break;
+
+			case DirectionOfTravel::BACKWARD:
+				if (carData.CurrentSeg()->id > 0) // Only add new segment if player is not at the start
+				{
+					trInfo->AddSegmentAtStart();
+					updateAC = true;
+				}
+				break;
+			default:
+				taOut("Unexpected direction of travel!\n");
+				break;
+			}
 		}
 
-		//if (curSeg->id + trInfo->SEG_MEMORY_SIZE > trInfo->track->nseg)
-		//{
-		//	AddSegment(ReInfo, segFactory->CreateSegStr(trInfo->state.curSegIndex, 200.f));
-		//	updateAC = true;
-		//}
-		//
-		//if (trInfo->track->nseg > trInfo->SEG_MEMORY_SIZE)
-		//{
-		//	trInfo->RemoveSegAtStart();
-		//	updateAC = true;
-		//}
+		// Update AC File if necessary
+		if (updateAC)
+			UpdateACFile(ReInfo, trInfo);
+	}
 
-		//if (curSeg->id == 1)
-		//{
-		//	trInfo->RemoveSegAtStart();
-		//	updateAC = true;
-		//}
-
-		//// Update AC File if necessary
-		//if (updateAC)
-		//	UpdateACFile(ReInfo, trInfo);
+	tdble PercentDistanceToEnd(tdble segLength, tdble distToStart)
+	{
+		tdble percent = segLength / 100; // Equal to one percent of the segment
+		return 100 - (distToStart / percent); // Calculate percent distance from start, take from 100 to find percent distance to end
 	}
 }

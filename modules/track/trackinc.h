@@ -40,7 +40,7 @@ extern tdble TrackSpline(tdble p0, tdble p1, tdble t0, tdble t1, tdble t);
 
 // TORCS-ADAPTIVE EXTERN ADDITIONS
 // General Initialization
-/* Defined as extern here for use outside of track3.cpp, for use in taTrack.cpp (static declarations also removed in track3.cpp) */
+/* Defined as extern here for use outside of track3.cpp, for use in pTrack.cpp (static declarations also removed in track3.cpp) */
 extern void				GetTrackHeader	(void *TrackHandle);
 extern inline void		SetTrack		(tTrack* track, char* trFile);
 extern void				ReadTrack3      (tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext);

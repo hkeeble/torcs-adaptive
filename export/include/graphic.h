@@ -115,11 +115,11 @@ typedef void (*tfGraphicShutdwnTrack)(void);
 class ssgEntity;
 typedef void (*tfGraphicBendCar) (int /*index*/, sgVec3 /*poc*/, sgVec3 /*force*/, int /*cnt*/);
 
-/* TORCS-ADAPTIVE INTERFACE */
-typedef torcsAdaptive::EntityDesc*  (*tfTaLoad3DDesc)(const char* acName, ssgLoaderOptions* options);
-typedef void (*tfTaAttach3DDesc)	(torcsAdaptive::EntityDesc* curDesc);
-typedef void (*tfTaDetach3DDesc)	(torcsAdaptive::EntityDesc* curDesc);
-/* TORCS-ADAPTIVE INTERFACE */
+/* PROCEDURAL INTERFACE */
+typedef procedural::EntityDesc*  (*tfPLoad3DDesc)	(const char* acName, ssgLoaderOptions* options);
+typedef void					 (*tfPAttach3DDesc)	(procedural::EntityDesc* curDesc);
+typedef void					 (*tfPDetach3DDesc)	(procedural::EntityDesc* curDesc);
+/* PROCEDURAL INTERFACE */
 
 /* Interface with the graphic lib */
 typedef struct {
@@ -130,10 +130,10 @@ typedef struct {
     tfGraphicShutdwnCars    shutdowncars;   /* Graphic shutdown function */
     tfGraphicShutdwnTrack   shutdowntrack;  /* Graphic shutdown function */
 
-	/* TORCS-ADAPTIVE INTERFACE */
-	tfTaLoad3DDesc			taLoad3DDesc;
-	tfTaAttach3DDesc		taAttach3DDesc;
-	tfTaDetach3DDesc		taDetach3DDesc;
+	/* PROCEDURAL INTERFACE */
+	tfPLoad3DDesc			pLoad3DDesc;
+	tfPAttach3DDesc		pAttach3DDesc;
+	tfPDetach3DDesc		pDetach3DDesc;
 	/* TORCS-ADAPTIVE INTERFACE */
 	
 	//tfGraphicBendCar        bendcar;

@@ -50,9 +50,10 @@ extern void grDrawScene(void);
 extern void grShutdownScene(void);
 extern void grCustomizePits(void);
 
-namespace torcsAdaptive
+/* TORCS-ADAPTIVE */
+namespace procedural
 {
-	/* TORCS-ADAPTIVE additional extern functions */
+	/* procedural additional extern functions, used internally within this library */
 	extern EntityDesc*				  Load3DDesc	(const char* acName, ssgLoaderOptions* options);
 	extern void						  Detach3DDesc	(EntityDesc* curDesc);
 	extern void						  Attach3DDesc	(EntityDesc* curDesc);

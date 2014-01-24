@@ -495,19 +495,20 @@ shutdownTrack(void)
 	GfParmReleaseHandle(grTrackHandle);
 }
 
-namespace torcsAdaptive
+/* procedural additional extern functions, these are exported as pointers and use internal functions found in grscene.cpp */
+namespace procedural
 {
-	EntityDesc* TaLoad3DDesc(const char* acName, ssgLoaderOptions* options)
+	EntityDesc* PLoad3DDesc(const char* acName, ssgLoaderOptions* options)
 	{
 		return Load3DDesc(acName, options);
 	}
 
-	void TaDetach3DDesc(torcsAdaptive::EntityDesc* curDesc)
+	void PDetach3DDesc(EntityDesc* curDesc)
 	{
 		Detach3DDesc(curDesc);
 	}
 
-	void TaAttach3DDesc(torcsAdaptive::EntityDesc* curDesc)
+	void PAttach3DDesc(EntityDesc* curDesc)
 	{
 		Attach3DDesc(curDesc);
 	}

@@ -61,11 +61,12 @@ extern int  initTrack(tTrack *track);
 extern void shutdownTrack(void);
 
 /* TORCS-ADAPTIVE */
-namespace torcsAdaptive
+namespace procedural
 {
-	extern EntityDesc*  TaLoad3DDesc(const char* acName, ssgLoaderOptions* options);
-	extern void			TaAttach3DDesc(torcsAdaptive::EntityDesc* curDesc);
-	extern void			TaDetach3DDesc(torcsAdaptive::EntityDesc* curDesc);
+	/* procedural additional extern functions, these are exported as pointers and use internal functions found in grscene.h */
+	extern EntityDesc*  PLoad3DDesc(const char* acName, ssgLoaderOptions* options);
+	extern void			PAttach3DDesc(procedural::EntityDesc* curDesc);
+	extern void			PDetach3DDesc(procedural::EntityDesc* curDesc);
 }
 
 //extern void bendCar (int index, sgVec3 poc, sgVec3 force, int cnt);

@@ -26,7 +26,7 @@
 #include <track.h>
 #include <portability.h>
 #include "trackinc.h"
-#include "torcsAdaptive\taSeg.h"
+#include "procedural\pSeg.h"
 
 const tdble DEGPRAD = 180.0 / PI;   /* degrees per radian */
 

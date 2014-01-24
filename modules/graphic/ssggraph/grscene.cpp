@@ -243,7 +243,8 @@ grLoadScene(tTrack *track)
 	return 0;
 }
 
-namespace torcsAdaptive
+/* Internal library procedural functions for loading, attaching and detaching children dynamically */
+namespace procedural
 {
 	/* Loads a 3D Description and returns a pointer to it's entity */
 	EntityDesc* Load3DDesc(const char* acName, ssgLoaderOptions* options)
@@ -253,13 +254,13 @@ namespace torcsAdaptive
 	}
 
 	/* Remove given entity from scene graph */
-	void Detach3DDesc(torcsAdaptive::EntityDesc* curDesc)
+	void Detach3DDesc(EntityDesc* curDesc)
 	{
 		LandAnchor->removeKid(curDesc);
 	}
 
 	/* Add given entity to scene graph */
-	void Attach3DDesc(torcsAdaptive::EntityDesc* curDesc)
+	void Attach3DDesc(EntityDesc* curDesc)
 	{
 		LandAnchor->addKid(curDesc);
 	}

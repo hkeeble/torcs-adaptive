@@ -90,7 +90,7 @@
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>tgf.lib;robottools.lib;txml.lib;ssg_vs2008_32.lib;ul_vs2008_32.lib;sg_vs2008_32.lib;trackGeneration.lib;adaptive.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>tgf.lib;robottools.lib;txml.lib;ssg_vs2008_32.lib;ul_vs2008_32.lib;sg_vs2008_32.lib;trackGeneration.lib;procedural.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Debug/track.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(SolutionDir)/export/libd;../../windows/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -169,8 +169,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="torcsAdaptive\addSegment.cpp" />
-    <ClCompile Include="torcsAdaptive\taTrack.cpp" />
+    <ClCompile Include="procedural\addSegment.cpp" />
+    <ClCompile Include="procedural\pTrack.cpp" />
     <ClCompile Include="track.cpp" />
     <ClCompile Include="track3.cpp" />
     <ClCompile Include="track4.cpp" />
@@ -181,7 +181,7 @@
     <None Include="track.def" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="torcsAdaptive\torcsAdaptive.h" />
+    <ClInclude Include="procedural\proceduralTrack.h" />
     <ClInclude Include="trackinc.h" />
   </ItemGroup>
   <ItemGroup>

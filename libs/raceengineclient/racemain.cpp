@@ -44,7 +44,7 @@
 
 #include "perfMeasurement\perfMeasurement.h"
 #include "torcsAdaptive.h"
-#include "torcsAdaptive\taTrack.h"
+#include "procedural\pTrack.h"
 
 /***************************************************************/
 /* ABANDON RACE HOOK */
@@ -117,8 +117,8 @@ ReRaceEventInit(void)
 	// Initialize Track
 	if(!torcsAdaptive::taAdaptiveMode)
 		ReInitTrack();
-	else
-		ReInfo->track = ReInfo->_reTrackItf.taTrackInit(TA_TR_LENGTH);
+	else // Initialize a procedural track
+		ReInfo->track = ReInfo->_reTrackItf.PTrackInit(TA_TR_LENGTH);
 
 	// Initialize Graphics
 	if (
@@ -129,12 +129,12 @@ ReRaceEventInit(void)
 		ReInfo->_reGraphicItf.inittrack(ReInfo->track);
 	};
 
-	// Initialize 3D Description for Torcs-Adaptive
+	// Initialize 3D Description for procedural track
 	if(torcsAdaptive::taAdaptiveMode)
 	{
-		torcsAdaptive::taTrack* trInfo = ReInfo->_reTrackItf.taGetTrackInfo();
-		trInfo->SetTrackDesc(ReInfo->_reGraphicItf.taLoad3DDesc(trInfo->GetACName(), (ssgLoaderOptions*)trInfo->GetLoaderOptions()));
-		ReInfo->_reGraphicItf.taAttach3DDesc(trInfo->GetTrackDesc());
+		procedural::pTrack* trInfo = ReInfo->_reTrackItf.PGetTrackInfo(); // Retrieve track info
+		trInfo->SetTrackDesc(ReInfo->_reGraphicItf.pLoad3DDesc(trInfo->GetACName(), (ssgLoaderOptions*)trInfo->GetLoaderOptions())); // Load Initial 3D decsription
+		ReInfo->_reGraphicItf.pAttach3DDesc(trInfo->GetTrackDesc()); // Attach 3D description to scene graph
 	}
 
 	ReEventInitResults();

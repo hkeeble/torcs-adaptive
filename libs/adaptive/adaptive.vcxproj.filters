@@ -15,16 +15,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="taTrackState.cpp">
+    <ClCompile Include="pCarData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="taSeg.cpp">
+    <ClCompile Include="pSeg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="taTrack.cpp">
+    <ClCompile Include="pSegCollection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="taTrackCache.cpp">
+    <ClCompile Include="pTrack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pTrackState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
