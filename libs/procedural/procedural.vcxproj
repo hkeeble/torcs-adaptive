@@ -18,6 +18,9 @@
     <ClCompile Include="PTrackManager.cpp" />
     <ClCompile Include="PTrackState.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Diagram.cd" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{30CD6A7A-7E7D-4C1E-869E-86E163B276D8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

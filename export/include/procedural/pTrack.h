@@ -28,7 +28,6 @@ namespace procedural
 		char* acName;
 		char* acPath;
 		trackSeg *start, *end;
-		PCarData* carData;
 
 		/* Internal copying function */
 		void cpy(const PTrack& param);
@@ -69,9 +68,6 @@ namespace procedural
 
 		/* Get segment with the specified ID */
 		tTrackSeg* GetSeg(int id);
-
-		/* Get Car Data */
-		PCarData* CarData();
 
 		/* Get Accessors */
 		const ssgLoaderOptions *const GetLoaderOptions();

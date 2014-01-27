@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="PSeg is only used as a storage class for passing data as an object.">
+    <Position X="1.188" Y="3.156" Height="0.75" Width="1.7" />
+  </Comment>
+  <Class Name="procedural::PSeg">
+    <Position X="1.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>RQAAAAABCACCAAAAAEAAAAAAgAAFAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>c:\users\henri\documents\projects\torcs-adaptive\src\export\include\procedural\pseg.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="procedural::PTrack">
+    <Position X="10" Y="1.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>CCAAAAAiAAAEgAApggMgAACFAAAAgUAEAYogMABACAA=</HashCode>
+      <FileName>c:\users\henri\documents\projects\torcs-adaptive\src\export\include\procedural\ptrack.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="state" />
+      <Field Name="segs" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="procedural::PTrackManager">
+    <Position X="5.75" Y="1.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>CAAIQAAAAAAAAABAAAQACAAABAAAAAAAAAACgAAAABg=</HashCode>
+      <FileName>c:\users\henri\documents\projects\torcs-adaptive\src\export\include\procedural\ptrackmanager.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="track" />
+      <Field Name="segFactory" />
+      <Field Name="carData" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="procedural::PCarData">
+    <Position X="5" Y="5.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AQQABAACACAAAAAYQAAAAAAAAAAAAAAQBAAAQAAAAAE=</HashCode>
+      <FileName>c:\users\henri\documents\projects\torcs-adaptive\src\export\include\procedural\pcardata.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="procedural::PSegFactory">
+    <Position X="3.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAABAAAAAAAAAABABCAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>c:\users\henri\documents\projects\torcs-adaptive\src\export\include\procedural\pseg.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="procedural::PSegCollection">
+    <Position X="12.75" Y="3" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>IAIIAAACACBAAAAgEEAAgABAAAAAAAAAAIAgAAACAAA=</HashCode>
+      <FileName>c:\users\henri\documents\projects\torcs-adaptive\src\export\include\procedural\psegcollection.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="procedural::PTrackState">
+    <Position X="7.5" Y="4.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAICAAAQAAAAAAAgAAAAAEAgAEgAADAAACABEA=</HashCode>
+      <FileName>c:\users\henri\documents\projects\torcs-adaptive\src\export\include\procedural\ptrackstate.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
