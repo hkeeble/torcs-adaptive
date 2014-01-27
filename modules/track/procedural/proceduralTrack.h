@@ -13,10 +13,10 @@
 
 #include "trackgen.h"
 
-#include "procedural\pSeg.h"
-#include "procedural\pTrackState.h"
+#include "procedural\PSeg.h"
+#include "procedural\PTrackState.h"
 #include "procedural\pDefs.h"
-#include "procedural\pTrack.h"
+#include "procedural\PTrack.h"
 
 #include <string>
 
@@ -24,15 +24,15 @@
 namespace procedural
 {
 	/* Instance of the current track */
-	extern pTrack* proceduralTrack;
+	extern PTrack* proceduralTrack;
 
 	#define TrackState		proceduralTrack->state
 
 	// TA INTERFACE FUNCTIONS
 	tTrack*				PInitTrack			(int trkLength);
 	void				PShutDown			();
-	void				PAddSegment			(pSeg seg, pTrack* trInfo);
-	pTrack*				PGetTrackInfo		();
+	void				PAddSegment			(PSeg seg, PTrack* trInfo);
+	PTrack*				PGetTrackInfo		();
 }
 
 #endif // _TORCS_ADAPTIVE_H_

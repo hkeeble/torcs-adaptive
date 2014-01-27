@@ -27,7 +27,7 @@
 #include <portability.h>
 #include "trackinc.h"
 
-#include "procedural\pSeg.h"
+#include "procedural\PSeg.h"
 
 static tdble	xmin, xmax, ymin, ymax, zmin, zmax;
 

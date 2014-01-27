@@ -279,12 +279,12 @@ static void Interpolate(int Step)
 
 
 
-void generateRaceLine(tTrack *pTrack, const double lSideDistExt, const double lSideDistInt)
+void generateRaceLine(tTrack *PTrack, const double lSideDistExt, const double lSideDistInt)
 {
 	SideDistExt = lSideDistExt;
 	SideDistInt = lSideDistInt;
 	
-	SplitTrack(pTrack);
+	SplitTrack(PTrack);
 
 	for (int Step = 128; (Step /= 2) > 0;) {
 		for (int i = 100 * int(sqrt((double)Step)); --i >= 0;) {

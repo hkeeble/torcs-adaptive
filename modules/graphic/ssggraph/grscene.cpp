@@ -49,7 +49,7 @@
 #include "grssgext.h"
 #include "grtexture.h"
 
-#include "../libs//raceengineclient/torcsAdaptive/torcsAdaptive.h" // For use of boolean
+#include "torcsAdaptive\TAManager.h"
 
 int grWrldX;
 int grWrldY;
@@ -230,7 +230,8 @@ grLoadScene(tTrack *track)
 	ssgModelPath(buf);
 
 	// Don't initialize 3d desc if adaptive track
-	if(torcsAdaptive::taAdaptiveMode == false)
+	using namespace torcsAdaptive;
+	if(TAManager::Get()->Type() == TARaceType::None)
 	{
 		acname = GfParmGetStr(hndl, TRK_SECT_GRAPH, TRK_ATT_3DDESC, "track.ac");
 		if (strlen(acname) == 0)

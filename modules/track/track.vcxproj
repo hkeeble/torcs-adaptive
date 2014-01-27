@@ -186,9 +186,6 @@
     <ClInclude Include="trackinc.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libs\adaptive\adaptive.vcxproj">
-      <Project>{30cd6a7a-7e7d-4c1e-869e-86e163b276d8}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\libs\robottools\robottools.vcxproj">
       <Project>{eacc0870-5315-41f9-ae61-b93c77334eae}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

@@ -19,7 +19,7 @@ namespace procedural
     if (zmin > (z)) zmin = (z);	\
     if (zmax < (z)) zmax = (z);
 
-	void PAddSegment(pSeg seg, pTrack* trInfo)
+	void PAddSegment(PSeg seg, PTrack* trInfo)
     {
         int		        j;
 		tTrackSeg	    *curSeg;

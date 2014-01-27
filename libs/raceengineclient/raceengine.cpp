@@ -39,7 +39,7 @@
 
 #include "raceengine.h"
 
-#include "torcsAdaptive\torcsAdaptive.h"
+#include "torcsAdaptive.h"
 
 static double	msgDisp;
 static double	bigMsgDisp;
@@ -48,6 +48,7 @@ tRmInfo	*ReInfo = 0;
 
 static void ReRaceRules(tCarElt *car);
 
+using namespace torcsAdaptive;
 
 /* Compute Pit stop time */
 static void
@@ -624,8 +625,8 @@ ReOneStep(double deltaTimeIncrement)
 				robot->rbDrive(robot->index, s->cars[i], s);
 				
 				// --- Track Performance ---
-				if(s->cars[i] == torcsAdaptive::perfMeasurement->GetCar())
-					torcsAdaptive::perfMeasurement->Update(deltaTimeIncrement, s->currentTime);
+				if(s->cars[i] == taManager->PerformanceMeasurement()->GetCar())
+					taManager->PerformanceMeasurement()->Update(deltaTimeIncrement, s->currentTime);
 			}
 		}
 		ReInfo->_reLastTime = s->currentTime;
@@ -706,8 +707,9 @@ ReUpdate(void)
 			}
 			STOP_PROFILE("ReOneStep*");
 
-			if(torcsAdaptive::taAdaptiveMode)
-				torcsAdaptive::UpdateTrack(ReInfo);
+			// Update the track if torcs-adaptive race mode
+			if (taManager->Type() != TARaceType::None)
+				taManager->UpdateTrack();
 
 			if (i > MAXSTEPS) {
 				// Cannot keep up with time warp, reset time to avoid lag when running slower again

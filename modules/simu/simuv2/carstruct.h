@@ -20,7 +20,7 @@
 #ifndef _CAR__H_
 #define _CAR__H_
 
-#include <plib\sg.h>
+#include "../../../windows/include/plib/sg.h"
 #include <SOLID/solid.h>
 
 #include "aero.h"

@@ -1,5 +1,5 @@
 /*
-	File: pCarData.h
+	File: PCarData.h
 	Author: Henri Keeble
 	Desc: Declares a class to be used to monitor a car's data for use in managing a procedurally generated track.
 */
@@ -20,7 +20,7 @@ namespace procedural
 	};
 
 	/* Represents the car data for use in procedural generation */
-	class pCarData
+	class PCarData
 	{
 	private:
 		tCarElt* car;
@@ -30,9 +30,9 @@ namespace procedural
 		tTrackSeg* curSeg;
 		tTrackSeg* prevSeg;
 	public:
-		pCarData();
-		pCarData(tCarElt* car);
-		~pCarData();
+		PCarData();
+		PCarData(tCarElt* car);
+		~PCarData();
 
 		/* Update the data stored by using the tCarElt structure */
 		void Update();

@@ -1,5 +1,5 @@
 /*
-	File: pSegCollection.h
+	File: PSegCollection.h
 	Author: Henri Keeble
 	Desc: Declares a class used to store an entire track as a collection of segments in a doubly linked list structure. Segments can be retrieved from here
 		  through the () operator overload to add back into the TORCS track structure. This prevents TORCS from generating 3D descriptions that are too large.
@@ -12,7 +12,7 @@
 
 namespace procedural
 {
-	class pSegCollection
+	class PSegCollection
 	{
 	private:
 		tTrackSeg* end;
@@ -20,14 +20,14 @@ namespace procedural
 		int nseg;
 		int length;
 		
-		void cpy(const pSegCollection& param); // Internal copying function
+		void cpy(const PSegCollection& param); // Internal copying function
 	public:
-		pSegCollection();
-		pSegCollection(const pSegCollection& param);
-		~pSegCollection();
+		PSegCollection();
+		PSegCollection(const PSegCollection& param);
+		~PSegCollection();
 		
 		// Operator Overloads
-		pSegCollection& operator=(const pSegCollection& param);
+		PSegCollection& operator=(const PSegCollection& param);
 		tTrackSeg* operator()(int id);
 		
 		// Get Accessors

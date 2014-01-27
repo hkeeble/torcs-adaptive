@@ -38,7 +38,7 @@
 
 #include "grscreen.h"
 
-#include "../libs//raceengineclient/torcsAdaptive/torcsAdaptive.h" // For use of boolean
+#include "torcsAdaptive\TAManager.h" // For use of boolean
 
 cGrScreen::cGrScreen(int myid)
 {
@@ -383,8 +383,9 @@ void cGrScreen::update(tSituation *s, float Fps)
 	START_PROFILE("grDisp**");
 	glDisable(GL_TEXTURE_2D);
 	
-	// Only update boards if not in adaptive mode
-	if(torcsAdaptive::taAdaptiveMode == false)
+	// Only update boards if not in adaptive/procedural mode
+	using namespace torcsAdaptive;
+	if(TAManager::Get()->Type() == TARaceType::None)
 	{
 		TRACE_GL("cGrScreen::update glDisable(GL_DEPTH_TEST)");
 		board->refreshBoard(s, Fps, 0, curCar);
@@ -453,7 +454,8 @@ void cGrScreen::loadParams(tSituation *s)
 	curCam->loadDefaults(buf);
 	drawCurrent = curCam->getDrawCurrent();
 
-	if(torcsAdaptive::taAdaptiveMode == false) // Only initialize board if track not adaptive
+	using namespace torcsAdaptive;
+	if(TAManager::Get()->Type() == TARaceType::None) // Only initialize board if track not adaptive
 		board->loadDefaults(curCar);
 }
 

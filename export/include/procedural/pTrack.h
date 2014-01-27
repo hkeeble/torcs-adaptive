@@ -1,5 +1,5 @@
 /*
-	File: pTrack.h
+	File: PTrack.h
 	Author: Henri Keeble
 	Desc: A class used to represent a procedural track in TORCS. Encapsulates all data required to manage and update a procedural track.
 */
@@ -7,10 +7,10 @@
 #ifndef _P_TRACK_H_
 #define _P_TRACK_H_
 
-#include "pTrackState.h"
-#include "pDefs.h"
-#include "pSegCollection.h"
-#include "pCarData.h"
+#include "PTrackState.h"
+#include "PDefs.h"
+#include "PSegCollection.h"
+#include "PCarData.h"
 #include "track.h"
 #include "../../../windows/include/plib/ssg.h"
 
@@ -20,7 +20,7 @@ struct trackSeg;
 namespace procedural
 {
 	/* Represents the lifetime of a procedural track */
-	class pTrack
+	class PTrack
 	{
 	private:
 		EntityDesc* trackDesc;
@@ -28,23 +28,23 @@ namespace procedural
 		char* acName;
 		char* acPath;
 		trackSeg *start, *end;
-		pCarData* carData;
+		PCarData* carData;
 
 		/* Internal copying function */
-		void cpy(const pTrack& param);
+		void cpy(const PTrack& param);
 
 	public:
 
 		/* Number of segments stored in memory either side of occupied segment */
 		const int SEG_MEMORY_SIZE = 3;
 
-		pTrack(tTrack* track, char* acname, char* acpath, ssgLoaderOptions* loaderoptions);
-		~pTrack();
-		pTrack(const pTrack& param);
-		pTrack& operator=(const pTrack& param);
+		PTrack(tTrack* track, char* acname, char* acpath, ssgLoaderOptions* loaderoptions);
+		~PTrack();
+		PTrack(const PTrack& param);
+		PTrack& operator=(const PTrack& param);
 
 		/* Current track state */
-		pTrackState state;
+		PTrackState state;
 		
 		/* Root of track (the last added segment) */
 		trackSeg* root;
@@ -53,7 +53,7 @@ namespace procedural
 		tTrack* trackCache;
 
 		/* Collection for storing all segments */
-		pSegCollection segs;
+		PSegCollection segs;
 
 		/* Remove a segment at the start */
 		void RemoveSegAtStart();
@@ -71,7 +71,7 @@ namespace procedural
 		tTrackSeg* GetSeg(int id);
 
 		/* Get Car Data */
-		pCarData* CarData();
+		PCarData* CarData();
 
 		/* Get Accessors */
 		const ssgLoaderOptions *const GetLoaderOptions();

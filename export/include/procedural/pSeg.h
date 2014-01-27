@@ -1,5 +1,5 @@
 /*
-	File: pSeg.h
+	File: PSeg.h
 	Author: Henri Keeble
 	Desc: Declares a class used to represent a procedural segment, and factory functions to ease instantiation of different types of segment.
 */
@@ -11,17 +11,17 @@
 
 namespace procedural
 {
-	class pSegFactory;
+	class PSegFactory;
 
 	/* Represents segment data for torcs-adaptive. */
-	class pSeg
+	class PSeg
 	{
 	private:
-		pSeg();
+		PSeg();
 	public:	
-		friend class pSegFactory;
+		friend class PSegFactory;
 
-		virtual ~pSeg();
+		virtual ~PSeg();
 
 		int	id;	
 		int type;
@@ -46,20 +46,20 @@ namespace procedural
 	};
 
 	/* Factory for segments, singleton class */
-	class pSegFactory
+	class PSegFactory
 	{
 	private:
-		pSegFactory();
-		virtual ~pSegFactory();
-		static pSegFactory* instance;
+		PSegFactory();
+		virtual ~PSegFactory();
+		static PSegFactory* instance;
 	public:
-		static pSegFactory* GetInstance();
+		static PSegFactory* GetInstance();
 
 		// Creates a straight segment
-		pSeg CreateSegStr(int id, float length);
+		PSeg CreateSegStr(int id, float length);
 
 		// Creates a corner segment
-		pSeg CreateSegCnr(int id, pCornerType cType, float radius, float radiusr, float radiusl, float arc);
+		PSeg CreateSegCnr(int id, pCornerType cType, float radius, float radiusr, float radiusl, float arc);
 	};
 }
 #endif // _P_SEG_H_

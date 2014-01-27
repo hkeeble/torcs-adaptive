@@ -66,7 +66,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../interfaces;../../windows/include;../../..;%(AdditionalIncludeDirectories);$(SolutionDir)\config\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../interfaces;../../windows/include;../../..;%(AdditionalIncludeDirectories);$(SolutionDir)\config\;$(SolutionDir)/export/include/torcsAdaptive;$(ProjectDir)..\raceengineclient\torcsAdaptive\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CLIENT_EXPORTS;DEBUG;DEBUG_OUT;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -125,7 +125,7 @@ copy $(TargetDir)*.lib $(SolutionDir)\export\libd
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../interfaces;../../windows/include;../../..;%(AdditionalIncludeDirectories);$(SolutionDir)\config\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../interfaces;../../windows/include;../../..;%(AdditionalIncludeDirectories);$(SolutionDir)\config\;$(SolutionDir)/export/include/torcsAdaptive;$(ProjectDir)..\raceengineclient\torcsAdaptive\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CLIENT_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -174,8 +174,7 @@ copy $(TargetDir)*.lib $(SolutionDir)\export\lib
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\raceengineclient\torcsAdaptive\ProceduralTrackManager.cpp" />
-    <ClCompile Include="..\raceengineclient\torcsAdaptive\TorcsAdaptiveManager.cpp" />
+    <ClCompile Include="..\raceengineclient\torcsAdaptive\TAManager.cpp" />
     <ClCompile Include="..\tgfclient\control.cpp" />
     <ClCompile Include="..\confscreens\controlconfig.cpp" />
     <ClCompile Include="..\confscreens\driverconfig.cpp" />
@@ -227,8 +226,7 @@ copy $(TargetDir)*.lib $(SolutionDir)\export\lib
     <ClCompile Include="..\racescreens\trackselect.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\raceengineclient\torcsAdaptive\ProceduralTrackManager.h" />
-    <ClInclude Include="..\raceengineclient\torcsAdaptive\TorcsAdaptiveManager.h" />
+    <ClInclude Include="..\raceengineclient\torcsAdaptive\torcsAdaptive.h" />
     <ClInclude Include="client.h" />
     <ClInclude Include="driverconfig.h" />
     <ClInclude Include="exitmenu.h" />
@@ -240,9 +238,6 @@ copy $(TargetDir)*.lib $(SolutionDir)\export\lib
     <ProjectReference Include="..\..\modules\graphic\ssggraph\ssggraphlib.vcxproj">
       <Project>{87c850ad-e339-4687-83da-2f76aa0cd5db}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\adaptive\adaptive.vcxproj">
-      <Project>{30cd6a7a-7e7d-4c1e-869e-86e163b276d8}</Project>
     </ProjectReference>
     <ProjectReference Include="..\robottools\robottools.vcxproj">
       <Project>{eacc0870-5315-41f9-ae61-b93c77334eae}</Project>

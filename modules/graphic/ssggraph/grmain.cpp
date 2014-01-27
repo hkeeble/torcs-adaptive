@@ -45,7 +45,7 @@
 #include "grcarlight.h"
 #include <glfeatures.h>
 
-#include "../libs/raceengineclient/torcsAdaptive/torcsAdaptive.h" // For use of boolean
+#include "torcsAdaptive\TAManager.h"
 
 int maxTextureUnits = 0;
 static double OldTime;
@@ -253,8 +253,9 @@ initView(int x, int y, int width, int height, int /* flag */, void *screen)
 	snprintf(buf, BUFSIZE, "%s%s", GetLocalDir(), GR_PARAM_FILE);
 	grHandle = GfParmReadFile(buf, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT);
 
-	// Initializes Maps? Do not initialize if adaptive!
-	if(torcsAdaptive::taAdaptiveMode == false)
+	// Initializes Maps? Do not initialize if adaptive/procedural!
+	using namespace torcsAdaptive;
+	if(TAManager::Get()->Type() == TARaceType::None)
 	{
 		for (i = 0; i < GR_NB_MAX_SCREEN; i++) {
 			grScreens[i]->initBoard ();

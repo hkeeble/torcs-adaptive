@@ -42,9 +42,8 @@
 
 #include "racemain.h"
 
-#include "perfMeasurement\perfMeasurement.h"
-#include "torcsAdaptive\torcsAdaptive.h"
-#include "procedural\pTrack.h"
+#include "torcsAdaptive.h"
+#include "procedural\PTrack.h"
 
 /***************************************************************/
 /* ABANDON RACE HOOK */
@@ -115,7 +114,7 @@ ReRaceEventInit(void)
 	RmLoadingScreenStart(ReInfo->_reName, "data/img/splash-qrloading.png");
 	
 	// Initialize Track
-	if(!torcsAdaptive::taAdaptiveMode)
+	if (!taManager->IsActive())
 		ReInitTrack();
 	else // Initialize a procedural track
 		ReInfo->track = ReInfo->_reTrackItf.PTrackInit(TA_TR_LENGTH);
@@ -130,9 +129,9 @@ ReRaceEventInit(void)
 	};
 
 	// Initialize 3D Description for procedural track
-	if(torcsAdaptive::taAdaptiveMode)
+	if(taManager->IsActive())
 	{
-		procedural::pTrack* trInfo = ReInfo->_reTrackItf.PGetTrackInfo(); // Retrieve track info
+		procedural::PTrack* trInfo = ReInfo->_reTrackItf.PGetTrackInfo(); // Retrieve track info
 		trInfo->SetTrackDesc(ReInfo->_reGraphicItf.pLoad3DDesc(trInfo->GetACName(), (ssgLoaderOptions*)trInfo->GetLoaderOptions())); // Load Initial 3D decsription
 		ReInfo->_reGraphicItf.pAttach3DDesc(trInfo->GetTrackDesc()); // Attach 3D description to scene graph
 	}
@@ -295,7 +294,15 @@ reRaceRealStart(void)
 		GfuiScreenActivate(ReInfo->_reGameScreen);
 	}
 
+	if (taManager->IsActive())
+		InitTA();
+
 	return RM_SYNC | RM_NEXT_STEP;
+}
+
+void InitTA()
+{
+	taManager->Init(&ReInfo->carList[0], ReInfo, ReInfo->_reTrackItf.PGetTrackInfo());
 }
 
 /***************************************************************/

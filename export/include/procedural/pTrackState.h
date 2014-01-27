@@ -1,5 +1,5 @@
 /*
-	File: pTrackState.h
+	File: PTrackState.h
 	Author: Henri Keeble
 	Desc: A class to represent the current state of a track, and to keep track of essential values needed to generate segments between different calls to AddSegment.
 */
@@ -12,9 +12,9 @@
 namespace procedural
 {
 	/* Used to store the current state of the track for torcs-adaptive */
-	struct pTrackState
+	struct PTrackState
 	{
-		pTrackState();
+		PTrackState();
 		int	curSegIndex, envIndex, segsSinceLastUpdate;
 		float totLength, wi2, xr, yr, xl, yl, radius, alf;
 		

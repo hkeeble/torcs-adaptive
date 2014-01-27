@@ -536,14 +536,14 @@ typedef void(*tfTrackShutdown)(void);
 // Forward Declarations
 namespace procedural
 {
-	class pSeg;
-	class pTrack;
+	class PSeg;
+	class PTrack;
 }
 
 typedef tTrack*						(*tfPTrackInit)			(int);
-typedef void						(*tfPAddSegment)		(procedural::pSeg, procedural::pTrack*);
+typedef void						(*tfPAddSegment)		(procedural::PSeg, procedural::PTrack*);
 typedef void						(*tfPTrackShutDown)		();
-typedef procedural::pTrack*			(*tfPGetTrackInfo)		();
+typedef procedural::PTrack*			(*tfPGetTrackInfo)		();
 
 typedef struct {
 	

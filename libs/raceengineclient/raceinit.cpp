@@ -47,16 +47,16 @@
 
 #include "raceinit.h"
 
-#include "torcsAdaptive\torcsAdaptive.h"
-#include "perfMeasurement\perfMeasurement.h"
+#include "torcsAdaptive.h"
+
+using namespace torcsAdaptive;
+
+TAManager* taManager = TAManager::Get();
 
 static const char *level_str[] = { ROB_VAL_ROOKIE, ROB_VAL_AMATEUR, ROB_VAL_SEMI_PRO, ROB_VAL_PRO };
 
 static tModList *reEventModList = 0;
 tModList *ReRaceModList = 0;
-
-bool torcsAdaptive::taAdaptiveMode;
-torcsAdaptive::taPerfMeasurement* torcsAdaptive::perfMeasurement;
 
 typedef struct 
 {
@@ -136,11 +136,13 @@ void ReShutdown(void)
 void
 ReStartNewRace(void * /* dummy */)
 {
-	// Check if adaptive mode
-	if(strcmp(ReInfo->raceEngineInfo.name, TA_ADAPTIVE_MAN_NAME) == 0)
-		torcsAdaptive::taAdaptiveMode = true;
+	// Check for TORCS-Adaptive Race Modes
+	if (strcmp(ReInfo->raceEngineInfo.name, "Adaptive Race") == 0)
+		taManager->SetRaceType(TARaceType::Adaptive);
+	else if (strcmp(ReInfo->raceEngineInfo.name, "Procedural Race") == 0)
+		taManager->SetRaceType(TARaceType::Procedural);
 	else
-		torcsAdaptive::taAdaptiveMode = false;
+		taManager->SetRaceType(TARaceType::None);
 
 	ReInitResults();
 	ReStateManage();
@@ -386,7 +388,7 @@ initStartingGrid(void)
 		startpos = ReInfo->track->length - (d1 + (i / rows) * d2 + (i % rows) * d3);
 		tr = a + b * ((i % rows) + 1) / (rows + 1);
 		curseg = ReInfo->track->seg;  /* last segment */
-		if(torcsAdaptive::taAdaptiveMode == false)
+		if(taManager->IsActive() == false)
 		{
 			while (startpos < curseg->lgfromstart) {
 				curseg = curseg->prev;
@@ -531,27 +533,6 @@ initPits(void)
 		case TR_PIT_NONE:
 			break;
 	}
-}
-
-/* Initialize performance measurement.
-	@param car	Car to be watched
-	@return		0 Ok
-				1 Error
-*/
-int
-initPerfMeasurement(CarElt* car)
-{
-	namespace ta = torcsAdaptive;
-
-	if(ta::perfMeasurement)
-		delete ta::perfMeasurement;
-	ta::perfMeasurement = new ta::taPerfMeasurement();
-	ta::perfMeasurement->SetDriver(car);
-
-	if(ta::perfMeasurement->GetCar())
-		return 0;
-	else
-		return 1;
 }
 
 /** Initialize the cars for a race.
@@ -733,19 +714,6 @@ ReInitCars(void)
 	initStartingGrid();
 
     initPits();
-	
-	// Initialize Performance Measurement
-	if (torcsAdaptive::taAdaptiveMode)
-	{
-		if (initPerfMeasurement(&ReInfo->carList[0]) == 1)
-		{
-			GfFatal("Error initializing performance measurement.");
-			ReInfo->raceEngineInfo.state = RM_QUIT;
-		}
-
-		// Initialize Procedural Car Tracking
-		torcsAdaptive::InitCarData(&ReInfo->carList[0]);
-	}
 
     return 0;
 }
