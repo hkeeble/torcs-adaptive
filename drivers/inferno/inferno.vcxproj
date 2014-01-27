@@ -165,7 +165,7 @@
       <OutputFile>.\Release/inferno.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll $(SolutionDir)runtime\drivers\inferno</Command>
+      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtime\drivers\inferno</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

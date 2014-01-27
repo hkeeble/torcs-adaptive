@@ -47,7 +47,7 @@
 
 #include "raceinit.h"
 
-#include "torcsAdaptive.h"
+#include "torcsAdaptive\torcsAdaptive.h"
 #include "perfMeasurement\perfMeasurement.h"
 
 static const char *level_str[] = { ROB_VAL_ROOKIE, ROB_VAL_AMATEUR, ROB_VAL_SEMI_PRO, ROB_VAL_PRO };

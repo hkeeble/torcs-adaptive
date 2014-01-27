@@ -163,7 +163,7 @@
       <OutputFile>.\Release/human.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll $(SolutionDir)runtime\drivers\human</Command>
+      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtime\drivers\human</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

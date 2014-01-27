@@ -164,8 +164,8 @@ copy $(TargetDir)*.lib $(SolutionDir)\export\libd
       <OutputFile>.\Release/learning.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll $(SolutionDir)runtime
-copy $(TargetDir)*.lib $(SolutionDir)export\lib
+      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtime
+copy $(TargetDir)*.lib $(SolutionDir)\export\lib
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

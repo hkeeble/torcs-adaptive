@@ -165,7 +165,7 @@
       <OutputFile>.\Release/bt.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll $(SolutionDir)runtime\drivers\bt</Command>
+      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtime\drivers\bt</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

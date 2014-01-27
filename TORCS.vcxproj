@@ -63,6 +63,9 @@
       <TypeLibraryName>.\Release/TORCS.tlb</TypeLibraryName>
       <HeaderFileName />
     </Midl>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)\windows\dll\alut.dll" "$(SolutionDir)\..\runtime\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ProjectReference Include="drivers\berniw2\berniw2.vcxproj">

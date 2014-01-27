@@ -42,14 +42,14 @@
     <_ProjectFileVersion>11.0.50727.1</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>.\Release\</OutDir>
+    <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
     <IntDir>.\Release\</IntDir>
     <EnableManagedIncrementalBuild>false</EnableManagedIncrementalBuild>
     <LinkIncremental>false</LinkIncremental>
     <GenerateManifest>false</GenerateManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>C:\Users\Henri\Documents\Projects\torcs-adaptive\runtimed\</OutDir>
+    <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
     <IntDir>.\Debug\</IntDir>
     <EnableManagedIncrementalBuild>false</EnableManagedIncrementalBuild>
     <LinkIncremental>false</LinkIncremental>
@@ -67,7 +67,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../windows/include;../../..;$(SolutionDir)\config\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../windows/include;../../..;$(SolutionDir)\config\;$(SolutionDir)\export\include\trackgen\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -89,9 +89,9 @@
     </ProjectReference>
     <Link>
       <AdditionalDependencies>sl_vs2008_32.lib;client.lib;robottools.lib;sg_vs2008_32.lib;ssg_vs2008_32.lib;ssggraphlib.lib;txml.lib;ul_vs2008_32.lib;libpng15_vs2008_32.lib;tgf.lib;trackGeneration.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>.\Release/trackgen.exe</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>$(SolutionDir)/export/lib;../../windows/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)/export/lib;../../windows/lib;$(SolutionDir)libs\trackGeneration\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EnableUAC>false</EnableUAC>
       <ProgramDatabaseFile>.\Release/trackgen.pdb</ProgramDatabaseFile>
       <GenerateMapFile>true</GenerateMapFile>
@@ -106,7 +106,7 @@
       <OutputFile>.\Release/trackgen.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)trackgen.exe $(SolutionDir)runtime</Command>
+      <Command>copy $(TargetDir)trackgen.exe $(SolutionDir)..\runtime</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -138,7 +138,7 @@
     </ProjectReference>
     <Link>
       <AdditionalDependencies>sl_vs2008_32.lib;client.lib;robottools.lib;sg_vs2008_32.lib;ssg_vs2008_32.lib;trackGeneration.lib;ssggraphlib.lib;txml.lib;ul_vs2008_32.lib;libpng15_vs2008_32.lib;tgf.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>C:\Users\Henri\Documents\Projects\torcsadaptive\runtimed\trackgen.exe</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(SolutionDir)/export/libd;../../windows/lib;$(SolutionDir)libs\trackGeneration\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EnableUAC>false</EnableUAC>
@@ -157,8 +157,7 @@
       <OutputFile>.\Debug/trackgen.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>copy $(TargetDir)trackgen.exe $(SolutionDir)..\runtimed</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

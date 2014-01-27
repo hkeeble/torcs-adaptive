@@ -110,7 +110,7 @@ copy dll\OpenAL32.dll $(SolutionDir)runtime
 copy dll\libogg.dll $(SolutionDir)runtime
 copy dll\libvorbis.dll $(SolutionDir)runtime
 copy dll\libvorbisfile.dll $(SolutionDir)runtime
-</Command>
+copy dll\alut.dll $(SolutionDir)..\runtimed</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

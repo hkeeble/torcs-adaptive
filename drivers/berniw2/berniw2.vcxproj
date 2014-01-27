@@ -165,7 +165,7 @@
       <OutputFile>.\Release/berniw2.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll $(SolutionDir)runtime\drivers\berniw2</Command>
+      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtime\drivers\berniw2</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

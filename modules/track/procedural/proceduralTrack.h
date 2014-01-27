@@ -1,6 +1,7 @@
 /*
-	File: torcsAdaptive.h
-	Desc: header file for torcsAdaptive
+	File: proceduralTrack.h
+	Desc: Header file for procedural tracks. Contains extern declaration of a procedural track object, and functions used as interface into this module when managing
+		  a procedural track.
 	Author: Henri Keeble
 */
 #ifndef _TORCS_ADAPTIVE_H_

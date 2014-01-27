@@ -43,7 +43,7 @@
 #include "racemain.h"
 
 #include "perfMeasurement\perfMeasurement.h"
-#include "torcsAdaptive.h"
+#include "torcsAdaptive\torcsAdaptive.h"
 #include "procedural\pTrack.h"
 
 /***************************************************************/

@@ -107,7 +107,7 @@
       <OutputFile>.\Release/olethros.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll $(SolutionDir)runtime\drivers\olethros</Command>
+      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtime\drivers\olethros</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

@@ -109,7 +109,7 @@
       <OutputFile>.\Release/berniw3.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll $(SolutionDir)runtime\drivers\berniw3</Command>
+      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtime\drivers\berniw3</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

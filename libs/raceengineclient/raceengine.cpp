@@ -39,7 +39,7 @@
 
 #include "raceengine.h"
 
-#include "torcsAdaptive.h"
+#include "torcsAdaptive\torcsAdaptive.h"
 
 static double	msgDisp;
 static double	bigMsgDisp;

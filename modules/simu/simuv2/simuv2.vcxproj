@@ -165,7 +165,7 @@
       <OutputFile>.\Release/simuv2.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll $(SolutionDir)runtime\modules\simu</Command>
+      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtime\modules\simu</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

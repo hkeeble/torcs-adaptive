@@ -19,6 +19,7 @@
     <PlatformToolset>v120</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -126,7 +127,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../windows/include;../../..;$(SolutionDir)\config\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;$(SolutionDir)/windows/include;../../..;$(SolutionDir)\config\;$(SolutionDir)/export/include/trackgen/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;TRACK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -147,7 +148,7 @@
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>sg_vs2008_32.lib;tgf.lib;robottools.lib;txml.lib;ssg_vs2008_32.lib;ul_vs2008_32.lib;trackGeneration.lib;adaptive.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sg_vs2008_32.lib;tgf.lib;robottools.lib;txml.lib;ssg_vs2008_32.lib;ul_vs2008_32.lib;trackGeneration.lib;procedural.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Release/track.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(SolutionDir)/export/lib;../../windows/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -165,7 +166,7 @@
       <OutputFile>.\Release/track.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll $(SolutionDir)runtime\modules\track</Command>
+      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtime\modules\track</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
