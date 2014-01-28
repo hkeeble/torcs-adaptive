@@ -1,21 +1,8 @@
-/***************************************************************************
-
-    file                 : linalg.h
-    created              : Mo Mar 11 13:51:00 CET 2002
-    copyright            : (C) 2002 by Bernhard Wymann
-    email                : berniw@bluewin.ch
-    version              : $Id: linalg.h,v 1.1 2002/03/12 18:17:15 berniw Exp $
-
- ***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+/*
+	File: linalg.h
+	Author: Bernhard Wymann, Henri Keeble (edits)
+	Desc: Contains a 3D Vector class. 
+*/
 
 #ifndef _LINALG_H_
 #define _LINALG_H_

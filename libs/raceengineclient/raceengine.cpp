@@ -622,7 +622,11 @@ ReOneStep(double deltaTimeIncrement)
 		for (i = 0; i < s->_ncars; i++) {
 			if ((s->cars[i]->_state & RM_CAR_STATE_NO_SIMU) == 0) {
 				robot = s->cars[i]->robot;
-				robot->rbDrive(robot->index, s->cars[i], s);
+
+				if (!TAManager::Get()->IsActive())
+					robot->rbDrive(robot->index, s->cars[i], s);
+				else
+					robot->rbDriveProc(robot->index, s->cars[i], s, ReInfo->track);
 				
 				// --- Track Performance ---
 				if(s->cars[i] == taManager->PerformanceMeasurement()->GetCar())

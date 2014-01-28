@@ -1,21 +1,8 @@
-/***************************************************************************
-
-    file                 : berniw.h
-    created              : Mon Mai 15 16:52:00 CET 2000
-    copyright            : (C) 2000-2002 by Bernhard Wymann
-    email                : berniw@bluewin.ch
-    version              : $Id: berniw.h,v 1.16.2.1 2008/11/09 17:50:19 berniw Exp $
-
- ***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+/*
+	File: berniwProc.h
+	Author: Bernhard Wymann, Henri Keeble (edits)
+	Desc: Contains useful helper functions and defines for the berniwProc robot, a modification to berniw for TORCS-Adaptive.
+*/
 
 #ifndef _BERNIW_H_
 #define _BERNIW_H_
@@ -32,7 +19,7 @@
 #include <robottools.h>
 #include <math.h>
 #include "spline.h"
-#include "trackdesc.h"
+#include "ptrackdesc.h"
 #include "mycar.h"
 #include "pathfinder.h"
 

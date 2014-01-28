@@ -1,21 +1,8 @@
-/***************************************************************************
-
-    file                 : pathfinder.cpp
-    created              : Tue Oct 9 16:52:00 CET 2001
-    copyright            : (C) 2001-2002 by Bernhard Wymann, some Code from Remi Coulom, K1999.cpp
-    email                : berniw@bluewin.ch
-    version              : $Id: pathfinder.cpp,v 1.56 2007/11/06 20:43:31 torcs Exp $
-
- ***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+/*
+	File: pathfinder.cpp
+	Author: Bernhard Wymann, Henri Keeble (edits)
+	Desc: Definitions file for a class that finds a 3D path. This is a modified version of the original berniw robot for TORCS Adaptive.
+*/
 
 #include "pathfinder.h"
 #include "berniwProc.h"
@@ -24,7 +11,7 @@ const double Pathfinder::COLLDIST = 200.0;
 const double Pathfinder::TPRES = PI/(NTPARAMS - 1);	/* resolution of the steps */
 
 
-Pathfinder::Pathfinder(TrackDesc* itrack, tCarElt* car, tSituation *s)
+Pathfinder::Pathfinder(PTrackDesc* itrack, tCarElt* car, tSituation *s)
 {
 	int i;
 	track = itrack;
@@ -71,6 +58,15 @@ Pathfinder::~Pathfinder()
 	delete [] overlaptimer;
 }
 
+
+void Pathfinder::setTrackDescription(PTrackDesc* newDesc)
+{
+	if (track)
+		delete track;
+	track = newDesc;
+
+	// May need some additional processing? What is trackDesc used for in the constructor?
+}
 
 /* compute where the pit is, etc */
 void Pathfinder::initPit(tCarElt* car) {

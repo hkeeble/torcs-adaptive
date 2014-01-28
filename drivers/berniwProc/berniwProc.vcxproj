@@ -185,17 +185,18 @@
     <ClInclude Include="mycar.h" />
     <ClInclude Include="pathfinder.h" />
     <ClInclude Include="spline.h" />
-    <ClInclude Include="trackdesc.h" />
+    <ClInclude Include="ptrackdesc.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="berniwProc.cpp" />
     <ClCompile Include="mycar.cpp" />
     <ClCompile Include="pathfinder.cpp" />
     <ClCompile Include="spline.cpp" />
-    <ClCompile Include="trackdesc.cpp" />
+    <ClCompile Include="ptrackdesc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="berniwProc.def" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

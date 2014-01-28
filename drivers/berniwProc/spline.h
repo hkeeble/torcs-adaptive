@@ -1,21 +1,8 @@
-/***************************************************************************
-
-    file                 : spline.h
-    created              : Mon Apr 17 13:51:00 CET 2000
-    copyright            : (C) 2000-2002 by Bernhard Wymann
-    email                : berniw@bluewin.ch
-    version              : $Id: spline.h,v 1.7 2003/11/28 16:45:00 berniw Exp $
-
- ***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+/*
+	File: Spline.h
+	Author: Bernhard Wymann, Henri Keeble (edits)
+	Desc:Declarations for Spline and related classes and structs. This is a modified version of the original berniw robot for TORCS Adaptive.
+*/
 
 #ifndef _SPLINE_H_
 #define _SPLINE_H_

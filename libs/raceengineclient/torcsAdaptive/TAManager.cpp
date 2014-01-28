@@ -11,7 +11,7 @@ namespace torcsAdaptive
 
 	TAManager::TAManager()
 	{
-		raceType = TARaceType::Procedural;
+		raceType = TARaceType::None;
 		perfMeasurement = nullptr;
 		trackManager = nullptr;
 	}

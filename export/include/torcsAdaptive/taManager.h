@@ -8,6 +8,7 @@
 
 #include "perfMeasurement\perfMeasurement.h"
 #include "procedural\pTrackManager.h"
+#include "procedural\PRange.h"
 
 using namespace procedural;
 

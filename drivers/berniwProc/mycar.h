@@ -1,24 +1,7 @@
-/***************************************************************************
-
-    file                 : mycar.h
-    created              : Mon Oct 10 13:51:00 CET 2001
-    copyright            : (C) 2001-2002 by Bernhard Wymann
-    email                : berniw@bluewin.ch
-    version              : $Id: mycar.h,v 1.30.2.1 2008/11/09 17:50:19 berniw Exp $
-
- ***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
-
 /*
-	this class holds some properties of the car
+	File: mycar.h
+	Author: Bernhard Wymann, Henri Keeble (edits)
+	Desc: Classes used to hold various car properties in TORCS. This is a modified version of the original berniw robot for TORCS Adaptive.
 */
 
 #ifndef _MYCAR_H_
@@ -35,7 +18,7 @@
 #include <robot.h>
 #include <robottools.h>
 #include <math.h>
-#include "trackdesc.h"
+#include "ptrackdesc.h"
 #include "pathfinder.h"
 #include "linalg.h"
 
@@ -156,11 +139,11 @@ class MyCar : public AbstractCar
 
 		double derror;			/* distance to desired trajectory */
 
-		MyCar(TrackDesc* track, tCarElt* car, tSituation *situation);
+		MyCar(PTrackDesc* track, tCarElt* car, tSituation *situation);
 		~MyCar();
 
 		void info(void);
-		void update(TrackDesc* track, tCarElt* car, tSituation *situation);
+		void update(PTrackDesc* track, tCarElt* car, tSituation *situation);
 		void loadBehaviour(int id);
 		double querySlipSpeed(tCarElt* car);
 		double queryAcceleration(tCarElt * car, double speed);
@@ -191,11 +174,11 @@ class MyCar : public AbstractCar
 class OtherCar: public AbstractCar
 {
 	public:
-		void init(TrackDesc* itrack, tCarElt* car, tSituation *situation);
+		void init(PTrackDesc* itrack, tCarElt* car, tSituation *situation);
 		void update(void);
 
 	private:
-		TrackDesc* track;
+		PTrackDesc* track;
 		double dt;
 };
 

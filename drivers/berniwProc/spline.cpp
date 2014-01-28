@@ -1,21 +1,8 @@
-/***************************************************************************
-
-    file                 : spline.cpp
-    created              : Mon Apr 17 13:51:00 CET 2000
-    copyright            : (C) 2000-2002 by Bernhard Wymann
-    email                : berniw@bluewin.ch
-    version              : $Id: spline.cpp,v 1.8 2003/12/24 21:01:27 berniw Exp $
-
- ***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+/*
+	File: spline.cpp
+	Author: Bernhard Wymann, Henri Keeble (edits)
+	Desc: Definitions file for a class that calculates splines and other related functions. This is a modified version of the original berniw robot for TORCS Adaptive.
+*/
 
 #include <math.h>
 #include <stdlib.h>

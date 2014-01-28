@@ -1,21 +1,8 @@
-/***************************************************************************
-
-    file                 : pathfinder.h
-    created              : Tue Oct 9 16:52:00 CET 2001
-    copyright            : (C) 2001-2002 by Bernhard Wymann
-    email                : berniw@bluewin.ch
-    version              : $Id: pathfinder.h,v 1.31.2.1 2008/11/09 17:50:19 berniw Exp $
-
- ***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+/*
+	File: pathfinder.h
+	Author: Bernhard Wymann, Henri Keeble (edits)
+	Desc: Used to compute the car's path. This is a modified version of the original berniw robot for TORCS Adaptive.
+*/
 
 /*
 	should (!) compute a good path
@@ -35,7 +22,7 @@
 #include <robot.h>
 #include <robottools.h>
 #include <math.h>
-#include "trackdesc.h"
+#include "ptrackdesc.h"
 #include "mycar.h"
 #include "spline.h"
 #include "linalg.h"
@@ -133,7 +120,7 @@ class PathSeg
 class Pathfinder
 {
 	public:
-		Pathfinder(TrackDesc* itrack, tCarElt* car, tSituation *situation);
+		Pathfinder(PTrackDesc* itrack, tCarElt* car, tSituation *situation);
 		~Pathfinder();
 		void plan(int trackSegId, tCarElt* car, tSituation* situation, MyCar* myc, OtherCar* ocar);
 		void plan(MyCar* myc);
@@ -157,6 +144,9 @@ class Pathfinder
 		inline double getPitSpeedSqrLimit() { return pitspeedsqrlimit; }
 		double distToPath(int trackSegId, v3d* p);
 
+		/* Update the pathfinder's track description */
+		void setTrackDescription(PTrackDesc* newDesc);
+
 	private:
 		static const double COLLDIST;	/* up to this distance do we consider other cars as dangerous */
 		static const double TPRES;		/* resolution of the steps */
@@ -164,7 +154,7 @@ class Pathfinder
 		enum { NTPARAMS = 1001 };		/* # entries in dat files */
 		tParam cp[NTPARAMS];			/* holds values needed for clothiod */
 
-		TrackDesc* track;		/* pointer to track data */
+		PTrackDesc* track;		/* pointer to track data */
 		int lastId;				/* segment id of the last call */
 		PathSeg* ps;			/* array with the plan */
 		int nPathSeg;			/* # of PathSeg's */

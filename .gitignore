@@ -7,3 +7,6 @@ Debug/
 
 # CVS Folders (Kept in case data needs re-installing)
 CVS/
+
+# Class Diagrams
+*.cd

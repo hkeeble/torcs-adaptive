@@ -38,6 +38,12 @@
 #include <racescreens.h>
 #include <portability.h>
 
+#include <algorithm>
+#include <string>
+#include "taManager.h"
+
+using namespace torcsAdaptive;
+
 static void		*scrHandle;
 static tRmDrvSelect	*ds;
 static int		selectedScrollList, unselectedScrollList;
@@ -337,6 +343,7 @@ RmDriversSelect(void *vs)
 					}
 					strcpy(dname, sp);
 					dname[strlen(dname) - strlen(DLLEXT) - 1] = 0; /* cut .so or .dll */
+
 					snprintf(buf, BUFSIZE, "%sdrivers/%s/%s.xml", GetLocalDir(), dname, dname);
 					robhdle = GfParmReadFile(buf, GFPARM_RMODE_STD);
 					if (!robhdle) {
@@ -347,7 +354,8 @@ RmDriversSelect(void *vs)
 					const char* carName = GfParmGetStr(robhdle, path, ROB_ATTR_CAR, "");
 					if (strcmp(GfParmGetStr(robhdle, path, ROB_ATTR_TYPE, ROB_VAL_ROBOT), ROB_VAL_ROBOT)) {
 						human = 1;
-					} else {
+					}
+					else {
 						human = 0;
 					}
 					snprintf(path, BUFSIZE, "cars/%s/%s.xml", carName, carName);
@@ -362,14 +370,17 @@ RmDriversSelect(void *vs)
 							if (human) {
 								curDrv->human = 1;
 								GF_TAILQ_INSERT_HEAD(&DrvList, curDrv, link);
-							} else {
+							}
+							else {
 								curDrv->human = 0;
 								GF_TAILQ_INSERT_TAIL(&DrvList, curDrv, link);
 							}
-						} else {
+						}
+						else {
 							GfOut("Driver %s not selected because car %s is not readable\n", curmod->modInfo[i].name, carName);
 						}
-					} else {
+					}
+					else {
 						GfOut("Driver %s not selected because car %s is not present\n", curmod->modInfo[i].name, carName);
 					}
 					GfParmReleaseHandle(robhdle);

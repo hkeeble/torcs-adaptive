@@ -1,21 +1,8 @@
-/***************************************************************************
-
-    file                 : mycar.cpp
-    created              : Mon Oct 10 13:51:00 CET 2001
-    copyright            : (C) 2001-2002 by Bernhard Wymann
-    email                : berniw@bluewin.ch
-    version              : $Id: mycar.cpp,v 1.34.2.2 2008/12/31 03:53:53 berniw Exp $
-
- ***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+/*
+	File: mycar.cpp
+	Author: Bernhard Wymann, Henri Keeble (edits)
+	Desc: Definitions file for a class that holds various parameters about the car. This is a modified version of the original berniw robot for TORCS Adaptive.
+*/
 
 /*
 	this class holds some properties of the car
@@ -55,7 +42,7 @@ const double MyCar::LOOKAHEAD_MAX_ERROR = 2.0;	/* [m] */
 const double MyCar::LOOKAHEAD_FACTOR = 1.0/3.0; /* [-] */
 
 
-MyCar::MyCar(TrackDesc* track, tCarElt* car, tSituation *situation)
+MyCar::MyCar(PTrackDesc* track, tCarElt* car, tSituation *situation)
 {
     AEROMAGIC = GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_AMAGIC, (char*)NULL, 1.6f);
 	CFRICTION = GfParmGetNum(car->_carHandle, BERNIW_SECT_PRIV, BERNIW_ATT_FMAGIC, (char*)NULL, 1.0f);
@@ -174,7 +161,7 @@ void MyCar::info(void)
 	updates values needed from driver, pathfinder, etc. the are stored here, that we don't need to compute
 	them several times or pass tons of parameters.
 */
-void MyCar::update(TrackDesc* track, tCarElt* car, tSituation *situation)
+void MyCar::update(PTrackDesc* track, tCarElt* car, tSituation *situation)
 {
 	updatePos();
 	updateDir();
@@ -285,7 +272,7 @@ double MyCar::queryAcceleration(tCarElt * car, double speed)
 }
 
 
-void OtherCar::init(TrackDesc* itrack, tCarElt* car, tSituation *situation)
+void OtherCar::init(PTrackDesc* itrack, tCarElt* car, tSituation *situation)
 {
 	track = itrack;
 	dt = situation->deltaTime;

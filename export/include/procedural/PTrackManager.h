@@ -7,6 +7,7 @@
 #define _PROC_TRACK_MANAGER_H_
 
 #include "PTrack.h"
+#include "PRange.h"
 #include "raceman.h"
 
 namespace procedural
@@ -18,6 +19,8 @@ namespace procedural
 			PTrack* track;
 			PSegFactory* segFactory;
 			PCarData carData;
+
+			const PSegmentRanges ranges = PSegmentRanges(PRange(MIN_LENGTH, MAX_LENGTH), PRange(MIN_ARC, MAX_ARC), PRange(MIN_RADIUS, MAX_RADIUS));
 
 			/* Calculate percentage of a segment left until the end */
 			tdble PercentDistanceToEnd(tdble segLength, tdble distToStart);

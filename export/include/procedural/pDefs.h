@@ -23,5 +23,15 @@ namespace procedural
 	#define STEPS 1 // Steps Per Segment
 
 	typedef ssgEntity EntityDesc;
+
+	// Maximum and minimum ranges
+	#define MAX_LENGTH 200.f
+	#define MIN_LENGTH 50.f
+
+	#define MAX_ARC 0.5f
+	#define MIN_ARC 1.5f
+
+	#define MAX_RADIUS 90.f
+	#define MIN_RADIUS 25.f
 }
 #endif _P_DEFS_

@@ -1,22 +1,8 @@
-/***************************************************************************
-
-    file                 : berniw.cpp
-    created              : Mon Apr 17 13:51:00 CET 2000
-    copyright            : (C) 2000-2002 by Bernhard Wymann
-    email                : berniw@bluewin.ch
-    version              : $Id: berniw.cpp,v 1.38.2.3 2012/02/09 22:36:23 berniw Exp $
-
- ***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
-
+/*
+	File: berniwProc.cpp
+	Author: Bernhard Wymann, Henri Keeble (edits)
+	Desc: Main function bodies for this robot that are accessed by the raceengine. This is a modified version of the original berniw robot for TORCS Adaptive.
+*/
 
 #include "berniwProc.h"
 #include <portability.h>
@@ -27,7 +13,7 @@
 
 /* function prototypes */
 static void initTrack(int index, tTrack* track, void *carHandle, void **carParmHandle, tSituation * situation);
-static void drive(int index, tCarElt* car, tSituation *situation);
+static void drive(int index, tCarElt* car, tSituation *situation, const tTrack* newTrack);
 static void newRace(int index, tCarElt* car, tSituation *situation);
 static int  InitFuncPt(int index, void *pt);
 static int  pitcmd(int index, tCarElt* car, tSituation *s);
@@ -35,17 +21,17 @@ static void shutdown(int index);
 
 
 static const char* botname[BOTS] = {
-	"berniw 1", "berniw 2", "berniw 3", "berniw 4", "berniw 5",
-	"berniw 6", "berniw 7", "berniw 8", "berniw 9", "berniw 10"
+	"berniwProc 1", "berniwProc 2", "berniwProc 3", "berniwProc 4", "berniwProc 5",
+	"berniwProc 6", "berniwProc 7", "berniwProc 8", "berniwProc 9", "berniwProc 10"
 };
 
 static const char* botdesc[BOTS] = {
-	"berniw 1", "berniw 2", "berniw 3", "berniw 4", "berniw 5",
-	"berniw 6", "berniw 7", "berniw 8", "berniw 9", "berniw 10"
+	"berniwProc 1", "berniwProc 2", "berniwProc 3", "berniwProc 4", "berniwProc 5",
+	"berniwProc 6", "berniwProc 7", "berniwProc 8", "berniwProc 9", "berniwProc 10"
 };
 
 /* Module entry point */
-extern "C" int berniw(tModInfo *modInfo)
+extern "C" int berniwProc(tModInfo *modInfo)
 {
 	//char	buffer[BUFSIZE];
 
@@ -67,7 +53,8 @@ static int InitFuncPt(int index, void *pt)
 
 	itf->rbNewTrack = initTrack;	/* init new track */
 	itf->rbNewRace  = newRace;		/* init new race */
-	itf->rbDrive    = drive;		/* drive during race */
+	itf->rbDriveProc = drive;		/* drive during race */
+	itf->rbDrive	= nullptr;		/* NULL, driver doesn't work outside of procedural tracks */
 	itf->rbShutdown	= shutdown;		/* called for cleanup per driver */
 	itf->rbPitCmd   = pitcmd;		/* pit command */
 	itf->index      = index;
@@ -77,7 +64,7 @@ static int InitFuncPt(int index, void *pt)
 
 static MyCar* mycar[BOTS] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
 static OtherCar* ocar = NULL;
-static TrackDesc* myTrackDesc = NULL;
+static PTrackDesc* myTrackDesc = NULL;
 static double currenttime;
 static const tdble waitToTurn = 1.0; /* how long should i wait till i try to turn backwards */
 
@@ -110,17 +97,17 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 		myTrackDesc = NULL;
 	}
 	if (myTrackDesc == NULL) {
-		myTrackDesc = new TrackDesc(track);
+		myTrackDesc = new PTrackDesc(track);
 	}
 
 	char buffer[BUFSIZE];
 	char* trackname = track->internalname;
 
-	snprintf(buffer, BUFSIZE, "drivers/berniw/%d/%s", index, trackname);
+	snprintf(buffer, BUFSIZE, "drivers/berniwProc/%d/%s", index, trackname);
     *carParmHandle = GfParmReadFile(buffer, GFPARM_RMODE_STD);
 
 	if (*carParmHandle == NULL) {
-		snprintf(buffer, BUFSIZE, "drivers/berniw/%d/default.xml", index);
+		snprintf(buffer, BUFSIZE, "drivers/berniwProc/%d/default.xml", index);
 	    *carParmHandle = GfParmReadFile(buffer, GFPARM_RMODE_STD);
 	}
 
@@ -149,7 +136,7 @@ static void newRace(int index, tCarElt* car, tSituation *situation)
 
 
 /* controls the car */
-static void drive(int index, tCarElt* car, tSituation *situation)
+static void drive(int index, tCarElt* car, tSituation *situation, const tTrack* newTrack)
 {
 	tdble angle;
 	tdble brake;
@@ -161,6 +148,9 @@ static void drive(int index, tCarElt* car, tSituation *situation)
 
 	MyCar* myc = mycar[index-1];
 	Pathfinder* mpf = myc->getPathfinderPtr();
+
+	// Update the track description
+	mpf->setTrackDescription(new PTrackDesc(newTrack));
 
 	b1 = b2 = b3 = b4 = 0.0;
 	shiftaccel = 0.0;

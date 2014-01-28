@@ -1,5 +1,5 @@
 ;
-; berniw.def
+; berniwProc.def
 ;
 
 LIBRARY
@@ -7,4 +7,4 @@ LIBRARY
 SECTIONS .data READ WRITE
 
 EXPORTS
-	berniw
+	berniwProc
