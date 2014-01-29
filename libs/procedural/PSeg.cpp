@@ -53,7 +53,7 @@ namespace procedural
 		return newSeg;
 	}
 
-	PSeg PSegFactory::CreateSegCnr(int id, pCornerType cType, float radius, float radiusr, float radiusl, float arc)
+	PSeg PSegFactory::CreateSegCnr(int id, PCornerType cType, float radius, float radiusr, float radiusl, float arc)
 	{
 		PSeg newSeg = PSeg();
 

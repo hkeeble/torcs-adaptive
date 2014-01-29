@@ -35,6 +35,7 @@ namespace torcsAdaptive
 		/* Singleton instance  */
 		static TAManager* instance;
 
+		float currentSkillLevel;
 		TARaceType raceType;
 		taPerfMeasurement* perfMeasurement;
 		PTrackManager* trackManager;

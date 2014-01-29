@@ -53,9 +53,8 @@ namespace procedural
 		// Add Initial Segment
 		GfOut("Adding Initial Segment...\n");
 		PAddSegment(PSegFactory::GetInstance()->CreateSegStr(0, 500.f), proceduralTrack);
-		PAddSegment(PSegFactory::GetInstance()->CreateSegCnr(1, pCornerType::TaLeft, 90.f, 0.f, 0.f, 1.5f), proceduralTrack);
+		PAddSegment(PSegFactory::GetInstance()->CreateSegCnr(1, PCornerType::CTLeft, 90.f, 0.f, 0.f, 1.5f), proceduralTrack);
 		PAddSegment(PSegFactory::GetInstance()->CreateSegStr(2, 500.f), proceduralTrack);
-		// PAddSegment(PSegFactory::GetInstance()->CreateSegStr(2, 200.f), proceduralTrack);
 
 		// Generate Initial 3D Description
 		GenerateTrack(proceduralTrack->trackCache, proceduralTrack->trackCache->params, (char*)proceduralTrack->GetACPathAndName(), NULL, NULL, NULL, 0);

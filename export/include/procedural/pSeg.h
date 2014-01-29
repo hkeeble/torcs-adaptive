@@ -39,10 +39,10 @@ namespace procedural
 		float arc;	
 	};
 
-	enum pCornerType
+	enum PCornerType
 	{
-		TaRight = 1,
-		TaLeft = 2
+		CTRight = 1,
+		CTLeft = 2
 	};
 
 	/* Factory for segments, singleton class */
@@ -59,7 +59,7 @@ namespace procedural
 		PSeg CreateSegStr(int id, float length);
 
 		// Creates a corner segment
-		PSeg CreateSegCnr(int id, pCornerType cType, float radius, float radiusr, float radiusl, float arc);
+		PSeg CreateSegCnr(int id, PCornerType cType, float radius, float radiusr, float radiusl, float arc);
 	};
 }
 #endif // _P_SEG_H_

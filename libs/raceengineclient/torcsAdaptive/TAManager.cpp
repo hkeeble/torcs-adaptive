@@ -14,6 +14,7 @@ namespace torcsAdaptive
 		raceType = TARaceType::None;
 		perfMeasurement = nullptr;
 		trackManager = nullptr;
+		currentSkillLevel = 0.f;
 	}
 
 	TAManager* TAManager::Get()
@@ -65,7 +66,11 @@ namespace torcsAdaptive
 
 	void TAManager::UpdateTrack()
 	{
-		trackManager->UpdateTrack();
+		currentSkillLevel = perfMeasurement->GetSkillEstimate();
+		if (raceType == TARaceType::Adaptive)
+			trackManager->Update(currentSkillLevel);
+		else
+			trackManager->Update();
 	}
 
 	void TAManager::SetRaceType(const TARaceType& RaceType)

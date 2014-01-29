@@ -26,12 +26,18 @@ namespace procedural
 
 	// Maximum and minimum ranges
 	#define MAX_LENGTH 200.f
-	#define MIN_LENGTH 50.f
+	#define MIN_LENGTH 100.f
 
-	#define MAX_ARC 0.5f
-	#define MIN_ARC 1.5f
+	#define MAX_ARC 2.5f
+	#define MIN_ARC 0.5f
 
-	#define MAX_RADIUS 90.f
+	#define MAX_RADIUS 400.f
 	#define MIN_RADIUS 25.f
+	
+	enum PSegType
+	{
+		Straight = 0,
+		Corner = 1
+	};
 }
 #endif _P_DEFS_
