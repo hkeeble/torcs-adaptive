@@ -1,0 +1,7 @@
+LIBRARY
+
+SECTIONS .data READ WRITE
+
+EXPORTS
+	botProc
+
