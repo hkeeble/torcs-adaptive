@@ -4,6 +4,7 @@ Author: Henri Keeble
 Desc: Defines a singleton class that manages TORCS-Adaptive specific races. See header file for function explainations.
 */
 #include "TAManager.h"
+#include "procedural\trackdesc.h"
 
 namespace torcsAdaptive
 {
@@ -150,12 +151,9 @@ namespace torcsAdaptive
 
 	void TAManager::RaceEnd()
 	{
+		/* Build the track in it's entirety, and then plot the track for reading in gnuplot. */
 		tTrack* trk = trackManager->BuildTrack();
-
-		/*
-		PSUEDO
 		TrackDesc desc = TrackDesc(trk);
-		desc.plot();
-		*/
+		desc.plot("procTrackPlot.dat");
 	}
 }

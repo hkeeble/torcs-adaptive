@@ -321,7 +321,7 @@ namespace procedural
 	tTrack* PTrack::BuildTrack()
 	{
 		taOut("Building entire track for output...\n");
-		for (int i = 0; i < segs.nSegs() - trackCache->nseg; i++)
+		for (int i = 0; i < segs.nSegs(); i++)
 			AddSegmentAtStart();
 		taOut("Track built!\n");
 

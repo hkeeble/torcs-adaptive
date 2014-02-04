@@ -18,6 +18,7 @@
     <ClCompile Include="PTrack.cpp" />
     <ClCompile Include="PTrackManager.cpp" />
     <ClCompile Include="PTrackState.cpp" />
+    <ClCompile Include="trackdesc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Diagram.cd" />
