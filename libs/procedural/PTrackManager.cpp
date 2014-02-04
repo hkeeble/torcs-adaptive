@@ -6,8 +6,6 @@
 #include "PTrackManager.h"
 #include "trackgen\trackgen.h"
 
-#define taOut(out) printf("ta >> " out)
-
 namespace procedural
 {
 	PTrackManager::PTrackManager()
@@ -41,8 +39,8 @@ namespace procedural
 		taOut("Adding new Segment....\n");
 
 		// Obtain pointers to neccesary data
-		PTrack*			  atrack		= raceManager->_reTrackItf.PGetTrackInfo();
-		const char *const acName		= atrack->GetACName();
+		PTrack*			  atrack = raceManager->_reTrackItf.PGetTrackInfo();
+		const char *const acName = atrack->GetACName();
 		const char *const acNameAndPath = atrack->GetACPathAndName();
 
 		// Add Segment
@@ -50,7 +48,7 @@ namespace procedural
 		raceManager->_reTrackItf.PAddSegment(segment, atrack);
 		taOut("New segment added.\n");
 	}
-	
+
 	/* Potentially could be used to append AC file where neccesary */
 	void PTrackManager::UpdateACFile()
 	{
@@ -150,16 +148,6 @@ namespace procedural
 		}
 	}
 
-	void PTrackManager::ManageACFile()
-	{
-		// Update AC File if necessary
-		if (updateAC)
-		{
-			updateAC = false;
-			UpdateACFile();
-		}
-	}
-
 	PSegType PTrackManager::RandomSegmentType()
 	{
 		PSegType type;
@@ -197,11 +185,19 @@ namespace procedural
 		// Manage the current cache of segments
 		ManageCache();
 
-		// Manage segment generation
-		ManageSegmentGeneration(skillLevel);
+		// Manage segment generation, if new segments are needed
+		if (track->segs.Length() < track->TotalLength())
+			ManageSegmentGeneration(skillLevel);
+	}
 
-		// Manage the track's AC file
-		ManageACFile();
+	void PTrackManager::UpdateGraphics()
+	{
+		// Update AC File if necessary
+		if (updateAC)
+		{
+			updateAC = false;
+			UpdateACFile();
+		}
 	}
 
 	tdble PTrackManager::PercentDistanceToEnd(tdble segLength, tdble distToStart)
@@ -213,8 +209,33 @@ namespace procedural
 	float PTrackManager::RandBetween(float min, float max)
 	{
 		if (min < max)
-			return min + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX/(max - min)));
+			return min + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (max - min)));
 		else
 			taOut("PTrackManager: Min cannot be less thatn Max!\n");
+	}
+
+	tdble PTrackManager::CurrentLength() const
+	{
+		return track->segs.Length();
+	}
+
+	tdble PTrackManager::TotalLength() const
+	{
+		return track->TotalLength();
+	}
+
+	PCarData PTrackManager::CarData() const
+	{
+		return carData;
+	}
+
+	bool PTrackManager::CarOnLastSegment()
+	{
+		return (carData.CurrentSeg()->id == track->segs.End()->id);
+	}
+
+	tTrack* PTrackManager::BuildTrack()
+	{
+		return track->BuildTrack();
 	}
 }

@@ -19,7 +19,7 @@ namespace procedural
 	#define pPits			PTrack->pits
 
 	/* Initialize torcs-adaptive track */
-	tTrack* PInitTrack(int trkLength)
+	tTrack* PInitTrack(int trkLength, bool raceOnConsole)
 	{
 		const int BUFSIZE = 256;
 		char buf[BUFSIZE];
@@ -28,15 +28,20 @@ namespace procedural
 		GfOut("INITIALIZING TORCS-ADAPTIVE TRACK...");
 		GfOut("\n-------------------------------------\n");
 
-		GfOut("Setting Track 3D Description Loader Options...\n");
-		ssgLoaderOptions* lopts = new ssgLoaderOptions();
-		lopts->setModelDir("tracks\\adaptive\\taTrack1");
-		lopts->setTextureDir("data\\textures");
+		ssgLoaderOptions* lopts = nullptr;
+
+		if (!raceOnConsole)
+		{
+			GfOut("Setting Track 3D Description Loader Options...\n");
+			lopts = new ssgLoaderOptions();
+			lopts->setModelDir("tracks\\adaptive\\taTrack1");
+			lopts->setTextureDir("data\\textures");
+		}
 
 		GfOut("Initializing track info object...\n");
 		if(proceduralTrack)
 			delete proceduralTrack;
-		proceduralTrack = new PTrack(new tTrack(), "taTrack1.ac", "tracks/adaptive/taTrack1/", lopts);
+		proceduralTrack = new PTrack(new tTrack(), trkLength, "taTrack1.ac", "tracks/adaptive/taTrack1/", lopts);
 		if (!proceduralTrack)
 			GfFatal("Error initializing track info object!\n");
 
@@ -57,7 +62,8 @@ namespace procedural
 		PAddSegment(PSegFactory::GetInstance()->CreateSegStr(2, 500.f), proceduralTrack);
 
 		// Generate Initial 3D Description
-		GenerateTrack(proceduralTrack->trackCache, proceduralTrack->trackCache->params, (char*)proceduralTrack->GetACPathAndName(), NULL, NULL, NULL, 0);
+		if (!raceOnConsole)
+			GenerateTrack(proceduralTrack->trackCache, proceduralTrack->trackCache->params, (char*)proceduralTrack->GetACPathAndName(), NULL, NULL, NULL, 0);
 
 		return proceduralTrack->trackCache;
 	}

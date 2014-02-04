@@ -10,7 +10,7 @@
 namespace procedural
 {
 	// Track Info Definitions
-	PTrack::PTrack(tTrack* track, char* acname, char* acpath, ssgLoaderOptions* loaderoptions)
+	PTrack::PTrack(tTrack* track, tdble totalLength, char* acname, char* acpath, ssgLoaderOptions* loaderoptions)
 	{
 		// Initialize TORCS Track Structure and Segment Collection
 		this->trackCache = track;
@@ -26,6 +26,8 @@ namespace procedural
 
 		// Initialize track state
 		state = PTrackState();
+
+		this->totalLength = totalLength;
 	}
 
 	PTrack::PTrack(const PTrack& param)
@@ -178,11 +180,8 @@ namespace procedural
 			tTrackSeg* lastSeg = end;
 			tTrackSeg* firstSeg = start;
 
-			// Adjust track length
-			if (start->type == TR_STR)
-				trackCache->length -= start->length;
-			else
-				trackCache->length -= start->arc;
+			// Adjust length
+			trackCache->length -= start->length;
 
 			// Re-arrange pointers accordingly
 			firstSeg->next->prev = lastSeg;
@@ -207,10 +206,7 @@ namespace procedural
 			tTrackSeg* firstSeg = start;
 
 			// Adjust track length
-			if (end->type == TR_STR)
-				trackCache->length -= end->length;
-			else
-				trackCache->length -= end->arc;
+			trackCache->length -= end->length;
 
 			// Rearrange pointers accordingly
 			lastSeg->prev->next = firstSeg;
@@ -255,10 +251,7 @@ namespace procedural
 			start = segToAdd;
 
 			// Adjust Track Length
-			if (segToAdd->type == TR_STR)
-				trackCache->length += segToAdd->length;
-			else
-				trackCache->length += segToAdd->arc;
+			trackCache->length += segToAdd->length;
 
 			trackCache->nseg++;
 		}
@@ -292,10 +285,7 @@ namespace procedural
 			end = segToAdd;
 
 			// Adjust Track Length
-			if (segToAdd->type == TR_STR)
-				trackCache->length += segToAdd->length;
-			else
-				trackCache->length += segToAdd->arc;
+			trackCache->length += segToAdd->length;
 
 			trackCache->nseg++;
 		}
@@ -321,6 +311,21 @@ namespace procedural
 			return nullptr;
 		}
 		else return curSeg;
+	}
+
+	tdble PTrack::TotalLength() const
+	{
+		return totalLength;
+	}
+
+	tTrack* PTrack::BuildTrack()
+	{
+		taOut("Building entire track for output...\n");
+		for (int i = 0; i < segs.nSegs() - trackCache->nseg; i++)
+			AddSegmentAtStart();
+		taOut("Track built!\n");
+
+		return trackCache;
 	}
 
 #ifdef _DEBUG

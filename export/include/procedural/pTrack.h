@@ -29,6 +29,9 @@ namespace procedural
 		char* acPath;
 		trackSeg *start, *end;
 
+		// Total intended track length
+		tdble totalLength;
+
 		/* Internal copying function */
 		void cpy(const PTrack& param);
 
@@ -37,7 +40,7 @@ namespace procedural
 		/* Number of segments stored in memory either side of occupied segment */
 		const int SEG_MEMORY_SIZE = 3;
 
-		PTrack(tTrack* track, char* acname, char* acpath, ssgLoaderOptions* loaderoptions);
+		PTrack(tTrack* track, tdble totalLength, char* acname, char* acpath, ssgLoaderOptions* loaderoptions);
 		~PTrack();
 		PTrack(const PTrack& param);
 		PTrack& operator=(const PTrack& param);
@@ -68,6 +71,12 @@ namespace procedural
 
 		/* Get segment with the specified ID */
 		tTrackSeg* GetSeg(int id);
+
+		/* Get the total INTENDED track length - not the current total length */
+		tdble TotalLength() const;
+
+		/* Builds the entire track into the existing cache. Returns the resulting track, but also modifies the internal track structure. */
+		tTrack* BuildTrack();
 
 		/* Get Accessors */
 		const ssgLoaderOptions *const GetLoaderOptions();

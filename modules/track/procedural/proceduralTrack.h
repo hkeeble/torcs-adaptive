@@ -29,7 +29,7 @@ namespace procedural
 	#define TrackState		proceduralTrack->state
 
 	// TA INTERFACE FUNCTIONS
-	tTrack*				PInitTrack			(int trkLength);
+	tTrack*				PInitTrack			(int trkLength, bool raceOnConsole);
 	void				PShutDown			();
 	void				PAddSegment			(PSeg seg, PTrack* trInfo);
 	PTrack*				PGetTrackInfo		();

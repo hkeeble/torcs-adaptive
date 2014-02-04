@@ -629,8 +629,9 @@ ReOneStep(double deltaTimeIncrement)
 					// robot->rbDriveProc(robot->index, s->cars[i], s, ReInfo->track);
 				
 				// --- Track Performance ---
-				if(s->cars[i] == taManager->PerformanceMeasurement()->GetCar())
-					taManager->PerformanceMeasurement()->Update(deltaTimeIncrement, s->currentTime);
+				if (taManager->GetRaceType() == torcsAdaptive::TARaceType::Adaptive)
+					if(s->cars[i] == taManager->PerformanceMeasurement()->GetCar())
+						taManager->PerformanceMeasurement()->Update(deltaTimeIncrement, s->currentTime);
 			}
 		}
 		ReInfo->_reLastTime = s->currentTime;
@@ -647,7 +648,11 @@ ReOneStep(double deltaTimeIncrement)
 	if ((ReInfo->_displayMode != RM_DISP_MODE_NONE) && (ReInfo->_displayMode != RM_DISP_MODE_CONSOLE)) {
 		ReRaceMsgUpdate();
 	}
-	ReSortCars();
+
+	if (!taManager->IsActive())
+		ReSortCars();
+	else
+		taManager->CheckIfFinished();
 }
 
 void
@@ -711,10 +716,6 @@ ReUpdate(void)
 			}
 			STOP_PROFILE("ReOneStep*");
 
-			// Update the track if torcs-adaptive race mode
-			if (taManager->Type() != TARaceType::None)
-				taManager->UpdateTrack();
-
 			if (i > MAXSTEPS) {
 				// Cannot keep up with time warp, reset time to avoid lag when running slower again
 				ReInfo->_reCurTime = GfTimeClock();
@@ -760,6 +761,10 @@ ReUpdate(void)
 
 	}
 	STOP_PROFILE("ReUpdate");
+
+	// Update the track if torcs-adaptive race mode
+	if (taManager->Type() != TARaceType::None)
+		taManager->UpdateTrack();
 
 	return mode;
 }

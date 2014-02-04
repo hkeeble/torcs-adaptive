@@ -18,7 +18,9 @@ namespace procedural
 		int	curSegIndex, envIndex, segsSinceLastUpdate;
 		float totLength, wi2, xr, yr, xl, yl, radius, alf;
 		
+#ifdef _DEBUG
 		void ReportState();
+#endif // _DEBUG
 	};
 }
 #endif // _P_TRACK_STATE_H_

@@ -13,6 +13,7 @@ namespace procedural
 		totLength = wi2 = xr = yr = xl = yl = radius = alf = 0.f;
 	}
 
+#ifdef _DEBUG
 	void PTrackState::ReportState()
 	{
 		std::cout << std::endl << " ---- TRACK STATE REPORT ----" << std::endl;
@@ -26,4 +27,5 @@ namespace procedural
 		std::cout << "YL: " << yl << std::endl;
 		std::cout << "Radius: " << radius << std::endl;
 	}
+#endif // _DEBUG
 }

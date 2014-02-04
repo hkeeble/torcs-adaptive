@@ -112,28 +112,32 @@ ReRaceEventInit(void)
 	void *params = ReInfo->params;
 
 	RmLoadingScreenStart(ReInfo->_reName, "data/img/splash-qrloading.png");
-	
+
+	// Initialize TORCS Adaptive manager, give pointer to Race Manager
+	taManager->Init(ReInfo);
+
 	// Initialize Track
 	if (!taManager->IsActive())
 		ReInitTrack();
-	else // Initialize a procedural track
-		ReInfo->track = ReInfo->_reTrackItf.PTrackInit(TA_TR_LENGTH);
+	else
+	{
+		RmLoadingScreenSetText("Initializing Procedural Track...");
+		taManager->InitTrack();
+	}
 
 	// Initialize Graphics
 	if (
 		(ReInfo->_displayMode != RM_DISP_MODE_CONSOLE) &&
 		(ReInfo->_reGraphicItf.inittrack != 0)
-	) {
+		) {
 		RmLoadingScreenSetText("Loading Track 3D Description...");
 		ReInfo->_reGraphicItf.inittrack(ReInfo->track);
 	};
 
-	// Initialize 3D Description for procedural track
-	if(taManager->IsActive())
+	if (taManager->IsActive())
 	{
-		procedural::PTrack* trInfo = ReInfo->_reTrackItf.PGetTrackInfo(); // Retrieve track info
-		trInfo->SetTrackDesc(ReInfo->_reGraphicItf.pLoad3DDesc(trInfo->GetACName(), (ssgLoaderOptions*)trInfo->GetLoaderOptions())); // Load Initial 3D decsription
-		ReInfo->_reGraphicItf.pAttach3DDesc(trInfo->GetTrackDesc()); // Attach 3D description to scene graph
+		RmLoadingScreenSetText("Initializing TORCS Adaptive Manager...");
+		taManager->InitGraphics();
 	}
 
 	ReEventInitResults();
@@ -302,7 +306,9 @@ reRaceRealStart(void)
 
 void InitTA()
 {
-	taManager->Init(&ReInfo->carList[0], ReInfo, ReInfo->_reTrackItf.PGetTrackInfo());
+	taManager->InitTrkManager(&ReInfo->carList[0], ReInfo->_reTrackItf.PGetTrackInfo());
+	if (taManager->GetRaceType() == torcsAdaptive::TARaceType::Adaptive)
+		taManager->InitPerfMeasurement(&ReInfo->carList[0]);
 }
 
 /***************************************************************/
@@ -523,6 +529,7 @@ ReRaceEnd(void)
 	void *results = ReInfo->results;
 
 	ReRaceCleanup();
+	taManager->RaceEnd();
 
 	if (ReInfo->s->_raceType == RM_TYPE_QUALIF) {
 		curDrvIdx = (int)GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_DRIVER, NULL, 1);

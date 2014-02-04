@@ -114,7 +114,10 @@ void ReShutdown(void)
 {
 	/* Free previous situation */
 	if (ReInfo) {
-		ReInfo->_reTrackItf.trkShutdown();
+		if (taManager->IsActive())
+			ReInfo->_reTrackItf.PTrackShutDown();
+		else
+			ReInfo->_reTrackItf.trkShutdown();
 
 		GfModUnloadList(&reEventModList);
 
@@ -136,14 +139,6 @@ void ReShutdown(void)
 void
 ReStartNewRace(void * /* dummy */)
 {
-	// Check for TORCS-Adaptive Race Modes
-	if (strcmp(ReInfo->raceEngineInfo.name, "Adaptive Race") == 0)
-		taManager->SetRaceType(TARaceType::Adaptive);
-	else if (strcmp(ReInfo->raceEngineInfo.name, "Procedural Race") == 0)
-		taManager->SetRaceType(TARaceType::Procedural);
-	else
-		taManager->SetRaceType(TARaceType::None);
-
 	ReInitResults();
 	ReStateManage();
 }

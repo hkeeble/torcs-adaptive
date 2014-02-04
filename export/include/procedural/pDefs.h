@@ -34,6 +34,8 @@ namespace procedural
 	#define MAX_RADIUS 400.f
 	#define MIN_RADIUS 25.f
 	
+	#define taOut(out) printf("ta >> " out)
+
 	enum PSegType
 	{
 		Straight = 0,

@@ -45,9 +45,6 @@ namespace procedural
 			/* Manages the track cache, removing segments where neccesary. */
 			void ManageCache();
 
-			/* Manages the track's AC file, updating where neccesary */
-			void ManageACFile();
-
 			/* Manages the generation of new segments for the track */
 			void ManageSegmentGeneration(float skillLevel);
 
@@ -66,6 +63,24 @@ namespace procedural
 
 			/* Update a procedural track, managing it's cache and adding segments if neccesary. Takes current skill level, leave blank for random segments. */
 			void Update(float skillLevel = -1.f);
+
+			/* Updates the graphical component of the track, updating the AC file if neccesary. */
+			void UpdateGraphics();
+
+			/* Track's current total length */
+			tdble CurrentLength() const;
+
+			/* Track's total length (desired length, not necessarily this long presently) */
+			tdble TotalLength() const;
+
+			/* Currently held car data */
+			PCarData CarData() const;
+
+			/* Builds the entire track into the cache and returns the resulting track. Affects the internal track. Designed to be used to output track data at the end of a race */
+			tTrack* BuildTrack();
+
+			/* Checks if the car is currently on the last existing segment */
+			bool CarOnLastSegment();
 	};
 }
 

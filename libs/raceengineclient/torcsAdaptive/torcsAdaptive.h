@@ -7,8 +7,6 @@
 #ifndef _TORCS_ADAPTIVE_H_
 #define _TORCS_ADAPTIVE_H_
 
-#define TA_TR_LENGTH 200
-
 void InitTA();
 
 extern torcsAdaptive::TAManager* taManager;

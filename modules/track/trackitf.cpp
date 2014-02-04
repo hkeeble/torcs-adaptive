@@ -64,7 +64,7 @@ trackInit(int /* index */, void *pt)
     ptf->trkShutdown      = TrackShutdown;
     /* Default Track Interface */
 
-	/* Adaptive Track Interface */
+	/* Procedural Track Interface */
 	ptf->PTrackInit			= procedural::PInitTrack;
 	ptf->PAddSegment		= procedural::PAddSegment;
 	ptf->PTrackShutDown		= procedural::PShutDown;
