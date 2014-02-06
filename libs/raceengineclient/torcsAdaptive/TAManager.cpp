@@ -78,21 +78,13 @@ namespace torcsAdaptive
 	{
 		if (trackManager)
 			delete trackManager;
-
-		trackManager = new PTrackManager(trackName, TA_TR_LENGTH);
-
-		raceManager->track = raceManager->_reTrackItf.PTrackInit(trackManager->GetTrack(), trackManager->TotalLength(), raceOnConsole);
+		trackManager = new PTrackManager(trackName, TA_TR_LENGTH, raceManager);
 	}
 
 
 	void TAManager::InitTrkManager(tCarElt* car)
 	{
-		if (trackManager)
-			delete trackManager;
-
-		trackManager = new PTrackManager();
-		trackManager->Init(car, raceManager);
-
+		trackManager->Init(car);
 		this->car = car;
 		isAddingSegments = true;
 	}

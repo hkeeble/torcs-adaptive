@@ -24,9 +24,9 @@
 namespace procedural
 {
 	// TA INTERFACE FUNCTIONS
-	tTrack*				PInitTrack				(PTrack* pTrack, int trkLength, bool raceOnConsole);
+	PTrack*				PInitTrack				(tdble trkLength, char* acname, char* xmlname, char* filepath, ssgLoaderOptions* lopts, bool raceOnConsole);
 	void				PGenerateNewSegment		(tTrack* singleSegTrack, char* acPath, char* acName);
-	void				PGenerateInitialTrack	(tTrack* track, const char *const fName);
+	tTrack*				PGenerateInitialTrack	(const char *const fName);
 	void				PShutDown				(PTrack* track);
 	void				PAddSegment				(PSeg seg, PTrack* trInfo);
 }

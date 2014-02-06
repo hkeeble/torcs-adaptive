@@ -114,23 +114,38 @@ namespace procedural
 			trackDesc = nullptr;
 
 		if (param.root)
-			root = param.root;
+			root = new tTrackSeg(*param.root);
 		else
 			root = nullptr;
 
 		if (param.trackCache)
-			trackCache = param.trackCache;
+			trackCache = new tTrack(*param.trackCache);
 		else
 			trackCache = nullptr;
 
 		if (param.start)
-			start = param.start;
+		{
+			tTrackSeg* curSeg = trackCache->seg;
+			while (curSeg->id != param.start->id)
+				curSeg = curSeg->prev;
+			start = curSeg;
+		}
 		else
 			start = nullptr;
 
 		if (param.end)
-			end = param.end;
-		end = nullptr;
+		{
+			tTrackSeg* curSeg = trackCache->seg;
+			while (curSeg->id != param.end->id)
+				curSeg = curSeg->prev;
+			start = curSeg;
+		}
+		else
+			end = nullptr;
+
+		segs = param.segs;
+
+		std::cout << "HELLO!";
 	}
 
 	EntityDesc* PTrack::GetTrackDesc() const
@@ -218,10 +233,10 @@ namespace procedural
 			delete trackDesc;
 		if(acName)
 			delete acName;
-		if (filePath)
-			delete filePath;
-		if (xmlFile)
-			delete xmlFile;
+		//if (filePath)
+			//delete filePath;
+		//if (xmlFile)
+			//delete xmlFile;
 	}
 
 	void PTrack::RemoveSegAtStart()

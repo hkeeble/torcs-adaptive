@@ -15,24 +15,35 @@ namespace procedural
 		segFactory = nullptr;
 	}
 
-	PTrackManager::PTrackManager(std::string trackName, tdble trackLength)
+	PTrackManager::PTrackManager(std::string trackName, tdble trackLength, tRmInfo* RaceManager)
 	{
+		taOut("Initializing procedural track manager...\n");
+
 		std::string acname, xmlname, filePath, modeldir, texturedir;
 
+		taOut("Setting track file path and file names...\n");
 		acname = trackName + ".ac";
 		xmlname = trackName + ".xml";
 		filePath = "tracks/adaptive/" + trackName + "/";
-		modeldir = "data\\textures";
-		texturedir = "tracks\\adaptive\\" + trackName + "\\";
+		modeldir = "tracks\\adaptive\\" + trackName + "\\";
+		texturedir = "data\\textures";
 
-		GfOut("Setting Track 3D Description Loader Options...\n");
+		taOut("Setting Track 3D Description Loader Options...\n");
 		ssgLoaderOptions* lopts = new ssgLoaderOptions();
 		lopts->setModelDir(modeldir.c_str());
 		lopts->setTextureDir(texturedir.c_str());
 
-		track = new PTrack(new tTrack(), trackLength, (char*)acname.c_str(), (char*)xmlname.c_str(), (char*)filePath.c_str(), lopts);
-		if (!track)
-			GfFatal("Error initializing track info object!\n");
+		taOut("Track manager obtaining pointers to segment factory and racemanager...\n");
+		segFactory = PSegFactory::GetInstance(); // Obtain pointer to segment factory
+		raceManager = RaceManager; // Save pointer to race manager
+
+		// Initialize the procedural track, and point racemanager to the procedural track
+		taOut("Initializing procedural track structure and TORCS track structure...\n");
+		track = raceManager->_reTrackItf.PTrackInit(trackLength, (char*)acname.c_str(), (char*)xmlname.c_str(), (char*)filePath.c_str(),
+			lopts, raceManager->raceEngineInfo.displayMode == RM_DISP_MODE_CONSOLE);
+
+		taOut("Setting racemanager track to procedural track...\n");
+		raceManager->track = track->trackCache;
 	}
 
 	PTrackManager::PTrackManager(const PTrackManager& param)
@@ -58,22 +69,18 @@ namespace procedural
 	void PTrackManager::cpy(const PTrackManager& param)
 	{
 		track = new PTrack(*param.GetTrack());
+		raceManager = param.raceManager;
 	}
 
 	PTrackManager::~PTrackManager()
 	{
-		if (raceManager)
-			delete raceManager;
-
 		if (track)
 			delete track;
 	}
 
-	void PTrackManager::Init(tCarElt* car, tRmInfo* RaceManager)
+	void PTrackManager::Init(tCarElt* car)
 	{
 		carData = PCarData(car);
-		raceManager = RaceManager;
-		segFactory = PSegFactory::GetInstance(); // Obtain pointer to segment factory
 
 		// Seed random generator
 		srand(time(0));

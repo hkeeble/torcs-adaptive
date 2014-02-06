@@ -540,7 +540,7 @@ namespace procedural
 	class PTrack;
 }
 
-typedef tTrack*						(*tfPTrackInit)			(procedural::PTrack*, int, bool);
+typedef procedural::PTrack*			(*tfPTrackInit)			(tdble, char*, char*, char*, ssgLoaderOptions*, bool);
 typedef void						(*tfPAddSegment)		(procedural::PSeg, procedural::PTrack*);
 typedef void						(*tfPTrackShutDown)		(procedural::PTrack*);
 
