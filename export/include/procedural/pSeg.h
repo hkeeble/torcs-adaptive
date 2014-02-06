@@ -31,7 +31,7 @@ namespace procedural
 
 		// Data
 		float length;
-				
+
 		// For Corners
 		float radius;
 		float radiusr;
