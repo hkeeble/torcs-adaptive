@@ -68,7 +68,6 @@ trackInit(int /* index */, void *pt)
 	ptf->PTrackInit			= procedural::PInitTrack;
 	ptf->PAddSegment		= procedural::PAddSegment;
 	ptf->PTrackShutDown		= procedural::PShutDown;
-	ptf->PGetTrackInfo		= procedural::PGetTrackInfo;
 
     return 0;
 }

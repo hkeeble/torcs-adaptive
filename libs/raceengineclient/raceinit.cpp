@@ -115,7 +115,7 @@ void ReShutdown(void)
 	/* Free previous situation */
 	if (ReInfo) {
 		if (taManager->IsActive())
-			ReInfo->_reTrackItf.PTrackShutDown();
+			ReInfo->_reTrackItf.PTrackShutDown(taManager->GetTrack());
 		else
 			ReInfo->_reTrackItf.trkShutdown();
 

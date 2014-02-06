@@ -4,7 +4,8 @@
     <LocalDebuggerCommand>C:\Users\Henri\Documents\Projects\torcs-adaptive\runtimed\wtorcs.exe</LocalDebuggerCommand>
     <LocalDebuggerWorkingDirectory>..\runtimed</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>-r config/raceman/procedural.xml</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>
+    </LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LocalDebuggerCommand>C:\Users\Henri\Documents\Projects\torcs-adaptive\runtime\wtorcs.exe</LocalDebuggerCommand>

@@ -122,7 +122,7 @@ ReRaceEventInit(void)
 	else
 	{
 		RmLoadingScreenSetText("Initializing Procedural Track...");
-		taManager->InitTrack();
+		taManager->InitTrack("taTrack1");
 	}
 
 	// Initialize Graphics
@@ -306,7 +306,7 @@ reRaceRealStart(void)
 
 void InitTA()
 {
-	taManager->InitTrkManager(&ReInfo->carList[0], ReInfo->_reTrackItf.PGetTrackInfo());
+	taManager->InitTrkManager(&ReInfo->carList[0]);
 	if (taManager->GetRaceType() == torcsAdaptive::TARaceType::Adaptive)
 		taManager->InitPerfMeasurement(&ReInfo->carList[0]);
 }

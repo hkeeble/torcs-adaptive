@@ -10,16 +10,30 @@
 namespace procedural
 {
 	// Track Info Definitions
-	PTrack::PTrack(tTrack* track, tdble totalLength, char* acname, char* acpath, ssgLoaderOptions* loaderoptions)
+	PTrack::PTrack(tTrack* track, tdble totalLength, char* acname, char* xmlname,  char* filepath, ssgLoaderOptions* loaderoptions)
 	{
 		// Initialize TORCS Track Structure and Segment Collection
 		this->trackCache = track;
 		this->segs = PSegCollection();
 
-		// Assign paths and loaer options for AC file handling
-		acName = acname;
-		acPath = acpath;
-		loaderOptions = loaderoptions;
+		// Assign file path
+		filePath = new char[strlen(filepath)];
+		strcpy(filePath, filepath);
+
+		// Assign paths and loader options for AC file handling
+		acName = new char[strlen(filepath)];
+		strcpy(acName, acname);
+
+		this->loaderOptions = new ssgLoaderOptions(*loaderoptions);
+
+		// Create temporary AC path and name
+		tempACName = new char[strlen(acname) + 3];
+		strcpy(tempACName, acname);
+		strcat(tempACName, "tmp");
+
+		// Create XML path and name
+		this->xmlFile = new char[strlen(xmlname)];
+		strcpy(xmlFile, xmlname);
 
 		trackDesc = NULL;
 		root = NULL;
@@ -43,8 +57,10 @@ namespace procedural
 		{
 			if (acName)
 				delete acName;
-			if (acPath)
-				delete acPath;
+			if (filePath)
+				delete filePath;
+			if (xmlFile)
+				delete xmlFile;
 			if (loaderOptions)
 				delete loaderOptions;
 			if (trackDesc)
@@ -60,13 +76,13 @@ namespace procedural
 	{
 		state = param.state;
 
-		if (param.acPath)
+		if (param.filePath)
 		{
-			acPath = new char[strlen(param.acPath)];
-			strcpy(acPath, param.acPath);
+			filePath = new char[strlen(param.filePath)];
+			strcpy(filePath, param.filePath);
 		}
 		else
-			acPath = nullptr;
+			filePath = nullptr;
 
 		if (param.acName)
 		{
@@ -75,6 +91,14 @@ namespace procedural
 		}
 		else
 			acName = nullptr;
+
+		if (param.xmlFile)
+		{
+			xmlFile = new char[strlen(param.xmlFile)];
+			strcpy(xmlFile, param.xmlFile);
+		}
+		else
+			xmlFile = nullptr;
 
 		if (param.loaderOptions)
 		{
@@ -129,16 +153,42 @@ namespace procedural
 		return acName;
 	}
 
-	const char *const PTrack::GetACPath()
-	{
-		return acPath;
-	}
-
 	const char *const PTrack::GetACPathAndName()
 	{
-		char* c = new char[strlen(acName) + strlen(acPath)];
-		c = strcpy(c, acPath);
-		c = strcat(c, acName);
+		return StrCon(filePath, acName);
+	}
+
+	const char *const PTrack::GetTempACName()
+	{
+		return tempACName;
+	}
+
+
+	const char *const PTrack::GetTempACPathAndName()
+	{
+		return StrCon(filePath, tempACName);
+	}
+
+	const char *const PTrack::GetXMLName()
+	{
+		return xmlFile;
+	}
+
+	const char *const PTrack::GetXMLPathAndName()
+	{
+		return StrCon(filePath, xmlFile);
+	}
+
+	const char *const PTrack::GetFilePath()
+	{
+		return filePath;
+	}
+
+	const char *const PTrack::StrCon(const char *const a, const char *const b)
+	{
+		char* c = new char[strlen(a) + strlen(b)];
+		c = strcpy(c, a);
+		c = strcat(c, b);
 		return c;
 	}
 
@@ -168,8 +218,10 @@ namespace procedural
 			delete trackDesc;
 		if(acName)
 			delete acName;
-		if(acPath)
-			delete acPath;
+		if (filePath)
+			delete filePath;
+		if (xmlFile)
+			delete xmlFile;
 	}
 
 	void PTrack::RemoveSegAtStart()

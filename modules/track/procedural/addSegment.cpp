@@ -1,7 +1,9 @@
 #include "../trackinc.h"
 #include "track.h"
-#include "proceduralTrack.h"
+#include "procedural\PTrack.h"
 #include <sstream>
+
+#define TrackState	trInfo->state
 
 namespace procedural
 {
@@ -124,19 +126,19 @@ namespace procedural
 
 		/* allocate a new segment */
 		curSeg = new tTrackSeg();
-		if (proceduralTrack->root == NULL)
+		if (trInfo->root == NULL)
 		{
-			proceduralTrack->root = curSeg;
+			trInfo->root = curSeg;
 			curSeg->next = curSeg;
 			curSeg->prev = curSeg;
 		}
 		else
 		{
-			curSeg->next = proceduralTrack->root->next;
+			curSeg->next = trInfo->root->next;
 			curSeg->next->prev = curSeg;
-			curSeg->prev = proceduralTrack->root;
-			proceduralTrack->root->next = curSeg;
-			proceduralTrack->root = curSeg;
+			curSeg->prev = trInfo->root;
+			trInfo->root->next = curSeg;
+			trInfo->root = curSeg;
 		}
 
 		// Name Segment
@@ -349,7 +351,7 @@ namespace procedural
 		if (curSeg->type != TR_STR)
 			TrackState.radius += dradius;
 
-		proceduralTrack->root = curSeg;
+		trInfo->root = curSeg;
 
 		TrackState.totLength += curSeg->length;
 		TrackState.curSegIndex++;
@@ -360,11 +362,11 @@ namespace procedural
 		TrackState.segsSinceLastUpdate++;
 
 		if (track->seg == nullptr)
-			proceduralTrack->SetStart(curSeg);
-		proceduralTrack->SetEnd(curSeg);
+			trInfo->SetStart(curSeg);
+		trInfo->SetEnd(curSeg);
 
 		// Update Track with new segment
-		track->seg = proceduralTrack->root;
+		track->seg = trInfo->root;
 		track->length = TrackState.totLength;
 		track->nseg++;
 

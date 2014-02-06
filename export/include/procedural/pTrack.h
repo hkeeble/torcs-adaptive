@@ -25,8 +25,10 @@ namespace procedural
 	private:
 		EntityDesc* trackDesc;
 		ssgLoaderOptions* loaderOptions;
+		char* filePath;
+		char* xmlFile;
 		char* acName;
-		char* acPath;
+		char* tempACName;
 		trackSeg *start, *end;
 
 		// Total intended track length
@@ -35,12 +37,15 @@ namespace procedural
 		/* Internal copying function */
 		void cpy(const PTrack& param);
 
+		/* Concatenates two char and returns the result. */
+		const char *const StrCon(const char *const a, const char *const b);
+
 	public:
 
 		/* Number of segments stored in memory either side of occupied segment */
 		const int SEG_MEMORY_SIZE = 3;
 
-		PTrack(tTrack* track, tdble totalLength, char* acname, char* acpath, ssgLoaderOptions* loaderoptions);
+		PTrack(tTrack* track, tdble totalLength, char* acname, char* xmlname, char* filepath, ssgLoaderOptions* loaderoptions);
 		~PTrack();
 		PTrack(const PTrack& param);
 		PTrack& operator=(const PTrack& param);
@@ -80,9 +85,13 @@ namespace procedural
 
 		/* Get Accessors */
 		const ssgLoaderOptions *const GetLoaderOptions();
+		const char			   *const GetFilePath();
 		const char			   *const GetACName();
-		const char			   *const GetACPath();
 		const char			   *const GetACPathAndName();
+		const char			   *const GetTempACName();
+		const char			   *const GetTempACPathAndName();
+		const char			   *const GetXMLName();
+		const char			   *const GetXMLPathAndName();
 		EntityDesc*					  GetTrackDesc() const;
 		trackSeg*					  GetStart() const;
 		trackSeg*					  GetEnd() const;

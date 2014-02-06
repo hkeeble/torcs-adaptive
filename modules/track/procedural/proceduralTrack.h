@@ -23,16 +23,12 @@
 // PROCEDURAL SPECIFIC FUNCTIONS AND DEFINES
 namespace procedural
 {
-	/* Instance of the current track */
-	extern PTrack* proceduralTrack;
-
-	#define TrackState		proceduralTrack->state
-
 	// TA INTERFACE FUNCTIONS
-	tTrack*				PInitTrack			(int trkLength, bool raceOnConsole);
-	void				PShutDown			();
-	void				PAddSegment			(PSeg seg, PTrack* trInfo);
-	PTrack*				PGetTrackInfo		();
+	tTrack*				PInitTrack				(PTrack* pTrack, int trkLength, bool raceOnConsole);
+	void				PGenerateNewSegment		(tTrack* singleSegTrack, char* acPath, char* acName);
+	void				PGenerateInitialTrack	(tTrack* track, const char *const fName);
+	void				PShutDown				(PTrack* track);
+	void				PAddSegment				(PSeg seg, PTrack* trInfo);
 }
 
 #endif // _TORCS_ADAPTIVE_H_

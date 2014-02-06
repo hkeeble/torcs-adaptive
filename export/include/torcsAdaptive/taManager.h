@@ -61,7 +61,7 @@ namespace torcsAdaptive
 		void Init(tRmInfo* RaceManager);
 
 		/* Initializes the procedural track manager */
-		void InitTrkManager(tCarElt* car, PTrack* Track);
+		void InitTrkManager(tCarElt* car);
 		
 		/* Initialized performance measurement */
 		void InitPerfMeasurement(tCarElt* car);
@@ -70,13 +70,16 @@ namespace torcsAdaptive
 		void InitGraphics();
 
 		/* Initialize track, must call Init before this */
-		void InitTrack();
+		void InitTrack(std::string trackName);
 
 		/* Set the current race type */
 		void SetRaceType(const TARaceType& RaceType);
 
 		/* Get the current race type */
 		TARaceType GetRaceType() const;
+
+		/* Get the current track */
+		PTrack* GetTrack() const;
 
 		/* Add a segment to the track. */
 		void AddSegment(const PSeg& segment);

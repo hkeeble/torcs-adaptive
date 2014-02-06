@@ -51,12 +51,18 @@ namespace procedural
 			/* Generates a random segment type based on the currently set chances */
 			PSegType RandomSegmentType();
 
+			/* Internal deep copy function */
+			void cpy(const PTrackManager& param);
+
 		public:
 			PTrackManager();
+			PTrackManager(std::string trackName, tdble trackLength);
+			PTrackManager(const PTrackManager& param);
+			PTrackManager& operator=(const PTrackManager& param);
 			virtual ~PTrackManager();
 
 			/* Initialize car data to be tracked for procedural generation. */
-			void Init(tCarElt* car, tRmInfo* RaceManager, PTrack* Track);
+			void Init(tCarElt* car, tRmInfo* RaceManager);
 
 			/* Add a given segment to the track contained in the race manager passed in. */
 			void AddSegment(const PSeg& segment);
@@ -78,6 +84,9 @@ namespace procedural
 
 			/* Builds the entire track into the cache and returns the resulting track. Affects the internal track. Designed to be used to output track data at the end of a race */
 			tTrack* BuildTrack();
+
+			/* Get the current track */
+			PTrack* GetTrack() const;
 
 			/* Checks if the car is currently on the last existing segment */
 			bool CarOnLastSegment();

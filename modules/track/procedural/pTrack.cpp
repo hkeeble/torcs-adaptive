@@ -9,17 +9,8 @@
 
 namespace procedural
 {
-	// Contains all current adaptive track information
-	PTrack* proceduralTrack;
-
-	// Track accessors for ease of reading
-	#define pGraphicInfo	PTrack->graphic
-	#define pSegments		PTrack->seg
-	#define pSurfaces		PTrack->surfaces
-	#define pPits			PTrack->pits
-
 	/* Initialize torcs-adaptive track */
-	tTrack* PInitTrack(int trkLength, bool raceOnConsole)
+	tTrack* PInitTrack(PTrack* pTrack, int trkLength, bool raceOnConsole)
 	{
 		const int BUFSIZE = 256;
 		char buf[BUFSIZE];
@@ -28,57 +19,58 @@ namespace procedural
 		GfOut("INITIALIZING TORCS-ADAPTIVE TRACK...");
 		GfOut("\n-------------------------------------\n");
 
-		ssgLoaderOptions* lopts = nullptr;
-
-		if (!raceOnConsole)
-		{
-			GfOut("Setting Track 3D Description Loader Options...\n");
-			lopts = new ssgLoaderOptions();
-			lopts->setModelDir("tracks\\adaptive\\taTrack1");
-			lopts->setTextureDir("data\\textures");
-		}
-
 		GfOut("Initializing track info object...\n");
-		if(proceduralTrack)
-			delete proceduralTrack;
-		proceduralTrack = new PTrack(new tTrack(), trkLength, "taTrack1.ac", "tracks/adaptive/taTrack1/", lopts);
-		if (!proceduralTrack)
-			GfFatal("Error initializing track info object!\n");
 
 		// Main info
 		GfOut("Assigning Main Track Info...\n");
-		char* fName = new char[strlen(GetLocalDir()) + strlen("tracks/adaptive/taTrack1/taTrack1.xml")];
-		strcpy(fName, GetLocalDir());
-		strcat(fName, "tracks/adaptive/taTrack1/taTrack1.xml");
-		proceduralTrack->trackCache = TrackBuildv1(fName); // Load in track details, should return with no segments;
+		PGenerateInitialTrack(pTrack->trackCache, pTrack->GetXMLPathAndName());
 
 		// Initialize Sides
-		InitSides(proceduralTrack->trackCache->params, proceduralTrack->trackCache);
+		InitSides(pTrack->trackCache->params, pTrack->trackCache);
 
-		// Add Initial Segment
+		// Add Initial Segments
 		GfOut("Adding Initial Segment...\n");
-		PAddSegment(PSegFactory::GetInstance()->CreateSegStr(0, 500.f), proceduralTrack);
-		PAddSegment(PSegFactory::GetInstance()->CreateSegCnr(1, PCornerType::CTLeft, 90.f, 0.f, 0.f, 1.5f), proceduralTrack);
-		PAddSegment(PSegFactory::GetInstance()->CreateSegStr(2, 500.f), proceduralTrack);
+		PAddSegment(PSegFactory::GetInstance()->CreateSegStr(0, 500.f), pTrack);
+		PAddSegment(PSegFactory::GetInstance()->CreateSegCnr(1, PCornerType::CTLeft, 90.f, 0.f, 0.f, 1.5f), pTrack);
+		PAddSegment(PSegFactory::GetInstance()->CreateSegStr(2, 500.f), pTrack);
 
 		// Generate Initial 3D Description
 		if (!raceOnConsole)
-			GenerateTrack(proceduralTrack->trackCache, proceduralTrack->trackCache->params, (char*)proceduralTrack->GetACPathAndName(), NULL, NULL, NULL, 0);
+			GenerateTrack(pTrack->trackCache, pTrack->trackCache->params, (char*)pTrack->GetACPathAndName(), nullptr, 0, 0, 0);
 
-		return proceduralTrack->trackCache;
+		return pTrack->trackCache;
 	}
 
-	PTrack* PGetTrackInfo()
+	void PGenerateInitialTrack(tTrack* track, const char *const fName)
 	{
-		return proceduralTrack;
+		char* fileName = new char[strlen(GetLocalDir()) + strlen(fName)];
+		strcpy(fileName, GetLocalDir());
+		strcat(fileName, fName);
+		track = TrackBuildv1(const_cast<char*>(fName)); // Load in track details, should return with no segments;
+	}
+
+	void PGenerateNewSegment(PTrack* track)
+	{
+		// Create single segment track using last segment on track given
+		tTrack* trk = new tTrack();
+		trk->seg = new tTrackSeg(*track->GetEnd());
+
+		// Generate initial track information
+		PGenerateInitialTrack(trk, track->GetXMLPathAndName());
+		
+		// Initialize Sides
+		InitSides(trk->params, trk);
+
+		// Generate 3D description in temporary file
+		GenerateTrack(trk, trk->params, (char*)track->GetTempACPathAndName(), nullptr, 0, 0, 0);
 	}
 
 	/* Release all torcs-adaptive track module resources */
-	void PShutDown()
+	void PShutDown(PTrack* track)
 	{
 		TrackShutdown();
 
-		if (proceduralTrack)
-			delete proceduralTrack;
+		if (track)
+			delete track;
 	}
 }

@@ -66,7 +66,7 @@ namespace torcsAdaptive
 	void TAManager::InitGraphics()
 	{
 		// Initialize Graphics
-		PTrack* trInfo = raceManager->_reTrackItf.PGetTrackInfo(); // Retrieve track info
+		PTrack* trInfo = trackManager->GetTrack(); // Retrieve track info
 		if (raceManager->_displayMode != RM_DISP_MODE_CONSOLE) // Load Initial 3D decsription if not displaying on console
 		{
 			trInfo->SetTrackDesc(raceManager->_reGraphicItf.pLoad3DDesc(trInfo->GetACName(), (ssgLoaderOptions*)trInfo->GetLoaderOptions()));
@@ -74,19 +74,24 @@ namespace torcsAdaptive
 		}
 	}
 
-	void TAManager::InitTrack()
+	void TAManager::InitTrack(std::string trackName)
 	{
-		raceManager->track = raceManager->_reTrackItf.PTrackInit(TA_TR_LENGTH, raceOnConsole);
+		if (trackManager)
+			delete trackManager;
+
+		trackManager = new PTrackManager(trackName, TA_TR_LENGTH);
+
+		raceManager->track = raceManager->_reTrackItf.PTrackInit(trackManager->GetTrack(), trackManager->TotalLength(), raceOnConsole);
 	}
 
 
-	void TAManager::InitTrkManager(tCarElt* car, PTrack* Track)
+	void TAManager::InitTrkManager(tCarElt* car)
 	{
 		if (trackManager)
 			delete trackManager;
 
 		trackManager = new PTrackManager();
-		trackManager->Init(car, raceManager, Track);
+		trackManager->Init(car, raceManager);
 
 		this->car = car;
 		isAddingSegments = true;
@@ -129,6 +134,11 @@ namespace torcsAdaptive
 	TARaceType TAManager::GetRaceType() const
 	{
 		return raceType;
+	}
+
+	PTrack* TAManager::GetTrack() const
+	{
+		return trackManager->GetTrack();
 	}
 
 	bool TAManager::IsActive() const
