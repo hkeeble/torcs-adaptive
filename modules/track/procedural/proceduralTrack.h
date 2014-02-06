@@ -23,10 +23,12 @@
 // PROCEDURAL SPECIFIC FUNCTIONS AND DEFINES
 namespace procedural
 {
+	/* Builds an initial track, loading its information from the given XML file. */
+	tTrack*				BuildTrack(const char *const fName);
+
 	// TA INTERFACE FUNCTIONS
 	PTrack*				PInitTrack				(tdble trkLength, char* acname, char* xmlname, char* filepath, ssgLoaderOptions* lopts, bool raceOnConsole);
-	void				PGenerateNewSegment		(tTrack* singleSegTrack, char* acPath, char* acName);
-	tTrack*				PGenerateInitialTrack	(const char *const fName);
+	void				PUpdateACFile			(PTrack* pTrack);
 	void				PShutDown				(PTrack* track);
 	void				PAddSegment				(PSeg seg, PTrack* trInfo);
 }

@@ -50,7 +50,7 @@ TrackBuildv1(char *trackfile)
     
     theTrack->filename = strdup(trackfile);
 
-    GetTrackHeader(TrackHandle);
+    GetTrackHeader(TrackHandle, theTrack);
 
     
     switch(theTrack->version) {
@@ -90,7 +90,7 @@ TrackBuildEx(char *trackfile)
     
     theTrack->filename = strdup(trackfile);
 
-    GetTrackHeader(TrackHandle);
+    GetTrackHeader(TrackHandle, theTrack);
 
     switch(theTrack->version) {
     case 0:
@@ -125,7 +125,7 @@ TrackBuildEx(char *trackfile)
  *	
  */
 void 
-GetTrackHeader(void *TrackHandle)
+GetTrackHeader(void *TrackHandle, tTrack* track)
 {
 	tTrackGraphicInfo *graphic;
 	const char **env;
@@ -134,14 +134,14 @@ GetTrackHeader(void *TrackHandle)
 	char buf[BUFSIZE];
 	char *s;
 	
-	theTrack->name = GfParmGetStr(TrackHandle, TRK_SECT_HDR, TRK_ATT_NAME, "no name");
-	theTrack->version = (int)GfParmGetNum(TrackHandle, TRK_SECT_HDR, TRK_ATT_VERSION, (char*)NULL, 0);
-	theTrack->width = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, TRK_ATT_WIDTH, (char*)NULL, 15.0);
-	theTrack->author = GfParmGetStr(TrackHandle, TRK_SECT_HDR, TRK_ATT_AUTHOR, "none");
-	theTrack->category = GfParmGetStr(TrackHandle, TRK_SECT_HDR, TRK_ATT_CAT, "road");
+	track->name = GfParmGetStr(TrackHandle, TRK_SECT_HDR, TRK_ATT_NAME, "no name");
+	track->version = (int)GfParmGetNum(TrackHandle, TRK_SECT_HDR, TRK_ATT_VERSION, (char*)NULL, 0);
+	track->width = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, TRK_ATT_WIDTH, (char*)NULL, 15.0);
+	track->author = GfParmGetStr(TrackHandle, TRK_SECT_HDR, TRK_ATT_AUTHOR, "none");
+	track->category = GfParmGetStr(TrackHandle, TRK_SECT_HDR, TRK_ATT_CAT, "road");
 	
 	/* Graphic part */
-	graphic = &theTrack->graphic;
+	graphic = &track->graphic;
 	
 	graphic->background = GfParmGetStr(TrackHandle, TRK_SECT_GRAPH, TRK_ATT_BKGRND,
 						"background.png");
@@ -169,17 +169,17 @@ GetTrackHeader(void *TrackHandle)
 		env ++;
 	}
 	
-	theTrack->nseg = 0;
+	track->nseg = 0;
 	
-	s = strrchr(theTrack->filename, '/');
+	s = strrchr(track->filename, '/');
 	if (s == NULL) {
-		s = theTrack->filename;
+		s = track->filename;
 	} else {
 		s++;
 	}
 	
-	theTrack->internalname = strdup(s);
-	s = strrchr(theTrack->internalname, '.');
+	track->internalname = strdup(s);
+	s = strrchr(track->internalname, '.');
 	if (s != NULL) {
 		*s = 0;
 	}

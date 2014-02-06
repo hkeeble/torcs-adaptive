@@ -29,7 +29,10 @@ namespace procedural
 		// Create temporary AC path and name
 		tempACName = new char[strlen(acname) + 3];
 		strcpy(tempACName, acname);
-		strcat(tempACName, "tmp");
+		tempACName[strlen(acname) - 3] = 't';
+		tempACName[strlen(acName) - 2] = 'm';
+		tempACName[strlen(acName) - 1] = 'p';
+		strcat(tempACName, ".ac");
 
 		// Create XML path and name
 		this->xmlFile = new char[strlen(xmlname)];

@@ -542,6 +542,7 @@ namespace procedural
 
 typedef procedural::PTrack*			(*tfPTrackInit)			(tdble, char*, char*, char*, ssgLoaderOptions*, bool);
 typedef void						(*tfPAddSegment)		(procedural::PSeg, procedural::PTrack*);
+typedef void						(*tfPUpdateACFile)		(procedural::PTrack*);
 typedef void						(*tfPTrackShutDown)		(procedural::PTrack*);
 
 typedef struct {
@@ -560,6 +561,7 @@ typedef struct {
 	tfPTrackInit			PTrackInit;
 	tfPAddSegment			PAddSegment;
 	tfPTrackShutDown		PTrackShutDown;
+	tfPUpdateACFile			PUpdateACFile;
 	
 } tTrackItf;
 

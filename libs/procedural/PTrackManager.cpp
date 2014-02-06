@@ -110,10 +110,8 @@ namespace procedural
 
 		taOut("\tGenerating new 3D Description.\n");
 
-		// Create new track consisting of the new segment
-		tTrack* newSeg = new tTrack();
-		newSeg->seg = new tTrackSeg(*raceManager->track->seg);
-		GenerateTrack(newSeg, newSeg->params, (char*)track->GetTempACPathAndName(), NULL, NULL, NULL, 0); // Generate new 3d desc of single segment track
+		// Update the AC File (could maybe move this from external library into this class, for the sake of clarity.)
+		raceManager->_reTrackItf.PUpdateACFile(track);
 
 		// Reload 3D Description
 		track->SetTrackDesc(raceManager->_reGraphicItf.pLoad3DDesc(track->GetACName(), (ssgLoaderOptions*)track->GetLoaderOptions()));
