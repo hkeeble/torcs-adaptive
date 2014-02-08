@@ -46,6 +46,7 @@
 #include <glfeatures.h>
 
 #include "torcsAdaptive\TAManager.h"
+#include "grLoadProcedural.h"
 
 int maxTextureUnits = 0;
 static double OldTime;
@@ -499,9 +500,14 @@ shutdownTrack(void)
 /* procedural additional extern functions, these are exported as pointers and use internal functions found in grscene.cpp */
 namespace procedural
 {
-	EntityDesc* PLoad3DDesc(const char* acName, ssgLoaderOptions* options)
+	void PAppend3DDesc(const char* acName, PSSGState* ssgState)
 	{
-		return Load3DDesc(acName, options);
+		PSSGAppendEntity(acName, ssgState);
+	}
+
+	EntityDesc* PLoad3DDesc(const char* acName, ssgLoaderOptions* loaderOptions)
+	{
+		return Load3DDesc(acName, loaderOptions);
 	}
 
 	void PDetach3DDesc(EntityDesc* curDesc)

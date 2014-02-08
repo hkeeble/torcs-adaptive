@@ -9,6 +9,7 @@
 #include <ctime>
 #include "PTrack.h"
 #include "PRange.h"
+#include "PSSGState.h"
 #include "raceman.h"
 
 namespace procedural

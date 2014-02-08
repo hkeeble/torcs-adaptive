@@ -123,6 +123,7 @@
     <ClCompile Include="grcar.cpp" />
     <ClCompile Include="grcarlight.cpp" />
     <ClCompile Include="grloadac.cpp" />
+    <ClCompile Include="grLoadProcedural.cpp" />
     <ClCompile Include="grmain.cpp" />
     <ClCompile Include="grmultitexstate.cpp" />
     <ClCompile Include="grscene.cpp" />
@@ -145,6 +146,8 @@
     <ClInclude Include="grboard.h" />
     <ClInclude Include="grcam.h" />
     <ClInclude Include="grcar.h" />
+    <ClInclude Include="grloadac.h" />
+    <ClInclude Include="grLoadProcedural.h" />
     <ClInclude Include="grmain.h" />
     <ClInclude Include="grmultitexstate.h" />
     <ClInclude Include="grscene.h" />

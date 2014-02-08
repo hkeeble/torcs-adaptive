@@ -6,6 +6,7 @@
 #include "PTrack.h"
 #include "PTrackState.h"
 #include "pDefs.h"
+#include <fstream>
 
 namespace procedural
 {
@@ -16,6 +17,11 @@ namespace procedural
 		this->trackCache = track;
 		this->segs = PSegCollection();
 
+		// Initialize track state
+		state = PTrackState();
+		root = nullptr;
+		this->totalLength = totalLength;
+
 		// Assign file path
 		filePath = new char[strlen(filepath)];
 		strcpy(filePath, filepath);
@@ -23,8 +29,6 @@ namespace procedural
 		// Assign paths and loader options for AC file handling
 		acName = new char[strlen(filepath)];
 		strcpy(acName, acname);
-
-		this->loaderOptions = new ssgLoaderOptions(*loaderoptions);
 
 		// Create temporary AC path and name
 		tempACName = new char[strlen(acname) + 3];
@@ -38,13 +42,9 @@ namespace procedural
 		this->xmlFile = new char[strlen(xmlname)];
 		strcpy(xmlFile, xmlname);
 
-		trackDesc = NULL;
-		root = NULL;
-
-		// Initialize track state
-		state = PTrackState();
-
-		this->totalLength = totalLength;
+		// Initialize loader state
+		ssgState = new PSSGState();
+		ssgState->SetLoaderOptions(new ssgLoaderOptions(*loaderoptions));
 	}
 
 	PTrack::PTrack(const PTrack& param)
@@ -64,10 +64,8 @@ namespace procedural
 				delete filePath;
 			if (xmlFile)
 				delete xmlFile;
-			if (loaderOptions)
-				delete loaderOptions;
-			if (trackDesc)
-				delete trackDesc;
+			if (ssgState)
+				delete ssgState;
 
 			cpy(param);
 
@@ -103,19 +101,6 @@ namespace procedural
 		else
 			xmlFile = nullptr;
 
-		if (param.loaderOptions)
-		{
-			loaderOptions = new ssgLoaderOptions();
-			*loaderOptions = *param.loaderOptions;
-		}
-		else
-			loaderOptions = nullptr;
-
-		if (param.trackDesc)
-			trackDesc = param.trackDesc;
-		else
-			trackDesc = nullptr;
-
 		if (param.root)
 			root = new tTrackSeg(*param.root);
 		else
@@ -146,24 +131,35 @@ namespace procedural
 		else
 			end = nullptr;
 
-		segs = param.segs;
+		if (param.ssgState)
+		{
+			ssgState = new PSSGState();
+			*ssgState = *param.ssgState;
+		}
+		else
+			ssgState = nullptr;
 
-		std::cout << "HELLO!";
+		segs = param.segs;
+	}
+
+	PSSGState* PTrack::GetSSGState()
+	{
+		return ssgState;
 	}
 
 	EntityDesc* PTrack::GetTrackDesc() const
 	{
-		return trackDesc;
+		return ssgState->GetDesc();
 	}
 
 	void PTrack::SetTrackDesc(EntityDesc* newDesc)
 	{
-		trackDesc = newDesc;
+		ssgState->SetDesc(newDesc);
 	}
 
 	const ssgLoaderOptions *const PTrack::GetLoaderOptions()
 	{
-		return loaderOptions;
+		return ssgState->GetLoaderOptions();
 	}
 
 	const char *const PTrack::GetACName()
@@ -227,6 +223,11 @@ namespace procedural
 		outfile.close();
 	}
 
+	void PTrack::InitSSGState()
+	{
+		ssgState->InitFile(GetACPathAndName());
+	}
+
 	const char *const PTrack::StrCon(const char *const a, const char *const b)
 	{
 		// Concatenates two char* and returns the result
@@ -258,14 +259,14 @@ namespace procedural
 
 	PTrack::~PTrack()
 	{
-		if(trackDesc)
-			delete trackDesc;
 		if(acName)
 			delete acName;
 		//if (filePath)
 			//delete filePath;
 		//if (xmlFile)
 			//delete xmlFile;
+		if (ssgState)
+			delete ssgState;
 	}
 
 	void PTrack::RemoveSegAtStart()

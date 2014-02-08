@@ -82,7 +82,7 @@ namespace torcsAdaptive
 		driver.Clear();
 	}
 
-	int taPerfMeasurement::GetSkillEstimate()
+	float taPerfMeasurement::GetSkillEstimate()
 	{
 		return skillEstimate;
 	}

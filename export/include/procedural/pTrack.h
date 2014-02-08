@@ -12,6 +12,7 @@
 #include "PDefs.h"
 #include "PSegCollection.h"
 #include "PCarData.h"
+#include "PSSGState.h"
 #include "track.h"
 #include "../../../windows/include/plib/ssg.h"
 
@@ -24,8 +25,7 @@ namespace procedural
 	class PTrack
 	{
 	private:
-		EntityDesc* trackDesc;
-		ssgLoaderOptions* loaderOptions;
+		PSSGState* ssgState;
 		char* filePath;
 		char* xmlFile;
 		char* acName;
@@ -87,6 +87,9 @@ namespace procedural
 		/* Appends the track's AC file with data stored in temporary AC file */
 		void UpdateACFile(int segmentID);
 
+		/* Initialize the SSG State, counting the number of lines in the initial AC file */
+		void InitSSGState();
+
 		/* Get Accessors */
 		const ssgLoaderOptions *const GetLoaderOptions();
 		const char			   *const GetFilePath();
@@ -96,6 +99,7 @@ namespace procedural
 		const char			   *const GetTempACPathAndName();
 		const char			   *const GetXMLName();
 		const char			   *const GetXMLPathAndName();
+		PSSGState*					  GetSSGState();
 		EntityDesc*					  GetTrackDesc() const;
 		trackSeg*					  GetStart() const;
 		trackSeg*					  GetEnd() const;

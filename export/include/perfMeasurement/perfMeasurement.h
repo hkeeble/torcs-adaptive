@@ -31,7 +31,7 @@ namespace torcsAdaptive
 		void* getDataFromTag(std::string tag);
 		void Update(double deltaTimeIncrement, double currentTime);
 		void Clear();
-		int GetSkillEstimate();
+		float GetSkillEstimate();
 
 	private:
 		void Evaluate();

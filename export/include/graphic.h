@@ -23,6 +23,7 @@
 
 #include <track.h>
 #include <car.h>
+#include "procedural\PSSGState.h"
 
 #define GRX_IDENT	0
 
@@ -116,9 +117,10 @@ class ssgEntity;
 typedef void (*tfGraphicBendCar) (int /*index*/, sgVec3 /*poc*/, sgVec3 /*force*/, int /*cnt*/);
 
 /* PROCEDURAL INTERFACE */
-typedef procedural::EntityDesc*  (*tfPLoad3DDesc)	(const char* acName, ssgLoaderOptions* options);
-typedef void					 (*tfPAttach3DDesc)	(procedural::EntityDesc* curDesc);
-typedef void					 (*tfPDetach3DDesc)	(procedural::EntityDesc* curDesc);
+typedef void					  (*tfPAppend3DDesc)	(const char* acName, procedural::PSSGState* ssgState);
+typedef procedural::EntityDesc*   (*tfPLoad3DDesc)		(const char* acName, ssgLoaderOptions* loaderOptions);
+typedef void					  (*tfPAttach3DDesc)	(procedural::EntityDesc* curDesc);
+typedef void					  (*tfPDetach3DDesc)	(procedural::EntityDesc* curDesc);
 /* PROCEDURAL INTERFACE */
 
 /* Interface with the graphic lib */
@@ -131,9 +133,10 @@ typedef struct {
     tfGraphicShutdwnTrack   shutdowntrack;  /* Graphic shutdown function */
 
 	/* PROCEDURAL INTERFACE */
-	tfPLoad3DDesc			pLoad3DDesc;
-	tfPAttach3DDesc		pAttach3DDesc;
-	tfPDetach3DDesc		pDetach3DDesc;
+	tfPAppend3DDesc		PAppend3DDesc;
+	tfPLoad3DDesc		PLoad3DDesc;
+	tfPAttach3DDesc		PAttach3DDesc;
+	tfPDetach3DDesc		PDetach3DDesc;
 	/* TORCS-ADAPTIVE INTERFACE */
 	
 	//tfGraphicBendCar        bendcar;

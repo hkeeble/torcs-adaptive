@@ -39,6 +39,9 @@
     <ClCompile Include="trackdesc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PSSGState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Diagram.cd" />

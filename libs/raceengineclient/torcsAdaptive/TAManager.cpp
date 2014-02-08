@@ -69,8 +69,9 @@ namespace torcsAdaptive
 		PTrack* trInfo = trackManager->GetTrack(); // Retrieve track info
 		if (raceManager->_displayMode != RM_DISP_MODE_CONSOLE) // Load Initial 3D decsription if not displaying on console
 		{
-			trInfo->SetTrackDesc(raceManager->_reGraphicItf.pLoad3DDesc(trInfo->GetACName(), (ssgLoaderOptions*)trInfo->GetLoaderOptions()));
-			raceManager->_reGraphicItf.pAttach3DDesc(trInfo->GetTrackDesc()); // Attach 3D description to scene graph
+			trInfo->SetTrackDesc(raceManager->_reGraphicItf.PLoad3DDesc(trInfo->GetACName(), (ssgLoaderOptions*)trInfo->GetLoaderOptions()));
+			raceManager->_reGraphicItf.PAttach3DDesc(trInfo->GetTrackDesc()); // Attach 3D description to scene graph
+			trInfo->InitSSGState(); // Initiliaze the SSG State
 		}
 	}
 

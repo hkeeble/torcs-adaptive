@@ -629,9 +629,13 @@ ReOneStep(double deltaTimeIncrement)
 					// robot->rbDriveProc(robot->index, s->cars[i], s, ReInfo->track);
 				
 				// --- Track Performance ---
-				if (taManager->GetRaceType() == torcsAdaptive::TARaceType::Adaptive)
-					if(s->cars[i] == taManager->PerformanceMeasurement()->GetCar())
-						taManager->PerformanceMeasurement()->Update(deltaTimeIncrement, s->currentTime);
+					if (taManager->GetRaceType() == torcsAdaptive::TARaceType::Adaptive)
+					{
+						if (s->cars[i] == taManager->PerformanceMeasurement()->GetCar())
+							taManager->PerformanceMeasurement()->Update(deltaTimeIncrement, s->currentTime);
+						else
+							taOut("Unable to obtain car from performance measurement object!\n");
+					}
 			}
 		}
 		ReInfo->_reLastTime = s->currentTime;

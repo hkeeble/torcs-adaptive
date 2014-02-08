@@ -106,16 +106,18 @@ namespace procedural
 	{
 		// Update Graphics Module
 		taOut("\tUpdating Graphics Module.\n");
-		raceManager->_reGraphicItf.pDetach3DDesc(track->GetTrackDesc()); // Detach existing description from scene graph
+		raceManager->_reGraphicItf.PDetach3DDesc(track->GetTrackDesc()); // Detach existing description from scene graph
 
 		taOut("\tGenerating new 3D Description.\n");
 
 		// Update the AC File (could maybe move this from external library into this class, for the sake of clarity.)
 		raceManager->_reTrackItf.PUpdateACFile(track);
 
-		// Reload 3D Description
-		track->SetTrackDesc(raceManager->_reGraphicItf.pLoad3DDesc(track->GetACName(), (ssgLoaderOptions*)track->GetLoaderOptions()));
-		raceManager->_reGraphicItf.pAttach3DDesc(track->GetTrackDesc());
+		// Append existing 3D Description
+		raceManager->_reGraphicItf.PAppend3DDesc(track->GetACName(), track->GetSSGState());
+
+		// Reattach 3D description
+		raceManager->_reGraphicItf.PAttach3DDesc(track->GetTrackDesc());
 	}
 
 	void PTrackManager::ManageCache()

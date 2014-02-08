@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PCarData.cpp" />
+    <ClCompile Include="PSSGState.cpp" />
     <ClCompile Include="PRange.cpp" />
     <ClCompile Include="PSeg.cpp" />
     <ClCompile Include="PSegCollection.cpp" />
