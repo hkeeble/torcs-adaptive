@@ -83,6 +83,8 @@ namespace procedural
 		// Break links to actual track
 		trk->seg->prev = trk->seg;
 		trk->seg->next = trk->seg;
+
+		// Manually set some parameters used by track generator
 		trk->nseg = 1;
 		trk->length = trk->seg->length;
 		
@@ -92,9 +94,8 @@ namespace procedural
 		// Generate 3D description in temporary file
 		GenerateTrack(trk, trk->params, (char*)track->GetTempACPathAndName(), nullptr, 0, 0, 0);
 
-		// READ IN STUFF HERE
-
-		// COPY STUFF OUT TO UDPATE AC FILE HERE
+		// Update track's AC file
+		track->UpdateACFile(trk->seg->id);
 	}
 
 	/* Release all torcs-adaptive track module resources */

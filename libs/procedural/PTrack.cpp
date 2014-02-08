@@ -202,8 +202,34 @@ namespace procedural
 		return filePath;
 	}
 
+	void PTrack::UpdateACFile(int segmentID)
+	{
+		std::fstream infile(GetTempACPathAndName()); // Get file stream from temporary AC file
+		std::ofstream outfile;
+		outfile.open(GetACPathAndName(), std::ios::app); // Get output stream for main AC file
+
+		std::string line; // stores the current line
+
+		// Ignore the fist 7 lines, not needed to describe a single segment
+		for (int i = 0; i < 7; i++)
+			std::getline(infile, line);
+
+		// Read the rest of the file, edit as neccesary, and output to main AC file
+		while (std::getline(infile, line))
+		{
+			std::size_t found = line.find("name");
+			if (found != std::string::npos) // If the line contains a name, edit to correspond to segment ID
+				line.at(line.length() - 2) = char(segmentID + '0');
+			outfile << line + "\n"; // Output line to main file
+		}
+
+		infile.close();
+		outfile.close();
+	}
+
 	const char *const PTrack::StrCon(const char *const a, const char *const b)
 	{
+		// Concatenates two char* and returns the result
 		char* c = new char[strlen(a) + strlen(b)];
 		c = strcpy(c, a);
 		c = strcat(c, b);

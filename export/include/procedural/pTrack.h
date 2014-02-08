@@ -7,6 +7,7 @@
 #ifndef _P_TRACK_H_
 #define _P_TRACK_H_
 
+#include <fstream>
 #include "PTrackState.h"
 #include "PDefs.h"
 #include "PSegCollection.h"
@@ -82,6 +83,9 @@ namespace procedural
 
 		/* Builds the entire track into the existing cache. Returns the resulting track, but also modifies the internal track structure. */
 		tTrack* BuildTrack();
+
+		/* Appends the track's AC file with data stored in temporary AC file */
+		void UpdateACFile(int segmentID);
 
 		/* Get Accessors */
 		const ssgLoaderOptions *const GetLoaderOptions();
