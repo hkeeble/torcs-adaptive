@@ -69,8 +69,8 @@ namespace torcsAdaptive
 		PTrack* trInfo = trackManager->GetTrack(); // Retrieve track info
 		if (raceManager->_displayMode != RM_DISP_MODE_CONSOLE) // Load Initial 3D decsription if not displaying on console
 		{
-			trInfo->SetTrackDesc(raceManager->_reGraphicItf.PLoad3DDesc(trInfo)); // Load 3D description
-			raceManager->_reGraphicItf.PAttach3DDesc(trInfo->GetTrackDesc()); // Attach 3D description to scene graph
+			raceManager->_reGraphicItf.PGrInit(trInfo);
+			raceManager->_reGraphicItf.PGrAttach3DDesc(trInfo->GetTrackDesc()); // Attach 3D description to scene graph
 		}
 	}
 

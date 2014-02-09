@@ -64,10 +64,10 @@ extern void shutdownTrack(void);
 namespace procedural
 {
 	/* procedural additional extern functions, these are exported as pointers and use internal functions found in grscene.h */
-	extern void			PAppend3DDesc (PTrack* track);
-	extern EntityDesc*	PLoad3DDesc	  (PTrack* track);
-	extern void			PAttach3DDesc (procedural::EntityDesc* curDesc);
-	extern void			PDetach3DDesc (procedural::EntityDesc* curDesc);
+	extern void	PGrInit			(PTrack* track);
+	extern void	PGrAppend3DDesc (PTrack* track);
+	extern void	PGrAttach3DDesc (procedural::EntityDesc* curDesc);
+	extern void	PGrDetach3DDesc (procedural::EntityDesc* curDesc);
 }
 
 //extern void bendCar (int index, sgVec3 poc, sgVec3 force, int cnt);

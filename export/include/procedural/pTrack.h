@@ -102,7 +102,6 @@ namespace procedural
 		trackSeg*					  GetEnd() const;
 
 		/* Set Accessors */
-		void SetTrackDesc(EntityDesc* newDesc);
 		void SetStart(trackSeg* start);
 		void SetEnd(trackSeg* end);
 

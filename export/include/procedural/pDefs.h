@@ -34,7 +34,7 @@ namespace procedural
 	#define MAX_RADIUS 400.f
 	#define MIN_RADIUS 25.f
 	
-	#define taOut(out) printf("ta >> " out)
+	#define taOut(out) std::cout << "ta >>" + std::string(out)
 
 	enum PSegType
 	{

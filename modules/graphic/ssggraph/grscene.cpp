@@ -247,14 +247,6 @@ grLoadScene(tTrack *track)
 /* Internal library procedural functions for loading, attaching and detaching children dynamically */
 namespace procedural
 {
-	/* Loads a 3D Description and returns a pointer to it's entity */
-	EntityDesc* Load3DDesc(const char* acName, ssgLoaderOptions* options)
-	{
-		// Return pointer to entity data
-		EntityDesc* desc = grssgLoadAC3D(acName, options);
-		return desc;
-	}
-
 	/* Remove given entity from scene graph */
 	void Detach3DDesc(EntityDesc* curDesc)
 	{

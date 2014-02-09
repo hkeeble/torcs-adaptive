@@ -54,7 +54,6 @@ extern void grCustomizePits(void);
 namespace procedural
 {
 	/* procedural additional extern functions, used internally within this library */
-	extern EntityDesc*				  Load3DDesc	(const char* acName, ssgLoaderOptions* options);
 	extern void						  Detach3DDesc	(EntityDesc* curDesc);
 	extern void						  Attach3DDesc	(EntityDesc* curDesc);
 }

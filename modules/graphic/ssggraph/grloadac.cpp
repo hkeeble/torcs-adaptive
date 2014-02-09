@@ -50,7 +50,6 @@ double shad_ymin;
 double carTrackRatioX = 0;
 double carTrackRatioY = 0;
 
-
 static gzFile loader_fd;
 
 

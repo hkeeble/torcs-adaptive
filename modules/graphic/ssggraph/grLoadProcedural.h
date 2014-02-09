@@ -7,13 +7,17 @@
 #define _GR_LOAD_PROCEDURAL_H_
 
 #include "procedural\PSSGState.h"
+#include "procedural\PTrack.h"
 #include "grmain.h"
 #include "grssgext.h"
+#include "grvtxtable.h"
 
 namespace procedural
 {
 	#define PARSE_CONT   0
 	#define PARSE_POP    1
+
+	#define NOTEXTURE "empty_texture_no_mapping"
 
 	/* Structure represents a tag type, contains pointer to function to handle said tag type */
 	struct Tag
@@ -26,7 +30,7 @@ namespace procedural
 	void PGrAppendEntity(PSSGState* ssgState);
 
 	/* Initialize input file */
-	void PGrInitInFile(const char* fname);
+	void PGrInit(PTrack* track);
 
 	/* Release resources required by the procedural graphics system */
 	void PGrShutdown();
@@ -46,6 +50,11 @@ namespace procedural
 
 	/* Used to skip qoutes */
 	void skip_quotes(char **s);
+
+	int preScene(ssgEntity *e);
+
+	ssgState *pr_get_state(_ssgMaterial *mat);
+	ssgState *pr_get_state_ext(char * name);
 
 	/* Functions to handle specific tags - modified from existing ones to make use of the current ssgState */
 	

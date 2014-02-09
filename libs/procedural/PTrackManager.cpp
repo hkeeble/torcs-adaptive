@@ -106,7 +106,7 @@ namespace procedural
 	{
 		// Update Graphics Module
 		taOut("\tUpdating Graphics Module.\n");
-		raceManager->_reGraphicItf.PDetach3DDesc(track->GetTrackDesc()); // Detach existing description from scene graph
+		raceManager->_reGraphicItf.PGrDetach3DDesc(track->GetTrackDesc()); // Detach existing description from scene graph
 
 		taOut("\tGenerating new 3D Description.\n");
 
@@ -114,10 +114,10 @@ namespace procedural
 		raceManager->_reTrackItf.PUpdateACFile(track);
 
 		// Append existing 3D Description
-		raceManager->_reGraphicItf.PAppend3DDesc(track);
+		raceManager->_reGraphicItf.PGrAppend3DDesc(track);
 
 		// Reattach 3D description
-		raceManager->_reGraphicItf.PAttach3DDesc(track->GetTrackDesc());
+		raceManager->_reGraphicItf.PGrAttach3DDesc(track->GetTrackDesc());
 	}
 
 	void PTrackManager::ManageCache()

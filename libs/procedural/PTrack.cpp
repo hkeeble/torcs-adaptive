@@ -64,8 +64,6 @@ namespace procedural
 				delete filePath;
 			if (xmlFile)
 				delete xmlFile;
-			if (ssgState)
-				delete ssgState;
 
 			cpy(param);
 
@@ -132,10 +130,7 @@ namespace procedural
 			end = nullptr;
 
 		if (param.ssgState)
-		{
-			ssgState = new PSSGState();
-			*ssgState = *param.ssgState;
-		}
+			ssgState = param.ssgState;
 		else
 			ssgState = nullptr;
 
@@ -150,11 +145,6 @@ namespace procedural
 	EntityDesc* PTrack::GetTrackDesc() const
 	{
 		return ssgState->GetDesc();
-	}
-
-	void PTrack::SetTrackDesc(EntityDesc* newDesc)
-	{
-		ssgState->SetDesc(newDesc);
 	}
 
 	const ssgLoaderOptions *const PTrack::GetLoaderOptions()
@@ -260,8 +250,6 @@ namespace procedural
 			//delete filePath;
 		//if (xmlFile)
 			//delete xmlFile;
-		if (ssgState)
-			delete ssgState;
 	}
 
 	void PTrack::RemoveSegAtStart()

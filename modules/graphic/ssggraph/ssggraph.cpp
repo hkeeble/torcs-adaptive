@@ -44,10 +44,10 @@ graphInit(int /* idx */, void *pt)
     //itf->bendcar       = bendCar;
 
 	/* PROCEDURAL INTERFACE */
-	itf->PLoad3DDesc   = procedural::PLoad3DDesc;
-	itf->PAppend3DDesc = procedural::PAppend3DDesc;
-	itf->PAttach3DDesc = procedural::PAttach3DDesc;
-	itf->PDetach3DDesc = procedural::PDetach3DDesc;
+	itf->PGrInit		 = procedural::PGrInit;
+	itf->PGrAppend3DDesc = procedural::PGrAppend3DDesc;
+	itf->PGrAttach3DDesc = procedural::PGrAttach3DDesc;
+	itf->PGrDetach3DDesc = procedural::PGrDetach3DDesc;
 
     return 0;
 }

@@ -31,10 +31,10 @@ namespace procedural
 		int currentLine;
 
 		// State is uncopyable
-		PSSGState(const PSSGState& param);
-		PSSGState& operator=(const PSSGState& param);
+		PSSGState(const PSSGState& param) { };
+		PSSGState& operator=(const PSSGState& param) { };
 
-		// PSSGState is not responsible for handling deletion of the ssgEntity
+		// PSSGState is not responsible for handling deletion of the ssgEntity or ssgLoaderOptions, it simply monitors them
 		ssgEntity* desc;
 		ssgLoaderOptions* lopts;
 
@@ -44,10 +44,13 @@ namespace procedural
 
 		/* Get and set operators */
 		ssgEntity* GetDesc() const;
-		void SetDesc(ssgEntity* desc);
+		void UpdateDesc();
 
 		ssgLoaderOptions* GetLoaderOptions() const;
 		void SetLoaderOptions(ssgLoaderOptions* loaderOptions);
+
+		void ClearTables();
+		void InitTables(int nVerts);
 
 		// Data held for continuity between calls to append
 		_ssgMaterial		*current_material;
@@ -59,14 +62,32 @@ namespace procedural
 		char				*current_tskids;
 		char				*current_tshad;
 		char				*current_data;
+		sgVec3				*vtab;
+		sgVec3				*ntab;
+		sgVec2				*t0tab;
+		sgVec2				*t1tab;
+		sgVec2				*t2tab;
+		sgVec2				*t3tab;
+		sgVec2				texrep;
+		sgVec2				texoff;
+		sgMat4				current_matrix;
+		ssgIndexArray		*vertlist;
+		ssgIndexArray		*striplist;
 		int					current_flags;
 		int					num_materials;
 		int					num_kids;
+		int					mapLevel;
+		int					numMapLevel;
 		int					last_num_kids;
-		sgMat4				current_matrix;
-		sgVec3				*vtab;
-		sgVec2				texrep;
-		sgVec2				texoff;
+		int					totalnv;
+		int					totalstripe;
+		bool				usenormal;
+		bool				usestrip;
+		bool				firsttime;
+		float				t_xmax;
+		float				t_ymax;
+		float				t_xmin;
+		float				t_ymin;
 
 		_ssgMaterial		*mlist[MAX_MATERIALS];
 		sgVec4				*clist[MAX_MATERIALS];
