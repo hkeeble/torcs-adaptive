@@ -133,9 +133,6 @@
     <ClInclude Include="grvtxtable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="grloadac.h">
-      <Filter>Header Files\procedural</Filter>
-    </ClInclude>
     <ClInclude Include="grLoadProcedural.h">
       <Filter>Header Files\procedural</Filter>
     </ClInclude>

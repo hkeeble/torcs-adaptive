@@ -223,11 +223,6 @@ namespace procedural
 		outfile.close();
 	}
 
-	void PTrack::InitSSGState()
-	{
-		ssgState->InitFile(GetACPathAndName());
-	}
-
 	const char *const PTrack::StrCon(const char *const a, const char *const b)
 	{
 		// Concatenates two char* and returns the result

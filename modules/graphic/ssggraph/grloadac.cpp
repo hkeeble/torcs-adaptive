@@ -24,8 +24,14 @@ $Id: grloadac.cpp,v 1.20.2.4 2012/09/20 17:35:01 berniw Exp $
 #include <plib/ssg.h>
 #include <zlib.h>
 
-#include "grloadac.h"
+#include "grssgext.h"
+#include "grvtxtable.h"
+#include "grmultitexstate.h"
+#include "grmain.h"
+#include "grtexture.h"
+
 int inGroup = 0;
+
 
 #define FGETS(buf, len, file) gzgets(file, buf, len)
 #define FGETC(file) gzgetc(file)
@@ -44,51 +50,9 @@ double shad_ymin;
 double carTrackRatioX = 0;
 double carTrackRatioY = 0;
 
+
 static gzFile loader_fd;
 
-Tag top_tags[] =
-{
-	{ "MATERIAL", do_material },
-	{ "OBJECT", do_object },
-};
-
-Tag object_tags[] =
-{
-	{ "name", do_name },
-	{ "data", do_data },
-	{ "texture", do_texture },
-	{ "texrep", do_texrep },
-	{ "texoff", do_texoff },
-	{ "rot", do_rot },
-	{ "loc", do_loc },
-	{ "url", do_url },
-	{ "numvert", do_numvert },
-	{ "numsurf", do_numsurf },
-	{ "kids", do_kids },
-	{ NULL, NULL }
-};
-
-Tag surf_tag[] =
-{
-	{ "SURF", do_surf },
-	{ NULL, NULL }
-};
-
-Tag surface_tags[] =
-{
-	{ "mat", do_mat },
-	{ "refs", do_refs },
-	{ NULL, NULL }
-};
-
-Tag obj_type_tags[] =
-{
-	{ "world", do_obj_world },
-	{ "poly", do_obj_poly },
-	{ "group", do_obj_group },
-	{ "light", do_obj_light },
-	{ NULL, NULL }
-};
 
 struct _ssgMaterial
 {
@@ -140,9 +104,37 @@ static sgMat4 current_matrix;
 static sgVec2 texrep;
 static sgVec2 texoff;
 
+static int do_material(char *s);
+static int do_object(char *s);
+static int do_name(char *s);
+static int do_data(char *s);
+static int do_texture(char *s);
+static int do_texrep(char *s);
+static int do_texoff(char *s);
+static int do_rot(char *s);
+static int do_loc(char *s);
+static int do_url(char *s);
+static int do_numvert(char *s);
+static int do_numsurf(char *s);
+static int do_surf(char *s);
+static int do_mat(char *s);
+static int do_refs(char *s);
+static int do_kids(char *s);
+
+static int do_obj_world(char *s);
+static int do_obj_poly(char *s);
+static int do_obj_group(char *s);
+static int do_obj_light(char *s);
 /*static void myssgStripify ( ssgEntity *ent );*/
 #define PARSE_CONT   0
 #define PARSE_POP    1
+
+struct Tag
+{
+	const char *token;
+	int(*func) (char *s);
+};
+
 
 static void skip_spaces(char **s)
 {
@@ -175,7 +167,7 @@ static void skip_quotes(char **s)
 
 
 
-int search(Tag *tags, char *s)
+static int search(Tag *tags, char *s)
 {
 	skip_spaces(&s);
 
@@ -194,15 +186,60 @@ int search(Tag *tags, char *s)
 	return 0;  /* Should never get here */
 }
 
+static Tag top_tags[] =
+{
+	{ "MATERIAL", do_material },
+	{ "OBJECT", do_object },
+};
+
+
+static Tag object_tags[] =
+{
+	{ "name", do_name },
+	{ "data", do_data },
+	{ "texture", do_texture },
+	{ "texrep", do_texrep },
+	{ "texoff", do_texoff },
+	{ "rot", do_rot },
+	{ "loc", do_loc },
+	{ "url", do_url },
+	{ "numvert", do_numvert },
+	{ "numsurf", do_numsurf },
+	{ "kids", do_kids },
+	{ NULL, NULL }
+};
+
+static Tag surf_tag[] =
+{
+	{ "SURF", do_surf },
+	{ NULL, NULL }
+};
+
+static Tag surface_tags[] =
+{
+	{ "mat", do_mat },
+	{ "refs", do_refs },
+	{ NULL, NULL }
+};
+
+static Tag obj_type_tags[] =
+{
+	{ "world", do_obj_world },
+	{ "poly", do_obj_poly },
+	{ "group", do_obj_group },
+	{ "light", do_obj_light },
+	{ NULL, NULL }
+};
+
 #define OBJ_WORLD  0
 #define OBJ_POLY   1
 #define OBJ_GROUP  2
 #define OBJ_LIGHT  3
 
-int do_obj_poly(char *) { return OBJ_POLY; }
-int do_obj_group(char *) { return OBJ_GROUP; }
-int do_obj_world(char *) { return OBJ_WORLD; }
-int do_obj_light(char *) { return OBJ_LIGHT; }
+static int do_obj_world(char *) { return OBJ_WORLD; }
+static int do_obj_poly(char *) { return OBJ_POLY; }
+static int do_obj_group(char *) { return OBJ_GROUP; }
+static int do_obj_light(char *) { return OBJ_LIGHT; }
 static ssgEntity *myssgLoadAC(const char *fname, const ssgLoaderOptions* options);
 
 
@@ -410,7 +447,7 @@ static int do_object(char * s)
 }
 
 
-int do_name(char *s)
+static int do_name(char *s)
 {
 	char *q = NULL;
 	skip_quotes(&s);
@@ -448,7 +485,7 @@ int do_name(char *s)
 }
 
 
-int do_data(char *s)
+static int do_data(char *s)
 {
 	int len = strtol(s, NULL, 0);
 
@@ -476,7 +513,7 @@ int do_data(char *s)
 }
 
 
-int do_texture(char *s)
+static int do_texture(char *s)
 {
 	char *p;
 
@@ -574,7 +611,7 @@ int do_texture(char *s)
 }
 
 
-int do_texrep(char *s)
+static int do_texrep(char *s)
 {
 	if (sscanf(s, "%f %f", &texrep[0], &texrep[1]) != 2)
 		ulSetError(UL_WARNING, "ac_to_gl: Illegal texrep record.");
@@ -583,7 +620,7 @@ int do_texrep(char *s)
 }
 
 
-int do_texoff(char *s)
+static int do_texoff(char *s)
 {
 	if (sscanf(s, "%f %f", &texoff[0], &texoff[1]) != 2)
 		ulSetError(UL_WARNING, "ac_to_gl: Illegal texoff record.");
@@ -591,7 +628,7 @@ int do_texoff(char *s)
 	return PARSE_CONT;
 }
 
-int do_rot(char *s)
+static int do_rot(char *s)
 {
 	current_matrix[0][3] = current_matrix[1][3] = current_matrix[2][3] =
 		current_matrix[3][0] = current_matrix[3][1] = current_matrix[3][2] = 0.0f;
@@ -607,7 +644,7 @@ int do_rot(char *s)
 	return PARSE_CONT;
 }
 
-int do_loc(char *s)
+static int do_loc(char *s)
 {
 	if (sscanf(s, "%f %f %f", &current_matrix[3][0], &current_matrix[3][2], &current_matrix[3][1]) != 3)
 		ulSetError(UL_WARNING, "ac_to_gl: Illegal loc record.");
@@ -619,7 +656,7 @@ int do_loc(char *s)
 	return PARSE_CONT;
 }
 
-int do_url(char *s)
+static int do_url(char *s)
 {
 	skip_quotes(&s);
 
@@ -630,7 +667,7 @@ int do_url(char *s)
 	return PARSE_CONT;
 }
 
-int do_numvert(char *s)
+static int do_numvert(char *s)
 {
 	char buffer[1024];
 
@@ -705,7 +742,7 @@ int do_numvert(char *s)
 	return PARSE_CONT;
 }
 
-int do_numsurf(char *s)
+static int do_numsurf(char *s)
 {
 	int ns = strtol(s, NULL, 0);
 
@@ -720,7 +757,7 @@ int do_numsurf(char *s)
 	return PARSE_CONT;
 }
 
-int do_surf(char *s)
+static int do_surf(char *s)
 {
 	current_flags = strtol(s, NULL, 0);
 
@@ -734,7 +771,7 @@ int do_surf(char *s)
 }
 
 
-int do_mat(char *s)
+static int do_mat(char *s)
 {
 	int mat = strtol(s, NULL, 0);
 
@@ -745,7 +782,7 @@ int do_mat(char *s)
 }
 
 
-int do_refs(char *s)
+static int do_refs(char *s)
 {
 	int nrefs = strtol(s, NULL, 0);
 	char buffer[1024];
@@ -973,7 +1010,7 @@ int do_refs(char *s)
 	return PARSE_POP;
 }
 
-int do_kids(char *s)
+static int do_kids(char *s)
 {
 	last_num_kids = strtol(s, NULL, 0);
 

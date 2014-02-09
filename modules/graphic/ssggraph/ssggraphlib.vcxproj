@@ -146,7 +146,6 @@
     <ClInclude Include="grboard.h" />
     <ClInclude Include="grcam.h" />
     <ClInclude Include="grcar.h" />
-    <ClInclude Include="grloadac.h" />
     <ClInclude Include="grLoadProcedural.h" />
     <ClInclude Include="grmain.h" />
     <ClInclude Include="grmultitexstate.h" />

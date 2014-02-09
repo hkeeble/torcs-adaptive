@@ -9,8 +9,6 @@
 
 namespace procedural
 {
-	std::fstream PSSGState::infile;
-
 	PSSGState::PSSGState()
 	{
 		currentLine = 0;
@@ -29,6 +27,9 @@ namespace procedural
 		vtab = nullptr;
 
 		num_materials = 0;
+		num_kids = 0;
+		last_num_kids = num_kids;
+		current_flags = -1;
 	}
 
 	PSSGState::PSSGState(const PSSGState& param)
@@ -94,18 +95,5 @@ namespace procedural
 	void PSSGState::SetLoaderOptions(ssgLoaderOptions* loaderOptions)
 	{
 		lopts = loaderOptions;
-	}
-
-	void PSSGState::InitFile(const char* fName)
-	{
-		// Count lines in AC File
-		infile.open(fName, std::ios::in);
-		
-		std::string line;
-		if (infile.is_open())
-			while (infile.good())
-				std::getline(infile, line);
-		else
-			taOut("Error initializing PSSGState file, file not opened!\n");
 	}
 }

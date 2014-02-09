@@ -30,13 +30,16 @@ namespace procedural
 	private:
 		int currentLine;
 
+		// State is uncopyable
+		PSSGState(const PSSGState& param);
+		PSSGState& operator=(const PSSGState& param);
+
 		// PSSGState is not responsible for handling deletion of the ssgEntity
 		ssgEntity* desc;
 		ssgLoaderOptions* lopts;
+
 	public:
 		PSSGState();
-		PSSGState(const PSSGState& param);
-		PSSGState& operator=(const PSSGState& param);
 		~PSSGState();
 
 		/* Get and set operators */
@@ -45,11 +48,6 @@ namespace procedural
 
 		ssgLoaderOptions* GetLoaderOptions() const;
 		void SetLoaderOptions(ssgLoaderOptions* loaderOptions);
-
-		/* Initialize the infile, counting number of lines in intial AC file */
-		void InitFile(const char* fName);
-
-		static std::fstream infile;
 
 		// Data held for continuity between calls to append
 		_ssgMaterial		*current_material;
@@ -61,13 +59,17 @@ namespace procedural
 		char				*current_tskids;
 		char				*current_tshad;
 		char				*current_data;
-		int num_materials;
-		sgVec3 *vtab;
-		sgVec2 texrep;
-		sgVec2 texoff;
+		int					current_flags;
+		int					num_materials;
+		int					num_kids;
+		int					last_num_kids;
+		sgMat4				current_matrix;
+		sgVec3				*vtab;
+		sgVec2				texrep;
+		sgVec2				texoff;
 
-		_ssgMaterial   *mlist[MAX_MATERIALS];
-		sgVec4         *clist[MAX_MATERIALS];
+		_ssgMaterial		*mlist[MAX_MATERIALS];
+		sgVec4				*clist[MAX_MATERIALS];
 	};
 }
 

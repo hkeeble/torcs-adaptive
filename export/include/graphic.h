@@ -117,8 +117,8 @@ class ssgEntity;
 typedef void (*tfGraphicBendCar) (int /*index*/, sgVec3 /*poc*/, sgVec3 /*force*/, int /*cnt*/);
 
 /* PROCEDURAL INTERFACE */
-typedef void					  (*tfPAppend3DDesc)	(const char* acName, procedural::PSSGState* ssgState);
-typedef procedural::EntityDesc*   (*tfPLoad3DDesc)		(const char* acName, ssgLoaderOptions* loaderOptions);
+typedef void					  (*tfPAppend3DDesc)	(procedural::PTrack*);
+typedef procedural::EntityDesc*   (*tfPLoad3DDesc)		(procedural::PTrack*);
 typedef void					  (*tfPAttach3DDesc)	(procedural::EntityDesc* curDesc);
 typedef void					  (*tfPDetach3DDesc)	(procedural::EntityDesc* curDesc);
 /* PROCEDURAL INTERFACE */

@@ -251,7 +251,8 @@ namespace procedural
 	EntityDesc* Load3DDesc(const char* acName, ssgLoaderOptions* options)
 	{
 		// Return pointer to entity data
-		return grssgLoadAC3D(acName, options);
+		EntityDesc* desc = grssgLoadAC3D(acName, options);
+		return desc;
 	}
 
 	/* Remove given entity from scene graph */

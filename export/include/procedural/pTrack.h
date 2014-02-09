@@ -87,9 +87,6 @@ namespace procedural
 		/* Appends the track's AC file with data stored in temporary AC file */
 		void UpdateACFile(int segmentID);
 
-		/* Initialize the SSG State, counting the number of lines in the initial AC file */
-		void InitSSGState();
-
 		/* Get Accessors */
 		const ssgLoaderOptions *const GetLoaderOptions();
 		const char			   *const GetFilePath();

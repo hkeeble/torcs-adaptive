@@ -500,14 +500,9 @@ shutdownTrack(void)
 /* procedural additional extern functions, these are exported as pointers and use internal functions found in grscene.cpp */
 namespace procedural
 {
-	void PAppend3DDesc(const char* acName, PSSGState* ssgState)
+	void PAppend3DDesc(PTrack* track)
 	{
-		PSSGAppendEntity(acName, ssgState);
-	}
-
-	EntityDesc* PLoad3DDesc(const char* acName, ssgLoaderOptions* loaderOptions)
-	{
-		return Load3DDesc(acName, loaderOptions);
+		PGrAppendEntity(track->GetSSGState());
 	}
 
 	void PDetach3DDesc(EntityDesc* curDesc)

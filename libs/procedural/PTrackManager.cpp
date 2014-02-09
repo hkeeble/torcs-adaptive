@@ -114,7 +114,7 @@ namespace procedural
 		raceManager->_reTrackItf.PUpdateACFile(track);
 
 		// Append existing 3D Description
-		raceManager->_reGraphicItf.PAppend3DDesc(track->GetACName(), track->GetSSGState());
+		raceManager->_reGraphicItf.PAppend3DDesc(track);
 
 		// Reattach 3D description
 		raceManager->_reGraphicItf.PAttach3DDesc(track->GetTrackDesc());
