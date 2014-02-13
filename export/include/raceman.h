@@ -33,8 +33,6 @@
 #include <graphic.h>
 #include <simu.h>
 
-#include "perfMeasurement\perfMeasurement.h"
-
 #define RCM_IDENT 0
 
 struct RmInfo;

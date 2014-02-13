@@ -40,7 +40,7 @@ namespace torcsAdaptive
 		return raceType;
 	}
 
-	taPerfMeasurement* TAManager::PerformanceMeasurement() const
+	PMManager* TAManager::PerformanceMeasurement() const
 	{
 		return perfMeasurement;
 	}
@@ -94,8 +94,7 @@ namespace torcsAdaptive
 		if (perfMeasurement)
 			delete perfMeasurement;
 
-		perfMeasurement = new taPerfMeasurement();
-		perfMeasurement->SetDriver(car);
+		perfMeasurement = new PMManager(car);
 	}
 
 	void TAManager::AddSegment(const PSeg& segment)
@@ -111,11 +110,7 @@ namespace torcsAdaptive
 			currentSkillLevel = perfMeasurement->GetSkillEstimate();
 		}
 		else
-		{
 			trackManager->Update();
-			if (!raceOnConsole)
-				trackManager->UpdateGraphics();
-		}
 	}
 
 	void TAManager::SetRaceType(const TARaceType& RaceType)
@@ -153,9 +148,8 @@ namespace torcsAdaptive
 
 	void TAManager::RaceEnd()
 	{
-		/* Build the track in it's entirety, and then plot the track for reading in gnuplot. */
-		tTrack* trk = trackManager->BuildTrack();
-		TrackDesc desc = TrackDesc(trk);
-		desc.plot("procTrackPlot.dat");
+		/* Plot the track for reading in gnuplot */
+		TrackDesc desc = TrackDesc(trackManager->GetTrack()->trk);
+		desc.plot((char*)(std::string((char*)trackManager->GetTrack()->GetFilePath()) + std::string("procTrackPlot.dat")).c_str());
 	}
 }

@@ -10,8 +10,7 @@
 #include <fstream>
 #include "PTrackState.h"
 #include "PDefs.h"
-#include "PSegCollection.h"
-#include "PCarData.h"
+#include "CarData.h"
 #include "PSSGState.h"
 #include "track.h"
 #include "../../../windows/include/plib/ssg.h"
@@ -57,11 +56,8 @@ namespace procedural
 		/* Root of track (the last added segment) */
 		trackSeg* root;
 		
-		/* The TORCS track structure, only contains a cache of segments */
-		tTrack* trackCache;
-
-		/* Collection for storing all segments */
-		PSegCollection segs;
+		/* The TORCS track structure */
+		tTrack* trk;
 
 		/* Remove a segment at the start */
 		void RemoveSegAtStart();
@@ -69,20 +65,11 @@ namespace procedural
 		/* Remove a segment at the end */
 		void RemoveSegAtEnd();
 
-		/* Add a segment at the start */
-		void AddSegmentAtStart();
-
-		/* Add a segment at the end */
-		void AddSegmentAtEnd();
-
 		/* Get segment with the specified ID */
 		tTrackSeg* GetSeg(int id);
 
 		/* Get the total INTENDED track length - not the current total length */
 		tdble TotalLength() const;
-
-		/* Builds the entire track into the existing cache. Returns the resulting track, but also modifies the internal track structure. */
-		tTrack* BuildTrack();
 
 		/* Appends the track's AC file with data stored in temporary AC file */
 		void UpdateACFile(int segmentID);

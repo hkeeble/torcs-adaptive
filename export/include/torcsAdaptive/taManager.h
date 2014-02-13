@@ -6,16 +6,18 @@
 #ifndef _TORCS_ADAPTIVE_MANAGER_H_
 #define _TORCS_ADAPTIVE_MANAGER_H_
 
-#include "perfMeasurement\perfMeasurement.h"
+#include "perfMeasurement\PMManager.h"
 #include "procedural\pTrackManager.h"
 #include "procedural\PRange.h"
 
+// Using both TORCS-Adaptive namespace features. These are both seperate libaries and namespaces and are fully independent of one another.
 using namespace procedural;
+using namespace perfMeasurement;
 
 namespace torcsAdaptive
 {
 	// Currently defined track length
-	#define TA_TR_LENGTH 2000
+	#define TA_TR_LENGTH 5000
 
 	/* Type of TORCS-Adaptive Race currently active.
 		0 - None: Assigned as default, therefore only set if TAManager::Init() has not been called, adaptive/procedural race not active.
@@ -40,7 +42,7 @@ namespace torcsAdaptive
 
 		float currentSkillLevel;
 		TARaceType raceType;
-		taPerfMeasurement* perfMeasurement;
+		PMManager* perfMeasurement;
 		PTrackManager* trackManager;
 		tRmInfo* raceManager;
 		tCarElt* car;
@@ -55,7 +57,7 @@ namespace torcsAdaptive
 		const TARaceType& Type() const;
 		
 		/* Return the performance measurement object. */
-		taPerfMeasurement* PerformanceMeasurement() const;
+		PMManager* PerformanceMeasurement() const;
 		
 		/* Initializes track and graphics for a TORCS Adaptive race */
 		void Init(tRmInfo* RaceManager);

@@ -23,6 +23,8 @@
 // PROCEDURAL SPECIFIC FUNCTIONS AND DEFINES
 namespace procedural
 {
+	#define INITIAL_SEG_GEN 5
+
 	/* Builds an initial track, loading its information from the given XML file. */
 	tTrack*				BuildTrack(const char *const fName);
 

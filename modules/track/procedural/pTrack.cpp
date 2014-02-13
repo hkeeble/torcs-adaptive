@@ -24,20 +24,19 @@ namespace procedural
 
 		// Main info
 		GfOut("Assigning Main Track Info...\n");
-		pTrack->trackCache = BuildTrack(pTrack->GetXMLPathAndName());
+		pTrack->trk = BuildTrack(pTrack->GetXMLPathAndName());
 
 		// Initialize Sides
-		InitSides(pTrack->trackCache->params, pTrack->trackCache);
+		InitSides(pTrack->trk->params, pTrack->trk);
 
 		// Add Initial Segments
 		GfOut("Adding Initial Segments...\n");
-		PAddSegment(PSegFactory::GetInstance()->CreateSegStr(0, 500.f), pTrack);
-		PAddSegment(PSegFactory::GetInstance()->CreateSegCnr(1, PCornerType::CTLeft, 90.f, 0.f, 0.f, 1.5f), pTrack);
-		PAddSegment(PSegFactory::GetInstance()->CreateSegStr(2, 500.f), pTrack);
+		for (int i = 0; i < INITIAL_SEG_GEN; i++)
+			PAddSegment(PSegFactory::GetInstance()->CreateRandomSeg(i), pTrack);
 
 		// Generate Initial 3D Description
 		if (!raceOnConsole)
-			GenerateTrack(pTrack->trackCache, pTrack->trackCache->params, (char*)pTrack->GetACPathAndName(), nullptr, 0, 0, 0);
+			GenerateTrack(pTrack->trk, pTrack->trk->params, (char*)pTrack->GetACPathAndName(), nullptr, 0, 0, 0);
 
 		return pTrack;
 	}

@@ -14,7 +14,7 @@ namespace procedural
 
 		raceInfo = 0x00000000; // Normal Segment
 		type2 = 1; // Main Track Segment
-		style = 0; // Plan (TR_PLAN)
+		style = 2; // Plan (TR_PLAN)
 	}
 
 	PSeg::~PSeg()
@@ -26,7 +26,9 @@ namespace procedural
 
 	PSegFactory::PSegFactory()
 	{
-
+		cornerChance = straightChance = 50.f;
+		srand(time(0));
+		previousCornerType = (RandBetween(0, 100) > 50 ? PCornerType::CTLeft : PCornerType::CTRight);
 	}
 
 	PSegFactory::~PSegFactory()
@@ -65,5 +67,78 @@ namespace procedural
 		newSeg.arc = arc;
 
 		return newSeg;
+	}
+
+	PSeg PSegFactory::CreateRandomSeg(int id)
+	{
+		PSegType type = RandomSegType();
+
+		if (type == PSegType::Straight)
+			return CreateSegStr(id, SEG_LENGTH); // Generate new segment
+		else
+		{
+			float radius = RandBetween(ranges.Radius().Min(), ranges.Radius().Max());
+			float arc = RandBetween(ranges.Arc().Min(), ranges.Arc().Max());
+			PCornerType cType;
+
+			if (previousCornerType == CTLeft)
+				cType = CTRight;
+			else
+				cType = CTLeft;
+
+			return CreateSegCnr(id, cType, radius, 0.f, 0.f, arc);
+			previousCornerType = cType;
+		}
+	}
+
+	void PSegFactory::SetChances(float corner, float straight)
+	{
+		if (corner + straight == 100)
+		{
+			cornerChance = corner;
+			straightChance = straight;
+		}
+		else
+		{
+			taOut("PSegFactory: Error! Corner and straight segment generation chances must equal 100!");
+			cornerChance = straightChance = 50.f;
+		}
+	}
+
+	float PSegFactory::RandBetween(float min, float max)
+	{
+		if (min < max)
+			return min + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (max - min)));
+		else
+			taOut("PSegFactory: Min cannot be less thatn Max!\n");
+	}
+
+	PSegType PSegFactory::RandomSegType()
+	{
+		PSegType type;
+
+		// Determine highest chance value
+		int highVal = PSegType::Straight;
+		if (straightChance < cornerChance)
+			highVal = PSegType::Corner;
+
+		float val = rand() % 100; // Generate random value
+
+		if (highVal == PSegType::Corner)
+		{
+			if (val >= cornerChance)
+				type = PSegType::Corner;
+			else
+				type = PSegType::Straight;
+		}
+		else if (highVal == PSegType::Straight)
+		{
+			if (val >= straightChance)
+				type = PSegType::Straight;
+			else
+				type = PSegType::Corner;
+		}
+
+		return type;
 	}
 }

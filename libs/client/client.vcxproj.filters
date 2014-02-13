@@ -171,6 +171,9 @@
     <ClCompile Include="..\raceengineclient\torcsAdaptive\TAManager.cpp">
       <Filter>Source Files\torcsAdaptive</Filter>
     </ClCompile>
+    <ClCompile Include="..\raceengineclient\torcsAdaptive\CarData.cpp">
+      <Filter>Source Files\torcsAdaptive</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h">

@@ -87,16 +87,13 @@ namespace procedural
 		inGroup = false;
 
 		// Obtain pointers from ssgState
-		taOut("\tObtaining current options and current 3D Description...\n");
 		state = ssgState;
 		ssgLoaderOptions* lopts = state->GetLoaderOptions();
-		ssgEntity* currentModel = state->GetDesc();
 
 		if (maxTextureUnits == 0)
 			InitMultiTex();
 
 		// Set loader options
-		taOut("\tSetting loader options...\n");
 		ssgSetCurrentOptions((ssgLoaderOptions*)lopts);
 
 		// Set texture offsets
@@ -106,7 +103,6 @@ namespace procedural
 		if (infile.is_open() == false)
 			taOut("Error, infile for procedural track not open!\n");
 
-		taOut("\tBegin parse...\n");
 		std::string line;
 		while (infile.good())
 		{
@@ -127,16 +123,8 @@ namespace procedural
 			else
 				search(top_tags, (char*)line.c_str());
 		}
-		taOut("\tEnd Parse...\n");
 
 		infile.clear();
-
-		delete[] state->current_tfname;
-		state->current_tfname = NULL;
-		delete[] state->vtab;
-		state->vtab = 0;
-
-		taOut("Load/Append track model completed successfully.\n");
 
 		ssgState->UpdateDesc();
 	}
@@ -203,8 +191,6 @@ namespace procedural
 
 	int pr_do_material(char *s)
 	{
-		taOut("\tInitializing new material...\n");
-
 		char name[1024];
 		sgVec4 rgb;
 		sgVec4 amb;
@@ -255,8 +241,6 @@ namespace procedural
 
 	int pr_do_object(char * s)
 	{
-		taOut("\tInitializing new object...\n");
-
 		//ssgBranch *current_branch_g = NULL;
 		int obj_type = search(obj_type_tags, s);
 
@@ -313,11 +297,6 @@ namespace procedural
 
 	int pr_do_name(char *s)
 	{
-		std::string out = "\tNew group name: ";
-		out.append(s);
-		out.append("\n");
-		taOut(out);
-
 		char *q = nullptr;
 		skip_quotes(&s);
 
@@ -329,8 +308,6 @@ namespace procedural
 
 	int pr_do_data(char *s)
 	{
-		taOut(std::string("\t\tParsing data...\n"));
-
 		int len = strtol(s, NULL, 0);
 
 		state->current_data = new char[len + 1];
@@ -358,8 +335,6 @@ namespace procedural
 
 	int pr_do_texture(char *s)
 	{
-		taOut(std::string("\t\tParsing Texture...\n"));
-
 		char *p;
 
 		if (s == nullptr || s[0] == '\0')
@@ -514,8 +489,6 @@ namespace procedural
 
 	int pr_do_numvert(char *s)
 	{
-		taOut("\t\tParsing Vertices...\n");
-
 		int nVerts = strtol(s, NULL, 0);
 
 		state->ClearTables();
@@ -579,8 +552,6 @@ namespace procedural
 
 	int pr_do_numsurf(char *s)
 	{
-		taOut("\t\tParsing Surfaces...\n");
-
 		int ns = strtol(s, NULL, 0);
 
 		std::string line;
@@ -816,8 +787,6 @@ namespace procedural
 
 	int pr_do_kids(char *s)
 	{
-		taOut("\t\tParsing kids...\n");
-
 		state->last_num_kids = strtol(s, NULL, 0);
 
 #ifdef VTXARRAY_GUIONS

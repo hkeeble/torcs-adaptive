@@ -93,8 +93,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="taWatch.cpp" />
-    <ClCompile Include="perfMeasurement.cpp" />
+    <ClCompile Include="PMData.cpp" />
+    <ClCompile Include="PMManager.cpp" />
     <ClCompile Include="Util.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -82,7 +82,9 @@ namespace procedural
 
 	void PSSGState::UpdateDesc()
 	{
-		desc = current_branch;
+		if (!desc)
+			desc = new ssgBranch();
+		desc = (ssgEntity*)current_branch->clone(0);
 	}
 
 	void PSSGState::SetLoaderOptions(ssgLoaderOptions* loaderOptions)

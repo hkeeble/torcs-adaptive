@@ -20,37 +20,13 @@ namespace procedural
 			tRmInfo* raceManager;
 			PTrack* track;
 			PSegFactory* segFactory;
-			PCarData carData;
-
-			bool updateAC; // Determines whether AC file needs updating or not
-			bool generateSegment; // Determines if the track needs a new segment generated
-
-			const float cornerChance = 45.f;
-			const float straightChance = 65.f;
-
-			/* Generates a random float value between a given minimum and maximum, inclusive */
-			float RandBetween(float min, float max);
-
-			/* The previous corner type */
-			PCornerType previousCornerType;
-
-			/* The arbitrary ranges between which segment parameters may reside */
-			const PSegmentRanges ranges = PSegmentRanges(PRange(MIN_LENGTH, MAX_LENGTH), PRange(MIN_ARC, MAX_ARC), PRange(MIN_RADIUS, MAX_RADIUS));
+			CarData carData;
 
 			/* Calculate percentage of a segment left until the end */
 			tdble PercentDistanceToEnd(tdble segLength, tdble distToStart);
 
-			/* Update the AC File of a track contained within the race manaegr passed in. Also requires procedural track information. */
-			void UpdateACFile();
-
-			/* Manages the track cache, removing segments where neccesary. */
-			void ManageCache();
-
 			/* Manages the generation of new segments for the track */
 			void ManageSegmentGeneration(float skillLevel);
-
-			/* Generates a random segment type based on the currently set chances */
-			PSegType RandomSegmentType();
 
 			/* Internal deep copy function */
 			void cpy(const PTrackManager& param);
@@ -81,10 +57,7 @@ namespace procedural
 			tdble TotalLength() const;
 
 			/* Currently held car data */
-			PCarData CarData() const;
-
-			/* Builds the entire track into the cache and returns the resulting track. Affects the internal track. Designed to be used to output track data at the end of a race */
-			tTrack* BuildTrack();
+			CarData GetCarData() const;
 
 			/* Get the current track */
 			PTrack* GetTrack() const;

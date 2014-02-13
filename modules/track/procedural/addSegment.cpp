@@ -43,7 +43,7 @@ namespace procedural
         tdble	        curzel, curzer, curArc, curLength, curzsl, curzsr;
 
 		// Get Pointer to current track cache
-		tTrack* track = trInfo->trackCache;
+		tTrack* track = trInfo->trk;
 
 		void* trHandle = track->params; // Obtain Track Handle
 
@@ -148,7 +148,7 @@ namespace procedural
 
 		// Assign Types
 		curSeg->type = seg.type;
-		curSeg->type2 = DEFAULT_SEG_TYPE2;
+		curSeg->type2 = seg.type2;
 
 		// Assign ID
 		curSeg->id = TrackState.curSegIndex;
@@ -166,7 +166,7 @@ namespace procedural
 		// Assign Length From Start
 		curSeg->lgfromstart = TrackState.totLength;
 
-		// Calculate Vertices
+		// Calculate Segment Vertices
 		switch (curSeg->type)
 		{
 			case TR_STR:
@@ -369,8 +369,5 @@ namespace procedural
 		track->seg = trInfo->root;
 		track->length = TrackState.totLength;
 		track->nseg++;
-
-		// Update the Segment Collection
-		trInfo->segs.AddSegment(track->seg);
 	}
 }

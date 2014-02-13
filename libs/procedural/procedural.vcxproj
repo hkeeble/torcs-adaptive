@@ -11,17 +11,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PCarData.cpp" />
     <ClCompile Include="PSSGState.cpp" />
     <ClCompile Include="PRange.cpp" />
     <ClCompile Include="PSeg.cpp" />
-    <ClCompile Include="PSegCollection.cpp" />
     <ClCompile Include="PTrack.cpp" />
     <ClCompile Include="PTrackManager.cpp" />
     <ClCompile Include="PTrackState.cpp" />
     <ClCompile Include="trackdesc.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="Diagram.cd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

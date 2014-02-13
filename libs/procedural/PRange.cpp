@@ -28,9 +28,8 @@ namespace procedural
 		return max;
 	}
 
-	PSegmentRanges::PSegmentRanges(PRange length, PRange arc, PRange radius)
+	PSegmentRanges::PSegmentRanges(PRange arc, PRange radius)
 	{
-		this->length = length;
 		this->arc = arc;
 		this->radius = radius;
 	}
@@ -38,11 +37,6 @@ namespace procedural
 	PSegmentRanges::~PSegmentRanges()
 	{
 
-	}
-
-	PRange PSegmentRanges::Length() const
-	{
-		return length;
 	}
 
 	PRange PSegmentRanges::Arc() const

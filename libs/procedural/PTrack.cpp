@@ -14,8 +14,7 @@ namespace procedural
 	PTrack::PTrack(tTrack* track, tdble totalLength, char* acname, char* xmlname,  char* filepath, ssgLoaderOptions* loaderoptions)
 	{
 		// Initialize TORCS Track Structure and Segment Collection
-		this->trackCache = track;
-		this->segs = PSegCollection();
+		this->trk = track;
 
 		// Initialize track state
 		state = PTrackState();
@@ -104,14 +103,14 @@ namespace procedural
 		else
 			root = nullptr;
 
-		if (param.trackCache)
-			trackCache = new tTrack(*param.trackCache);
+		if (param.trk)
+			trk = new tTrack(*param.trk);
 		else
-			trackCache = nullptr;
+			trk = nullptr;
 
 		if (param.start)
 		{
-			tTrackSeg* curSeg = trackCache->seg;
+			tTrackSeg* curSeg = trk->seg;
 			while (curSeg->id != param.start->id)
 				curSeg = curSeg->prev;
 			start = curSeg;
@@ -121,7 +120,7 @@ namespace procedural
 
 		if (param.end)
 		{
-			tTrackSeg* curSeg = trackCache->seg;
+			tTrackSeg* curSeg = trk->seg;
 			while (curSeg->id != param.end->id)
 				curSeg = curSeg->prev;
 			start = curSeg;
@@ -133,8 +132,6 @@ namespace procedural
 			ssgState = param.ssgState;
 		else
 			ssgState = nullptr;
-
-		segs = param.segs;
 	}
 
 	PSSGState* PTrack::GetSSGState()
@@ -252,134 +249,13 @@ namespace procedural
 			//delete xmlFile;
 	}
 
-	void PTrack::RemoveSegAtStart()
-	{
-		if (trackCache->nseg > 1)
-		{
-			// Pointers obtained for code clarity
-			tTrackSeg* lastSeg = end;
-			tTrackSeg* firstSeg = start;
-
-			// Adjust length
-			trackCache->length -= start->length;
-
-			// Re-arrange pointers accordingly
-			firstSeg->next->prev = lastSeg;
-			lastSeg->next = firstSeg->next;
-			start = firstSeg->next;
-
-			// Delete first segment from memory - is stored in trackCache for re-enstatement
-			delete firstSeg;
-
-			trackCache->nseg -= 1;
-		}
-		else
-			GfOut("Attempted to remove segment, but only one exists!\n");
-	}
-
-	void PTrack::RemoveSegAtEnd()
-	{
-		if (trackCache->nseg > 1)
-		{
-			// Pointers obtained for code clarity
-			tTrackSeg* lastSeg = end;
-			tTrackSeg* firstSeg = start;
-
-			// Adjust track length
-			trackCache->length -= end->length;
-
-			// Rearrange pointers accordingly
-			lastSeg->prev->next = firstSeg;
-			firstSeg->prev = lastSeg->prev;
-			end = lastSeg->prev;
-			trackCache->seg = end;
-
-			// Delete last segment from memory - is stored in trackCache for re-enstatement
-			delete lastSeg;
-
-			trackCache->nseg -= 1;
-		}
-		else
-			GfOut("Attempted to remove segment, but only one exists!\n");
-	}
-
-	void PTrack::AddSegmentAtStart()
-	{
-		GfOut("Adding TORCS-Adaptive Segment from cache...\n");
-
-		if (trackCache->nseg < segs.nSegs())
-		{
-			// Pointers used for clarity
-			tTrackSeg* lastSeg = end;
-			tTrackSeg* firstSeg = start;
-
-			// Find the segment to be added in the cache
-			if (firstSeg->id - 1 < 0)
-			{
-				GfOut("Error: Cannot add segment with negative ID!\n");
-				return;
-			}
-
-			tTrackSeg* segToAdd = new tTrackSeg();
-			*segToAdd = *segs(firstSeg->id - 1);
-
-			// Rearrange Pointers
-			segToAdd->prev = lastSeg;
-			segToAdd->next = firstSeg;
-			firstSeg->prev = segToAdd;
-			lastSeg->next = segToAdd;
-			start = segToAdd;
-
-			// Adjust Track Length
-			trackCache->length += segToAdd->length;
-
-			trackCache->nseg++;
-		}
-		else
-			GfOut("Attempted to add segment, but no more stored in the cache!\n");
-	}
-
-	void PTrack::AddSegmentAtEnd()
-	{
-		if (trackCache->nseg < segs.nSegs())
-		{
-			// Pointers used for clarity
-			tTrackSeg* lastSeg = end;
-			tTrackSeg* firstSeg = start;
-
-			// Find the segment to be added in the cache
-			if (firstSeg->id + 1 > segs.nSegs())
-			{
-				GfOut("Error: Cannot add segment to cache, does not exist!\n");
-				return;
-			}
-
-			tTrackSeg* segToAdd = new tTrackSeg();
-			*segToAdd = *segs(lastSeg->id + 1);
-
-			// Rearrange Pointers
-			segToAdd->prev = lastSeg;
-			segToAdd->next = firstSeg;
-			lastSeg->next = segToAdd;
-			firstSeg->prev = segToAdd;
-			end = segToAdd;
-
-			// Adjust Track Length
-			trackCache->length += segToAdd->length;
-
-			trackCache->nseg++;
-		}
-		else
-			GfOut("Attempted to add segment, but no more stored in the cache!\n");
-	}
-
 	/* Gets a segment from the cache */
 	tTrackSeg* PTrack::GetSeg(int id)
 	{
-		tTrackSeg* curSeg = trackCache->seg;
+		tTrackSeg* curSeg = trk->seg;
 		do {
 			curSeg = curSeg->prev;
-		} while (curSeg->id != id || curSeg == trackCache->seg);
+		} while (curSeg->id != id || curSeg == trk->seg);
 
 		const char* segID = std::to_string(id).c_str();
 
@@ -396,16 +272,6 @@ namespace procedural
 	tdble PTrack::TotalLength() const
 	{
 		return totalLength;
-	}
-
-	tTrack* PTrack::BuildTrack()
-	{
-		taOut("Building entire track for output...\n");
-		for (int i = 0; i < segs.nSegs(); i++)
-			AddSegmentAtStart();
-		taOut("Track built!\n");
-
-		return trackCache;
 	}
 
 #ifdef _DEBUG

@@ -59,10 +59,16 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wtorcs", "windows\wtorcs.vcxproj", "{31CA578B-13CA-4640-8D1A-95ED57C026A2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "perfMeasurement", "libs\perfMeasurement\perfMeasurement.vcxproj", "{47599C0A-B931-48C4-8EDF-2AAC318E04DF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{000F3A08-7079-4480-93E3-DC3BACC72017} = {000F3A08-7079-4480-93E3-DC3BACC72017}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "trackGeneration", "libs\trackGeneration\trackGeneration.vcxproj", "{3BB04266-E436-4BB0-93EF-F544DA92503B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "procedural", "libs\procedural\procedural.vcxproj", "{30CD6A7A-7E7D-4C1E-869E-86E163B276D8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{000F3A08-7079-4480-93E3-DC3BACC72017} = {000F3A08-7079-4480-93E3-DC3BACC72017}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "botProc", "drivers\botProc\berniwProc.vcxproj", "{29DC4A3F-EEE0-4580-B89C-A589BF547AC6}"
 EndProject

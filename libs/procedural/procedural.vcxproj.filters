@@ -15,13 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PCarData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PSeg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PSegCollection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PTrack.cpp">
@@ -45,5 +39,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Diagram.cd" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>
