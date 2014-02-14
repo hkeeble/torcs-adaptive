@@ -8,21 +8,23 @@
 CarData::CarData()
 {
 	car = nullptr;
-	curSeg = nullptr;
-	prevSeg = nullptr;
-	curTrackPos = tTrkLocPos();
-	prevTrackPos = tTrkLocPos();
+	segment.previous = nullptr;
+	segment.current = nullptr;
+	position.current = tTrkLocPos();
+	position.previous = tTrkLocPos();
+	speed.current = 0.f;
+	speed.previous = 0.f;
 	dirOfTravel = DirectionOfTravel::FORWARD;
 }
 
 CarData::CarData(tCarElt* car)
 {
 	this->car = car;
-	curTrackPos = car->pub.trkPos;
-	prevTrackPos = curTrackPos;
+	position.current = car->pub.trkPos;
+	position.previous = position.current;
 	dirOfTravel = DirectionOfTravel::FORWARD;
-	curSeg = curTrackPos.seg;
-	prevSeg = curSeg;
+	segment.current = position.current.seg;
+	segment.previous = segment.current;
 }
 
 CarData::~CarData()
@@ -32,23 +34,23 @@ CarData::~CarData()
 
 void CarData::Update()
 {
-	curTrackPos = car->pub.trkPos;
-	curSeg = curTrackPos.seg;
+	position.current = car->pub.trkPos;
+	segment.current = position.current.seg;
 
 	// If car is closer to the start of the segment than it was previously, or has moved back seg, it is travelling backwards.
-	if (curTrackPos.toStart < prevTrackPos.toStart || curSeg->id < prevSeg->id)
+	if (position.current.toStart < position.previous.toStart || segment.current->id < segment.previous->id)
 		dirOfTravel = DirectionOfTravel::BACKWARD;
 	else
 		dirOfTravel = DirectionOfTravel::FORWARD;
 
 	// Save currents to previous
-	prevSeg = curSeg;
-	prevTrackPos = curTrackPos;
+	segment.previous = segment.current;
+	position.previous = position.current;
 }
 
 tTrkLocPos CarData::LocalPosition()
 {
-	return curTrackPos;
+	return position.current;
 }
 
 DirectionOfTravel CarData::DirOfTravel()
@@ -58,5 +60,10 @@ DirectionOfTravel CarData::DirOfTravel()
 
 tTrackSeg* CarData::CurrentSeg()
 {
-	return curSeg;
+	return segment.current;
+}
+
+tCarElt* CarData::GetCar()
+{
+	return car;
 }

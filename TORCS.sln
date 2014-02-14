@@ -16,6 +16,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bt", "drivers\bt\bt.vcxproj", "{A0513CBB-8FE9-44F7-BBF3-7814EFB5132C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "client", "libs\client\client.vcxproj", "{000F3A08-7079-4480-93E3-DC3BACC72017}"
+	ProjectSection(ProjectDependencies) = postProject
+		{47599C0A-B931-48C4-8EDF-2AAC318E04DF} = {47599C0A-B931-48C4-8EDF-2AAC318E04DF}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "damned", "drivers\damned\damned.vcxproj", "{85D049C2-BEDD-4D57-8C44-0F40D0061A52}"
 EndProject
@@ -59,9 +62,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wtorcs", "windows\wtorcs.vcxproj", "{31CA578B-13CA-4640-8D1A-95ED57C026A2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "perfMeasurement", "libs\perfMeasurement\perfMeasurement.vcxproj", "{47599C0A-B931-48C4-8EDF-2AAC318E04DF}"
-	ProjectSection(ProjectDependencies) = postProject
-		{000F3A08-7079-4480-93E3-DC3BACC72017} = {000F3A08-7079-4480-93E3-DC3BACC72017}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "trackGeneration", "libs\trackGeneration\trackGeneration.vcxproj", "{3BB04266-E436-4BB0-93EF-F544DA92503B}"
 EndProject

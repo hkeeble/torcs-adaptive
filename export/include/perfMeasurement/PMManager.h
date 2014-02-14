@@ -8,6 +8,7 @@
 #define _PM_MANAGER_H_
 
 #include "PMData.h"
+#include "PMEvaluationFunctions.h"
 #include "car.h"
 
 namespace perfMeasurement
@@ -18,16 +19,16 @@ namespace perfMeasurement
 	class PMManager
 	{
 	private:
-		/* Evaluate a skill estimate based on the collection of data */
-		void Evaluate();
-		
-		CarElt* car;
+		CarData car;
 		PMDataCollection data;
 		int skillEstimate;
 		
 		double cumulativeTime;
 		double timeOnLastUpdate;
 		
+		/* Functor pointer to current evaluation functor */
+		PMEvaluationFunctor* Evaluate;
+
 	public:
 		PMManager(CarElt* car);
 		~PMManager();
@@ -35,7 +36,7 @@ namespace perfMeasurement
 		PMManager& operator=(const PMManager& param);
 		
 		/* Get the car currently being monitored */
-		const CarElt* GetCar() const;
+		const CarElt* GetCar();
 		
 		/* Update the performance measurement data */
 		void Update(double deltaTimeIncrement, double currentTime);

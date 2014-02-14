@@ -18,16 +18,45 @@ enum class DirectionOfTravel
 	BACKWARD
 };
 
+/* Contains data about car's speed */
+struct SpeedData
+{
+private:
+	friend class CarData;
+	SpeedData() { }
+	double current;
+	double previous;
+};
+
+/* Contains local position data */
+struct PositionData
+{
+private:
+	friend class CarData;
+	PositionData() { }
+	tTrkLocPos current;
+	tTrkLocPos previous;
+};
+
+/* Contains segment data */
+struct SegData
+{
+private:
+	friend class CarData;
+	SegData() { }
+	tTrackSeg* current;
+	tTrackSeg* previous;
+};
+
 /* Represents the car data for use in procedural generation */
 class CarData
 {
 private:
 	tCarElt* car;
-	tTrkLocPos curTrackPos;
-	tTrkLocPos prevTrackPos;
+	SpeedData speed;
+	PositionData position;
+	SegData segment;
 	DirectionOfTravel dirOfTravel;
-	tTrackSeg* curSeg;
-	tTrackSeg* prevSeg;
 public:
 	CarData();
 	CarData(tCarElt* car);
@@ -44,6 +73,9 @@ public:
 
 	/* Retrieve the car's current segment data */
 	tTrackSeg* CurrentSeg();
+
+	/* Retrieve pointer the car's struct */
+	tCarElt* GetCar();
 };
 
 #endif // _CAR_DATA_

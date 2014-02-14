@@ -55,6 +55,9 @@ namespace perfMeasurement
 
 			/* Clears the data collection */
 			void Clear();
+
+			/* Gets the maximum number of data sets */
+			int MaximumDataSets() const;
 	};
 }
 

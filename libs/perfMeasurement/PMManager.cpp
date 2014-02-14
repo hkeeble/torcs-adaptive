@@ -25,8 +25,7 @@ namespace perfMeasurement
 	PMManager::PMManager(const PMManager& param)
 	{
 		skillEstimate = param.skillEstimate;
-		if (param.car)
-			car = param.car;
+		car = param.car;
 	}
 
 	PMManager& PMManager::operator=(const PMManager& param)
@@ -36,24 +35,28 @@ namespace perfMeasurement
 		else
 		{
 			skillEstimate = param.skillEstimate;
-			if (param.car)
-				car = param.car;
+			car = param.car;
 			return *this;
 		}
 	}
 
-	const CarElt* PMManager::GetCar() const
+	const CarElt* PMManager::GetCar()
 	{
-		return car;
+		return car.GetCar();
 	}
 
 	void PMManager::Update(double deltaTimeIncrement, double currentTime)
 	{
 		cumulativeTime += deltaTimeIncrement;
 
+		car.Update();
+
 		if(cumulativeTime >= PERFMEASURE_UPDATE_INTERVAL)
 		{
-			Evaluate();
+			data.AddData(car, currentTime); // Add new data to collection
+
+			if (data.Count() == data.MaximumDataSets()) // Only begin evaluation with a full set of data
+				skillEstimate = (*Evaluate)(data);
 
 			timeOnLastUpdate = currentTime;
 			cumulativeTime = 0.0f;
@@ -68,12 +71,5 @@ namespace perfMeasurement
 	float PMManager::GetSkillEstimate()
 	{
 		return skillEstimate;
-	}
-
-	void PMManager::Evaluate()
-	{
-		int eval = 0;
-		// ENTER EVALUATION FUNCTION HERE
-		skillEstimate = eval;
 	}
 }
