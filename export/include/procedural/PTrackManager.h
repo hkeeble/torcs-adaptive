@@ -31,6 +31,8 @@ namespace procedural
 			/* Internal deep copy function */
 			void cpy(const PTrackManager& param);
 
+			const int MAX_DIST_FROM_END = 3; // Maximum distance car can be from the end of the track before a new segment is generated
+
 		public:
 			PTrackManager();
 			PTrackManager(std::string trackName, tdble trackLength, tRmInfo* RaceManager);

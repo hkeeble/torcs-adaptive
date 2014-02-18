@@ -24,7 +24,7 @@
     <ClCompile Include="PMData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PMEvaluationFunctions.cpp">
+    <ClCompile Include="PMEvaluators.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

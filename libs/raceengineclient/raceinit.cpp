@@ -383,7 +383,7 @@ initStartingGrid(void)
 		startpos = ReInfo->track->length - (d1 + (i / rows) * d2 + (i % rows) * d3);
 		tr = a + b * ((i % rows) + 1) / (rows + 1);
 		curseg = ReInfo->track->seg;  /* last segment */
-		if(taManager->IsActive() == false)
+		if (taManager->IsActive() == false)
 		{
 			while (startpos < curseg->lgfromstart) {
 				curseg = curseg->prev;
@@ -399,21 +399,21 @@ initStartingGrid(void)
 		car->_trkPos.seg = curseg;
 		car->_trkPos.toRight = tr;
 		switch (curseg->type) {
-			case TR_STR:
-				car->_trkPos.toStart = ts;
-				RtTrackLocal2Global(&(car->_trkPos), &(car->_pos_X), &(car->_pos_Y), TR_TORIGHT);
-				car->_yaw = curseg->angle[TR_ZS];
-				break;
-			case TR_RGT:
-				car->_trkPos.toStart = ts / curseg->radius;
-				RtTrackLocal2Global(&(car->_trkPos), &(car->_pos_X), &(car->_pos_Y), TR_TORIGHT);
-				car->_yaw = curseg->angle[TR_ZS] - car->_trkPos.toStart;
-				break;
-			case TR_LFT:
-				car->_trkPos.toStart = ts / curseg->radius;
-				RtTrackLocal2Global(&(car->_trkPos), &(car->_pos_X), &(car->_pos_Y), TR_TORIGHT);
-				car->_yaw = curseg->angle[TR_ZS] + car->_trkPos.toStart;
-				break;
+		case TR_STR:
+			car->_trkPos.toStart = ts;
+			RtTrackLocal2Global(&(car->_trkPos), &(car->_pos_X), &(car->_pos_Y), TR_TORIGHT);
+			car->_yaw = curseg->angle[TR_ZS];
+			break;
+		case TR_RGT:
+			car->_trkPos.toStart = ts / curseg->radius;
+			RtTrackLocal2Global(&(car->_trkPos), &(car->_pos_X), &(car->_pos_Y), TR_TORIGHT);
+			car->_yaw = curseg->angle[TR_ZS] - car->_trkPos.toStart;
+			break;
+		case TR_LFT:
+			car->_trkPos.toStart = ts / curseg->radius;
+			RtTrackLocal2Global(&(car->_trkPos), &(car->_pos_X), &(car->_pos_Y), TR_TORIGHT);
+			car->_yaw = curseg->angle[TR_ZS] + car->_trkPos.toStart;
+			break;
 		}
 		car->_pos_Z = RtTrackHeightL(&(car->_trkPos)) + heightInit;
 
@@ -706,7 +706,10 @@ ReInitCars(void)
 	// locations (because the library maintains global state like a default collision handler etc.).
     ReInfo->_reSimItf.init(nCars, ReInfo->track);
 
-	initStartingGrid();
+	if (taManager->IsActive())
+		taManager->InitCarPos();
+	else
+		initStartingGrid();
 
     initPits();
 

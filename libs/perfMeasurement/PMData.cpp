@@ -8,7 +8,7 @@
 
 namespace perfMeasurement
 {
-	PMData::PMData(CarData newData, float timeStamp)
+	PMData::PMData(CarData newData, tdble timeStamp)
 	{
 		data = newData;
 		currentTime = timeStamp;
@@ -24,7 +24,7 @@ namespace perfMeasurement
 		return data;
 	}
 
-	float PMData::TimeStamp() const
+	tdble PMData::TimeStamp() const
 	{
 		return currentTime;
 	}

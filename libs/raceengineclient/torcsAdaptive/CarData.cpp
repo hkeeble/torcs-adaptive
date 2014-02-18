@@ -34,8 +34,10 @@ CarData::~CarData()
 
 void CarData::Update()
 {
+	// Update data
 	position.current = car->pub.trkPos;
 	segment.current = position.current.seg;
+	speed.current = speed.CalculateSpeed(car->_speed_x, car->_speed_y, car->_speed_z);
 
 	// If car is closer to the start of the segment than it was previously, or has moved back seg, it is travelling backwards.
 	if (position.current.toStart < position.previous.toStart || segment.current->id < segment.previous->id)
@@ -46,6 +48,7 @@ void CarData::Update()
 	// Save currents to previous
 	segment.previous = segment.current;
 	position.previous = position.current;
+	speed.previous = speed.current;
 }
 
 tTrkLocPos CarData::LocalPosition()
@@ -66,4 +69,9 @@ tTrackSeg* CarData::CurrentSeg()
 tCarElt* CarData::GetCar()
 {
 	return car;
+}
+
+tdble CarData::Speed() const
+{
+	return speed.current;
 }

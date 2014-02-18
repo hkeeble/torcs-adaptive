@@ -14,10 +14,17 @@
 using namespace procedural;
 using namespace perfMeasurement;
 
+// TORCS-Adaptive specific debug output - used for debug information output from the TAManager, not procedural or perfMeasurement
+#ifdef _DEBUG
+	#define taOut(out) std::cout << "torcs-adaptive >>" + std::string(out)
+#else
+	#define taOut(out)
+#endif // _DEBUG
+
 namespace torcsAdaptive
 {
 	// Currently defined track length
-	#define TA_TR_LENGTH 5000
+	#define TA_TR_LENGTH 1000
 
 	/* Type of TORCS-Adaptive Race currently active.
 		0 - None: Assigned as default, therefore only set if TAManager::Init() has not been called, adaptive/procedural race not active.
@@ -47,7 +54,6 @@ namespace torcsAdaptive
 		tRmInfo* raceManager;
 		tCarElt* car;
 
-		bool isAddingSegments; // Is track still adding segments?
 		bool raceOnConsole; // Is current race on console?
 	public:
 		static TAManager* Get();
@@ -65,8 +71,8 @@ namespace torcsAdaptive
 		/* Initializes the procedural track manager */
 		void InitTrkManager(tCarElt* car);
 		
-		/* Initialized performance measurement */
-		void InitPerfMeasurement(tCarElt* car);
+		/* Initialize performance measurement. Pass in the car to monitor, and an evaluation behaviour to use. */
+		void InitPerfMeasurement(tCarElt* car, PMEvaluator* evaluator);
 
 		/* Initialize Graphics, must call Init and InitTrack before this */
 		void InitGraphics();
@@ -94,6 +100,9 @@ namespace torcsAdaptive
 
 		/* Call at end of race */
 		void RaceEnd();
+
+		/* Initializes the position of the car on a TORCS Adaptive track */
+		void InitCarPos();
 
 		/* Tests whether or not the TAManager is active - if either Adaptive or Procedural Mode are active */
 		bool IsActive() const;

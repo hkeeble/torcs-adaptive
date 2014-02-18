@@ -67,10 +67,16 @@ namespace torcsAdaptive
 	{
 		// Initialize Graphics
 		PTrack* trInfo = trackManager->GetTrack(); // Retrieve track info
-		if (raceManager->_displayMode != RM_DISP_MODE_CONSOLE) // Load Initial 3D decsription if not displaying on console
+
+		if (!trInfo)
+			taOut("Failed to initialize graphics component. Could not retrieve procedural track from procedural track manager. Ensure InitTrackManager is called before graphics initialization.\n");
+		else
 		{
-			raceManager->_reGraphicItf.PGrInit(trInfo);
-			raceManager->_reGraphicItf.PGrAttach3DDesc(trInfo->GetTrackDesc()); // Attach 3D description to scene graph
+			if (raceManager->_displayMode != RM_DISP_MODE_CONSOLE) // Load Initial 3D decsription if not displaying on console
+			{
+				raceManager->_reGraphicItf.PGrInit(trInfo);
+				raceManager->_reGraphicItf.PGrAttach3DDesc(trInfo->GetTrackDesc()); // Attach 3D description to scene graph
+			}
 		}
 	}
 
@@ -78,23 +84,31 @@ namespace torcsAdaptive
 	{
 		if (trackManager)
 			delete trackManager;
-		trackManager = new PTrackManager(trackName, TA_TR_LENGTH, raceManager);
+
+		if (!raceManager)
+			taOut("Failed to initialize procedural track in TAManager. Ensure Init is called before InitTrack.\n");
+		else
+			trackManager = new PTrackManager(trackName, TA_TR_LENGTH, raceManager);
 	}
 
 
 	void TAManager::InitTrkManager(tCarElt* car)
 	{
-		trackManager->Init(car);
-		this->car = car;
-		isAddingSegments = true;
+		if (!trackManager)
+			taOut("Failed to initialize track manager. Ensure InitTrack is called before InitTrkManager.\n");
+		else
+		{
+			trackManager->Init(car);
+			this->car = car;
+		}
 	}
 
-	void TAManager::InitPerfMeasurement(tCarElt* car)
+	void TAManager::InitPerfMeasurement(tCarElt* car, PMEvaluator* evaluator)
 	{
-		if (perfMeasurement)
-			delete perfMeasurement;
+		if (!perfMeasurement)
+			perfMeasurement = PMManager::Get();
 
-		perfMeasurement = new PMManager(car);
+		perfMeasurement->Init(car, evaluator);
 	}
 
 	void TAManager::AddSegment(const PSeg& segment)
@@ -140,7 +154,6 @@ namespace torcsAdaptive
 	{
 		if (trackManager->CurrentLength() >= trackManager->TotalLength())
 		{
-			isAddingSegments = false;
 			if (trackManager->CarOnLastSegment())
 				raceManager->s->raceInfo.state = RM_RACE_ENDED;
 		}
@@ -151,5 +164,41 @@ namespace torcsAdaptive
 		/* Plot the track for reading in gnuplot */
 		TrackDesc desc = TrackDesc(trackManager->GetTrack()->trk);
 		desc.plot((char*)(std::string((char*)trackManager->GetTrack()->GetFilePath()) + std::string("procTrackPlot.dat")).c_str());
+	}
+
+	void TAManager::InitCarPos()
+	{
+		tTrackSeg* startSeg = trackManager->GetTrack()->trk->seg;
+
+		tCarElt* theCar = &raceManager->carList[0];
+
+		// Create a local position in the center of the first segment
+		theCar->_trkPos.seg = startSeg;
+		theCar->_trkPos.type = startSeg->type;
+
+		if (startSeg->type == TR_STR)
+		{
+			theCar->_trkPos.toStart = (startSeg->length / 2) - (theCar->info.dimension.z / 2);
+			theCar->_trkPos.toLeft = (startSeg->width / 2) - (theCar->info.dimension.x / 2);
+			theCar->_trkPos.toRight = theCar->_trkPos.toLeft;
+		}
+		else if (startSeg->type == TR_LFT || startSeg->type == TR_RGT)
+		{
+			theCar->_trkPos.toStart = ((startSeg->length / 2) - (theCar->info.dimension.z / 2)) / startSeg->radius;
+			theCar->_trkPos.toLeft = (startSeg->width / 2) - (theCar->info.dimension.x / 2);
+			theCar->_trkPos.toRight = theCar->_trkPos.toLeft;
+
+			// Rotate car by yaw according to corner direction and normalize between 0 and 2PI
+			theCar->_yaw = startSeg->angle[TR_ZS] + (startSeg->type == TR_LFT ? theCar->_trkPos.toStart : -theCar->_trkPos.toStart);
+			NORM0_2PI(theCar->_yaw);
+		}
+		else
+			taOut("Error assinging car initial position. Initial segment is of unrecognized type.\n");
+
+		// Convert the local position to a global one, and assign to car's actual global position
+		RtTrackLocal2Global(&(theCar->_trkPos), &(theCar->_pos_X), &(theCar->_pos_Y), TR_TORIGHT);
+
+		// Set up car in physics sim
+		raceManager->_reSimItf.config(theCar, raceManager);
 	}
 }

@@ -22,7 +22,11 @@ namespace procedural
 	#define MAX_RADIUS 90.f
 	#define MIN_RADIUS 25.f
 	
-	#define taOut(out) std::cout << "ta >>" + std::string(out)
+#ifdef _DEBUG
+	#define pOut(out) std::cout << "procedural >>" + std::string(out)
+#else
+	#define pOut(out)
+#endif // _DEBUG
 
 	enum PSegType
 	{

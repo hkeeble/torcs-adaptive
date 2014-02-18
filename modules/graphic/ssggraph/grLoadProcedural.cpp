@@ -71,7 +71,7 @@ namespace procedural
 		if (infile.is_open())
 			PGrAppend3DDesc(track);
 		else
-			taOut("Error initializing PSSGState file, file not opened!\n");
+			pOut("Error initializing PSSGState file, file not opened!\n");
 	}
 
 	void PGrShutdown()
@@ -82,7 +82,7 @@ namespace procedural
 	// Modified version of grssgLoadAC3D
 	void PGrAppendEntity(PSSGState* ssgState)
 	{
-		taOut("Loading/Appending 3D track model...\n");
+		pOut("Loading/Appending 3D track model...\n");
 
 		inGroup = false;
 
@@ -101,7 +101,7 @@ namespace procedural
 		sgSetVec2(state->texoff, 0.0, 0.0);
 
 		if (infile.is_open() == false)
-			taOut("Error, infile for procedural track not open!\n");
+			pOut("Error, infile for procedural track not open!\n");
 
 		std::string line;
 		while (infile.good())
@@ -127,6 +127,8 @@ namespace procedural
 		infile.clear();
 
 		ssgState->UpdateDesc();
+
+		pOut("Track model append completed successfully\n");
 	}
 
 	/* Tag search function */
@@ -464,7 +466,7 @@ namespace procedural
 
 	int pr_do_loc(char *s)
 	{
-		taOut("\t\tParsing Loc...\n");
+		pOut("\t\tParsing Loc...\n");
 
 		if (sscanf(s, "%f %f %f", &state->current_matrix[3][0], &state->current_matrix[3][2], &state->current_matrix[3][1]) != 3)
 			ulSetError(UL_WARNING, "ac_to_gl: Illegal loc record.");

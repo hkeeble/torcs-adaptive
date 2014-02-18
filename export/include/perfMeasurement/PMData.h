@@ -16,16 +16,16 @@ namespace perfMeasurement
 	{
 		private:
 			CarData data;
-			float currentTime;
+			tdble currentTime;
 		public:
-			PMData(CarData newData, float timeStamp);
+			PMData(CarData newData, tdble timeStamp);
 			~PMData();
 			
 			/* Get car data stored by this object */
 			CarData Data() const;
 			
 			/* Get time stamp stored by this object */
-			float TimeStamp() const;
+			tdble TimeStamp() const;
 	};
 
 	class PMDataCollection

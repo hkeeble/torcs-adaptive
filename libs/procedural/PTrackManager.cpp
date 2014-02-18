@@ -17,35 +17,35 @@ namespace procedural
 
 	PTrackManager::PTrackManager(std::string trackName, tdble trackLength, tRmInfo* RaceManager)
 	{
-		taOut("Initializing procedural track manager...\n");
+		pOut("Initializing procedural track manager...\n");
 
 		std::string acname, xmlname, filePath, modeldir, texturedir;
 
-		taOut("Setting track file path and file names...\n");
+		pOut("Setting track file path and file names...\n");
 		acname = trackName + ".ac";
 		xmlname = trackName + ".xml";
 		filePath = "tracks/adaptive/" + trackName + "/";
 		modeldir = "tracks\\adaptive\\" + trackName + "\\";
 		texturedir = "data\\textures";
 
-		taOut("Setting Track 3D Description Loader Options...\n");
+		pOut("Setting Track 3D Description Loader Options...\n");
 		ssgLoaderOptions* lopts = new ssgLoaderOptions();
 		lopts->setModelDir(modeldir.c_str());
 		lopts->setTextureDir(texturedir.c_str());
 
-		taOut("Track manager obtaining pointers to segment factory and racemanager...\n");
+		pOut("Track manager obtaining pointers to segment factory and racemanager...\n");
 		segFactory = PSegFactory::GetInstance(); // Obtain pointer to segment factory
 		raceManager = RaceManager; // Save pointer to race manager
 
-		taOut("Initializing segment factory...\n");
+		pOut("Initializing segment factory...\n");
 		segFactory->SetChances(45.f, 65.f);
 
 		// Initialize the procedural track, and point racemanager to the procedural track
-		taOut("Initializing procedural track structure and TORCS track structure...\n");
+		pOut("Initializing procedural track structure and TORCS track structure...\n");
 		track = raceManager->_reTrackItf.PTrackInit(trackLength, (char*)acname.c_str(), (char*)xmlname.c_str(), (char*)filePath.c_str(),
 			lopts, raceManager->raceEngineInfo.displayMode == RM_DISP_MODE_CONSOLE);
 
-		taOut("Setting racemanager track to procedural track...\n");
+		pOut("Setting racemanager track to procedural track...\n");
 		raceManager->track = track->trk;
 	}
 
@@ -88,17 +88,17 @@ namespace procedural
 
 	void PTrackManager::AddSegment(const PSeg& segment)
 	{
-		taOut("Adding new Segment....\n");
+		pOut("Adding new Segment....\n");
 
 		// Add Segment
-		taOut("\tAdding segment to track.\n");
+		pOut("\tAdding segment to track.\n");
 		raceManager->_reTrackItf.PAddSegment(segment, track);
-		taOut("New segment added.\n");
+		pOut("New segment added.\n");
 	}
 
 	void PTrackManager::ManageSegmentGeneration(float skillLevel)
 	{
-		if (carData.CurrentSeg()->id == track->GetEnd()->id)
+		if (carData.CurrentSeg()->id + MAX_DIST_FROM_END >= track->GetEnd()->id)
 		{
 			/* If skillLevel is -1, generate random segment */
 			if (skillLevel == -1.f)
@@ -106,7 +106,8 @@ namespace procedural
 			else // otherwise, take into account skill level
 				AddSegment(segFactory->CreateSegStr(track->state.curSegIndex, 200.f)); // PLACEHOLDER
 
-			UpdateGraphics();
+			if (raceManager->raceEngineInfo.displayMode == RM_DISP_MODE_NORMAL)
+				UpdateGraphics();
 		}
 	}
 
@@ -116,16 +117,17 @@ namespace procedural
 		carData.Update();
 
 		// Manage new segment generation
-		ManageSegmentGeneration(skillLevel);
+		if (track->trk->length < track->TotalLength())
+			ManageSegmentGeneration(skillLevel);
 	}
 
 	void PTrackManager::UpdateGraphics()
 	{
 		// Update Graphics Module
-		taOut("\tUpdating Graphics Module.\n");
+		pOut("\tUpdating Graphics Module.\n");
 		raceManager->_reGraphicItf.PGrDetach3DDesc(track->GetTrackDesc()); // Detach existing description from scene graph
 
-		taOut("\tGenerating new 3D Description.\n");
+		pOut("\tGenerating new 3D Description.\n");
 
 		// Update the AC File (could maybe move this from external library into this class, for the sake of clarity.)
 		raceManager->_reTrackItf.PUpdateACFile(track);

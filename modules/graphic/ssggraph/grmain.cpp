@@ -256,12 +256,12 @@ initView(int x, int y, int width, int height, int /* flag */, void *screen)
 
 	// Initializes Maps? Do not initialize if adaptive/procedural!
 	using namespace torcsAdaptive;
-	if(TAManager::Get()->Type() == TARaceType::None)
-	{
+	//if(TAManager::Get()->Type() == TARaceType::None)
+	//{
 		for (i = 0; i < GR_NB_MAX_SCREEN; i++) {
 			grScreens[i]->initBoard ();
 		}
-	}
+	//}
 
 	GfuiAddSKey(screen, GLUT_KEY_HOME, "Zoom Maximum",     (void*)GR_ZOOM_MAX,	grSetZoom, NULL);
 	GfuiAddSKey(screen, GLUT_KEY_END,  "Zoom Minimum",     (void*)GR_ZOOM_MIN,	grSetZoom, NULL);

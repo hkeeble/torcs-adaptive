@@ -31,6 +31,7 @@ static void drive(int index, tCarElt* car, tSituation *situation);
 static void newRace(int index, tCarElt* car, tSituation *situation);
 static int  InitFuncPt(int index, void *pt);
 static int  pitcmd(int index, tCarElt* car, tSituation *s);
+static void updateTrack(tTrack* track);
 static void shutdown(int index);
 
 
@@ -70,6 +71,7 @@ static int InitFuncPt(int index, void *pt)
 	itf->rbDrive    = drive;		/* drive during race */
 	itf->rbShutdown	= shutdown;		/* called for cleanup per driver */
 	itf->rbPitCmd   = pitcmd;		/* pit command */
+	itf->rbUpdateTrack = updateTrack; /* Used to update bot's understanding of the track */
 	itf->index      = index;
 	return 0;
 }
@@ -147,6 +149,12 @@ static void newRace(int index, tCarElt* car, tSituation *situation)
 	currenttime = situation->currentTime;
 }
 
+static void updateTrack(tTrack* track)
+{
+	if (myTrackDesc)
+		delete myTrackDesc;
+	myTrackDesc = new TrackDesc(track);
+}
 
 /* controls the car */
 static void drive(int index, tCarElt* car, tSituation *situation)

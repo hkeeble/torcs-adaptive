@@ -49,11 +49,11 @@ typedef void (*tfRbEndRace) (int index, tCarElt *car, tSituation *s);
 /** Callback prototype */
 typedef void (*tfRbDrive)   (int index, tCarElt *car, tSituation *s);
 /** Callback prototype */
-typedef void (*tfRbDriveProc)	(int index, tCarElt *car, tSituation *s, const tTrack* newTrack);
-/** Callback prototype */
 typedef void (*tfRbShutdown)(int index);
 /** Callback prototype */
 typedef int  (*tfRbPitCmd)  (int index, tCarElt* car, tSituation *s);
+/** Callback prototype */
+typedef void(*tfRbUpdateTrack)  (tTrack* track);
 
 #define ROB_PIT_IM	0	/**< Immediate return from pit command */
 #define ROB_PIT_MENU	1	/**< Call the interactive menu for pit command */
@@ -67,7 +67,7 @@ typedef struct RobotItf {
     tfRbNewRace  rbNewRace;	/**< Start a new race */
     tfRbEndRace  rbEndRace;	/**< End of the current race */
     tfRbDrive	 rbDrive;	/**< Drive during race */
-	tfRbDriveProc rbDriveProc; /**< Procedural version of drive function */
+	tfRbUpdateTrack rbUpdateTrack; /**< Update track understanding/description of the robot. Used for procedural tracks. */
     tfRbPitCmd	 rbPitCmd;	/**< Get the driver's pit commands.
 				 <br>Returns:
 				 - ROB_PIT_IM

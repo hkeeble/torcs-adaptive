@@ -241,12 +241,7 @@ namespace procedural
 
 	PTrack::~PTrack()
 	{
-		if(acName)
-			delete acName;
-		//if (filePath)
-			//delete filePath;
-		//if (xmlFile)
-			//delete xmlFile;
+
 	}
 
 	/* Gets a segment from the cache */

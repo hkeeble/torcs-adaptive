@@ -24,8 +24,9 @@ struct SpeedData
 private:
 	friend class CarData;
 	SpeedData() { }
-	double current;
-	double previous;
+	tdble current;
+	tdble previous;
+	tdble CalculateSpeed(tdble x, tdble y, tdble z) { return sqrt((x*x) + (y*y) + (z*z)); }
 };
 
 /* Contains local position data */
@@ -76,6 +77,9 @@ public:
 
 	/* Retrieve pointer the car's struct */
 	tCarElt* GetCar();
+
+	/* Get speed currently recorded */
+	tdble Speed() const;
 };
 
 #endif // _CAR_DATA_

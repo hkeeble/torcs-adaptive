@@ -94,7 +94,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="PMData.cpp" />
-    <ClCompile Include="PMEvaluationFunctions.cpp" />
+    <ClCompile Include="PMEvaluators.cpp" />
     <ClCompile Include="PMManager.cpp" />
     <ClCompile Include="Util.cpp" />
   </ItemGroup>

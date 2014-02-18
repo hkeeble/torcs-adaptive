@@ -8,44 +8,48 @@
 #define _PM_MANAGER_H_
 
 #include "PMData.h"
-#include "PMEvaluationFunctions.h"
+#include "PMEvaluators.h"
+#include "PMDefs.h"
 #include "car.h"
 
 namespace perfMeasurement
 {
-	#define PERFMEASURE_UPDATE_INTERVAL 0.4
-
 	/* Class used as interface to performance measurement in a game session. */
 	class PMManager
 	{
 	private:
-		CarData car;
-		PMDataCollection data;
-		int skillEstimate;
+		/* Private construction - uncopyable singleton */
+		PMManager() { };
+		PMManager(const PMManager& param) { };
+		PMManager& operator=(const PMManager& param) { };
+
+		/* The current singleton instance of PMManager */
+		static PMManager* instance;
+
+		/* The current estimated skill level */
+		tdble skillEstimate;
 		
-		double cumulativeTime;
-		double timeOnLastUpdate;
-		
-		/* Functor pointer to current evaluation functor */
-		PMEvaluationFunctor* Evaluate;
+		/* Pointer to object containing the currently in use evaluation behaviour */
+		PMEvaluator* Evaluator;
 
 	public:
-		PMManager(CarElt* car);
+		static PMManager* Get();
 		~PMManager();
-		PMManager(const PMManager& param);
-		PMManager& operator=(const PMManager& param);
 		
+		/* Initialization function. Pass in a pointer to the car the manager is intended to monitor. Also pass in an unintialized evaluation object to make use of. */
+		void Init(tCarElt* car, PMEvaluator* evaluator);
+
 		/* Get the car currently being monitored */
-		const CarElt* GetCar();
+		tCarElt* GetCar();
 		
 		/* Update the performance measurement data */
-		void Update(double deltaTimeIncrement, double currentTime);
+		void Update(tdble deltaTimeIncrement, tdble currentTime);
 		
 		/* Clear the current collection of performance measurement data */
 		void Clear();
 		
 		/* Retrieve the current estimate skill level */
-		float GetSkillEstimate();
+		tdble GetSkillEstimate();
 	};
 }
 #endif // _PM_MANAGER_H_

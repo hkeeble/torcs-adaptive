@@ -100,7 +100,7 @@ namespace procedural
 		}
 		else
 		{
-			taOut("PSegFactory: Error! Corner and straight segment generation chances must equal 100!");
+			pOut("PSegFactory: Error! Corner and straight segment generation chances must equal 100!");
 			cornerChance = straightChance = 50.f;
 		}
 	}
@@ -110,7 +110,7 @@ namespace procedural
 		if (min < max)
 			return min + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (max - min)));
 		else
-			taOut("PSegFactory: Min cannot be less thatn Max!\n");
+			pOut("PSegFactory: Min cannot be less thatn Max!\n");
 	}
 
 	PSegType PSegFactory::RandomSegType()

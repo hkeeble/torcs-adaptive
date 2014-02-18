@@ -9,67 +9,50 @@
 
 namespace perfMeasurement
 {
-	PMManager::PMManager(CarElt* car)
+	PMManager* PMManager::instance = nullptr;
+
+	PMManager* PMManager::Get()
 	{
-		this->car = car;
-		skillEstimate = 0;
-		cumulativeTime = 0.0f;
-		timeOnLastUpdate = 0.0f;
+		if (instance)
+			return instance;
+		else
+		{
+			instance = new PMManager();
+			return instance;
+		}
 	}
 
 	PMManager::~PMManager()
 	{
-
+		if (Evaluator)
+			delete Evaluator;
 	}
 
-	PMManager::PMManager(const PMManager& param)
+	tCarElt* PMManager::GetCar()
 	{
-		skillEstimate = param.skillEstimate;
-		car = param.car;
+		return Evaluator->GetCar();
 	}
 
-	PMManager& PMManager::operator=(const PMManager& param)
+	void PMManager::Update(tdble deltaTimeIncrement, tdble currentTime)
 	{
-		if(&param == this)
-			return *this;
-		else
-		{
-			skillEstimate = param.skillEstimate;
-			car = param.car;
-			return *this;
-		}
-	}
-
-	const CarElt* PMManager::GetCar()
-	{
-		return car.GetCar();
-	}
-
-	void PMManager::Update(double deltaTimeIncrement, double currentTime)
-	{
-		cumulativeTime += deltaTimeIncrement;
-
-		car.Update();
-
-		if(cumulativeTime >= PERFMEASURE_UPDATE_INTERVAL)
-		{
-			data.AddData(car, currentTime); // Add new data to collection
-
-			if (data.Count() == data.MaximumDataSets()) // Only begin evaluation with a full set of data
-				skillEstimate = (*Evaluate)(data);
-
-			timeOnLastUpdate = currentTime;
-			cumulativeTime = 0.0f;
-		}
+		Evaluator->Update(deltaTimeIncrement, currentTime);
+		skillEstimate = Evaluator->Evaluate();
+		pmOut("Re-evaluating skill level...\n\t\tNew Skill Level Estimate: " + std::to_string(skillEstimate) + "\n");
 	}
 
 	void PMManager::Clear()
 	{
-		data.Clear();
+		Evaluator->ClearData();
 	}
 
-	float PMManager::GetSkillEstimate()
+	tdble PMManager::GetSkillEstimate()
 	{
 		return skillEstimate;
+	}
+
+	void PMManager::Init(tCarElt* car, PMEvaluator* evaluator)
+	{
+		Evaluator = evaluator;
+		Evaluator->Init(car);
 	}
 }
