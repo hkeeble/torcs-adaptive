@@ -11,7 +11,7 @@ namespace perfMeasurement
 	/*-----------------------------------------\
 	| MEAN DEVIATION FROM TOP SPEED BEHAVIOURS |
 	\-----------------------------------------*/
-	void MeanDeviationFromTopSpeed::Update(tdble deltaTimeIncrement, tdble currentTime)
+	tdble MeanDeviationFromTopSpeed::Update(tdble deltaTimeIncrement, tdble currentTime)
 	{
 		cumulativeTime += deltaTimeIncrement;
 
@@ -24,10 +24,17 @@ namespace perfMeasurement
 			timeOnLastUpdate = currentTime;
 			cumulativeTime = 0.0f;
 		}
+
+		if (dataSet.Count() == dataSet.MaximumDataSets())
+			return Evaluate();
+		else
+			return NULL_SKILL_LEVEL;
 	}
 
 	tdble MeanDeviationFromTopSpeed::Evaluate()
 	{
+		pmOut("Evaluating skill level using mean deviation from top speed...\n");
+
 		float tot = 0.f;
 		for (int i = 0; i < dataSet.Count(); i++)
 			tot += dataSet(i).Data().Speed();
@@ -41,41 +48,76 @@ namespace perfMeasurement
 	/*-----------------------------------------\
 	|		RACE LINE EVALUATION BEHAVIOURS	    |
 	\-----------------------------------------*/
-	void RaceLineEvaluation::Update(tdble deltaTimeIncrement, tdble currentTime)
+	void RaceLineEvaluation::CornerOutlook::GenerateOutlook(tTrackSeg* baseSeg)
+	{
+		if (!clear)
+			Clear();
+
+		pmOut("Generating new corner outlook for race line evaluation.\n");
+
+		// Initialize segment pointers
+		entrance.seg = baseSeg;
+		corner.seg = baseSeg->next;
+		exit.seg = corner.seg->next;
+		
+		// Calculate data recording ranges, relative to car distance to start. When distance to start is between these ranges, data is recorded on this segment
+		entrance.minRange = entrance.seg->length - 10;
+		entrance.maxRange = entrance.seg->length;
+
+		corner.minRange = (corner.seg->length / 2 - 10) / corner.seg->radius;
+		corner.maxRange = (corner.seg->length / 2 + 10) / corner.seg->radius;
+
+		exit.minRange = 0;
+		exit.maxRange = 10;
+
+		clear = false;
+	}
+
+	void RaceLineEvaluation::CornerOutlook::Segment::Update(CarData currentData, PMDataCollection& dataSet, tdble currentTime)
+	{
+		if (!dataRecorded)
+		{
+			if (currentData.LocalPosition().toStart > minRange && currentData.LocalPosition().toStart < maxRange)
+			{
+				dataSet.AddData(currentData, currentTime);
+				dataRecorded = true;
+				pmOut("Adding data to data set for race line evaluation.\n");
+			}
+		}
+	}
+
+	void RaceLineEvaluation::CornerOutlook::Update(CarData data, PMDataCollection& dataSet, tdble currentTime)
+	{
+		if (data.CurrentSeg()->id == entrance.seg->id)
+			entrance.Update(data, dataSet, currentTime);
+		else if (data.CurrentSeg()->id == corner.seg->id)
+			corner.Update(data, dataSet, currentTime);
+		else if (data.CurrentSeg()->id == exit.seg->id)
+			exit.Update(data, dataSet, currentTime);
+	}
+
+	tdble RaceLineEvaluation::Update(tdble deltaTimeIncrement, tdble currentTime)
 	{
 		car.Update();
 
-		// Retrieve types of surrouding segments
-		int currentType = car.CurrentSeg()->type;
-		int nextType = car.CurrentSeg()->next->type;
-		int prevType = car.CurrentSeg()->prev->type;
+		// When neccesary, generate a new outlook
+		if (currentOutlook.IsClear() == true)
+			if (car.CurrentSeg()->next->type != TR_STR)
+				currentOutlook.GenerateOutlook(car.CurrentSeg());
 
-		// Switch is based on the current type, decision is made here in what positions to record data.
-		switch (currentType)
-		{
-		case TR_STR:
-			if (nextType == TR_LFT || TR_RGT)
-			{
-				// If car is near end, record position
-			}
-			break;
-		case TR_LFT:
-			// If car is near center, record position
-			break;
-		case TR_RGT:
-			// If car is near center, record position
-			break;
-		}
+		if (currentOutlook.IsClear() == false)
+			currentOutlook.Update(car, dataSet, currentTime);
 
-		// Determine if new evaluation needs to take place. That is, a corner has just been passed by.
-		if (currentType == TR_STR && prevType == TR_RGT || prevType == TR_LFT)
-		{
-			// Make new evaluation based on dataset
-		}
+		if (currentOutlook.IsComplete())
+			return Evaluate();
+		else
+			return NULL_SKILL_LEVEL; // No current skill estimate
 	}
 
 	tdble RaceLineEvaluation::Evaluate()
 	{
+		pmOut("Evaluating skill level using race line evaluation...\n");
+
 		// Declarations
 		tdble rdiff = 0.f;
 		tTrkLocPos* optimalPositions;
@@ -125,6 +167,8 @@ namespace perfMeasurement
 			delete[] optimalPositions;
 		if (actualPositions)
 			delete[] actualPositions;
+
+		currentOutlook.Clear();
 
 		return rdiff;
 	}

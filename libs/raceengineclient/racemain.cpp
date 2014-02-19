@@ -308,7 +308,7 @@ void InitTA()
 {
 	taManager->InitTrkManager(&ReInfo->carList[0]);
 	if (taManager->GetRaceType() == torcsAdaptive::TARaceType::Adaptive)
-		taManager->InitPerfMeasurement(&ReInfo->carList[0], new MeanDeviationFromTopSpeed());
+		taManager->InitPerfMeasurement(&ReInfo->carList[0], new RaceLineEvaluation());
 }
 
 /***************************************************************/
