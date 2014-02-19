@@ -61,14 +61,14 @@ namespace perfMeasurement
 		exit.seg = corner.seg->next;
 		
 		// Calculate data recording ranges, relative to car distance to start. When distance to start is between these ranges, data is recorded on this segment
-		entrance.minRange = entrance.seg->length - 10;
-		entrance.maxRange = entrance.seg->length;
-
-		corner.minRange = (corner.seg->length / 2 - 10) / corner.seg->radius;
-		corner.maxRange = (corner.seg->length / 2 + 10) / corner.seg->radius;
+		entrance.minRange = 0;
+		entrance.maxRange = 10;
 
 		exit.minRange = 0;
 		exit.maxRange = 10;
+
+		corner.minRange = (corner.seg->length / 2 - 10) / corner.seg->radius;
+		corner.maxRange = (corner.seg->length / 2 + 10) / corner.seg->radius;
 
 		clear = false;
 	}

@@ -9,6 +9,7 @@
 
 #include "PMData.h"
 #include "PMDefs.h"
+#include "robottools.h"
 
 namespace perfMeasurement
 {

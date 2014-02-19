@@ -10,8 +10,10 @@ CarData::CarData()
 	car = nullptr;
 	segment.previous = nullptr;
 	segment.current = nullptr;
-	position.current = tTrkLocPos();
-	position.previous = tTrkLocPos();
+	localPos.current = tTrkLocPos();
+	localPos.previous = tTrkLocPos();
+	globalPos.current = Vector2D();
+	globalPos.previous = Vector2D();
 	speed.current = 0.f;
 	speed.previous = 0.f;
 	dirOfTravel = DirectionOfTravel::FORWARD;
@@ -20,10 +22,10 @@ CarData::CarData()
 CarData::CarData(tCarElt* car)
 {
 	this->car = car;
-	position.current = car->pub.trkPos;
-	position.previous = position.current;
+	localPos.current = car->pub.trkPos;
+	localPos.previous = localPos.current;
 	dirOfTravel = DirectionOfTravel::FORWARD;
-	segment.current = position.current.seg;
+	segment.current = localPos.current.seg;
 	segment.previous = segment.current;
 }
 
@@ -35,25 +37,31 @@ CarData::~CarData()
 void CarData::Update()
 {
 	// Update data
-	position.current = car->pub.trkPos;
-	segment.current = position.current.seg;
+	localPos.current = car->pub.trkPos;
+	segment.current = localPos.current.seg;
 	speed.current = speed.CalculateSpeed(car->_speed_x, car->_speed_y, car->_speed_z);
 
+	// Record global position, converting local to global through use of robot tools function
+	tTrkLocPos* tmp = new tTrkLocPos(localPos.current);
+	RtTrackLocal2Global(tmp, &globalPos.current.x, &globalPos.current.y, TR_TORIGHT);
+	delete tmp;
+
 	// If car is closer to the start of the segment than it was previously, or has moved back seg, it is travelling backwards.
-	if (position.current.toStart < position.previous.toStart || segment.current->id < segment.previous->id)
+	if (localPos.current.toStart < localPos.previous.toStart || segment.current->id < segment.previous->id)
 		dirOfTravel = DirectionOfTravel::BACKWARD;
 	else
 		dirOfTravel = DirectionOfTravel::FORWARD;
 
 	// Save currents to previous
 	segment.previous = segment.current;
-	position.previous = position.current;
+	localPos.previous = localPos.current;
 	speed.previous = speed.current;
+	globalPos.previous = globalPos.current;
 }
 
 tTrkLocPos CarData::LocalPosition()
 {
-	return position.current;
+	return localPos.current;
 }
 
 DirectionOfTravel CarData::DirOfTravel()

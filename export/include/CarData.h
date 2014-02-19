@@ -10,6 +10,10 @@
 
 #include "track.h"
 #include "car.h"
+#include "robottools.h"
+
+// Used to store 2D vectors for global position
+typedef v2t<tdble> Vector2D;
 
 /* Used to represent the player's direction of travel */
 enum class DirectionOfTravel
@@ -30,13 +34,22 @@ private:
 };
 
 /* Contains local position data */
-struct PositionData
+struct LocalPositionData
 {
 private:
 	friend class CarData;
-	PositionData() { }
+	LocalPositionData() { }
 	tTrkLocPos current;
 	tTrkLocPos previous;
+};
+
+struct GlobalPositionData
+{
+private:
+	friend class CarData;
+	GlobalPositionData() { }
+	Vector2D current;
+	Vector2D previous;
 };
 
 /* Contains segment data */
@@ -49,13 +62,15 @@ private:
 	tTrackSeg* previous;
 };
 
+
 /* Represents the car data for use in procedural generation */
 class CarData
 {
 private:
 	tCarElt* car;
 	SpeedData speed;
-	PositionData position;
+	GlobalPositionData globalPos;
+	LocalPositionData localPos;
 	SegData segment;
 	DirectionOfTravel dirOfTravel;
 public:
@@ -68,6 +83,9 @@ public:
 
 	/* Retrieve car's current local segment position */
 	tTrkLocPos LocalPosition();
+
+	/* Retrieve car's current global position */
+	Vector2D GlobalPosition();
 
 	/* Retrieve car's current direction of travel */
 	DirectionOfTravel DirOfTravel();
