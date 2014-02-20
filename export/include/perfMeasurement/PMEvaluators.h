@@ -9,6 +9,7 @@
 
 #include "PMData.h"
 #include "PMDefs.h"
+#include "PMMath.h"
 #include "robottools.h"
 
 namespace perfMeasurement
@@ -48,11 +49,20 @@ namespace perfMeasurement
 	class RaceLineEvaluation : public PMEvaluator
 	{
 	private:
-		/* Class used to represent an outlook on a corner. */
+		/* Nested class used to represent an outlook on a corner. */
 		class CornerOutlook
 		{
 		private:
 			bool clear;
+
+			// The number of optimal points
+			const int NUMB_OF_OPTIMAL_POINTS = 3;
+
+			/* Used to calculate the optimal radius of the current corner */
+			tdble CalculateOptimalRadius(tdble carWidth, tdble carDepth);
+
+			/* Used to calculate the optimal points the optimal arc must pass through */
+			PMPoint2D* CalculateOptimalPoints(tdble carWidth, tdble carDepth);
 		public:
 			CornerOutlook() : 
 				entrance(Segment()), corner(Segment()), exit(Segment()), optimalRadius(0.f), actualRadius(0.f), clear(true) { };
@@ -76,7 +86,7 @@ namespace perfMeasurement
 			tdble actualRadius;
 
 			/* Generate an outlook consisting of a straight, corner, and exit straight */
-			void GenerateOutlook(tTrackSeg* baseSeg);
+			void GenerateOutlook(tTrackSeg* baseSeg, tdble carWidth, tdble carDepth);
 
 			/* Updates the current outlook, appending data where neccesary */
 			void Update(CarData data, PMDataCollection& dataSet, tdble currentTime);

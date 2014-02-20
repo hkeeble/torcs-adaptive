@@ -91,7 +91,6 @@ namespace torcsAdaptive
 			trackManager = new PTrackManager(trackName, TA_TR_LENGTH, raceManager);
 	}
 
-
 	void TAManager::InitTrkManager(tCarElt* car)
 	{
 		if (!trackManager)
@@ -168,7 +167,7 @@ namespace torcsAdaptive
 
 	void TAManager::InitCarPos()
 	{
-		tTrackSeg* startSeg = trackManager->GetTrack()->trk->seg;
+		tTrackSeg* startSeg = trackManager->GetTrack()->GetStart();
 
 		tCarElt* theCar = &raceManager->carList[0];
 

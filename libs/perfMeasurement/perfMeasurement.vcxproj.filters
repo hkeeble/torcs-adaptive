@@ -27,5 +27,8 @@
     <ClCompile Include="PMEvaluators.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PMMath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

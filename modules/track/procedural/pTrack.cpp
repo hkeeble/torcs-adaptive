@@ -31,10 +31,11 @@ namespace procedural
 
 		// Add Initial Segments
 		GfOut("Adding Initial Segments...\n");
-		//for (int i = 0; i < INITIAL_SEG_GEN; i++)
-			//PAddSegment(PSegFactory::GetInstance()->CreateRandomSeg(i), pTrack);
+		for (int i = 0; i < INITIAL_SEG_GEN; i++)
+			PAddSegment(PSegFactory::GetInstance()->CreateRandomSeg(i), pTrack);
 
-		PAddSegment(PSegFactory::GetInstance()->CreateSegCnr(0, PCornerType::CTRight, 45, 45, 45, 1.5f), pTrack);
+		// To test specific segments initially, uncomment these
+		// PAddSegment(PSegFactory::GetInstance()->CreateSegCnr(0, PCornerType::CTRight, 45, 45, 45, 1.5f), pTrack);
 		// PAddSegment(PSegFactory::GetInstance()->CreateSegStr(0, 500), pTrack);
 
 		// Generate Initial 3D Description

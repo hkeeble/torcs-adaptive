@@ -4,6 +4,11 @@
 	Desc: Definitions for some commonly used macros in the PM library.
 */
 
+#ifndef _PM_DEFS_H_
+#define _PM_DEFS_H_
+
+#include "tgf.h"
+
 namespace perfMeasurement
 {
 	#define PERFMEASURE_UPDATE_INTERVAL 0.1
@@ -16,3 +21,5 @@ namespace perfMeasurement
 		#define pmOut(out)
 	#endif // _DEBUG
 }
+
+#endif // _PM_DEFS_H_

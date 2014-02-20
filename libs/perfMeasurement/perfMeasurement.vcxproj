@@ -96,6 +96,7 @@
     <ClCompile Include="PMData.cpp" />
     <ClCompile Include="PMEvaluators.cpp" />
     <ClCompile Include="PMManager.cpp" />
+    <ClCompile Include="PMMath.cpp" />
     <ClCompile Include="Util.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
