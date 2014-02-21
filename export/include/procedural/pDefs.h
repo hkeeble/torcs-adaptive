@@ -13,9 +13,10 @@ namespace procedural
 {
 	typedef ssgEntity EntityDesc;
 
-	#define SEG_LENGTH 100
-
 	// Maximum and minimum ranges
+	#define MIN_LENGTH 100
+	#define MAX_LENGTH 200
+
 	#define MAX_ARC 1.5f
 	#define MIN_ARC 0.5f
 

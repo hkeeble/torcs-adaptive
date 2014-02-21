@@ -47,6 +47,8 @@ namespace procedural
 
 		pOut("Setting racemanager track to procedural track...\n");
 		raceManager->track = track->trk;
+
+		previousSegType = track->GetEnd()->type;
 	}
 
 	PTrackManager::PTrackManager(const PTrackManager& param)
@@ -73,6 +75,7 @@ namespace procedural
 	{
 		track = new PTrack(*param.GetTrack());
 		raceManager = param.raceManager;
+		previousSegType = param.previousSegType;
 	}
 
 	PTrackManager::~PTrackManager()
@@ -96,29 +99,45 @@ namespace procedural
 		pOut("New segment added.\n");
 	}
 
-	void PTrackManager::ManageSegmentGeneration(float skillLevel)
+	void PTrackManager::GenerateAdaptiveSegment(float skillLevel)
 	{
-		if (carData.CurrentSeg()->id + MAX_DIST_FROM_END >= track->GetEnd()->id)
+		PSeg* curSeg = nullptr;
+
+		if (previousSegType != TR_STR) // If the previous segment was a corner, ensure another corner is not generated
+			curSeg = &segFactory->CreateRandomStr(track->state.curSegIndex);
+		else
 		{
 			/* If skillLevel is -1, generate random segment */
 			if (skillLevel == -1.f)
-				AddSegment(segFactory->CreateRandomSeg(track->state.curSegIndex));
+				curSeg = &segFactory->CreateRandomSeg(track->state.curSegIndex);
 			else // otherwise, take into account skill level
-				AddSegment(segFactory->CreateSegStr(track->state.curSegIndex, 200.f)); // PLACEHOLDER
-
-			if (raceManager->raceEngineInfo.displayMode == RM_DISP_MODE_NORMAL)
-				UpdateGraphics();
+				curSeg = &segFactory->CreateSegStr(track->state.curSegIndex, 200.f); // PLACEHOLDER
 		}
+
+		AddSegment(*curSeg);
+		previousSegType = curSeg->type;
 	}
 
-	void PTrackManager::Update(float skillLevel)
+	void PTrackManager::Update(bool adaptive, float skillLevel)
 	{
 		// Update data on the car
 		carData.Update();
 
 		// Manage new segment generation
 		if (track->trk->length < track->TotalLength())
-			ManageSegmentGeneration(skillLevel);
+		{
+			if (carData.CurrentSeg()->id + MAX_DIST_FROM_END >= track->GetEnd()->id) // If a new segment needs to be generated
+			{
+				if (!adaptive)
+					AddSegment(segFactory->CreateRandomSeg(track->state.curSegIndex));
+				else
+					GenerateAdaptiveSegment(skillLevel);
+
+				// Update graphical description
+				if (raceManager->raceEngineInfo.displayMode == RM_DISP_MODE_NORMAL)
+					UpdateGraphics();
+			}
+		}
 	}
 
 	void PTrackManager::UpdateGraphics()

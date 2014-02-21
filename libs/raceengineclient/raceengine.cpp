@@ -727,6 +727,8 @@ ReUpdate(void)
 			
 			GfuiDisplay();
 			ReInfo->_reGraphicItf.refresh(ReInfo->s);
+			if (taManager->IsActive())
+				taManager->DrawBoard();
 			glutPostRedisplay();	/* Callback -> reDisplay */
 			break;
 
@@ -751,6 +753,8 @@ ReUpdate(void)
 
 			GfuiDisplay();
 			ReInfo->_reGraphicItf.refresh(ReInfo->s);
+			if (taManager->IsActive())
+				taManager->DrawBoard();
 			reCapture();
 			glutPostRedisplay();	/* Callback -> reDisplay */
 			break;

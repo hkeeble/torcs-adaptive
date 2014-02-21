@@ -856,10 +856,10 @@ void cGrBoard::refreshBoard(tSituation *s, float Fps, int forceArcade, tCarElt *
 	if (arcadeFlag || forceArcade) {
 		grDispArcade(curr, s);
 	} else {
-		if (debugFlag) grDispDebug(Fps, curr);
-		if (GFlag) grDispGGraph(curr);
-		if (boardFlag) grDispCarBoard(curr, s);
-		if (leaderFlag)	grDispLeaderBoard(curr, s);
+		if (debugFlag)	 grDispDebug(Fps, curr);
+		if (GFlag)		 grDispGGraph(curr);
+		if (boardFlag)	 grDispCarBoard(curr, s);
+		if (leaderFlag)	 grDispLeaderBoard(curr, s);
 		if (counterFlag) grDispCounterBoard2(curr);
 	}
 

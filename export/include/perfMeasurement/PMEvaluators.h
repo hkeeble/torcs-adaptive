@@ -23,13 +23,15 @@ namespace perfMeasurement
 	protected:
 		CarData car;
 		PMDataCollection dataSet;
-		virtual tdble Evaluate() = 0;
+		tdble currentEstimate;
+		virtual void Evaluate() = 0;
 	public:
-		PMEvaluator() { }
-		virtual float Update(tdble deltaTimeIncrement, tdble currentTime) = 0;
+		PMEvaluator() : currentEstimate(NULL_SKILL_LEVEL) { }
+		virtual void Update(tdble deltaTimeIncrement, tdble currentTime) = 0;
 		tCarElt* GetCar() { return car.GetCar(); }
 		void ClearData() { dataSet.Clear(); }
 		void Init(tCarElt* carElt) { car = carElt; dataSet = PMDataCollection(); }
+		tdble GetCurrentEstimate() const { return currentEstimate; }
 	};
 	
 	/* Evaluates performance based upon the mean deviation from the car's top speed. */
@@ -39,10 +41,10 @@ namespace perfMeasurement
 		tdble cumulativeTime;
 		tdble timeOnLastUpdate;
 		const tdble UPDATE_INTERVAL;
-		virtual tdble Evaluate() override final;
+		virtual void Evaluate() override final;
 	public:
 		MeanDeviationFromTopSpeed() : UPDATE_INTERVAL(0.1f), timeOnLastUpdate(0), cumulativeTime(0) { }
-		virtual float Update(tdble deltaTimeIncrement, tdble currentTime) override final;
+		virtual void Update(tdble deltaTimeIncrement, tdble currentTime) override final;
 	};
 	
 	/* Evaluates performance based upon the car's deviation from the optimal racing line within the given data set. */
@@ -98,10 +100,10 @@ namespace perfMeasurement
 			bool IsComplete() { return entrance.dataRecorded && corner.dataRecorded && exit.dataRecorded; }
 		} currentOutlook;
 
-		virtual tdble Evaluate() override final;
+		virtual void Evaluate() override final;
 	public:
 		RaceLineEvaluation() : currentOutlook(CornerOutlook()) { }
-		virtual float Update(tdble deltaTimeIncrement, tdble currentTime) override final;
+		virtual void Update(tdble deltaTimeIncrement, tdble currentTime) override final;
 	};
 }
 

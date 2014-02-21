@@ -22,13 +22,14 @@ namespace procedural
 	class PSegmentRanges
 	{
 	private:
-		PRange arc, radius;
+		PRange arc, radius, length;
 	public:
-		PSegmentRanges(PRange arc, PRange radius);
+		PSegmentRanges(PRange arc, PRange radius, PRange length);
 		~PSegmentRanges();
 		
-		PRange Arc() 	const;
+		PRange Arc() 	 const;
 		PRange Radius()  const;
+		PRange Length()  const;
 	};
 }
 

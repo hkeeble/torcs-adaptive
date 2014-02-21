@@ -51,11 +51,14 @@ namespace torcsAdaptive
 
 		// Initialize Race Mode for TORCS Adaptive
 		if (strcmp(raceManager->raceEngineInfo.name, "Adaptive Race") == 0)
-			SetRaceType(torcsAdaptive::TARaceType::Adaptive);
+			SetRaceType(TARaceType::Adaptive);
 		else if (strcmp(raceManager->raceEngineInfo.name, "Procedural Race") == 0)
-			SetRaceType(torcsAdaptive::TARaceType::Procedural);
+			SetRaceType(TARaceType::Procedural);
 		else
-			SetRaceType(torcsAdaptive::TARaceType::None);
+			SetRaceType(TARaceType::None);
+
+		// Initialize the HUD
+		hud.Init(raceType == TARaceType::Adaptive);
 
 		if (raceManager->raceEngineInfo.displayMode == RM_DISP_MODE_CONSOLE)
 			raceOnConsole = true;
@@ -82,9 +85,6 @@ namespace torcsAdaptive
 
 	void TAManager::InitTrack(std::string trackName)
 	{
-		if (trackManager)
-			delete trackManager;
-
 		if (!raceManager)
 			taOut("Failed to initialize procedural track in TAManager. Ensure Init is called before InitTrack.\n");
 		else
@@ -119,7 +119,7 @@ namespace torcsAdaptive
 	{
 		if (raceType == TARaceType::Adaptive)
 		{
-			trackManager->Update(currentSkillLevel);
+			trackManager->Update(true, currentSkillLevel);
 			currentSkillLevel = perfMeasurement->GetSkillEstimate();
 		}
 		else
@@ -163,6 +163,9 @@ namespace torcsAdaptive
 		/* Plot the track for reading in gnuplot */
 		TrackDesc desc = TrackDesc(trackManager->GetTrack()->trk);
 		desc.plot((char*)(std::string((char*)trackManager->GetTrack()->GetFilePath()) + std::string("procTrackPlot.dat")).c_str());
+
+		if (trackManager)
+			delete trackManager;
 	}
 
 	void TAManager::InitCarPos()
@@ -199,5 +202,13 @@ namespace torcsAdaptive
 
 		// Set up car in physics sim
 		raceManager->_reSimItf.config(theCar, raceManager);
+	}
+
+	void TAManager::DrawBoard()
+	{
+		if (perfMeasurement)
+			hud.Render(perfMeasurement->GetSkillEstimate());
+		else
+			hud.Render(NULL_SKILL_LEVEL);
 	}
 }

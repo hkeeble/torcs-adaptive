@@ -11,7 +11,7 @@ namespace perfMeasurement
 	/*-----------------------------------------\
 	| MEAN DEVIATION FROM TOP SPEED BEHAVIOURS |
 	\-----------------------------------------*/
-	tdble MeanDeviationFromTopSpeed::Update(tdble deltaTimeIncrement, tdble currentTime)
+	void MeanDeviationFromTopSpeed::Update(tdble deltaTimeIncrement, tdble currentTime)
 	{
 		cumulativeTime += deltaTimeIncrement;
 
@@ -26,12 +26,10 @@ namespace perfMeasurement
 		}
 
 		if (dataSet.Count() == dataSet.MaximumDataSets())
-			return Evaluate();
-		else
-			return NULL_SKILL_LEVEL;
+			Evaluate();
 	}
 
-	tdble MeanDeviationFromTopSpeed::Evaluate()
+	void MeanDeviationFromTopSpeed::Evaluate()
 	{
 		pmOut("Evaluating skill level using mean deviation from top speed...\n");
 
@@ -42,7 +40,7 @@ namespace perfMeasurement
 		tot -= dataSet(0).Data().GetCar()->race.topSpeed; // Is this top speed in race or overall??
 
 		tot = tot / dataSet.Count();
-		return tot / 100;
+		currentEstimate = tot / 100;
 	}
 
 	/*-----------------------------------------\
@@ -189,7 +187,7 @@ namespace perfMeasurement
 			exit.Update(data, dataSet, currentTime);
 	}
 
-	tdble RaceLineEvaluation::Update(tdble deltaTimeIncrement, tdble currentTime)
+	void RaceLineEvaluation::Update(tdble deltaTimeIncrement, tdble currentTime)
 	{
 		car.Update();
 
@@ -206,12 +204,10 @@ namespace perfMeasurement
 			currentOutlook.Update(car, dataSet, currentTime);
 
 		if (currentOutlook.IsComplete())
-			return Evaluate();
-		else
-			return NULL_SKILL_LEVEL; // No current skill estimate
+			Evaluate();
 	}
 
-	tdble RaceLineEvaluation::Evaluate()
+	void RaceLineEvaluation::Evaluate()
 	{
 		pmOut("Evaluating skill level using race line evaluation...\n");
 
@@ -228,11 +224,9 @@ namespace perfMeasurement
 		currentOutlook.actualRadius = PMMath::CalculateArcRadius(actualPoints, dataSet.Count());
 
 		// Calculate actual radius as a percentage of optimal radius
-		tdble perc = currentOutlook.actualRadius / currentOutlook.optimalRadius;
+		currentEstimate = currentOutlook.actualRadius / currentOutlook.optimalRadius;
 
 		currentOutlook.Clear();
 		delete[] actualPoints;
-
-		return perc;
 	}
 }

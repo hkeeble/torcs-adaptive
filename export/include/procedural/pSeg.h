@@ -73,13 +73,19 @@ namespace procedural
 		static PSegFactory* GetInstance();
 
 		/* The arbitrary ranges between which segment parameters may reside */
-		const PSegmentRanges ranges = PSegmentRanges(PRange(MIN_ARC, MAX_ARC), PRange(MIN_RADIUS, MAX_RADIUS));
+		const PSegmentRanges ranges = PSegmentRanges(PRange(MIN_ARC, MAX_ARC), PRange(MIN_RADIUS, MAX_RADIUS), PRange(MIN_LENGTH, MAX_LENGTH));
 
 		/* Sets the percentage chances or corners and straights being generated */
 		void SetChances(float corner, float straight);
 
 		/* Generates a random segment based upon chances and ranges set */
 		PSeg CreateRandomSeg(int id);
+
+		/* Generates a random straight segment */
+		PSeg CreateRandomStr(int id);
+
+		/* Generates a random corner segment */
+		PSeg CreateRandomCnr(int id);
 
 		/* Creates a straight segment */
 		PSeg CreateSegStr(int id, float length);

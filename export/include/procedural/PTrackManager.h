@@ -21,12 +21,13 @@ namespace procedural
 			PTrack* track;
 			PSegFactory* segFactory;
 			CarData carData;
+			int previousSegType;
 
 			/* Calculate percentage of a segment left until the end */
 			tdble PercentDistanceToEnd(tdble segLength, tdble distToStart);
 
-			/* Manages the generation of new segments for the track */
-			void ManageSegmentGeneration(float skillLevel);
+			/* Generates a new segment for the track, based upon a given skill level between 0.0f and 1.0f */
+			void GenerateAdaptiveSegment(tdble skillLevel);
 
 			/* Internal deep copy function */
 			void cpy(const PTrackManager& param);
@@ -47,7 +48,7 @@ namespace procedural
 			void AddSegment(const PSeg& segment);
 
 			/* Update a procedural track, managing it's cache and adding segments if neccesary. Takes current skill level, leave blank for random segments. */
-			void Update(float skillLevel = -1.f);
+			void Update(bool adaptive = false, float skillLevel = -1.f);
 
 			/* Updates the graphical component of the track, updating the AC file if neccesary. */
 			void UpdateGraphics();

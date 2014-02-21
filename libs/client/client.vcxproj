@@ -175,6 +175,7 @@ copy $(TargetDir)*.lib $(SolutionDir)\export\lib
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\raceengineclient\torcsAdaptive\CarData.cpp" />
+    <ClCompile Include="..\raceengineclient\torcsAdaptive\TAHud.cpp" />
     <ClCompile Include="..\raceengineclient\torcsAdaptive\TAManager.cpp" />
     <ClCompile Include="..\tgfclient\control.cpp" />
     <ClCompile Include="..\confscreens\controlconfig.cpp" />
@@ -227,6 +228,7 @@ copy $(TargetDir)*.lib $(SolutionDir)\export\lib
     <ClCompile Include="..\racescreens\trackselect.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\raceengineclient\torcsAdaptive\TAHud.h" />
     <ClInclude Include="..\raceengineclient\torcsAdaptive\torcsAdaptive.h" />
     <ClInclude Include="client.h" />
     <ClInclude Include="driverconfig.h" />

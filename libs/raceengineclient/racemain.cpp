@@ -88,6 +88,7 @@ AbortRaceHookActivate(void * /* dummy */)
 	}
 	ReInfo->_reGraphicItf.shutdowntrack();
 	ReRaceCleanDrivers();
+	taManager->RaceEnd();
 
 	FREEZ(ReInfo->_reCarInfo);
 	/* Return to race menu */

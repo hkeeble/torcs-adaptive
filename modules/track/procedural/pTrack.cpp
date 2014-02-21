@@ -31,12 +31,10 @@ namespace procedural
 
 		// Add Initial Segments
 		GfOut("Adding Initial Segments...\n");
-		for (int i = 0; i < INITIAL_SEG_GEN; i++)
-			PAddSegment(PSegFactory::GetInstance()->CreateRandomSeg(i), pTrack);
+		PAddSegment(PSegFactory::GetInstance()->CreateRandomStr(0), pTrack);
 
-		// To test specific segments initially, uncomment these
-		// PAddSegment(PSegFactory::GetInstance()->CreateSegCnr(0, PCornerType::CTRight, 45, 45, 45, 1.5f), pTrack);
-		// PAddSegment(PSegFactory::GetInstance()->CreateSegStr(0, 500), pTrack);
+		//for (int i = 0; i < INITIAL_SEG_GEN; i++)
+			//PAddSegment(PSegFactory::GetInstance()->CreateRandomSeg(i), pTrack);
 
 		// Generate Initial 3D Description
 		if (!raceOnConsole)
@@ -105,8 +103,5 @@ namespace procedural
 	void PShutDown(PTrack* track)
 	{
 		TrackShutdown();
-
-		if (track)
-			delete track;
 	}
 }

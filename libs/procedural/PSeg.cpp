@@ -74,21 +74,29 @@ namespace procedural
 		PSegType type = RandomSegType();
 
 		if (type == PSegType::Straight)
-			return CreateSegStr(id, SEG_LENGTH); // Generate new segment
+			return CreateRandomStr(id);
 		else
-		{
-			float radius = RandBetween(ranges.Radius().Min(), ranges.Radius().Max());
-			float arc = RandBetween(ranges.Arc().Min(), ranges.Arc().Max());
-			PCornerType cType;
+			return CreateRandomCnr(id);
+	}
 
-			if (previousCornerType == CTLeft)
-				cType = CTRight;
-			else
-				cType = CTLeft;
+	PSeg PSegFactory::CreateRandomStr(int id)
+	{
+		return CreateSegStr(id, RandBetween(ranges.Length().Min(), ranges.Length().Max()));
+	}
 
-			return CreateSegCnr(id, cType, radius, 0.f, 0.f, arc);
-			previousCornerType = cType;
-		}
+	PSeg PSegFactory::CreateRandomCnr(int id)
+	{
+		float radius = RandBetween(ranges.Radius().Min(), ranges.Radius().Max());
+		float arc = RandBetween(ranges.Arc().Min(), ranges.Arc().Max());
+		PCornerType cType;
+
+		if (previousCornerType == CTLeft)
+			cType = CTRight;
+		else
+			cType = CTLeft;
+
+		previousCornerType = cType;
+		return CreateSegCnr(id, cType, radius, 0.f, 0.f, arc);
 	}
 
 	void PSegFactory::SetChances(float corner, float straight)

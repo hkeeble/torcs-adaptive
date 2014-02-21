@@ -9,6 +9,7 @@
 #include "perfMeasurement\PMManager.h"
 #include "procedural\pTrackManager.h"
 #include "procedural\PRange.h"
+#include "TAHud.h"
 
 // Using both TORCS-Adaptive namespace features. These are both seperate libaries and namespaces and are fully independent of one another.
 using namespace procedural;
@@ -55,6 +56,10 @@ namespace torcsAdaptive
 		tCarElt* car;
 
 		bool raceOnConsole; // Is current race on console?
+
+		// The TORCS Adaptive HUD
+		TAHud hud;
+	
 	public:
 		static TAManager* Get();
 		virtual ~TAManager();
@@ -106,6 +111,9 @@ namespace torcsAdaptive
 
 		/* Tests whether or not the TAManager is active - if either Adaptive or Procedural Mode are active */
 		bool IsActive() const;
+
+		/* Draws TORCS-Adaptive specific content to the UI */
+		void DrawBoard();
 	};
 }
 #endif // _TORCS_ADAPTIVE_MANAGER_H_

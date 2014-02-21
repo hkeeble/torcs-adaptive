@@ -35,7 +35,8 @@ namespace perfMeasurement
 
 	void PMManager::Update(tdble deltaTimeIncrement, tdble currentTime)
 	{
-		skillEstimate = Evaluator->Update(deltaTimeIncrement, currentTime);
+		Evaluator->Update(deltaTimeIncrement, currentTime);
+		skillEstimate = Evaluator->GetCurrentEstimate();
 	}
 
 	void PMManager::Clear()

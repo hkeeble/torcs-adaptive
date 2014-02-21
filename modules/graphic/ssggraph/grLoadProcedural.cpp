@@ -76,7 +76,8 @@ namespace procedural
 
 	void PGrShutdown()
 	{
-		infile.close();
+		if (infile && infile.is_open())
+			infile.close();
 	}
 
 	// Modified version of grssgLoadAC3D
