@@ -59,6 +59,17 @@ extern int  refresh(tSituation *s);
 extern void shutdownCars(void);
 extern int  initTrack(tTrack *track);
 extern void shutdownTrack(void);
+
+/* TORCS-ADAPTIVE */
+namespace procedural
+{
+	/* procedural additional extern functions, these are exported as pointers and use internal functions found in grscene.h */
+	extern void	PGrInit			(PTrack* track);
+	extern void	PGrAppend3DDesc (PTrack* track);
+	extern void	PGrAttach3DDesc (procedural::EntityDesc* curDesc);
+	extern void	PGrDetach3DDesc (procedural::EntityDesc* curDesc);
+}
+
 //extern void bendCar (int index, sgVec3 poc, sgVec3 force, int cnt);
 extern int maxTextureUnits;
 extern tdble grMaxDammage;

@@ -27,6 +27,8 @@
 #include <portability.h>
 #include "trackinc.h"
 
+#include "procedural\PSeg.h"
+
 static tdble	xmin, xmax, ymin, ymax, zmin, zmax;
 
 #define TSTX(x)			\
@@ -86,7 +88,7 @@ static tTrackSurface *barrierSurface[2];
 
 static tdble	GlobalStepLen = 0;
 
-static tTrackSurface*
+tTrackSurface*
 AddTrackSurface(void *TrackHandle, tTrack *theTrack, const char *material)
 {
 	const int BUFSIZE = 256;
@@ -124,7 +126,7 @@ AddTrackSurface(void *TrackHandle, tTrack *theTrack, const char *material)
 }
 
 
-static void
+void
 InitSides(void *TrackHandle, tTrack *theTrack)
 {
 	int side;
@@ -172,7 +174,7 @@ InitSides(void *TrackHandle, tTrack *theTrack)
 }
 
 
-static void
+void
 AddSides(tTrackSeg *curSeg, void *TrackHandle, tTrack *theTrack, int curStep, int steps)
 {
     tTrackSeg	*curSide;
@@ -1310,7 +1312,7 @@ ReadTrack3(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
     pits = &(theTrack->pits);
     pitType = GfParmGetStr(TrackHandle, TRK_SECT_MAIN, TRK_ATT_PIT_TYPE, TRK_VAL_PIT_TYPE_NONE);
 
-
+#pragma region Pit Initialization
 	if (strcmp(pitType, TRK_VAL_PIT_TYPE_NONE) != 0) {
 		segName = GfParmGetStr(TrackHandle, TRK_SECT_MAIN, TRK_ATT_PIT_ENTRY, NULL);
 		if (segName != 0) {
@@ -1511,7 +1513,9 @@ ReadTrack3(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
 	}
 	    
     }
+#pragma endregion
 
+#pragma region Camera Definitions
     /* 
      * camera definitions
      */
@@ -1577,6 +1581,7 @@ ReadTrack3(tTrack *theTrack, void *TrackHandle, tRoadCam **camList, int ext)
 	    } while (curSeg->id != segId);
 	} while (GfParmListSeekNext(TrackHandle, path) == 0);
     }
+#pragma endregion
 
     /* Update the coord to be positives */
     theTrack->min.x = 0;

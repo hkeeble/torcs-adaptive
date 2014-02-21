@@ -9,6 +9,12 @@
       <UniqueIdentifier>{484166a4-2326-4326-83c8-2744785b202e}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
+    <Filter Include="Source Files\procedural">
+      <UniqueIdentifier>{c4ab6686-109a-464a-a08c-3e53545771ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\procedural">
+      <UniqueIdentifier>{b9e49df0-245a-4912-b6b8-ac28c0e00b8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="track.cpp">
@@ -26,6 +32,12 @@
     <ClCompile Include="trackutil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="procedural\pTrack.cpp">
+      <Filter>Source Files\procedural</Filter>
+    </ClCompile>
+    <ClCompile Include="procedural\addSegment.cpp">
+      <Filter>Source Files\procedural</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="track.def">
@@ -35,6 +47,9 @@
   <ItemGroup>
     <ClInclude Include="trackinc.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="procedural\proceduralTrack.h">
+      <Filter>Header Files\procedural</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

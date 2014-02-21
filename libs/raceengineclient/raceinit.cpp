@@ -47,6 +47,12 @@
 
 #include "raceinit.h"
 
+#include "torcsAdaptive.h"
+
+using namespace torcsAdaptive;
+
+TAManager* taManager = TAManager::Get();
+
 static const char *level_str[] = { ROB_VAL_ROOKIE, ROB_VAL_AMATEUR, ROB_VAL_SEMI_PRO, ROB_VAL_PRO };
 
 static tModList *reEventModList = 0;
@@ -108,7 +114,10 @@ void ReShutdown(void)
 {
 	/* Free previous situation */
 	if (ReInfo) {
-		ReInfo->_reTrackItf.trkShutdown();
+		if (taManager->IsActive())
+			ReInfo->_reTrackItf.PTrackShutDown(taManager->GetTrack());
+		else
+			ReInfo->_reTrackItf.trkShutdown();
 
 		GfModUnloadList(&reEventModList);
 
@@ -311,7 +320,7 @@ static void
 initStartingGrid(void)
 {
 	int i;
-	tTrackSeg *curseg;
+	tTrackSeg *curseg, *rootSeg;
 	int rows;
 	tdble a, b; //, wi2;
 	tdble d1, d2,d3;
@@ -329,14 +338,15 @@ initStartingGrid(void)
 
 	/* Search for the first turn for find the pole side */
 	curseg = ReInfo->track->seg->next;
-	while (curseg->type == TR_STR) {
+	rootSeg = curseg;
+	do {
 		/* skip the straight segments */
 		curseg = curseg->next;
-	}
+	} while(curseg && curseg != rootSeg);
 	/* Set the pole for the inside of the first turn */
 	if (curseg->type == TR_LFT) {
 		pole = GfParmGetStr(params, path, RM_ATTR_POLE, "left");
-	} else {
+	} else { // Default to right-side if no turns
 		pole = GfParmGetStr(params, path, RM_ATTR_POLE, "right");
 	}
 	/* Tracks definitions can force the pole side */
@@ -373,28 +383,37 @@ initStartingGrid(void)
 		startpos = ReInfo->track->length - (d1 + (i / rows) * d2 + (i % rows) * d3);
 		tr = a + b * ((i % rows) + 1) / (rows + 1);
 		curseg = ReInfo->track->seg;  /* last segment */
-		while (startpos < curseg->lgfromstart) {
-			curseg = curseg->prev;
+		if (taManager->IsActive() == false)
+		{
+			while (startpos < curseg->lgfromstart) {
+				curseg = curseg->prev;
+			}
+			ts = startpos - curseg->lgfromstart;
 		}
-		ts = startpos - curseg->lgfromstart;
+		else // If torcs adaptive, start at first segment 10m from start
+		{
+			while (curseg->id != 0)
+				curseg = curseg->prev;
+			ts = 10;
+		}
 		car->_trkPos.seg = curseg;
 		car->_trkPos.toRight = tr;
 		switch (curseg->type) {
-			case TR_STR:
-				car->_trkPos.toStart = ts;
-				RtTrackLocal2Global(&(car->_trkPos), &(car->_pos_X), &(car->_pos_Y), TR_TORIGHT);
-				car->_yaw = curseg->angle[TR_ZS];
-				break;
-			case TR_RGT:
-				car->_trkPos.toStart = ts / curseg->radius;
-				RtTrackLocal2Global(&(car->_trkPos), &(car->_pos_X), &(car->_pos_Y), TR_TORIGHT);
-				car->_yaw = curseg->angle[TR_ZS] - car->_trkPos.toStart;
-				break;
-			case TR_LFT:
-				car->_trkPos.toStart = ts / curseg->radius;
-				RtTrackLocal2Global(&(car->_trkPos), &(car->_pos_X), &(car->_pos_Y), TR_TORIGHT);
-				car->_yaw = curseg->angle[TR_ZS] + car->_trkPos.toStart;
-				break;
+		case TR_STR:
+			car->_trkPos.toStart = ts;
+			RtTrackLocal2Global(&(car->_trkPos), &(car->_pos_X), &(car->_pos_Y), TR_TORIGHT);
+			car->_yaw = curseg->angle[TR_ZS];
+			break;
+		case TR_RGT:
+			car->_trkPos.toStart = ts / curseg->radius;
+			RtTrackLocal2Global(&(car->_trkPos), &(car->_pos_X), &(car->_pos_Y), TR_TORIGHT);
+			car->_yaw = curseg->angle[TR_ZS] - car->_trkPos.toStart;
+			break;
+		case TR_LFT:
+			car->_trkPos.toStart = ts / curseg->radius;
+			RtTrackLocal2Global(&(car->_trkPos), &(car->_pos_X), &(car->_pos_Y), TR_TORIGHT);
+			car->_yaw = curseg->angle[TR_ZS] + car->_trkPos.toStart;
+			break;
 		}
 		car->_pos_Z = RtTrackHeightL(&(car->_trkPos)) + heightInit;
 
@@ -687,7 +706,10 @@ ReInitCars(void)
 	// locations (because the library maintains global state like a default collision handler etc.).
     ReInfo->_reSimItf.init(nCars, ReInfo->track);
 
-    initStartingGrid();
+	if (taManager->IsActive())
+		taManager->InitCarPos();
+	else
+		initStartingGrid();
 
     initPits();
 

@@ -49,6 +49,7 @@
 #include "grssgext.h"
 #include "grtexture.h"
 
+#include "torcsAdaptive\TAManager.h"
 
 int grWrldX;
 int grWrldY;
@@ -216,7 +217,6 @@ grLoadScene(tTrack *track)
 	SunAnchor = new ssgBranch;
 	TheScene->addKid(SunAnchor);
 
-
 	initBackground();
 
 	grWrldX = (int)(track->max.x - track->min.x + 1);
@@ -224,22 +224,41 @@ grLoadScene(tTrack *track)
 	grWrldZ = (int)(track->max.z - track->min.z + 1);
 	grWrldMaxSize = (int)(MAX(MAX(grWrldX, grWrldY), grWrldZ));
 
-	acname = GfParmGetStr(hndl, TRK_SECT_GRAPH, TRK_ATT_3DDESC, "track.ac");
-	if (strlen(acname) == 0) {
-		return -1;
-	}
-
 	snprintf(buf, BUFSIZE, "tracks/%s/%s;data/textures;data/img;.", grTrack->category, grTrack->internalname);
 	ssgTexturePath(buf);
 	snprintf(buf, BUFSIZE, "tracks/%s/%s", grTrack->category, grTrack->internalname);
 	ssgModelPath(buf);
 
-	desc = grssgLoadAC3D(acname, NULL);
-	LandAnchor->addKid(desc);
+	// Don't initialize 3d desc if adaptive track
+	using namespace torcsAdaptive;
+	if(TAManager::Get()->Type() == TARaceType::None)
+	{
+		acname = GfParmGetStr(hndl, TRK_SECT_GRAPH, TRK_ATT_3DDESC, "track.ac");
+		if (strlen(acname) == 0)
+			return -1;
+
+		desc = grssgLoadAC3D(acname, NULL);
+		LandAnchor->addKid(desc);
+	}
 
 	return 0;
 }
 
+/* Internal library procedural functions for loading, attaching and detaching children dynamically */
+namespace procedural
+{
+	/* Remove given entity from scene graph */
+	void Detach3DDesc(EntityDesc* curDesc)
+	{
+		LandAnchor->removeKid(curDesc);
+	}
+
+	/* Add given entity to scene graph */
+	void Attach3DDesc(EntityDesc* curDesc)
+	{
+		LandAnchor->addKid(curDesc);
+	}
+}
 
 void grDrawScene(void)
 {

@@ -26,15 +26,13 @@
 #include <track.h>
 #include <portability.h>
 #include "trackinc.h"
+#include "procedural\PSeg.h"
 
 const tdble DEGPRAD = 180.0 / PI;   /* degrees per radian */
 
-static tTrack	*theTrack = NULL;
-static tRoadCam *theCamList;
-static void	*TrackHandle;
-
-static void GetTrackHeader(void *TrackHandle);
-
+static tTrack	*theTrack		= NULL;
+static tRoadCam *theCamList		= NULL;
+static void		*TrackHandle	= NULL;
 
 /*
  * External function used to (re)build a track
@@ -52,7 +50,7 @@ TrackBuildv1(char *trackfile)
     
     theTrack->filename = strdup(trackfile);
 
-    GetTrackHeader(TrackHandle);
+    GetTrackHeader(TrackHandle, theTrack);
 
     
     switch(theTrack->version) {
@@ -70,6 +68,16 @@ TrackBuildv1(char *trackfile)
     return theTrack;
 }
 
+/*
+ Externally set the track pointer without calling TrackBuildv1 (used for torcs-adaptive track
+ initialization)
+*/
+void SetTrack(tTrack* track, char* trFile)
+{
+	theTrack = track;
+	theTrack->filename = strdup(trFile);
+}
+
 tTrack *
 TrackBuildEx(char *trackfile)
 {
@@ -82,7 +90,7 @@ TrackBuildEx(char *trackfile)
     
     theTrack->filename = strdup(trackfile);
 
-    GetTrackHeader(TrackHandle);
+    GetTrackHeader(TrackHandle, theTrack);
 
     switch(theTrack->version) {
     case 0:
@@ -116,8 +124,8 @@ TrackBuildEx(char *trackfile)
  * Remarks
  *	
  */
-static void 
-GetTrackHeader(void *TrackHandle)
+void 
+GetTrackHeader(void *TrackHandle, tTrack* track)
 {
 	tTrackGraphicInfo *graphic;
 	const char **env;
@@ -126,14 +134,14 @@ GetTrackHeader(void *TrackHandle)
 	char buf[BUFSIZE];
 	char *s;
 	
-	theTrack->name = GfParmGetStr(TrackHandle, TRK_SECT_HDR, TRK_ATT_NAME, "no name");
-	theTrack->version = (int)GfParmGetNum(TrackHandle, TRK_SECT_HDR, TRK_ATT_VERSION, (char*)NULL, 0);
-	theTrack->width = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, TRK_ATT_WIDTH, (char*)NULL, 15.0);
-	theTrack->author = GfParmGetStr(TrackHandle, TRK_SECT_HDR, TRK_ATT_AUTHOR, "none");
-	theTrack->category = GfParmGetStr(TrackHandle, TRK_SECT_HDR, TRK_ATT_CAT, "road");
+	track->name = GfParmGetStr(TrackHandle, TRK_SECT_HDR, TRK_ATT_NAME, "no name");
+	track->version = (int)GfParmGetNum(TrackHandle, TRK_SECT_HDR, TRK_ATT_VERSION, (char*)NULL, 0);
+	track->width = GfParmGetNum(TrackHandle, TRK_SECT_MAIN, TRK_ATT_WIDTH, (char*)NULL, 15.0);
+	track->author = GfParmGetStr(TrackHandle, TRK_SECT_HDR, TRK_ATT_AUTHOR, "none");
+	track->category = GfParmGetStr(TrackHandle, TRK_SECT_HDR, TRK_ATT_CAT, "road");
 	
 	/* Graphic part */
-	graphic = &theTrack->graphic;
+	graphic = &track->graphic;
 	
 	graphic->background = GfParmGetStr(TrackHandle, TRK_SECT_GRAPH, TRK_ATT_BKGRND,
 						"background.png");
@@ -161,17 +169,17 @@ GetTrackHeader(void *TrackHandle)
 		env ++;
 	}
 	
-	theTrack->nseg = 0;
+	track->nseg = 0;
 	
-	s = strrchr(theTrack->filename, '/');
+	s = strrchr(track->filename, '/');
 	if (s == NULL) {
-		s = theTrack->filename;
+		s = track->filename;
 	} else {
 		s++;
 	}
 	
-	theTrack->internalname = strdup(s);
-	s = strrchr(theTrack->internalname, '.');
+	track->internalname = strdup(s);
+	s = strrchr(track->internalname, '.');
 	if (s != NULL) {
 		*s = 0;
 	}

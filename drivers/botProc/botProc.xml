@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE params SYSTEM "../../libs/tgf/params.dtd">
+<params name="botProc" type="robotdef">
+  <section name="Robots">
+    <section name="index">
+      <section name="1">
+	<attstr name="name" val="botProc"></attstr>
+	<attstr name="desc" val="Procedural bot used for testing in TORCS Adaptive."></attstr>
+	<attstr name="team" val=""></attstr>
+	<attstr name="author" val="Henri Keeble"></attstr>
+	<attstr name="car name" val="cg-nascar-rwd"></attstr>
+	<attnum name="race number" val="0"></attnum>
+	<attnum name="red" val="1.0"></attnum>
+	<attnum name="green" val="1.0"></attnum>
+	<attnum name="blue" val="1.0"></attnum>
+      </section>
+    </section>
+  </section>
+</params>

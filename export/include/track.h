@@ -31,6 +31,13 @@
 #include <tgf.h>
 #include <tmath/linalg_t.h>
 
+// Torcs-Adaptive Structs and Defines
+#include "procedural\pSeg.h"
+#include "procedural\pTrackState.h"
+#include "procedural\pDefs.h"
+
+#include <string>
+
 #define TRK_IDENT	0	/* from 0x01 to 0xFF */
 
 /* Parameters strings for track files */
@@ -401,7 +408,6 @@ typedef struct trackSeg {
 		struct { struct trackSeg *rside, *lside; };
 		struct trackSeg* side[2];
 	};
-
 } tTrackSeg;
 
 /* selection for local position structure */
@@ -494,7 +500,7 @@ typedef struct
 /** Track structure
     @ingroup trackstruct
 */
-typedef struct
+struct tTrack
 {
     const char *name;	/**< Name of the track */
     const char *author;	/**< Author's name */
@@ -513,9 +519,7 @@ typedef struct
     t3Dd		min;
     t3Dd		max;
     tTrackGraphicInfo	graphic;
-} tTrack;
-
-
+};
 
 typedef tTrack*(*tfTrackBuild)(char*);
 typedef tdble(*tfTrackHeightG)(tTrackSeg*, tdble, tdble);
@@ -526,18 +530,40 @@ typedef void(*tfTrackSideNormal)(tTrackSeg*, tdble, tdble, int, t3Dd*);
 typedef void(*tfTrackSurfaceNormal)(tTrkLocPos *, t3Dd*);
 typedef void(*tfTrackShutdown)(void);
 
+
+/* Torcs-Adaptive Interface */
+
+// Forward Declarations
+namespace procedural
+{
+	class PSeg;
+	class PTrack;
+}
+
+typedef procedural::PTrack*			(*tfPTrackInit)			(tdble, char*, char*, char*, ssgLoaderOptions*, bool);
+typedef void						(*tfPAddSegment)		(procedural::PSeg, procedural::PTrack*);
+typedef void						(*tfPUpdateACFile)		(procedural::PTrack*);
+typedef void						(*tfPTrackShutDown)		(procedural::PTrack*);
+
 typedef struct {
+	
     tfTrackBuild		trkBuild;		/* build track structure for simu */
     tfTrackBuild		trkBuildEx;		/* build with graphic extensions  */
-    tfTrackHeightG		trkHeightG;
+	tfTrackHeightG		trkHeightG;
     tfTrackHeightL		trkHeightL;
     tfTrackGlobal2Local		trkGlobal2Local;
     tfTrackLocal2Global		trkLocal2Global;
     tfTrackSideNormal   	trkSideNormal;
     tfTrackSurfaceNormal	trkSurfaceNormal;
     tfTrackShutdown		trkShutdown;
-} tTrackItf;
 
+	/* Torcs-Adaptive Interface */
+	tfPTrackInit			PTrackInit;
+	tfPAddSegment			PAddSegment;
+	tfPTrackShutDown		PTrackShutDown;
+	tfPUpdateACFile			PUpdateACFile;
+	
+} tTrackItf;
 
 /* For Type 3 tracks (now obsolete) */
 

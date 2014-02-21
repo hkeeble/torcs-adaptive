@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -16,13 +16,13 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -66,8 +66,8 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../windows/include;../../interfaces;../../..;%(AdditionalIncludeDirectories);$(SolutionDir)\config\</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CLIENT_EXPORTS;DEBUG;DEBUG_OUT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../interfaces;../../windows/include;../../..;%(AdditionalIncludeDirectories);$(SolutionDir)\config\;$(SolutionDir)/export/include/torcsAdaptive;$(ProjectDir)..\raceengineclient\torcsAdaptive\</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CLIENT_EXPORTS;DEBUG;DEBUG_OUT;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeaderOutputFile>.\Debug/client.pch</PrecompiledHeaderOutputFile>
@@ -87,10 +87,10 @@
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>txml.lib;libpng15_vs2008_32.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;tgf.lib;robottools.lib;ssggraphlib.lib;ssg_vs2008_32.lib;ssgAux_vs2008_32.lib;sl_vs2008_32.lib;OpenAL32.lib;Alut.lib;libogg.lib;libvorbis.lib;libvorbisfile.lib;zlib1_vs2008_32.lib;js_vs2008_32.lib;Advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>txml.lib;libpng15_vs2008_32.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;tgf.lib;robottools.lib;ssggraphlib.lib;ssg_vs2008_32.lib;ssgAux_vs2008_32.lib;sl_vs2008_32.lib;OpenAL32.lib;Alut.lib;libogg.lib;libvorbis.lib;libvorbisfile.lib;zlib1_vs2008_32.lib;js_vs2008_32.lib;Advapi32.lib;perfMeasurement.lib;trackGeneration.lib;procedural.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Debug/client.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>$(SolutionDir)/export/libd;../../windows/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)/export/libd;../../windows/lib;$(SolutionDir)libs\perfMeasurement\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EnableUAC>false</EnableUAC>
       <IgnoreSpecificDefaultLibraries>LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ModuleDefinitionFile>.\client.def</ModuleDefinitionFile>
@@ -125,8 +125,8 @@ copy $(TargetDir)*.lib $(SolutionDir)\export\libd
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../interfaces;../../windows/include;../../..;%(AdditionalIncludeDirectories);$(SolutionDir)\config\</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CLIENT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../interfaces;../../windows/include;../../..;%(AdditionalIncludeDirectories);$(SolutionDir)\config\;$(SolutionDir)/export/include/torcsAdaptive;$(ProjectDir)..\raceengineclient\torcsAdaptive\</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CLIENT_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -146,10 +146,10 @@ copy $(TargetDir)*.lib $(SolutionDir)\export\libd
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>txml.lib;libpng15_vs2008_32.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;tgf.lib;robottools.lib;ssggraphlib.lib;ssg_vs2008_32.lib;ssgAux_vs2008_32.lib;sl_vs2008_32.lib;OpenAL32.lib;Alut.lib;libogg.lib;libvorbis.lib;libvorbisfile.lib;zlib1_vs2008_32.lib;js_vs2008_32.lib;Advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>txml.lib;libpng15_vs2008_32.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;tgf.lib;robottools.lib;ssggraphlib.lib;ssg_vs2008_32.lib;ssgAux_vs2008_32.lib;sl_vs2008_32.lib;OpenAL32.lib;Alut.lib;libogg.lib;libvorbis.lib;libvorbisfile.lib;zlib1_vs2008_32.lib;js_vs2008_32.lib;Advapi32.lib;perfMeasurement.lib;trackGeneration.lib;procedural.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Release/client.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>$(SolutionDir)/export/lib;../../windows/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)/export/lib;../../windows/lib;$(SolutionDir)libs\perfMeasurement\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EnableUAC>false</EnableUAC>
       <ModuleDefinitionFile>.\client.def</ModuleDefinitionFile>
       <ProgramDatabaseFile>.\Release/client.pdb</ProgramDatabaseFile>
@@ -163,8 +163,8 @@ copy $(TargetDir)*.lib $(SolutionDir)\export\libd
       <OutputFile>.\Release/client.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll $(SolutionDir)runtime
-copy $(TargetDir)*.lib $(SolutionDir)export\lib
+      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtime
+copy $(TargetDir)*.lib $(SolutionDir)\export\lib
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -174,6 +174,9 @@ copy $(TargetDir)*.lib $(SolutionDir)export\lib
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\raceengineclient\torcsAdaptive\CarData.cpp" />
+    <ClCompile Include="..\raceengineclient\torcsAdaptive\TAHud.cpp" />
+    <ClCompile Include="..\raceengineclient\torcsAdaptive\TAManager.cpp" />
     <ClCompile Include="..\tgfclient\control.cpp" />
     <ClCompile Include="..\confscreens\controlconfig.cpp" />
     <ClCompile Include="..\confscreens\driverconfig.cpp" />
@@ -225,6 +228,8 @@ copy $(TargetDir)*.lib $(SolutionDir)export\lib
     <ClCompile Include="..\racescreens\trackselect.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\raceengineclient\torcsAdaptive\TAHud.h" />
+    <ClInclude Include="..\raceengineclient\torcsAdaptive\torcsAdaptive.h" />
     <ClInclude Include="client.h" />
     <ClInclude Include="driverconfig.h" />
     <ClInclude Include="exitmenu.h" />
@@ -245,6 +250,12 @@ copy $(TargetDir)*.lib $(SolutionDir)export\lib
       <Project>{acb16b61-2f7d-4e87-ad15-c95f16431137}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\trackGeneration\trackGeneration.vcxproj">
+      <Project>{3bb04266-e436-4bb0-93ef-f544da92503b}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

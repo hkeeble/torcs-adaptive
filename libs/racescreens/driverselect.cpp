@@ -38,6 +38,12 @@
 #include <racescreens.h>
 #include <portability.h>
 
+#include <algorithm>
+#include <string>
+#include "taManager.h"
+
+using namespace torcsAdaptive;
+
 static void		*scrHandle;
 static tRmDrvSelect	*ds;
 static int		selectedScrollList, unselectedScrollList;
@@ -270,6 +276,7 @@ RmDriversSelect(void *vs)
 	char buf[BUFSIZE];
 	char path[BUFSIZE];
 	char dname[BUFSIZE];
+	bool accept = true; // Accept current robot?
 
 #define B_BASE  380
 #define B_HT    30
@@ -337,41 +344,58 @@ RmDriversSelect(void *vs)
 					}
 					strcpy(dname, sp);
 					dname[strlen(dname) - strlen(DLLEXT) - 1] = 0; /* cut .so or .dll */
+
 					snprintf(buf, BUFSIZE, "%sdrivers/%s/%s.xml", GetLocalDir(), dname, dname);
 					robhdle = GfParmReadFile(buf, GFPARM_RMODE_STD);
 					if (!robhdle) {
 						snprintf(buf, BUFSIZE, "drivers/%s/%s.xml", dname, dname);
 						robhdle = GfParmReadFile(buf, GFPARM_RMODE_STD);
 					}
+
 					snprintf(path, BUFSIZE, "%s/%s/%d", ROB_SECT_ROBOTS, ROB_LIST_INDEX, curmod->modInfo[i].index);
 					const char* carName = GfParmGetStr(robhdle, path, ROB_ATTR_CAR, "");
 					if (strcmp(GfParmGetStr(robhdle, path, ROB_ATTR_TYPE, ROB_VAL_ROBOT), ROB_VAL_ROBOT)) {
 						human = 1;
-					} else {
+					}
+					else {
 						human = 0;
 					}
 					snprintf(path, BUFSIZE, "cars/%s/%s.xml", carName, carName);
-					if (!stat(path, &st)) {
-						carhdle = GfParmReadFile(path, GFPARM_RMODE_STD);
-						if (carhdle) {
-							curDrv = (tDrvElt*)calloc(1, sizeof(tDrvElt));
-							curDrv->index = curmod->modInfo[i].index;
-							curDrv->dname = strdup(dname);
-							curDrv->name = strdup(curmod->modInfo[i].name);
-							curDrv->car = carhdle;
-							if (human) {
-								curDrv->human = 1;
-								GF_TAILQ_INSERT_HEAD(&DrvList, curDrv, link);
-							} else {
-								curDrv->human = 0;
-								GF_TAILQ_INSERT_TAIL(&DrvList, curDrv, link);
+
+					//if (human == 0) // If not human
+					//{
+					//	if (static_cast<tCarElt*>(robhdle)->robot->rbDriveProc == nullptr && TAManager::Get()->IsActive()) // If bot has no DriveProc function, ignore
+					//		accept = false;
+					//}
+
+					if (accept)
+					{
+						if (!stat(path, &st)) {
+							carhdle = GfParmReadFile(path, GFPARM_RMODE_STD);
+							if (carhdle) {
+								curDrv = (tDrvElt*)calloc(1, sizeof(tDrvElt));
+								curDrv->index = curmod->modInfo[i].index;
+								curDrv->dname = strdup(dname);
+								curDrv->name = strdup(curmod->modInfo[i].name);
+								curDrv->car = carhdle;
+								if (human) {
+									curDrv->human = 1;
+									GF_TAILQ_INSERT_HEAD(&DrvList, curDrv, link);
+								}
+								else {
+									curDrv->human = 0;
+									GF_TAILQ_INSERT_TAIL(&DrvList, curDrv, link);
+								}
 							}
-						} else {
-							GfOut("Driver %s not selected because car %s is not readable\n", curmod->modInfo[i].name, carName);
+							else {
+								GfOut("Driver %s not selected because car %s is not readable\n", curmod->modInfo[i].name, carName);
+							}
 						}
-					} else {
-						GfOut("Driver %s not selected because car %s is not present\n", curmod->modInfo[i].name, carName);
+						else {
+							GfOut("Driver %s not selected because car %s is not present\n", curmod->modInfo[i].name, carName);
+						}
 					}
+					accept = true; // Reset accept
 					GfParmReleaseHandle(robhdle);
 				}
 			}

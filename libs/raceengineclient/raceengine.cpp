@@ -39,6 +39,8 @@
 
 #include "raceengine.h"
 
+#include "torcsAdaptive.h"
+
 static double	msgDisp;
 static double	bigMsgDisp;
 
@@ -46,6 +48,7 @@ tRmInfo	*ReInfo = 0;
 
 static void ReRaceRules(tCarElt *car);
 
+using namespace torcsAdaptive;
 
 /* Compute Pit stop time */
 static void
@@ -619,7 +622,20 @@ ReOneStep(double deltaTimeIncrement)
 		for (i = 0; i < s->_ncars; i++) {
 			if ((s->cars[i]->_state & RM_CAR_STATE_NO_SIMU) == 0) {
 				robot = s->cars[i]->robot;
+
+				if (TAManager::Get()->IsActive() && robot->rbUpdateTrack) // If the robot needs a track description, update it before driving
+					robot->rbUpdateTrack(taManager->GetTrack()->trk);
+
 				robot->rbDrive(robot->index, s->cars[i], s);
+				
+				// --- Track Performance ---
+					if (taManager->GetRaceType() == torcsAdaptive::TARaceType::Adaptive)
+					{
+						if (s->cars[i] == taManager->PerformanceMeasurement()->GetCar())
+							taManager->PerformanceMeasurement()->Update(deltaTimeIncrement, s->currentTime);
+						else
+							taOut("Unable to obtain car from performance measurement object!\n");
+					}
 			}
 		}
 		ReInfo->_reLastTime = s->currentTime;
@@ -636,7 +652,11 @@ ReOneStep(double deltaTimeIncrement)
 	if ((ReInfo->_displayMode != RM_DISP_MODE_NONE) && (ReInfo->_displayMode != RM_DISP_MODE_CONSOLE)) {
 		ReRaceMsgUpdate();
 	}
-	ReSortCars();
+
+	if (!taManager->IsActive())
+		ReSortCars();
+	else
+		taManager->CheckIfFinished();
 }
 
 void
@@ -707,6 +727,8 @@ ReUpdate(void)
 			
 			GfuiDisplay();
 			ReInfo->_reGraphicItf.refresh(ReInfo->s);
+			if (taManager->IsActive())
+				taManager->DrawBoard();
 			glutPostRedisplay();	/* Callback -> reDisplay */
 			break;
 
@@ -731,6 +753,8 @@ ReUpdate(void)
 
 			GfuiDisplay();
 			ReInfo->_reGraphicItf.refresh(ReInfo->s);
+			if (taManager->IsActive())
+				taManager->DrawBoard();
 			reCapture();
 			glutPostRedisplay();	/* Callback -> reDisplay */
 			break;
@@ -745,6 +769,10 @@ ReUpdate(void)
 
 	}
 	STOP_PROFILE("ReUpdate");
+
+	// Update the track if torcs-adaptive race mode
+	if (taManager->Type() != TARaceType::None)
+		taManager->UpdateTrack();
 
 	return mode;
 }

@@ -45,6 +45,9 @@
 #include "grcarlight.h"
 #include <glfeatures.h>
 
+#include "torcsAdaptive\TAManager.h"
+#include "grLoadProcedural.h"
+
 int maxTextureUnits = 0;
 static double OldTime;
 static int nFrame;
@@ -305,6 +308,7 @@ initView(int x, int y, int width, int height, int /* flag */, void *screen)
 }
 
 
+
 int
 refresh(tSituation *s)
 {
@@ -458,6 +462,8 @@ initTrack(tTrack *track)
 	grContext.makeCurrent();
 
 	grTrackHandle = GfParmReadFile(track->filename, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT);
+	
+	// Initialize Scene
 	grLoadScene(track);
 
 	for (i = 0; i < GR_NB_MAX_SCREEN; i++) {
@@ -475,6 +481,7 @@ shutdownTrack(void)
 
 	grShutdownScene();
 	grShutdownState();
+	PGrShutdown();
 
 	for (i = 0; i < GR_NB_MAX_SCREEN; i++) {
 		if (grScreens[i] != NULL) {
@@ -484,6 +491,25 @@ shutdownTrack(void)
 	}
 
 	GfParmReleaseHandle(grTrackHandle);
+}
+
+/* procedural additional extern functions, these are exported as pointers and use internal functions found in grscene.cpp */
+namespace procedural
+{
+	void PGrAppend3DDesc(PTrack* track)
+	{
+		PGrAppendEntity(track->GetSSGState());
+	}
+
+	void PGrDetach3DDesc(EntityDesc* curDesc)
+	{
+		Detach3DDesc(curDesc);
+	}
+
+	void PGrAttach3DDesc(EntityDesc* curDesc)
+	{
+		Attach3DDesc(curDesc);
+	}
 }
 
 /*void bendCar (int index, sgVec3 poc, sgVec3 force, int cnt)

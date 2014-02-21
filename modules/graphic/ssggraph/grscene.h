@@ -50,6 +50,14 @@ extern void grDrawScene(void);
 extern void grShutdownScene(void);
 extern void grCustomizePits(void);
 
+/* TORCS-ADAPTIVE */
+namespace procedural
+{
+	/* procedural additional extern functions, used internally within this library */
+	extern void						  Detach3DDesc	(EntityDesc* curDesc);
+	extern void						  Attach3DDesc	(EntityDesc* curDesc);
+}
+
 struct Camera;
 extern void grDrawBackground(class cGrCamera *, class cGrBackgroundCam *bgCam);
 

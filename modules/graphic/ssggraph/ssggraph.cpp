@@ -42,6 +42,13 @@ graphInit(int /* idx */, void *pt)
     itf->shutdowncars  = shutdownCars;
     itf->shutdowntrack = shutdownTrack;
     //itf->bendcar       = bendCar;
+
+	/* PROCEDURAL INTERFACE */
+	itf->PGrInit		 = procedural::PGrInit;
+	itf->PGrAppend3DDesc = procedural::PGrAppend3DDesc;
+	itf->PGrAttach3DDesc = procedural::PGrAttach3DDesc;
+	itf->PGrDetach3DDesc = procedural::PGrDetach3DDesc;
+
     return 0;
 }
 

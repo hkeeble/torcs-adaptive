@@ -13,6 +13,12 @@
       <UniqueIdentifier>{2b92a90d-e70a-4281-8c41-c2072e26c034}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
+    <Filter Include="Source Files\torcsAdaptive">
+      <UniqueIdentifier>{a371d380-41cd-4f3d-a53c-f980c8e465ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\torcsAdaptive">
+      <UniqueIdentifier>{464b5f4b-0e4f-4ee3-90c2-2d309ba379e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\tgfclient\control.cpp">
@@ -162,6 +168,15 @@
     <ClCompile Include="..\racescreens\trackselect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\raceengineclient\torcsAdaptive\TAManager.cpp">
+      <Filter>Source Files\torcsAdaptive</Filter>
+    </ClCompile>
+    <ClCompile Include="..\raceengineclient\torcsAdaptive\CarData.cpp">
+      <Filter>Source Files\torcsAdaptive</Filter>
+    </ClCompile>
+    <ClCompile Include="..\raceengineclient\torcsAdaptive\TAHud.cpp">
+      <Filter>Source Files\torcsAdaptive</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h">
@@ -182,10 +197,19 @@
     <ClInclude Include="splash.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\raceengineclient\torcsAdaptive\torcsAdaptive.h">
+      <Filter>Header Files\torcsAdaptive</Filter>
+    </ClInclude>
+    <ClInclude Include="..\raceengineclient\torcsAdaptive\TAHud.h">
+      <Filter>Header Files\torcsAdaptive</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="client.def">
       <Filter>Source Files</Filter>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

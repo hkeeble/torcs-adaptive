@@ -38,6 +38,8 @@
 
 #include "grscreen.h"
 
+#include "torcsAdaptive\TAManager.h" // For use of boolean
+
 cGrScreen::cGrScreen(int myid)
 {
 	id = myid;
@@ -384,7 +386,7 @@ void cGrScreen::update(tSituation *s, float Fps)
 	TRACE_GL("cGrScreen::update glDisable(GL_DEPTH_TEST)");
 	board->refreshBoard(s, Fps, 0, curCar);
 	TRACE_GL("cGrScreen::update display boards");
-	
+
 	STOP_PROFILE("grDisp**");
 }
 
@@ -446,6 +448,7 @@ void cGrScreen::loadParams(tSituation *s)
 	snprintf(buf, BUFSIZE, "%s-%d-%d", GR_ATT_FOVY, curCamHead, curCam->getId());
 	curCam->loadDefaults(buf);
 	drawCurrent = curCam->getDrawCurrent();
+
 	board->loadDefaults(curCar);
 }
 

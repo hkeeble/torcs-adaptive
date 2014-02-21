@@ -23,6 +23,7 @@
 
 #include <track.h>
 #include <car.h>
+#include "procedural\PSSGState.h"
 
 #define GRX_IDENT	0
 
@@ -115,6 +116,13 @@ typedef void (*tfGraphicShutdwnTrack)(void);
 class ssgEntity;
 typedef void (*tfGraphicBendCar) (int /*index*/, sgVec3 /*poc*/, sgVec3 /*force*/, int /*cnt*/);
 
+/* PROCEDURAL INTERFACE */
+typedef void (*tfPGrInit)			(procedural::PTrack*);
+typedef void (*tfPGrAppend3DDesc)	(procedural::PTrack*);
+typedef void (*tfPGrAttach3DDesc)	(procedural::EntityDesc* curDesc);
+typedef void (*tfPGrDetach3DDesc)	(procedural::EntityDesc* curDesc);
+/* PROCEDURAL INTERFACE */
+
 /* Interface with the graphic lib */
 typedef struct {
     tfGraphicInitTrack	    inittrack;	    /* Graphic init function */
@@ -123,6 +131,14 @@ typedef struct {
     tfGraphicRefresh	    refresh;	    /* Graphic refresh function */
     tfGraphicShutdwnCars    shutdowncars;   /* Graphic shutdown function */
     tfGraphicShutdwnTrack   shutdowntrack;  /* Graphic shutdown function */
+
+	/* PROCEDURAL INTERFACE */
+	tfPGrInit			PGrInit;
+	tfPGrAppend3DDesc	PGrAppend3DDesc;
+	tfPGrAttach3DDesc	PGrAttach3DDesc;
+	tfPGrDetach3DDesc	PGrDetach3DDesc;
+	/* PROCEDURAL INTERFACE */
+	
 	//tfGraphicBendCar        bendcar;
 } tGraphicItf;
 

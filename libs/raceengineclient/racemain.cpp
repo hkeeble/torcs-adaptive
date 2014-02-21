@@ -42,6 +42,9 @@
 
 #include "racemain.h"
 
+#include "torcsAdaptive.h"
+#include "procedural\PTrack.h"
+
 /***************************************************************/
 /* ABANDON RACE HOOK */
 
@@ -85,6 +88,7 @@ AbortRaceHookActivate(void * /* dummy */)
 	}
 	ReInfo->_reGraphicItf.shutdowntrack();
 	ReRaceCleanDrivers();
+	taManager->RaceEnd();
 
 	FREEZ(ReInfo->_reCarInfo);
 	/* Return to race menu */
@@ -109,14 +113,34 @@ ReRaceEventInit(void)
 	void *params = ReInfo->params;
 
 	RmLoadingScreenStart(ReInfo->_reName, "data/img/splash-qrloading.png");
-	ReInitTrack();
+
+	// Initialize TORCS Adaptive manager, give pointer to Race Manager
+	taManager->Init(ReInfo);
+
+	// Initialize Track
+	if (!taManager->IsActive())
+		ReInitTrack();
+	else
+	{
+		RmLoadingScreenSetText("Initializing Procedural Track...");
+		taManager->InitTrack("taTrack1");
+	}
+
+	// Initialize Graphics
 	if (
 		(ReInfo->_displayMode != RM_DISP_MODE_CONSOLE) &&
 		(ReInfo->_reGraphicItf.inittrack != 0)
-	) {
+		) {
 		RmLoadingScreenSetText("Loading Track 3D Description...");
 		ReInfo->_reGraphicItf.inittrack(ReInfo->track);
 	};
+
+	if (taManager->IsActive())
+	{
+		RmLoadingScreenSetText("Initializing TORCS Adaptive Manager...");
+		taManager->InitGraphics();
+	}
+
 	ReEventInitResults();
 
 	if (
@@ -127,6 +151,7 @@ ReRaceEventInit(void)
 		ReNewTrackMenu();
 		return RM_ASYNC | RM_NEXT_STEP;
 	}
+
 	return RM_SYNC | RM_NEXT_STEP;
 }
 
@@ -274,7 +299,17 @@ reRaceRealStart(void)
 		GfuiScreenActivate(ReInfo->_reGameScreen);
 	}
 
+	if (taManager->IsActive())
+		InitTA();
+
 	return RM_SYNC | RM_NEXT_STEP;
+}
+
+void InitTA()
+{
+	taManager->InitTrkManager(&ReInfo->carList[0]);
+	if (taManager->GetRaceType() == torcsAdaptive::TARaceType::Adaptive)
+		taManager->InitPerfMeasurement(&ReInfo->carList[0], new RaceLineEvaluation());
 }
 
 /***************************************************************/
@@ -495,6 +530,7 @@ ReRaceEnd(void)
 	void *results = ReInfo->results;
 
 	ReRaceCleanup();
+	taManager->RaceEnd();
 
 	if (ReInfo->s->_raceType == RM_TYPE_QUALIF) {
 		curDrvIdx = (int)GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_DRIVER, NULL, 1);

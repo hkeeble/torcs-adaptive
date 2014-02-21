@@ -9,6 +9,12 @@
       <UniqueIdentifier>{1c6f698f-43e0-40d1-bffc-f6c7dae823f6}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
+    <Filter Include="Source Files\procedural">
+      <UniqueIdentifier>{158be12a-cc7a-4ee4-9deb-c09bbd93d124}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\procedural">
+      <UniqueIdentifier>{692ee3b9-7f70-4c4a-a6e2-ec8a5b56bbbc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CarSoundData.cpp">
@@ -80,6 +86,9 @@
     <ClCompile Include="TorcsSound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="grLoadProcedural.cpp">
+      <Filter>Source Files\procedural</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="grboard.h">
@@ -123,6 +132,9 @@
     </ClInclude>
     <ClInclude Include="grvtxtable.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="grLoadProcedural.h">
+      <Filter>Header Files\procedural</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
