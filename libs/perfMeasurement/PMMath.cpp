@@ -40,6 +40,53 @@ namespace perfMeasurement
 		return distx + disty;
 	}
 
+	tdble PMMath::CalculateArcRadius(PMPoint2D* points, int nOfPoints)
+	{
+		tdble rad = 0.f;
+
+		if (points != nullptr)
+		{
+			// Get line segments between optimal points
+			PMLineSeg* lineSegs = new PMLineSeg[nOfPoints - 1];
+			for (int i = 0; i < nOfPoints - 1; i++)
+				lineSegs[i] = PMLineSeg(points[i], points[i + 1]);
+
+			// Find the perpendicular bisector of the lines
+			PMLineSeg* bisectingLines = new PMLineSeg[nOfPoints - 1];
+			for (int i = 0; i < nOfPoints - 1; i++)
+				bisectingLines[i] = CalculatePerpendicularBisector(lineSegs[i]);
+
+			// Turn line segments into lines
+			PMLine* lines = new PMLine[nOfPoints - 1];
+			for (int i = 0; i < nOfPoints - 1; i++)
+				lines[i] = bisectingLines[i];
+
+			// Find intersection point of the lines
+			if (lines[0].Intersects(lines[1]))
+			{
+				PMPoint2D intersectionPoint = lines[0].IntersectionPoint(lines[1]);
+				rad = DistBetweenPoints(intersectionPoint, *points);
+			}
+			else
+			{
+				pmOut("WARNING: Unable to find intersection point between perpendicular bisectors of the optimal path arc chords.\n");
+				rad = 0.f;
+			}
+
+			// Delete unused data
+			delete[] lines;
+			delete[] bisectingLines;
+			delete[] lineSegs;
+
+			return rad;
+		}
+		else
+		{
+			pmOut("Unable to calculate optimal radius, returning 0.f.\n");
+			return 0.f;
+		}
+	}
+
 	PMPoint2D::PMPoint2D()
 	{
 		x = y = 0;

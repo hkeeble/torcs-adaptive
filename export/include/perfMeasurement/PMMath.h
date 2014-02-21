@@ -8,6 +8,8 @@
 #define _PM_MATH_H_
 
 #include "PMDefs.h"
+#include <string>
+#include <iostream>
 
 namespace perfMeasurement
 {
@@ -60,6 +62,9 @@ namespace perfMeasurement
 
 		/* Used to calculate the distance between two given points*/
 		static tdble DistBetweenPoints(PMPoint2D a, PMPoint2D b);
+
+		/* Used to calculate the radius of an arc passing through the given points */
+		static tdble CalculateArcRadius(PMPoint2D* points, int nOfPoints);
 	};
 }
 

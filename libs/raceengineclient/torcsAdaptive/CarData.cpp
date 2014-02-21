@@ -64,6 +64,11 @@ tTrkLocPos CarData::LocalPosition()
 	return localPos.current;
 }
 
+Vector2D CarData::GlobalPosition()
+{
+	return globalPos.current;
+}
+
 DirectionOfTravel CarData::DirOfTravel()
 {
 	return dirOfTravel;

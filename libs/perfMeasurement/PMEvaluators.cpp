@@ -71,59 +71,9 @@ namespace perfMeasurement
 		corner.maxRange = (corner.seg->length / 2 + 10) / corner.seg->radius;
 
 		// Calculate optimal arc radius
-		optimalRadius = CalculateOptimalRadius(carWidth, carDepth);
+		optimalRadius = PMMath::CalculateArcRadius(CalculateOptimalPoints(carWidth, carDepth), NUMB_OF_OPTIMAL_POINTS);
 
 		clear = false;
-	}
-
-	tdble RaceLineEvaluation::CornerOutlook::CalculateOptimalRadius(tdble carWidth, tdble carDepth)
-	{
-		tdble rad = 0.f;
-
-		// Perform Calculations
-		PMPoint2D* optimalPoints = CalculateOptimalPoints(carWidth, carDepth);
-		if (optimalPoints != nullptr)
-		{
-			// Get line segments between optimal points
-			PMLineSeg* lineSegs = new PMLineSeg[NUMB_OF_OPTIMAL_POINTS - 1];
-			for (int i = 0; i < NUMB_OF_OPTIMAL_POINTS - 1; i++)
-				lineSegs[i] = PMLineSeg(optimalPoints[i], optimalPoints[i + 1]);
-
-			// Find the perpendicular bisector of the lines
-			PMLineSeg* bisectingLines = new PMLineSeg[NUMB_OF_OPTIMAL_POINTS - 1];
-			for (int i = 0; i < NUMB_OF_OPTIMAL_POINTS - 1; i++)
-				bisectingLines[i] = PMMath::CalculatePerpendicularBisector(lineSegs[i]);
-
-			// Turn line segments into lines
-			PMLine* lines = new PMLine[NUMB_OF_OPTIMAL_POINTS - 1];
-			for (int i = 0; i < NUMB_OF_OPTIMAL_POINTS - 1; i++)
-				lines[i] = bisectingLines[i];
-
-			// Find intersection point of the lines
-			if (lines[0].Intersects(lines[1]))
-			{
-				PMPoint2D intersectionPoint = lines[0].IntersectionPoint(lines[1]);
-				rad = PMMath::DistBetweenPoints(intersectionPoint, *optimalPoints);
-			}
-			else
-			{
-				pmOut("WARNING: Unable to find intersection point between perpendicular bisectors of the optimal path arc chords.\n");
-				rad = 0.f;
-			}
-
-			// Delete unused data
-			delete[] lines;
-			delete[] bisectingLines;
-			delete[] lineSegs;
-			delete[] optimalPoints;
-
-			return rad;
-		}
-		else
-		{
-			pmOut("Unable to calculate optimal radius, returning 0.f.\n");
-			return 0.f;
-		}
 	}
 
 	PMPoint2D* RaceLineEvaluation::CornerOutlook::CalculateOptimalPoints(tdble carWidth, tdble carDepth)
@@ -139,7 +89,6 @@ namespace perfMeasurement
 		// Optimal Point Arrays (global is calculated from local dependent on segment)
 		PMPoint2D* globalOptimalPoints = new PMPoint2D[TOT];
 		tTrkLocPos* localOptimalPoints = new tTrkLocPos[TOT];
-
 
 		// Half of car width
 		tdble hcw = carWidth / 2;
@@ -265,7 +214,25 @@ namespace perfMeasurement
 	tdble RaceLineEvaluation::Evaluate()
 	{
 		pmOut("Evaluating skill level using race line evaluation...\n");
+
+		// Retrieve the actual passed points from the dataset
+		PMPoint2D* actualPoints = new PMPoint2D[dataSet.Count()];
+		for (int i = 0; i < dataSet.Count(); i++)
+		{
+			actualPoints[i] = PMPoint2D();
+			actualPoints[i].x = dataSet(i).Data().GlobalPosition().x;
+			actualPoints[i].y = dataSet(i).Data().GlobalPosition().y;
+		}
+
+		// Calculate the actual radius
+		currentOutlook.actualRadius = PMMath::CalculateArcRadius(actualPoints, dataSet.Count());
+
+		// Calculate actual radius as a percentage of optimal radius
+		tdble perc = currentOutlook.actualRadius / currentOutlook.optimalRadius;
+
 		currentOutlook.Clear();
-		return NULL_SKILL_LEVEL;
+		delete[] actualPoints;
+
+		return perc;
 	}
 }

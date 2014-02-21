@@ -58,9 +58,6 @@ namespace perfMeasurement
 			// The number of optimal points
 			const int NUMB_OF_OPTIMAL_POINTS = 3;
 
-			/* Used to calculate the optimal radius of the current corner */
-			tdble CalculateOptimalRadius(tdble carWidth, tdble carDepth);
-
 			/* Used to calculate the optimal points the optimal arc must pass through */
 			PMPoint2D* CalculateOptimalPoints(tdble carWidth, tdble carDepth);
 		public:
