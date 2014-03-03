@@ -24,7 +24,7 @@ namespace procedural
 		pOut("Setting track file path and file names...\n");
 		acname = trackName + ".ac";
 		xmlname = trackName + ".xml";
-		filePath = "tracks/adaptive/" + trackName + "/";
+		filePath = "tracks/procedural/" + trackName + "/";
 		modeldir = "tracks\\adaptive\\" + trackName + "\\";
 		texturedir = "data\\textures";
 
@@ -111,7 +111,9 @@ namespace procedural
 			if (skillLevel == -1.f)
 				curSeg = &segFactory->CreateRandomSeg(track->state.curSegIndex);
 			else // otherwise, take into account skill level
-				curSeg = &segFactory->CreateSegStr(track->state.curSegIndex, 200.f); // PLACEHOLDER
+			{
+				curSeg = &segFactory->CreateRandomSeg(track->state.curSegIndex); // PLACEHOLDER
+			}
 		}
 
 		AddSegment(*curSeg);

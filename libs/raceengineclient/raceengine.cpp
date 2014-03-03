@@ -586,7 +586,6 @@ ReRaceRules(tCarElt *car)
 	}
 }
 
-
 static void
 ReOneStep(double deltaTimeIncrement)
 {
@@ -624,7 +623,7 @@ ReOneStep(double deltaTimeIncrement)
 				robot = s->cars[i]->robot;
 
 				if (TAManager::Get()->IsActive() && robot->rbUpdateTrack) // If the robot needs a track description, update it before driving
-					robot->rbUpdateTrack(taManager->GetTrack()->trk);
+						robot->rbUpdateTrack();
 
 				robot->rbDrive(robot->index, s->cars[i], s);
 				

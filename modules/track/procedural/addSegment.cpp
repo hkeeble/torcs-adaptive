@@ -30,6 +30,8 @@ namespace procedural
         tdble	        arc;
         tdble	        length;
         tdble	        newxr, newyr, newxl, newyl;
+		tdble			bankings, bankinge;
+		tdble			dz;
         tdble	        cenx, ceny;
         tdble	        x1, x2, y1, y2;
         tdble	        al, alfl;
@@ -57,6 +59,8 @@ namespace procedural
         // Initialize Variables
         arc = length = newxr = newyr = 0;
         zel = zer = etgtl = etgtr = newxl = newyl = 0;
+		zsl = zsr = zel = zer = zs = ze = 0;
+		bankinge = bankings = dz = 0;
 
 		if (track->seg == NULL) // If Segment Is Start
 		{
@@ -69,7 +73,7 @@ namespace procedural
 			stgtl = etgtl = 0.0;
 			stgtr = etgtr = 0.0;
 		}
-		
+
 		zsl = zel;
 		zsr = zer;
 		TSTZ(zsl);

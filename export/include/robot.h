@@ -53,7 +53,7 @@ typedef void (*tfRbShutdown)(int index);
 /** Callback prototype */
 typedef int  (*tfRbPitCmd)  (int index, tCarElt* car, tSituation *s);
 /** Callback prototype */
-typedef void(*tfRbUpdateTrack)  (tTrack* track);
+typedef void(*tfRbUpdateTrack)  ();
 
 #define ROB_PIT_IM	0	/**< Immediate return from pit command */
 #define ROB_PIT_MENU	1	/**< Call the interactive menu for pit command */

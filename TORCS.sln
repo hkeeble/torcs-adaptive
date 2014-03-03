@@ -72,6 +72,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "procedural", "libs\procedur
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "botProc", "drivers\botProc\berniwProc.vcxproj", "{29DC4A3F-EEE0-4580-B89C-A589BF547AC6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "berniProc", "drivers\berniProc\berniProc.vcxproj", "{D511F101-5274-44CA-98A3-0EE3AED45BB2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "procBot", "libs\procBot\procBot.vcxproj", "{E939DAD9-8969-43EA-AB2F-E3234125B2A0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "taMath", "libs\taMath\taMath.vcxproj", "{6CA3F701-6DEA-48D9-B99D-5836B14001BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -322,6 +328,30 @@ Global
 		{29DC4A3F-EEE0-4580-B89C-A589BF547AC6}.Release|Win32.ActiveCfg = Release|Win32
 		{29DC4A3F-EEE0-4580-B89C-A589BF547AC6}.Release|Win32.Build.0 = Release|Win32
 		{29DC4A3F-EEE0-4580-B89C-A589BF547AC6}.Release|x64.ActiveCfg = Release|Win32
+		{D511F101-5274-44CA-98A3-0EE3AED45BB2}.Debug|ARM.ActiveCfg = Debug|Win32
+		{D511F101-5274-44CA-98A3-0EE3AED45BB2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D511F101-5274-44CA-98A3-0EE3AED45BB2}.Debug|Win32.Build.0 = Debug|Win32
+		{D511F101-5274-44CA-98A3-0EE3AED45BB2}.Debug|x64.ActiveCfg = Debug|Win32
+		{D511F101-5274-44CA-98A3-0EE3AED45BB2}.Release|ARM.ActiveCfg = Release|Win32
+		{D511F101-5274-44CA-98A3-0EE3AED45BB2}.Release|Win32.ActiveCfg = Release|Win32
+		{D511F101-5274-44CA-98A3-0EE3AED45BB2}.Release|Win32.Build.0 = Release|Win32
+		{D511F101-5274-44CA-98A3-0EE3AED45BB2}.Release|x64.ActiveCfg = Release|Win32
+		{E939DAD9-8969-43EA-AB2F-E3234125B2A0}.Debug|ARM.ActiveCfg = Debug|Win32
+		{E939DAD9-8969-43EA-AB2F-E3234125B2A0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E939DAD9-8969-43EA-AB2F-E3234125B2A0}.Debug|Win32.Build.0 = Debug|Win32
+		{E939DAD9-8969-43EA-AB2F-E3234125B2A0}.Debug|x64.ActiveCfg = Debug|Win32
+		{E939DAD9-8969-43EA-AB2F-E3234125B2A0}.Release|ARM.ActiveCfg = Release|Win32
+		{E939DAD9-8969-43EA-AB2F-E3234125B2A0}.Release|Win32.ActiveCfg = Release|Win32
+		{E939DAD9-8969-43EA-AB2F-E3234125B2A0}.Release|Win32.Build.0 = Release|Win32
+		{E939DAD9-8969-43EA-AB2F-E3234125B2A0}.Release|x64.ActiveCfg = Release|Win32
+		{6CA3F701-6DEA-48D9-B99D-5836B14001BF}.Debug|ARM.ActiveCfg = Debug|Win32
+		{6CA3F701-6DEA-48D9-B99D-5836B14001BF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6CA3F701-6DEA-48D9-B99D-5836B14001BF}.Debug|Win32.Build.0 = Debug|Win32
+		{6CA3F701-6DEA-48D9-B99D-5836B14001BF}.Debug|x64.ActiveCfg = Debug|Win32
+		{6CA3F701-6DEA-48D9-B99D-5836B14001BF}.Release|ARM.ActiveCfg = Release|Win32
+		{6CA3F701-6DEA-48D9-B99D-5836B14001BF}.Release|Win32.ActiveCfg = Release|Win32
+		{6CA3F701-6DEA-48D9-B99D-5836B14001BF}.Release|Win32.Build.0 = Release|Win32
+		{6CA3F701-6DEA-48D9-B99D-5836B14001BF}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

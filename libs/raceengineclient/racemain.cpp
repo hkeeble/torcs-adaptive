@@ -1,3 +1,4 @@
+
 /***************************************************************************
 
     file        : racemain.cpp
@@ -123,7 +124,7 @@ ReRaceEventInit(void)
 	else
 	{
 		RmLoadingScreenSetText("Initializing Procedural Track...");
-		taManager->InitTrack("taTrack1");
+		taManager->InitTrack("testTrack1");
 	}
 
 	// Initialize Graphics

@@ -104,6 +104,7 @@ drive(int index, tCarElt* car, tSituation *s)
     // set up the values to return
     car->ctrl.steer = angle / car->_steerLock;
     car->ctrl.gear = 1; // first gear
+
     car->ctrl.accelCmd = 0.6; // 60% accelerator pedal
     car->ctrl.brakeCmd = 0.0; // no brakes
 }

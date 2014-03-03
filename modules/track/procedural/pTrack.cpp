@@ -29,12 +29,10 @@ namespace procedural
 		// Initialize Sides
 		InitSides(pTrack->trk->params, pTrack->trk);
 
-		// Add Initial Segments
-		GfOut("Adding Initial Segments...\n");
+		// Add Initial Segment
+		GfOut("Adding Initial Segment...\n");
 		PAddSegment(PSegFactory::GetInstance()->CreateRandomStr(0), pTrack);
-
-		//for (int i = 0; i < INITIAL_SEG_GEN; i++)
-			//PAddSegment(PSegFactory::GetInstance()->CreateRandomSeg(i), pTrack);
+		// PAddSegment(PSegFactory::GetInstance()->CreateSegCnr(0, PCornerType::CTLeft, 50.f, 1.5f), pTrack);
 
 		// Generate Initial 3D Description
 		if (!raceOnConsole)

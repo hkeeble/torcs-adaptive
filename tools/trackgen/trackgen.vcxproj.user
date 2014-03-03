@@ -1,9 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LocalDebuggerCommandArguments>-c oval -n a-speedway</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>-c oval -n b-speedway</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommand>trackgen.exe</LocalDebuggerCommand>
-    <LocalDebuggerWorkingDirectory>C:\Users\Henri\Documents\Projects\torcsadaptive\runtimed\</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerWorkingDirectory>C:\Users\Henri\Documents\Projects\torcs-adaptive\runtimed\</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LocalDebuggerCommandArguments>-c oval -n test</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommand>trackgen.exe</LocalDebuggerCommand>
+    <LocalDebuggerWorkingDirectory>C:\Users\Henri\Documents\Projects\torcs-adaptive\runtime\</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
 </Project>

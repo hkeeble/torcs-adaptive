@@ -59,7 +59,6 @@
 class MyCar;
 class OtherCar;
 
-
 /* holds a point of datafile from clothoid */
 typedef struct {
 	double x;

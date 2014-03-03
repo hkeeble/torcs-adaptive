@@ -35,12 +35,8 @@ namespace procedural
 
 		// Data
 		float length;
-
-		// For Corners
 		float radius;
-		float radiusr;
-		float radiusl;
-		float arc;	
+		float arc;
 	};
 
 	enum PCornerType
@@ -68,13 +64,12 @@ namespace procedural
 
 		/* The previously used corner type */
 		PCornerType previousCornerType;
-
 	public:
 		static PSegFactory* GetInstance();
 
 		/* The arbitrary ranges between which segment parameters may reside */
 		const PSegmentRanges ranges = PSegmentRanges(PRange(MIN_ARC, MAX_ARC), PRange(MIN_RADIUS, MAX_RADIUS), PRange(MIN_LENGTH, MAX_LENGTH));
-
+		
 		/* Sets the percentage chances or corners and straights being generated */
 		void SetChances(float corner, float straight);
 
@@ -91,7 +86,7 @@ namespace procedural
 		PSeg CreateSegStr(int id, float length);
 
 		/* Creates a corner segment */
-		PSeg CreateSegCnr(int id, PCornerType cType, float radius, float radiusr, float radiusl, float arc);
+		PSeg CreateSegCnr(int id, PCornerType cType, float radius, float arc);
 	};
 }
 #endif // _P_SEG_H_
