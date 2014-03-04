@@ -26,7 +26,7 @@ namespace procBot
 		for (i = 0; i < s->_ncars; i++) overlaptimer[i].time = 0.0;
 
 		/* Initialize Path Segment Collection */
-		ps = PathSegCollection(track->getnTrackSegments());
+		ps = PathSegCollection(track->segmentCount());
 		changed = lastPlan = lastPlanRange = 0;
 		inPit = pitStop = false;
 
@@ -239,11 +239,13 @@ namespace procBot
 		v3d dir;
 		int i;
 
-		/* basic initialisation */
-		for (i = 0; i < ps.Count(); i++) {
+		/* Initialize location to center of the given segment */
+		for (i = 0; i < ps.Count(); i++)
+		{
 			ps(i)->setLoc(track->getSegmentPtr(i)->getMiddle());
-			ps(i)->setWeight(0.0);
+			std::cout << ps(i)->getLoc()->x << " - " << ps(i)->getLoc()->y << " - " << ps(i)->getLoc()->z << std::endl;
 		}
+
 
 #ifdef PATH_K1999
 		/* compute path */
@@ -375,8 +377,6 @@ namespace procBot
 			}
 
 			length = dist(ps(v)->getLoc(), ps(w)->getLoc());
-
-			std::cout << track->getSegmentPtr(j)->getWidth() << std::endl;
 
 			/* compute allowed speedsqr */
 			double mu = track->getSegmentPtr(j)->getKfriction()*myc->CFRICTION*track->getSegmentPtr(j)->getKalpha();
@@ -1145,6 +1145,13 @@ namespace procBot
 
 	void PPathfinder::Update(tSituation* situation)
 	{
-		Init(situation);
+		// Calculate the number of path segments that need to be added
+		int nNewSegs = track->segmentCount() - ps.Count();
+
+		// Create an array of path segments equal to the size of the number of new segments needed
+		PathSegCollection newSegs = PathSegCollection(nNewSegs);
+
+		// Append the collection of path segments
+		ps.Append(newSegs.Segments());
 	}
 }

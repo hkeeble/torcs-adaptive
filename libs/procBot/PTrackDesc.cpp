@@ -18,12 +18,18 @@ namespace procBot
 	{
 		if (state.IsUpdateNeeded())
 		{
+			// Get pointer to the TORCS track structure
 			tTrack* track = state.GetTorcsTrack();
+
+			// Pointers to track segments
 			tTrackSeg* end = nullptr;
 			tTrackSeg* curSeg = nullptr;
-			PTrackSegment* newSegs = nullptr;
+
+			// Vector to contain segments to add
+			std::vector<PTrackSegment> newSegs = std::vector<PTrackSegment>();
 			int nOfNewSegs = 0;
 
+			// Initialize length and nsegments, with both corresponding to the new part of the track
 			double tracklength = 0.0;
 			int nsegments = 0;
 
@@ -57,17 +63,15 @@ namespace procBot
 				nOfNewSegs = nsegments;
 			}
 
-			// Create temporary array in which to store the new segments
-
-			state.SetLastEnd(end);
-			newSegs = new PTrackSegment[nOfNewSegs];
+			// Set end to the new end segment
+			state.SetLastEnd(curSeg);
 
 			/* init all the new segments of the track description */
 			v3d l, m, r;
 			int currentts = 0;
 			double lastseglen = 0.0;
 			double curseglen = 0.0;
-			curSeg = (tTrackSeg*)end;
+			curSeg = (tTrackSeg*)end->next;
 
 			do {
 				if (curSeg->type == TR_STR) {
@@ -90,7 +94,7 @@ namespace procBot
 
 						m = (l + r) / 2.0;
 
-						newSegs[currentts].init(curSeg->id, curSeg, &l, &m, &r);
+						newSegs.push_back(PTrackSegment(curSeg->id, curSeg, &l, &m, &r));
 						currentts++;
 
 						lastseglen = curseglen;
@@ -118,7 +122,7 @@ namespace procBot
 
 						m = (l + r) / 2.0;
 
-						newSegs[currentts].init(curSeg->id, curSeg, &l, &m, &r);
+						newSegs.push_back(PTrackSegment(curSeg->id, curSeg, &l, &m, &r));
 						currentts++;
 
 						lastseglen = curseglen;
@@ -191,7 +195,7 @@ namespace procBot
 			}
 
 			// Append the segments to the collection
-			ts.Append(newSegs, nOfNewSegs);
+			ts.Append(newSegs);
 		}
 	}
 
@@ -206,7 +210,7 @@ namespace procBot
 		v3d *l, *m, *r;
 
 		/* plot track */
-		for (int i = 0; i < getnTrackSegments(); i++) {
+		for (int i = 0; i < segmentCount(); i++) {
 			PTrackSegment* p = getSegmentPtr(i);
 			l = p->getLeftBorder();
 			fprintf(fd, "%f\t%f\n", l->x, l->y);
@@ -227,7 +231,7 @@ namespace procBot
 		PTrackSegment* ts;
 		int minindex = 0;
 
-		for (int i = 0; i < getnTrackSegments(); i++) {
+		for (int i = 0; i < segmentCount(); i++) {
 			ts = getSegmentPtr(i);
 			d = ts->distToMiddle3D(car->_pos_X, car->_pos_Y, car->_pos_Z);
 			if (d < min) {
@@ -244,7 +248,7 @@ namespace procBot
 		double tmp, dist = FLT_MAX;
 		int minindex = 0;
 
-		for (int i = 0; i < getnTrackSegments(); i++) {
+		for (int i = 0; i < segmentCount(); i++) {
 			tmp = getSegmentPtr(i)->distToMiddle3D(p);
 			if (tmp < dist) {
 				dist = tmp;

@@ -8,12 +8,20 @@
 
 namespace procBot
 {
-	PathSegCollection::PathSegCollection(PathSeg* segs, int nSegs)
+	PathSegCollection::PathSegCollection(int nSegs)
 	{
-		this->nSegs = nSegs;
-		this->segs = new PathSeg[nSegs];
-		for (int i = 0; i < nSegs; i++)
-			this->segs[i] = segs[i];
+		// Initialize the vector
+		segs = vector<PathSeg>(nSegs);
+
+		// Initialize all data stored by the path segments
+		for (int i = 0; i < segs.size(); i++)
+			segs[i] = PathSeg();
+	}
+
+	PathSegCollection::PathSegCollection(const vector<PathSeg>& segs)
+	{
+		// Create a copy of the segments passed int
+		this->segs = vector<PathSeg>(segs);
 	}
 
 	PathSegCollection::PathSegCollection(const PathSegCollection& param)
@@ -26,11 +34,9 @@ namespace procBot
 		if (this == &param)
 			return *this;
 		else
-		{
-			if (segs)
-				delete[] segs;
 			cpy(param);
-		}
+
+		return *this;
 	}
 
 	PathSeg* PathSegCollection::operator()(int index)
@@ -40,33 +46,24 @@ namespace procBot
 
 	PathSegCollection::~PathSegCollection()
 	{
-		delete[] segs;
+		// nothing yet
 	}
 
-	void PathSegCollection::Append(PathSeg* newSegs, int nNewSegs)
+	PathSegCollection& PathSegCollection::operator+(const PathSegCollection& param)
 	{
-		PathSeg* tmp = new PathSeg[nNewSegs + nSegs];
+		PathSegCollection newCollection = PathSegCollection(*this);
+		newCollection.Append(param.segs);
+		return newCollection;
+	}
 
-		for (int i = 0; i < nSegs; i++)
-			tmp[i] = segs[i];
-
-		for (int i = nSegs; i < nSegs + nNewSegs; i++)
-			tmp[i] = newSegs[i];
-
-		segs = tmp;
-		nSegs += nNewSegs;
+	void PathSegCollection::Append(const vector<PathSeg> newSegs)
+	{
+		for (auto i : newSegs)
+			segs.push_back(i);
 	}
 
 	void PathSegCollection::cpy(const PathSegCollection& param)
 	{
-		if (param.segs)
-		{
-			nSegs = param.nSegs;
-			segs = new PathSeg[nSegs];
-			for (int i = 0; i < nSegs; i++)
-				segs[i] = param.segs[i];
-		}
-		else
-			segs = nullptr;
+		segs = vector<PathSeg>(param.segs);
 	}
 }

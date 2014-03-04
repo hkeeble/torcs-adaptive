@@ -37,23 +37,11 @@ namespace procBot
 	/* how many segments can i pass per simulation step, depends on TRACKRES, simulation->_deltaTime and speed */
 	#define SEGRANGE 3
 
-	/* choose old path */
-	//#define PATH_BERNIW
-
 	/* choose k1999 path */
 	#define PATH_K1999
 
 	class PCarDesc;
 	class POtherCarDesc;
-
-	/* holds a point of datafile from clothoid */
-	typedef struct {
-		double x;
-		double pd;
-		double is;
-		double ic;
-	} tParam;
-
 
 	/* holds data relative to my car */
 	typedef struct {
@@ -115,7 +103,6 @@ namespace procBot
 			static const double TPRES;		/* resolution of the steps */
 			enum { PITPOINTS = 7 };			/* # points for pit spline */
 			enum { NTPARAMS = 1001 };		/* # entries in dat files */
-			tParam cp[NTPARAMS];			/* holds values needed for clothiod */
 
 			PTrackDesc* track;		/* pointer to track data */
 			PCarDesc* carDesc;		/* pointer to procedural car description */
@@ -155,7 +142,6 @@ namespace procBot
 
 			int correctPath(int id, tCarElt* car, PCarDesc* myc);
 
-			bool loadClothoidParams(tParam* p);
 			double intsinsqr(double alpha);
 			double intcossqr(double alpha);
 			double clothparam(double alpha);
@@ -221,7 +207,7 @@ namespace procBot
 		if (id <= pitSegId) {
 			return (pitSegId - id);
 		} else {
-			return (track->getnTrackSegments() - id + pitSegId);
+			return (track->segmentCount() - id + pitSegId);
 		}
 	}
 

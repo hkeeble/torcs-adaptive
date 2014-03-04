@@ -11,10 +11,12 @@ namespace procBot
 {
 	PTrackSegment::PTrackSegment()
 	{
-		// nothing so far
+		pTrackSeg = nullptr;
+		type = raceType = radius = width = kalpha = kbeta = kgamma = length = 0;
+		l = m = r = tr = v3d();
 	}
 
-	void PTrackSegment::init(int id, const tTrackSeg* s, const v3d* lp, const v3d* mp, const v3d* rp)
+	PTrackSegment::PTrackSegment(int id, const tTrackSeg* s, const v3d* lp, const v3d* mp, const v3d* rp)
 	{
 		/* pointer to the corresponding segment */
 		pTrackSeg = (tTrackSeg*)s;

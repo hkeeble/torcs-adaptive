@@ -15,7 +15,7 @@ class v3d {
 		double x, y, z;		/* coordinates */
 
 		/* constructors */
-		v3d() {}
+		v3d() { x = 0.f; y = 0.f; z = 0.f; }
 		v3d(const v3d &src) { this->x = src.x; this->y = src.y; this->z = src.z; }
 		v3d(double x, double y, double z) { this->x = x; this->y = y; this->z = z; }
 

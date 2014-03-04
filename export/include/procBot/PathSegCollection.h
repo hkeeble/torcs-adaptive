@@ -8,6 +8,9 @@
 #define _PATH_SEG_COLLECTION_H_
 
 #include "PathSeg.h"
+#include <vector>
+
+using std::vector;
 
 namespace procBot
 {
@@ -15,28 +18,35 @@ namespace procBot
 	class PathSegCollection
 	{
 	public:
-		PathSegCollection() : segs(nullptr), nSegs(0) { }
-		PathSegCollection(int nSegs) { this->nSegs = nSegs; segs = new PathSeg[nSegs]; }
-		PathSegCollection(PathSeg* segs, int nSegs);
+		// Constructors
+		PathSegCollection() : segs(vector<PathSeg>()) { };
+		PathSegCollection(int nSegs);
+		PathSegCollection(const vector<PathSeg>& segs);
+
+		// Copy Constructor
 		PathSegCollection(const PathSegCollection& param);
+
+		// Operator overloads
 		PathSegCollection& operator=(const PathSegCollection& param);
+		PathSegCollection& operator+(const PathSegCollection& param);
 		PathSeg* operator()(int index);
 
+		// Destructor
 		~PathSegCollection();
 
-		/* Appends the new segments into the collection */ 
-		void Append(PathSeg* newSegs, int nNewSegs);
+		/* Appends the new segments into the collection. A copy is made of the segments passed in - calling code is responsible for deletion of the other segments */ 
+		void Append(const vector<PathSeg> newSegs);
 		
-		int Count() const { return nSegs; }
+		/* The number of pathsegs stored */
+		int Count() const { return segs.size(); }
+
+		const vector<PathSeg>& Segments() { return segs; }
 	private:
 		/* Internal copying function */
 		void cpy(const PathSegCollection& param);
 		
-		/* The segment array */
-		PathSeg* segs;
-		
-		/* The number of path segments */
-		int nSegs; 
+		/* The segment vector */
+		vector<PathSeg> segs;
 	};
 }
 

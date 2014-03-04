@@ -8,6 +8,9 @@
 #define _P_TRACK_SEGMENT_COLLECTION_H_
 
 #include "PTrackSegment.h"
+#include <vector>
+
+using std::vector;
 
 namespace procBot
 {
@@ -15,14 +18,13 @@ namespace procBot
 	class PTrackSegmentCollection
 	{
 	private:
-		PTrackSegment* segs;
-		int nSegs;
+		vector<PTrackSegment> segs;
 
 		// Internal copying function
 		void cpy(const PTrackSegmentCollection& param);
 	public:
-		PTrackSegmentCollection() : segs(nullptr), nSegs(0) { }
-		PTrackSegmentCollection(PTrackSegment* segs, int numberOfSegs);
+		PTrackSegmentCollection() : segs(vector<PTrackSegment>()) { }
+		PTrackSegmentCollection(const vector<PTrackSegment>& segs);
 		PTrackSegmentCollection(const PTrackSegmentCollection& param);
 		PTrackSegmentCollection& operator=(const PTrackSegmentCollection& param);
 		~PTrackSegmentCollection();
@@ -31,10 +33,20 @@ namespace procBot
 		PTrackSegment* operator()(int index);
 
 		/* Returns the number of segments being stored */
-		int Length() const;
+		int Count() const;
 
 		/* Appends the collection with the given new segments */
-		void Append(PTrackSegment* newSegs, int nOfNewSegs);
+		void Append(const vector<PTrackSegment>& newSegs);
+
+#ifdef _DEBUG
+		/* Debug only function. Prints all segment widths - used to check validity of data stored */
+		void PrintAll()
+		{
+			for (int i = 0; i < Count(); i++)
+				std::cout << segs[i].getTrackSegment()->id << std::endl;
+			std::cout << "Total: " << Count() << std::endl;
+		}
+#endif // _DEBUG
 	};
 }
 

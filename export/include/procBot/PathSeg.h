@@ -2,7 +2,7 @@
 	File: PathSeg.h
 	Original Author: Bernhard Wymann
 	Modified by: Henri Keeble
-	Desc: Modified version of the Pathfinder from the TORCS robot berniw for a procedural track.
+	Desc: Modified version of the path segments from a pathfinder object from the TORCS robot berniw for a procedural track.
 */
 
 #ifndef _PATH_SEG_H_
@@ -17,6 +17,10 @@ namespace procBot
 	class PathSeg
 	{
 		public:
+			/* Constructors added for clarity */
+			PathSeg() : l(nullptr), o(v3d()), p(v3d()), d(v3d()), speedsqr(0), length(0), weight(0), radius(0) { }
+			PathSeg(v3d location, v3d optimalLocation, tdble speedsqr, tdble weight, tdble radius);
+
 			void set(tdble ispeedsqr, tdble ilength, v3d* ip, v3d* id);
 			void set(tdble ispeedsqr, tdble ilength, v3d* id);
 			inline void setLoc(v3d* ip) { p = (*ip); }

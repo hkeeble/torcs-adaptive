@@ -33,7 +33,7 @@ namespace procBot
 
 			inline tTrack* GetTorcsTrack() { return state.GetTorcsTrack(); }
 			inline PTrackSegment* getSegmentPtr(int index) { return ts(index); }
-			inline int getnTrackSegments() { return ts.Length(); }
+			inline int segmentCount() { return ts.Count(); }
 			int getCurrentSegment(tCarElt* car, int lastId, int range);
 			int getCurrentSegment(tCarElt* car);
 			int getNearestId(v3d* p);
@@ -76,7 +76,7 @@ namespace procBot
 			else { return false; }
 		}
 		else {
-			if ((id >= 0 && id <= end) || (id >= start && id < ts.Length())) { return true; }
+			if ((id >= 0 && id <= end) || (id >= start && id < ts.Count())) { return true; }
 			else { return false; }
 		}
 	}
@@ -85,7 +85,7 @@ namespace procBot
 	inline int PTrackDesc::diffSegId(int id1, int id2) {
 		int t;
 		if (id1 > id2) { t = id1; id1 = id2; id2 = t; }
-		t = (ts.Length() - id2 + id1) % ts.Length();
+		t = (ts.Count() - id2 + id1) % ts.Count();
 		return MIN(id2 - id1, t);
 	}
 
@@ -100,7 +100,7 @@ namespace procBot
 		int minindex = 0;
 
 		for (int i = start; i < end; i++) {
-			int j = (lastId + i + getnTrackSegments()) % getnTrackSegments();
+			int j = (lastId + i + segmentCount()) % segmentCount();
 			ts = getSegmentPtr(j);
 			d = ts->distToMiddleSqr3D(car->_pos_X, car->_pos_Y, car->_pos_Z);
 			if (d < min) {

@@ -8,21 +8,14 @@
 
 namespace procBot
 {
-	PTrackSegmentCollection::PTrackSegmentCollection(PTrackSegment* segs, int numberOfSegs)
+	PTrackSegmentCollection::PTrackSegmentCollection(const vector<PTrackSegment>& segs)
 	{
 		this->segs = segs;
-		nSegs = numberOfSegs;
 	}
 
 	void PTrackSegmentCollection::cpy(const PTrackSegmentCollection& param)
 	{
-		if (param.segs)
-		{
-			this->segs = new PTrackSegment[param.Length()];
-			nSegs = param.Length();
-			for (int i = 0; i < nSegs; i++)
-				this->segs[i] = param.segs[i];
-		}
+		this->segs = param.segs;
 	}
 
 	PTrackSegmentCollection::PTrackSegmentCollection(const PTrackSegmentCollection& param)
@@ -36,8 +29,6 @@ namespace procBot
 			return *this;
 		else
 		{
-			if (segs)
-				delete[] segs;
 			cpy(param);
 			return *this;
 		}
@@ -45,42 +36,29 @@ namespace procBot
 
 	PTrackSegmentCollection::~PTrackSegmentCollection()
 	{
-		if (segs)
-			delete[] segs;
+		// nothing yet
 	}
 
 	PTrackSegment* PTrackSegmentCollection::operator()(int index)
 	{
-		if (index < nSegs)
+		if (index < segs.size())
 			return &segs[index];
 		else
 			return nullptr;
 	}
 
-	int PTrackSegmentCollection::Length() const
+	int PTrackSegmentCollection::Count() const
 	{
-		return nSegs;
+		return segs.size();
 	}
 
-	void PTrackSegmentCollection::Append(PTrackSegment* newSegs, int nOfNewSegs)
+	void PTrackSegmentCollection::Append(const vector<PTrackSegment>& newSegs)
 	{
-		PTrackSegment* tmp = new PTrackSegment[nSegs + nOfNewSegs];
+		for (auto i : newSegs) // range based for, simply appends to the existing vector with data from the new one
+			segs.push_back(i);
 
-		// Copy old segments into temporary array
-		for (int i = 0; i < nSegs; i++)
-			tmp[i] = segs[i];
-
-		// Copy new segments into temporary array
-		for (int i = nSegs; i < nSegs + nOfNewSegs; i++)
-			tmp[i] = newSegs[i];
-
-		// Assign temporary array to segs
-		segs = tmp;
-
-		// Calculate new number of segments
-		nSegs = nSegs + nOfNewSegs;
-
-		for (int i = 0; i < nSegs; i++)
-			std::cout << segs[i].getWidth() << std::endl;
+		std::cout << "New segment collection: " << std::endl;
+		for (int i = 0; i < segs.size(); i++)
+			std::cout << segs[i].getTrackSegment()->id << std::endl;
 	}
 }

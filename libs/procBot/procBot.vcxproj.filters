@@ -36,6 +36,9 @@
     <ClCompile Include="PathSegCollection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PathSeg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

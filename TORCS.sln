@@ -73,6 +73,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "botProc", "drivers\botProc\berniwProc.vcxproj", "{29DC4A3F-EEE0-4580-B89C-A589BF547AC6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "berniProc", "drivers\berniProc\berniProc.vcxproj", "{D511F101-5274-44CA-98A3-0EE3AED45BB2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E939DAD9-8969-43EA-AB2F-E3234125B2A0} = {E939DAD9-8969-43EA-AB2F-E3234125B2A0}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "procBot", "libs\procBot\procBot.vcxproj", "{E939DAD9-8969-43EA-AB2F-E3234125B2A0}"
 EndProject

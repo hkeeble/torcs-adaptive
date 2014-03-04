@@ -17,8 +17,8 @@ namespace procBot
 	{
 		public:
 			PTrackSegment();
+			PTrackSegment(int id, const tTrackSeg* s, const v3d* l, const v3d* m, const v3d* r);
 			~PTrackSegment();
-			void init(int id, const tTrackSeg* s, const v3d* l, const v3d* m, const v3d* r);
 			inline void setLength(double len) { length = len; }
 			inline void setKbeta(double b) { kbeta = b; }
 			inline void setKgamma(double c) { kgamma = c; }
@@ -26,6 +26,8 @@ namespace procBot
 			inline int getType() { return type; }
 			inline unsigned int getRaceType() { return raceType; }
 			inline tdble getRadius() { return radius; }
+
+			inline tTrackSeg* getTrackSegment() { return pTrackSeg; }
 
 			inline tdble getKfriction() { return pTrackSeg->surface->kFriction; }
 			inline tdble getKrollres() { return pTrackSeg->surface->kRollRes; }
