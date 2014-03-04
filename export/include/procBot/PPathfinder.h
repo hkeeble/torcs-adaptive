@@ -2,7 +2,7 @@
 	File: PPPathfinder.h
 	Original Author: Bernhard Wymann
 	Modified by: Henri Keeble
-	Desc: Modified version of the PPathfinder from the TORCS robot berniw for a procedural track.
+	Desc: Modified version of the Pathfinder from the TORCS robot berniw for a procedural track.
 */
 
 #ifndef _P_PPathfinder_H_
@@ -21,6 +21,7 @@
 #include <math.h>
 #include "PTrackDesc.h"
 #include "PCarDesc.h"
+#include "PathSegCollection.h"
 
 namespace procBot
 {	
@@ -78,53 +79,17 @@ namespace procBot
 		double time;			/* how long is the opponent "in range" to overlap me */
 	} tOverlapTimer;
 
-
-	/* Represents a single segment of the planned path */
-	class PathSeg
-	{
-		public:
-			void set(tdble ispeedsqr, tdble ilength, v3d* ip, v3d* id);
-			void set(tdble ispeedsqr, tdble ilength, v3d* id);
-			inline void setLoc(v3d* ip) { p = (*ip); }
-			inline void setOptLoc(v3d* ip) { o = (*ip); }
-			inline void setPitLoc(v3d* ip) { l = ip; }
-
-			inline void setSpeedsqr(tdble spsqr) { speedsqr = spsqr; }
-			inline void setWeight(tdble w) { weight = w; }
-			inline void setRadius(tdble r) { radius = r; }
-
-			inline tdble getSpeedsqr() { return speedsqr; }
-			inline tdble getLength() { return length; }
-			inline tdble getWeight() { return weight; }
-			inline tdble getRadius() { return radius; }
-
-			inline v3d* getOptLoc() { return &o; }
-			inline v3d* getPitLoc() { return l; }
-			inline v3d* getLoc() { return &p; }
-			inline v3d* getDir() { return &d; }
-
-		private:
-			tdble speedsqr;	/* max possible speed sqared (speed ist therefore sqrt(speedsqr) */
-			tdble length;	/* dist to the next pathseg */
-			tdble weight;	/* weight function value for superposition */
-			tdble radius;	/* radius of current segment */
-			v3d p;			/* position in space, dynamic trajectory */
-			v3d o;			/* position in space, static trajectory */
-			v3d d;			/* direction vector of dynamic trajectory */
-			v3d* l;			/* trajectory for pit lane */
-	};
-
 	/* The PPathfinder class, holds and manages an array of path segments */
 	class PPathfinder
 	{
 		public:
-			PPathfinder(PTrackDesc* itrack, tCarElt* car, tSituation *situation);
+			PPathfinder(PTrackDesc* itrack, PCarDesc* carDesc, tSituation *situation);
 			~PPathfinder();
 			void plan(int trackSegId, tCarElt* car, tSituation* situation, PCarDesc* myc, POtherCarDesc* ocar);
 			void plan(PCarDesc* myc);
 
 			/* Used to update the PPPathfinder when neccesary */
-			void Update();
+			void Update(tSituation* situation);
 
 			void initPit(tCarElt* car);
 			inline bool isPitAvailable() { return pit; }
@@ -138,10 +103,10 @@ namespace procBot
 			inline double sqr(double a) { return a*a; };
 			inline double dist(v3d* a, v3d* b) { return sqrt(sqr(a->x-b->x) + sqr(a->y-b->y) + sqr(a->z-b->z)); }
 			inline double dist2D(v3d* a, v3d* b) { return sqrt(sqr(a->x-b->x) + sqr(a->y-b->y)); }
-			inline PathSeg* getPathSeg(int pathSegId) { return &ps[pathSegId]; }
+			inline PathSeg* getPathSeg(int pathSegId) { return ps(pathSegId); }
 			int getCurrentSegment(tCarElt* car);
 			int getCurrentSegment(tCarElt* car, int range);
-			inline int getnPathSeg() { return nPathSeg; }
+			inline int getnPathSeg() { return ps.Count(); }
 			inline double getPitSpeedSqrLimit() { return pitspeedsqrlimit; }
 			double distToPath(int trackSegId, v3d* p);
 
@@ -153,9 +118,11 @@ namespace procBot
 			tParam cp[NTPARAMS];			/* holds values needed for clothiod */
 
 			PTrackDesc* track;		/* pointer to track data */
+			PCarDesc* carDesc;		/* pointer to procedural car description */
+			tCarElt* car;			/* pointer to torcs car structure */
+
 			int lastId;				/* segment id of the last call */
-			PathSeg* ps;			/* array with the plan */
-			int nPathSeg;			/* # of PathSeg's */
+			PathSegCollection ps;	/* collection of path segments with the plan */
 			int lastPlan;			/* start of the last plan */
 			int lastPlanRange;		/* range of the last plan */
 			bool pitStop;			/* pitstop ? */
@@ -175,6 +142,7 @@ namespace procBot
 			tOverlapTimer* overlaptimer;
 			v3d* pitcord;
 
+			void Init(tSituation* situation);
 			void initPitStopPath(void);
 			void getPitPoint(int j, int k, double slope, double dist, v3d* r);
 			int collision(int trackSegId, tCarElt* mycar, tSituation *s, PCarDesc* myc, POtherCarDesc* ocar);
@@ -217,11 +185,11 @@ namespace procBot
 	inline double PPathfinder::distToPath(int trackSegId, v3d* p)
 	{
 		v3d *toright = track->getSegmentPtr(trackSegId)->getToRight();
-		v3d *pathdir = ps[trackSegId].getDir();
+		v3d *pathdir = ps(trackSegId)->getDir();
 		v3d n1, torightpath;
 		toright->crossProduct(pathdir, &n1);
 		pathdir->crossProduct(&n1, &torightpath);
-		return ((*p - *ps[trackSegId].getLoc())*torightpath)/torightpath.len();
+		return ((*p - *ps(trackSegId)->getLoc())*torightpath)/torightpath.len();
 	}
 
 
@@ -241,7 +209,7 @@ namespace procBot
 
 
 	inline void PPathfinder::setPitStop(bool p, int id) {
-		if (isPitAvailable() && track->isBetween(e3, (s1 - AHEAD + nPathSeg) % nPathSeg, id) && p) {
+		if (isPitAvailable() && track->isBetween(e3, (s1 - AHEAD + ps.Count()) % ps.Count(), id) && p) {
 			pitStop = true ;
 		} else {
 			pitStop = false;
@@ -259,8 +227,8 @@ namespace procBot
 
 
 	inline double PPathfinder::pathSlope(int id) {
-		int nextid = (id + 1) % nPathSeg;
-		v3d dir = *ps[nextid].getLoc() - *ps[id].getLoc();
+		int nextid = (id + 1) % ps.Count();
+		v3d dir = *ps(nextid)->getLoc() - *ps(id)->getLoc();
 		double dp = dir*(*track->getSegmentPtr(id)->getToRight())/dir.len();
 		double alpha = PI/2.0 - acos(dp);
 		return tan(alpha);
@@ -288,7 +256,7 @@ namespace procBot
 		if ( to >= from) {
 			return to - from;
 		} else {
-			return nPathSeg - from + to;
+			return ps.Count() - from + to;
 		}
 	}
 }

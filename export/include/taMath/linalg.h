@@ -8,6 +8,8 @@
 #ifndef _LINALG_H_
 #define _LINALG_H_
 
+#include <math.h>
+
 class v3d {
 	public:
 		double x, y, z;		/* coordinates */

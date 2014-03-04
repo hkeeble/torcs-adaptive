@@ -31,12 +31,13 @@ namespace procBot
 			if (state.GetLastEnd())
 			{
 				end = state.GetLastEnd();
-				curSeg = end;
+				curSeg = end->next;
 
-				do {
+				while ((curSeg != end) && curSeg)
+				{
 					tracklength += curSeg->length;
 					curSeg = curSeg->next;
-				} while ((curSeg != end) && curSeg);
+				} 
 
 				nsegments = (int)floor(tracklength);
 				nOfNewSegs = nsegments;
@@ -54,11 +55,11 @@ namespace procBot
 
 				nsegments = (int)floor(tracklength);
 				nOfNewSegs = nsegments;
-
-				state.SetLastEnd(end);
 			}
 
 			// Create temporary array in which to store the new segments
+
+			state.SetLastEnd(end);
 			newSegs = new PTrackSegment[nOfNewSegs];
 
 			/* init all the new segments of the track description */

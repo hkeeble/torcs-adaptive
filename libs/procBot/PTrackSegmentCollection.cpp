@@ -52,7 +52,7 @@ namespace procBot
 	PTrackSegment* PTrackSegmentCollection::operator()(int index)
 	{
 		if (index < nSegs)
-			return (segs + index);
+			return &segs[index];
 		else
 			return nullptr;
 	}
@@ -79,5 +79,8 @@ namespace procBot
 
 		// Calculate new number of segments
 		nSegs = nSegs + nOfNewSegs;
+
+		for (int i = 0; i < nSegs; i++)
+			std::cout << segs[i].getWidth() << std::endl;
 	}
 }

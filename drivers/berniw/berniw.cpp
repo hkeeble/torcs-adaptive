@@ -70,7 +70,7 @@ static int InitFuncPt(int index, void *pt)
 	itf->rbDrive    = drive;		/* drive during race */
 	itf->rbShutdown	= shutdown;		/* called for cleanup per driver */
 	itf->rbPitCmd   = pitcmd;		/* pit command */
-	itf->rbUpdateTrack = nullptr; /* Used to update bot's understanding of the track */
+	itf->rbUpdate   = nullptr; /* Used to update bot's understanding of the track */
 	itf->index      = index;
 	return 0;
 }

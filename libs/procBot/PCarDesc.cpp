@@ -90,7 +90,7 @@ namespace procBot
 
 		cgcorr_b = 0.46;
 
-		pf = new PPathfinder(track, car, situation);
+		pf = new PPathfinder(track, this, situation);
 		currentsegid = destsegid = pf->getCurrentSegment(car);
 
 		currentseg = track->getSegmentPtr(currentsegid);
@@ -126,9 +126,6 @@ namespace procBot
 		}
 
 		loadBehaviour(NORMAL);
-
-		/* this call is needed! perhaps i shold move it into the constructor of pathfinder. */
-		pf->plan(this);
 	}
 
 

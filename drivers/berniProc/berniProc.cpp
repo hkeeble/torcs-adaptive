@@ -30,7 +30,7 @@ static void drive(int index, tCarElt* car, tSituation *situation);
 static void newRace(int index, tCarElt* car, tSituation *situation);
 static int  InitFuncPt(int index, void *pt);
 static int  pitcmd(int index, tCarElt* car, tSituation *s);
-static void updateTrack();
+static void update(int index, tSituation *situation);
 static void shutdown(int index);
 
 
@@ -70,7 +70,7 @@ static int InitFuncPt(int index, void *pt)
 	itf->rbDrive    = drive;		/* drive during race */
 	itf->rbShutdown	= shutdown;		/* called for cleanup per driver */
 	itf->rbPitCmd   = pitcmd;		/* pit command */
-	itf->rbUpdateTrack = updateTrack; /* Used to update bot's understanding of the track */
+	itf->rbUpdate   = update; /* Used to update bot's understanding of the track */
 	itf->index      = index;
 	return 0;
 }
@@ -147,9 +147,11 @@ static void newRace(int index, tCarElt* car, tSituation *situation)
 	currenttime = situation->currentTime;
 }
 
-static void updateTrack()
+/* Used to update the car's understanding of the track and pathfinder before the call to the drive function, in a procedural track */
+static void update(int index, tSituation *situation)
 {
-	myTrackDesc->Update();
+	myTrackDesc->Update(); // Update the track description
+	mycar[index - 1]->getPathfinderPtr()->Update(situation); // Update the pathfinder based upon the new track
 }
 
 /* controls the car */

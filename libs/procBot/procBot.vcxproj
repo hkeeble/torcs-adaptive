@@ -11,12 +11,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="PathSegCollection.cpp" />
     <ClCompile Include="PCarDesc.cpp" />
     <ClCompile Include="PPathfinder.cpp" />
     <ClCompile Include="PTrackDesc.cpp" />
     <ClCompile Include="PTrackDescState.cpp" />
     <ClCompile Include="PTrackSegment.cpp" />
     <ClCompile Include="PTrackSegmentCollection.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E939DAD9-8969-43EA-AB2F-E3234125B2A0}</ProjectGuid>
