@@ -110,7 +110,9 @@ copy dll\OpenAL32.dll $(SolutionDir)runtime
 copy dll\libogg.dll $(SolutionDir)runtime
 copy dll\libvorbis.dll $(SolutionDir)runtime
 copy dll\libvorbisfile.dll $(SolutionDir)runtime
-copy dll\alut.dll $(SolutionDir)..\runtimed</Command>
+copy dll\alut.dll $(SolutionDir)..\runtime
+copy $(SolutionDir)\plotProcTrack.bat $(SolutionDir)..\runtime
+copy $(SolutionDir)\plotter\command.txt $(SolutionDir)..\runtime\plotter\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -168,7 +170,9 @@ copy $(SolutionDir)windows\dll\OpenAL32.dll $(SolutionDir)..\runtimed
 copy $(SolutionDir)windows\dll\libogg.dll $(SolutionDir)..\runtimed
 copy $(SolutionDir)windows\dll\libvorbis.dll $(SolutionDir)..\runtimed
 copy $(SolutionDir)windows\dll\libvorbisfile.dll $(SolutionDir)..\runtimed
-copy $(SolutionDir)windows\dll\alut.dll $(SolutionDir)..\runtimed</Command>
+copy $(SolutionDir)windows\dll\alut.dll $(SolutionDir)..\runtimed
+copy $(SolutionDir)\plotProcTrack.bat $(SolutionDir)..\runtimed
+copy $(SolutionDir)\plotter\command.txt $(SolutionDir)..\runtimed\plotter\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
