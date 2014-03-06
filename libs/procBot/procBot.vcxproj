@@ -11,12 +11,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="berniwPathfinding.cpp" />
     <ClCompile Include="PathSeg.cpp" />
     <ClCompile Include="PathSegCollection.cpp" />
     <ClCompile Include="PCarDesc.cpp" />
     <ClCompile Include="PPathfinder.cpp" />
     <ClCompile Include="PTrackDesc.cpp" />
-    <ClCompile Include="PTrackDescState.cpp" />
+    <ClCompile Include="PStateManager.cpp" />
     <ClCompile Include="PTrackSegment.cpp" />
     <ClCompile Include="PTrackSegmentCollection.cpp" />
   </ItemGroup>

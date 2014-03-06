@@ -11,7 +11,7 @@
 #include "track.h"
 #include "PTrackSegment.h"
 #include "car.h"
-#include "PTrackDescState.h"
+#include "PStateManager.h"
 #include "PTrackSegmentCollection.h"
 #include "taMath.h"
 
@@ -31,7 +31,7 @@ namespace procBot
 			/* output track data to gnuplot readable file */
 			void plot(char* filename);
 
-			inline tTrack* GetTorcsTrack() { return state.GetTorcsTrack(); }
+			inline tTrack* GetTorcsTrack() { return stateMngr.GetTorcsTrack(); }
 			inline PTrackSegment* getSegmentPtr(int index) { return ts(index); }
 			inline int segmentCount() { return ts.Count(); }
 			int getCurrentSegment(tCarElt* car, int lastId, int range);
@@ -40,7 +40,7 @@ namespace procBot
 
 			inline int getPitEntryStartId() { return nPitEntryStart; }
 			inline int getPitExitEndId() { return nPitExitEnd; }
-			inline int getPitType() { return state.GetTorcsTrack()->pits.type; }
+			inline int getPitType() { return stateMngr.GetTorcsTrack()->pits.type; }
 
 			static inline void dirVector2D(v3d* a, v3d* b, v3d* r) { r->x = a->x - b->x; r->y = a->y - b->y; r->z = 0.0; }
 			static inline double cosalpha(v3d* a, v3d* b) { return (*a)*(*b)/(a->len()*b->len()); }
@@ -55,7 +55,7 @@ namespace procBot
 			void Update();
 
 		private:
-			PTrackDescState state; // Current state of the track description
+			PStateManager stateMngr; // Current state of the track description
 			PTrackSegmentCollection ts; // Collection of track segments
 
 			int nPitEntryStart;

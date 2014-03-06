@@ -622,9 +622,11 @@ ReOneStep(double deltaTimeIncrement)
 			if ((s->cars[i]->_state & RM_CAR_STATE_NO_SIMU) == 0) {
 				robot = s->cars[i]->robot;
 
-				if (TAManager::Get()->IsActive() && robot->rbUpdate) // If the robot needs a track description, update it before driving
+				// --- If the track is procedural and the robot requires a track description, allow it to update before driving ---
+				if (TAManager::Get()->IsActive() && robot->rbUpdate)
 					robot->rbUpdate(robot->index, s);
 
+				// --- Drive/Update the robot ---
 				robot->rbDrive(robot->index, s->cars[i], s);
 				
 				// --- Track Performance ---

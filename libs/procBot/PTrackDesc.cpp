@@ -9,17 +9,23 @@ namespace procBot
 		nPitEntryStart = 0;
 		nPitExitEnd = 0;
 
-		// Initialize description state
-		state.SetTorcsTrack((tTrack*)track);
+		// Initialize state
+		stateMngr = PStateManager((tTrack* const)track);
+
+		// Initialize description
 		Update();
 	}
 
 	void PTrackDesc::Update()
 	{
-		if (state.IsUpdateNeeded())
+		// Update the state manager first
+		stateMngr.Update();
+
+		// Update only if the track has changed since last call to state update
+		if (stateMngr.IsUpdateNeeded())
 		{
 			// Get pointer to the TORCS track structure
-			tTrack* track = state.GetTorcsTrack();
+			tTrack* track = stateMngr.GetTorcsTrack();
 
 			// Pointers to track segments
 			tTrackSeg* end = nullptr;
@@ -27,30 +33,14 @@ namespace procBot
 
 			// Vector to contain segments to add
 			std::vector<PTrackSegment> newSegs = std::vector<PTrackSegment>();
-			int nOfNewSegs = 0;
 
 			// Initialize length and nsegments, with both corresponding to the new part of the track
+			int nOfNewSegs = 0;
 			double tracklength = 0.0;
-			int nsegments = 0;
-
-			// If the track has been updated before, append to it
-			if (state.GetLastEnd())
+			
+			if (ts.Count() == 0)
 			{
-				end = state.GetLastEnd();
-				curSeg = end->next;
-
-				while ((curSeg != end) && curSeg)
-				{
-					tracklength += curSeg->length;
-					curSeg = curSeg->next;
-				} 
-
-				nsegments = (int)floor(tracklength);
-				nOfNewSegs = nsegments;
-			}
-			else // Otherwise, initialize it
-			{
-				end = track->seg;
+				end = stateMngr.GetEnd();
 				curSeg = end;
 
 				/* compute the length of the track */
@@ -58,13 +48,21 @@ namespace procBot
 					tracklength += curSeg->length;
 					curSeg = curSeg->next;
 				} while ((curSeg != end) && curSeg);
+			}
+			else
+			{
+				end = stateMngr.GetLastEnd();
+				curSeg = end->next;
 
-				nsegments = (int)floor(tracklength);
-				nOfNewSegs = nsegments;
+				while ((curSeg != stateMngr.GetStart()) && curSeg)
+				{
+					tracklength += curSeg->length;
+					curSeg = curSeg->next;
+				}
 			}
 
-			// Set end to the new end segment
-			state.SetLastEnd(curSeg);
+			// Set number of new segments based on new length
+			nOfNewSegs = (int)floor(tracklength);
 
 			/* init all the new segments of the track description */
 			v3d l, m, r;

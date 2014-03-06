@@ -180,7 +180,8 @@ namespace procBot
 		destseg = track->getSegmentPtr(destsegid);
 		currentpathseg = pf->getPathSeg(currentsegid);
 		updateDError();
-		int lookahead = (destsegid + (int)(MIN(LOOKAHEAD_MAX_ERROR, derror)*speed*LOOKAHEAD_FACTOR)) % pf->getnPathSeg();
+		int error = (int)(MIN(LOOKAHEAD_MAX_ERROR, derror));
+		int lookahead = (destsegid + (int)(error*speed*LOOKAHEAD_FACTOR)) % pf->getnPathSeg();
 		destpathseg = pf->getPathSeg(lookahead);
 
 		mass = carmass + car->priv.fuel;
@@ -296,12 +297,12 @@ namespace procBot
 		currentsegid = track->getCurrentSegment(getCarPtr(), currentsegid, searchrange);
 	}
 
-
+	/* Updates the direction to the desired trajectory */
 	void PCarDesc::updateDError()
 	{
-		derror = pf->distToPath(currentsegid, &currentpos);
-		derrorsgn = (derror >= 0.0) ? 1.0 : -1.0;
-		derror = fabs(derror);
+		derror = pf->distToPath(currentsegid, &currentpos); // Get the distance to the desired path for the current segment
+		derrorsgn = (derror >= 0.0) ? 1.0 : -1.0; // Determine which side of the path the car is
+		derror = fabs(derror); // Ensure value is absolute
 	}
 
 	void PCarDesc::initCarGeometry()

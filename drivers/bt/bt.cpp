@@ -104,13 +104,6 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 // Start a new race.
 static void newRace(int index, tCarElt* car, tSituation *s)
 {
-	// Load Telemetry Functionality
-	const int BUFFSIZE = 1024;
-	char buf[BUFFSIZE];
-	snprintf(buf, BUFFSIZE, "winTelemetry");
-
-	//GfModLoad(0, 
-
 	driver[index]->newRace(car, s);
 }
 

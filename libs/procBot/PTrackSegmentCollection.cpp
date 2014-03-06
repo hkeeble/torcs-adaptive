@@ -56,9 +56,5 @@ namespace procBot
 	{
 		for (auto i : newSegs) // range based for, simply appends to the existing vector with data from the new one
 			segs.push_back(i);
-
-		std::cout << "New segment collection: " << std::endl;
-		for (int i = 0; i < segs.size(); i++)
-			std::cout << segs[i].getTrackSegment()->id << std::endl;
 	}
 }

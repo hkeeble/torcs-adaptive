@@ -29,6 +29,8 @@
 #include <direct.h>
 #include <io.h>
 
+#include <iostream>
+
 extern "C" int
 ssggraph(tModInfo *modInfo);
 
@@ -379,7 +381,12 @@ static int windowsModInfoDir(unsigned int gfid, char *dir, int level, tModList *
 									} while (cMod != *modlist);
 								}
 							}
-							FreeLibrary(handle);
+							try {
+								FreeLibrary(handle);
+							}
+							catch (int e) {
+								std::cout << "Error freeing library " << e << std::endl;
+							}
 							curMod = (tModList*)calloc(1, sizeof(tModList));
 						} else {
 							FreeLibrary(handle);

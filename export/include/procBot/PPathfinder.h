@@ -5,8 +5,8 @@
 	Desc: Modified version of the Pathfinder from the TORCS robot berniw for a procedural track.
 */
 
-#ifndef _P_PPathfinder_H_
-#define _P_PPathfinder_H_
+#ifndef _P_PPATHFINDER_H_
+#define _P_PPATHFINDER_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,11 +37,16 @@ namespace procBot
 	/* how many segments can i pass per simulation step, depends on TRACKRES, simulation->_deltaTime and speed */
 	#define SEGRANGE 3
 
-	/* choose k1999 path */
-	#define PATH_K1999
-
 	class PCarDesc;
 	class POtherCarDesc;
+
+	/* holds a point of datafile from clothoid */
+	typedef struct {
+		double x;
+		double pd;
+		double is;
+		double ic;
+	} tParam;
 
 	/* holds data relative to my car */
 	typedef struct {
@@ -73,8 +78,8 @@ namespace procBot
 		public:
 			PPathfinder(PTrackDesc* itrack, PCarDesc* carDesc, tSituation *situation);
 			~PPathfinder();
-			void plan(int trackSegId, tCarElt* car, tSituation* situation, PCarDesc* myc, POtherCarDesc* ocar);
-			void plan(PCarDesc* myc);
+			void dynamicPlan(int trackSegId, tCarElt* car, tSituation* situation, PCarDesc* myc, POtherCarDesc* ocar);
+			void staticPlan(PCarDesc* myc);
 
 			/* Used to update the PPPathfinder when neccesary */
 			void Update(tSituation* situation);
@@ -103,10 +108,14 @@ namespace procBot
 			static const double TPRES;		/* resolution of the steps */
 			enum { PITPOINTS = 7 };			/* # points for pit spline */
 			enum { NTPARAMS = 1001 };		/* # entries in dat files */
+			tParam cp[NTPARAMS];			/* holds values needed for clothiod */
 
-			PTrackDesc* track;		/* pointer to track data */
-			PCarDesc* carDesc;		/* pointer to procedural car description */
-			tCarElt* car;			/* pointer to torcs car structure */
+			PTrackDesc* track;		 /* pointer to track data */
+			PCarDesc* carDesc;		 /* pointer to procedural car description */
+			PStateManager stateMngr; /* State manager for the pathfinder */
+			tCarElt* car;			 /* pointer to torcs car structure */
+
+			int previousPSCount; /* Previous path segment count on last call to static plan */
 
 			int lastId;				/* segment id of the last call */
 			PathSegCollection ps;	/* collection of path segments with the plan */
@@ -129,19 +138,21 @@ namespace procBot
 			tOverlapTimer* overlaptimer;
 			v3d* pitcord;
 
+			/* Initialize the pathfinder */
 			void Init(tSituation* situation);
+
+			/* Updates the static plan with new path segments */
+			void updatePlan();
+
 			void initPitStopPath(void);
 			void getPitPoint(int j, int k, double slope, double dist, v3d* r);
 			int collision(int trackSegId, tCarElt* mycar, tSituation *s, PCarDesc* myc, POtherCarDesc* ocar);
 			int overtake(int trackSegId, tSituation *s, PCarDesc* myc, POtherCarDesc* ocar);
-			double curvature(double xp, double yp, double x, double y, double xn, double yn);
-			void adjustRadius(int s, int p, int e, double c, double carwidth);
-			void stepInterpolate(int iMin, int iMax, int Step);
-			void interpolate(int Step);
-			void smooth(int Step);
 
 			int correctPath(int id, tCarElt* car, PCarDesc* myc);
 
+			/* Original pathfinding functions from berniw robot */
+			bool loadClothoidParams(tParam* p);
 			double intsinsqr(double alpha);
 			double intcossqr(double alpha);
 			double clothparam(double alpha);
@@ -167,15 +178,25 @@ namespace procBot
 			int countSegments(int from, int to);
 	};
 
-
+	/* Used to calculate the distance from the given path. */
 	inline double PPathfinder::distToPath(int trackSegId, v3d* p)
 	{
+		// Obtain direction vector to the right of the current segment
 		v3d *toright = track->getSegmentPtr(trackSegId)->getToRight();
+
+		// Obtain the desired direction for the current path segment
 		v3d *pathdir = ps(trackSegId)->getDir();
+
 		v3d n1, torightpath;
+
+		// Obtain cross product of right vector and path direction
 		toright->crossProduct(pathdir, &n1);
+
+		// Obtain cross product of previous value and path direction
 		pathdir->crossProduct(&n1, &torightpath);
-		return ((*p - *ps(trackSegId)->getLoc())*torightpath)/torightpath.len();
+
+		// Return current position - current desired location * distance to right path / length of right path
+		return ((*p - *ps(trackSegId)->getLoc())*torightpath) / torightpath.len();
 	}
 
 
@@ -247,4 +268,4 @@ namespace procBot
 	}
 }
 
-#endif // _P_PPathfinder_H_
+#endif // _P_PPATHFINDER_H_

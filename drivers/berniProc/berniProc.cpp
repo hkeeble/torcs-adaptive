@@ -115,6 +115,9 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 		myTrackDesc = new PTrackDesc(track);
 	}
 
+	// Initialize number of segments
+	segsInCurrentTrack = myTrackDesc->GetTorcsTrack()->nseg;
+
 	char buffer[BUFSIZE];
 	char* trackname = track->internalname;
 
@@ -171,6 +174,9 @@ static void drive(int index, tCarElt* car, tSituation *situation)
 	b1 = b2 = b3 = b4 = 0.0;
 	shiftaccel = 0.0;
 
+	/* compute dynamic path according to the situation */
+	mpf->dynamicPlan(myc->getCurrentSegId(), car, situation, myc, ocar);
+
 	/* update some values needed */
 	myc->update(myTrackDesc, car, situation);
 
@@ -198,9 +204,6 @@ static void drive(int index, tCarElt* car, tSituation *situation)
 		myc->startmode = false;
 		myc->loadBehaviour(myc->NORMAL);
 	}
-
-	/* compute path according to the situation */
-	mpf->plan(myc->getCurrentSegId(), car, situation, myc, ocar);
 
 	/* clear ctrl structure with zeros and set the current gear */
 	memset(&car->ctrl, 0, sizeof(tCarCtrl));
