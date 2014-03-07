@@ -44,8 +44,8 @@ static const char* botdesc[BOTS] = {
 extern "C" int lliaw(tModInfo *modInfo)
 {
 	for (int i = 0; i < BOTS; i++) {
-		modInfo[i].name = strdup(botname[i]);	// Name of the module (short).
-		modInfo[i].desc = strdup(botdesc[i]);	// Description of the module (can be long).
+		modInfo[i].name = _strdup(botname[i]);	// Name of the module (short).
+		modInfo[i].desc = _strdup(botdesc[i]);	// Description of the module (can be long).
 		modInfo[i].fctInit = InitFuncPt;		// Init function.
 		modInfo[i].gfId    = ROB_IDENT;			// Supported framework version.
 		modInfo[i].index   = i+1;

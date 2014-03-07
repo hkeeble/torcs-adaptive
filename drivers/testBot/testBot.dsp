@@ -1,24 +1,24 @@
-# Microsoft Developer Studio Project File - Name="berniw" - Package Owner=<4>
+# Microsoft Developer Studio Project File - Name="testBot" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** NICHT BEARBEITEN **
 
 # TARGTYPE "Win32 (x86) Dynamic-Link Library" 0x0102
 
-CFG=berniw - Win32 Debug
+CFG=testBot - Win32 Debug
 !MESSAGE Dies ist kein gültiges Makefile. Zum Erstellen dieses Projekts mit NMAKE
 !MESSAGE verwenden Sie den Befehl "Makefile exportieren" und führen Sie den Befehl
 !MESSAGE 
-!MESSAGE NMAKE /f "berniw.mak".
+!MESSAGE NMAKE /f "testBot.mak".
 !MESSAGE 
 !MESSAGE Sie können beim Ausführen von NMAKE eine Konfiguration angeben
 !MESSAGE durch Definieren des Makros CFG in der Befehlszeile. Zum Beispiel:
 !MESSAGE 
-!MESSAGE NMAKE /f "berniw.mak" CFG="berniw - Win32 Debug"
+!MESSAGE NMAKE /f "testBot.mak" CFG="testBot - Win32 Debug"
 !MESSAGE 
 !MESSAGE Für die Konfiguration stehen zur Auswahl:
 !MESSAGE 
-!MESSAGE "berniw - Win32 Release" (basierend auf  "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "berniw - Win32 Debug" (basierend auf  "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "testBot - Win32 Release" (basierend auf  "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "testBot - Win32 Debug" (basierend auf  "Win32 (x86) Dynamic-Link Library")
 !MESSAGE 
 
 # Begin Project
@@ -29,7 +29,7 @@ CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "berniw - Win32 Release"
+!IF  "$(CFG)" == "testBot - Win32 Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -59,10 +59,10 @@ LINK32=link.exe
 WkspDir=.
 TargetDir=.\Release
 SOURCE="$(InputPath)"
-PostBuild_Cmds=copy $(TargetDir)\*.dll $(WkspDir)\runtime\drivers\berniw
+PostBuild_Cmds=copy $(TargetDir)\*.dll $(WkspDir)\runtime\drivers\testBot
 # End Special Build Tool
 
-!ELSEIF  "$(CFG)" == "berniw - Win32 Debug"
+!ELSEIF  "$(CFG)" == "testBot - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
@@ -92,25 +92,25 @@ LINK32=link.exe
 WkspDir=.
 TargetDir=.\Debug
 SOURCE="$(InputPath)"
-PostBuild_Cmds=copy $(TargetDir)\*.dll $(WkspDir)\runtimed\drivers\berniw
+PostBuild_Cmds=copy $(TargetDir)\*.dll $(WkspDir)\runtimed\drivers\testBot
 # End Special Build Tool
 
 !ENDIF 
 
 # Begin Target
 
-# Name "berniw - Win32 Release"
-# Name "berniw - Win32 Debug"
+# Name "testBot - Win32 Release"
+# Name "testBot - Win32 Debug"
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=.\berniw.cpp
+SOURCE=.\testBot.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\berniw.def
+SOURCE=.\testBot.def
 # End Source File
 # Begin Source File
 
@@ -134,7 +134,7 @@ SOURCE=.\trackdesc.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=.\berniw.h
+SOURCE=.\testBot.h
 # End Source File
 # Begin Source File
 

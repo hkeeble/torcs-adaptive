@@ -58,13 +58,13 @@ namespace perfMeasurement
 			bool clear;
 
 			// The number of optimal points
-			const int NUMB_OF_OPTIMAL_POINTS = 3;
+			const int NUMB_OF_OPTIMAL_POINTS;
 
 			/* Used to calculate the optimal points the optimal arc must pass through */
 			PMPoint2D* CalculateOptimalPoints(tdble carWidth, tdble carDepth);
 		public:
 			CornerOutlook() : 
-				entrance(Segment()), corner(Segment()), exit(Segment()), optimalRadius(0.f), actualRadius(0.f), clear(true) { };
+				entrance(Segment()), corner(Segment()), exit(Segment()), optimalRadius(0.f), actualRadius(0.f), clear(true), NUMB_OF_OPTIMAL_POINTS(3) {};
 			~CornerOutlook();
 
 			/* Represents a single segment in the current outlook */

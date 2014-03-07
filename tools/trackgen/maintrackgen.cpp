@@ -192,10 +192,10 @@ void init_args(int argc, char **argv)
 			MergeTerrain = 0;
 			break;
 		case 'n':
-			TrackName = strdup(optarg);
+			TrackName = _strdup(optarg);
 			break;
 		case 'c':
-			TrackCategory = strdup(optarg);
+			TrackCategory = _strdup(optarg);
 			break;
 		case 'E':
 			saveElevation = strtol(optarg, NULL, 0);;
@@ -243,7 +243,7 @@ void init_args(int argc, char **argv)
 			MergeTerrain = 0;
 		} else if (strncmp(argv[i], "-n", 2) == 0) {
 			if (i + 1 < argc) {
-			TrackName = strdup(argv[++i]);
+			TrackName = _strdup(argv[++i]);
 			} else {
 			usage();
 			exit(0);
@@ -258,7 +258,7 @@ void init_args(int argc, char **argv)
 			TrackOnly = 0;
 		} else if (strncmp(argv[i], "-c", 2) == 0) {
 			if (i + 1 < argc) {
-			TrackCategory = strdup(argv[++i]);
+			TrackCategory = _strdup(argv[++i]);
 			} else {
 			usage();
 			exit(0);
@@ -357,7 +357,7 @@ static void Generate(void)
 	if (!JustCalculate) {
 		// Get the output file radix.
 		snprintf(buf2, BUFSIZE, "tracks/%s/%s/%s", Track->category, Track->internalname, Track->internalname);
-		OutputFileName = strdup(buf2);
+		OutputFileName = _strdup(buf2);
 
 		// Number of goups for the complete track.
 		if (TrackOnly) {
@@ -382,7 +382,7 @@ static void Generate(void)
 		}
 
 		snprintf(buf2, BUFSIZE, "%s-%s.ac", OutputFileName, extName);
-		OutTrackName = strdup(buf2);
+		OutTrackName = _strdup(buf2);
 	}
 
 	if (JustCalculate){
@@ -405,7 +405,7 @@ static void Generate(void)
 
 	extName = "msh";
 	snprintf(buf2, BUFSIZE, "%s-%s.ac", OutputFileName, extName);
-	OutMeshName = strdup(buf2);
+	OutMeshName = _strdup(buf2);
 
 	GenerateTerrain(Track, TrackHandle, OutMeshName, outfd, saveElevation);
 

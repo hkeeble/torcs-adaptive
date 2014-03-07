@@ -302,9 +302,9 @@ addParam (struct parmHeader *conf, struct section *section, const char *paramNam
 	char *tmpVal = NULL;
 	const unsigned long len = sizeof (struct param);
 	
-	tmpVal = strdup (value);
+	tmpVal = _strdup (value);
 	if (!tmpVal) {
-		GfError ("addParam: strdup (%s) failed\n", value);
+		GfError ("addParam: _strdup (%s) failed\n", value);
 		goto bailout;
 	}
 	
@@ -314,9 +314,9 @@ addParam (struct parmHeader *conf, struct section *section, const char *paramNam
 		goto bailout;
 	}
 
-	param->name = strdup (paramName);
+	param->name = _strdup (paramName);
 	if (!param->name) {
-		GfError ("addParam: strdup (%s) failed\n", paramName);
+		GfError ("addParam: _strdup (%s) failed\n", paramName);
 		goto bailout;
 	}
 	
@@ -385,9 +385,9 @@ getParent (struct parmHeader *conf, const char *sectionName)
 	char		*tmpName;
 	char		*s;
 
-	tmpName = strdup (sectionName);
+	tmpName = _strdup (sectionName);
 	if (!tmpName) {
-		GfError ("getParent: strdup (\"%s\") failed\n", sectionName);
+		GfError ("getParent: _strdup (\"%s\") failed\n", sectionName);
 		return NULL;
 	}
 
@@ -435,9 +435,9 @@ addSection (struct parmHeader *conf, const char *sectionName)
 		return NULL;
 	}
 
-	section->fullName = strdup(sectionName);
+	section->fullName = _strdup(sectionName);
 	if (!section->fullName) {
-		GfError ("addSection: strdup (%s) failed\n", sectionName);
+		GfError ("addSection: _strdup (%s) failed\n", sectionName);
 		goto bailout;
 	}
 
@@ -526,9 +526,9 @@ createParmHeader (const char *file)
 		goto bailout;
 	}
 
-	conf->filename = strdup (file);
+	conf->filename = _strdup (file);
 	if (!conf->filename) {
-		GfError ("gfParmReadFile: strdup (%s) failed\n", file);
+		GfError ("gfParmReadFile: _strdup (%s) failed\n", file);
 		goto bailout;
 	}
 
@@ -560,7 +560,7 @@ addWithin (struct param *curParam, char *s1)
 	}
 
 	curWithin = (struct within *) calloc (1, sizeof (struct within));
-	curWithin->val = strdup (s1);
+	curWithin->val = _strdup (s1);
 	GF_TAILQ_INSERT_TAIL (&(curParam->withinList), curWithin, linkWithin);
 }
 
@@ -627,10 +627,10 @@ static void xmlStartElement (void *userData , const char *name, const char **att
 	if (!strcmp(name, "params")) {
 
 		parmHandle->curSection = conf->rootSection;
-		parmHandle->curSection->fullName = strdup ("");
+		parmHandle->curSection->fullName = _strdup ("");
 
 		if (!parmHandle->curSection->fullName) {
-			GfError ("xmlStartElement: strdup (\"\") failed\n");
+			GfError ("xmlStartElement: _strdup (\"\") failed\n");
 			goto bailout;
 		}
 
@@ -639,9 +639,9 @@ static void xmlStartElement (void *userData , const char *name, const char **att
 			s2 = *atts++;
 			if (!strcmp(s1, "name")) {
 				FREEZ (conf->name);
-				conf->name = strdup(s2);
+				conf->name = _strdup(s2);
 				if (!conf->name) {
-					GfError ("xmlStartElement: strdup (\"%s\") failed\n", s2);
+					GfError ("xmlStartElement: _strdup (\"%s\") failed\n", s2);
 					goto bailout;
 				}
 				break;
@@ -685,7 +685,7 @@ static void xmlStartElement (void *userData , const char *name, const char **att
 			}
 		    snprintf (fullName, len, "%s/%s", parmHandle->curSection->fullName, shortName);
 		} else {
-			fullName = strdup (shortName);
+			fullName = _strdup (shortName);
 		}
 
 		parmHandle->curSection = addSection(conf, fullName);
@@ -761,7 +761,7 @@ static void xmlStartElement (void *userData , const char *name, const char **att
 		}
 
 		if (unit) {
-			curParam->unit = strdup (unit);
+			curParam->unit = _strdup (unit);
 			curParam->valnum = GfParmUnit2SI ((char*)unit, curParam->valnum);
 			curParam->min = GfParmUnit2SI ((char*)unit, curParam->min);
 			curParam->max = GfParmUnit2SI ((char*)unit, curParam->max);
@@ -1231,10 +1231,10 @@ xmlGetOuputLine (struct parmHandle *parmHandle, char *buffer, int size)
 
 		case 1:
 			if (conf->dtd == NULL) {
-				conf->dtd = strdup("params.dtd");
+				conf->dtd = _strdup("params.dtd");
 			}
 			if (conf->header == NULL) {
-				conf->header = strdup("");
+				conf->header = _strdup("");
 			}
 			snprintf (buffer, size, "<!DOCTYPE params SYSTEM \"%s\">\n%s\n", conf->dtd, conf->header);
 			outCtrl->indent = 0;
@@ -1426,12 +1426,12 @@ GfParmSetDTD (void *parmHandle, char *dtd, char*header)
 
     if (dtd) {
 	FREEZ(conf->dtd);
-	conf->dtd = strdup(dtd);
+	conf->dtd = _strdup(dtd);
     }
     
     if (header) {
 	FREEZ(conf->header);
-	conf->header = strdup(header);
+	conf->header = _strdup(header);
     }
 }
 
@@ -1475,7 +1475,7 @@ GfParmWriteFile (const char *file, void *parmHandle, const char *name)
 	
 	if (name) {
 		FREEZ (conf->name);
-		conf->name = strdup (name);
+		conf->name = _strdup (name);
 	}
 	
 	handle->outCtrl.state = 0;
@@ -2003,11 +2003,11 @@ GfParmListGetCurEltName (void *handle, const char *path)
 	if (s) {
 		s++;
 		return s;
-		//return strdup (s);
+		//return _strdup (s);
 	}
 
 	return section->curSubSection->fullName;
-	//return strdup (section->curSubSection->fullName);
+	//return _strdup (section->curSubSection->fullName);
 }
 
 
@@ -2193,10 +2193,10 @@ GfParmSetStr(void *handle, const char *path, const char *key, const char *val)
 	
 	param->type = P_STR;
 	freez (param->value);
-	param->value = strdup (val);
+	param->value = _strdup (val);
 	
 	if (!param->value) {
-		GfError ("gfParmSetStr: strdup (%s) failed\n", val);
+		GfError ("gfParmSetStr: _strdup (%s) failed\n", val);
 		removeParamByName (conf, path, key);
 		return -1;
 	}
@@ -2237,9 +2237,9 @@ GfParmSetCurStr(void *handle, char *path, char *key, char *val)
     }
     param->type = P_STR;
     freez (param->value);
-    param->value = strdup (val);
+    param->value = _strdup (val);
     if (!param->value) {
-	GfError ("gfParmSetStr: strdup (%s) failed\n", val);
+	GfError ("gfParmSetStr: _strdup (%s) failed\n", val);
 	removeParamByName (conf, path, key);
 	return -1;
     }
@@ -2279,7 +2279,7 @@ GfParmSetNum(void *handle, const char *path, const char *key, const char *unit, 
 	param->type = P_NUM;
 	FREEZ (param->unit);
 	if (unit) {
-		param->unit = strdup (unit);
+		param->unit = _strdup (unit);
 	}
 	
 	val = GfParmUnit2SI (unit, val);
@@ -2322,7 +2322,7 @@ GfParmSetNumEx(void *handle, char *path, char *key, char *unit, tdble val, tdble
     param->type = P_NUM;
     FREEZ (param->unit);
     if (unit) {
-	param->unit = strdup (unit);
+	param->unit = _strdup (unit);
     }
 
     param->valnum = GfParmUnit2SI (unit, val);
@@ -2369,7 +2369,7 @@ GfParmSetCurNum(void *handle, const char *path, const char *key, const char *uni
 	param->type = P_NUM;
 	FREEZ (param->unit);
 	if (unit) {
-		param->unit = strdup (unit);
+		param->unit = _strdup (unit);
 	}
 	
 	val = GfParmUnit2SI (unit, val);
@@ -2482,7 +2482,7 @@ insertParamMerge (struct parmHandle *parmHandle, char *path, struct param *param
 	paramNew->type = P_NUM;
 	FREEZ (paramNew->unit);
 	if (param->unit) {
-	    paramNew->unit = strdup (param->unit);
+	    paramNew->unit = _strdup (param->unit);
 	}
 	if (param->min < paramRef->min) {
 	    num = paramRef->min;
@@ -2531,7 +2531,7 @@ insertParamMerge (struct parmHandle *parmHandle, char *path, struct param *param
 	if (!str) {
 	    str = paramRef->value;
 	}
-	paramNew->value = strdup (str);
+	paramNew->value = _strdup (str);
     }
 }
 
@@ -2550,7 +2550,7 @@ insertParam (struct parmHandle *parmHandle, char *path, struct param *param)
 	paramNew->type = P_NUM;
 	FREEZ (paramNew->unit);
 	if (param->unit) {
-	    paramNew->unit = strdup (param->unit);
+	    paramNew->unit = _strdup (param->unit);
 	}
 	paramNew->valnum = param->valnum;
 	paramNew->min = param->min;
@@ -2558,7 +2558,7 @@ insertParam (struct parmHandle *parmHandle, char *path, struct param *param)
     } else {
 	paramNew->type = P_STR;
 	FREEZ (paramNew->value);
-	paramNew->value = strdup (param->value);
+	paramNew->value = _strdup (param->value);
 	within = GF_TAILQ_FIRST (&(param->withinList));
 	while (within) {
 	    addWithin (paramNew, within->val);

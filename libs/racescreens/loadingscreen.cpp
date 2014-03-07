@@ -122,7 +122,7 @@ RmLoadingScreenSetText(const char *text)
 			free(rmTextLines[rmCurText]);
 		}
 		if (text) {
-			rmTextLines[rmCurText] = strdup(text);
+			rmTextLines[rmCurText] = _strdup(text);
 			rmCurText = (rmCurText + 1) % TEXTLINES;
 		}
 		

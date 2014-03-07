@@ -210,7 +210,7 @@ static void grSetupState(grManagedState *st, char *buf)
 	}
 	stateList = curr;
 	curr->state = st;
-	curr->name = strdup(buf);
+	curr->name = _strdup(buf);
 
 	GfOut("Loading %s\n", buf);
 }

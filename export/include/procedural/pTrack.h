@@ -41,10 +41,6 @@ namespace procedural
 		const char *const StrCon(const char *const a, const char *const b);
 
 	public:
-
-		/* Number of segments stored in memory either side of occupied segment */
-		const int SEG_MEMORY_SIZE = 3;
-
 		PTrack(tTrack* track, tdble totalLength, char* acname, char* xmlname, char* filepath, ssgLoaderOptions* loaderoptions);
 		~PTrack();
 		PTrack(const PTrack& param);

@@ -49,7 +49,7 @@ namespace procedural
 
 		track->params = trackHandle = GfParmReadFile(fName, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT | GFPARM_RMODE_PRIVATE);
 
-		track->filename = strdup(fName);
+		track->filename = _strdup(fName);
 
 		GetTrackHeader(trackHandle, track);
 

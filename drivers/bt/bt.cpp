@@ -66,8 +66,8 @@ extern "C" int bt(tModInfo *modInfo)
 	memset(modInfo, 0, 10*sizeof(tModInfo));
 
 	for (i = 0; i < NBBOTS; i++) {
-		modInfo[i].name    = strdup(botname[i]);	// name of the module (short).
-		modInfo[i].desc    = strdup(botdesc[i]);	// Description of the module (can be long).
+		modInfo[i].name    = _strdup(botname[i]);	// name of the module (short).
+		modInfo[i].desc    = _strdup(botdesc[i]);	// Description of the module (can be long).
 		modInfo[i].fctInit = InitFuncPt;			// Init function.
 		modInfo[i].gfId    = ROB_IDENT;				// Supported framework version.
 		modInfo[i].index   = i;						// Indices from 0 to 9.

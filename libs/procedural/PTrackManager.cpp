@@ -8,14 +8,14 @@
 
 namespace procedural
 {
-	PTrackManager::PTrackManager()
+	PTrackManager::PTrackManager() : MAX_DIST_FROM_END(5)
 	{
 		raceManager = nullptr;
 		track = nullptr;
 		segFactory = nullptr;
 	}
 
-	PTrackManager::PTrackManager(std::string trackName, tdble trackLength, tRmInfo* RaceManager)
+	PTrackManager::PTrackManager(std::string trackName, tdble trackLength, tRmInfo* RaceManager) : MAX_DIST_FROM_END(5)
 	{
 		pOut("Initializing procedural track manager...\n");
 
@@ -51,7 +51,7 @@ namespace procedural
 		previousSegType = track->GetEnd()->type;
 	}
 
-	PTrackManager::PTrackManager(const PTrackManager& param)
+	PTrackManager::PTrackManager(const PTrackManager& param) : MAX_DIST_FROM_END(5)
 	{
 		cpy(param);
 	}

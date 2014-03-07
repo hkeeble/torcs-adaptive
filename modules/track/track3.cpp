@@ -881,7 +881,7 @@ CreateSegRing3(void *TrackHandle, tTrack *theTrack, tTrackSeg *start, tTrackSeg 
 			const char *marks = GfParmGetCurStr(TrackHandle, path, TRK_ATT_MARKS, NULL);
 			ind = 0;
 			if (marks) {
-				char* tmpmarks = strdup(marks);
+				char* tmpmarks = _strdup(marks);
 				char *s = strtok(tmpmarks, ";");
 				while ((s != NULL) && (ind < MAX_TMP_INTS)) {
 					mi[ind] = (int)strtol(s, NULL, 0);

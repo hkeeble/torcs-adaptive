@@ -95,13 +95,13 @@ void init_args(int argc, char **argv)
 	    exit(0);
 	    break;
 	case 'c':
-	    catfile = strdup(optarg);
+	    catfile = _strdup(optarg);
 	    break;
 	case 'i':
-	    infile = strdup(optarg);
+	    infile = _strdup(optarg);
 	    break;
 	case 'o':
-	    outfile = strdup(optarg);
+	    outfile = _strdup(optarg);
 	    break;
 	default:
 	    usage();
@@ -122,21 +122,21 @@ void init_args(int argc, char **argv)
 	}
 	if (strncmp(argv[i], "-c", 2) == 0) {
 	    if (i + 1 < argc) {
-		catfile = strdup(argv[++i]);
+		catfile = _strdup(argv[++i]);
 	    } else {
 		usage();
 		exit(0);
 	    }
 	} else if (strncmp(argv[i], "-i", 2) == 0) {
 	    if (i + 1 < argc) {
-		infile = strdup(argv[++i]);
+		infile = _strdup(argv[++i]);
 	    } else {
 		usage();
 		exit(0);
 	    }
 	} else if (strncmp(argv[i], "-o", 2) == 0) {
 	    if (i + 1 < argc) {
-		outfile = strdup(argv[++i]);
+		outfile = _strdup(argv[++i]);
 	    } else {
 		usage();
 		exit(0);

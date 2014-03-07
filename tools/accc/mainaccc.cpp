@@ -121,8 +121,8 @@ void init_args(int argc, char **argv)
 		extendedEnvCoord=1;
 		collapseObject=1;
 		sscanf(argv[2],"%lf",&smooth_angle);
-		InputFileName = strdup(argv[3]);
-		OutputFileName = strdup(argv[4]);
+		InputFileName = _strdup(argv[3]);
+		OutputFileName = _strdup(argv[4]);
 	} else  if (!strcmp(argv[1],"+et")) {
 		typeConvertion=_AC3DTOAC3D;
 		extendedStrips=0;
@@ -156,7 +156,7 @@ void init_args(int argc, char **argv)
 	if (typeConvertion==_AC3DTOAC3DGROUP) {
 		int i=3;
 		/* read other arguments */
-		OutputFileName = strdup(argv[2]);
+		OutputFileName = _strdup(argv[2]);
 		for (i=3; i<argc; i++) {
 			if (!strcmp(argv[i],"-es")) {
 				extendedStrips=1;
@@ -246,10 +246,10 @@ void init_args(int argc, char **argv)
 		}
 	} else {
 		if (InputFileName==NULL)
-			InputFileName = strdup(argv[2]);
+			InputFileName = _strdup(argv[2]);
 
 		if (OutputFileName==NULL)
-			OutputFileName = strdup(argv[3]);
+			OutputFileName = _strdup(argv[3]);
 
 		if (argc==7) {
 			if (!strcmp(argv[5],"-order"))

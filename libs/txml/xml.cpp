@@ -60,7 +60,7 @@ NewElt(const char *name, const char **atts)
     if ((newElt = (txmlElement*)malloc(sizeof(txmlElement))) == NULL) {
 	return (txmlElement*)NULL;
     }
-    newElt->name   = strdup(name);
+    newElt->name   = _strdup(name);
     newElt->pcdata = (char*)NULL;
     newElt->attr   = (txmlAttribute*)NULL;
     newElt->sub    = (txmlElement*)NULL;
@@ -83,8 +83,8 @@ NewElt(const char *name, const char **atts)
 	if ((newAttr = (txmlAttribute*)malloc(sizeof(txmlAttribute))) == NULL) {
 	    return (txmlElement*)NULL;
 	}
-	newAttr->name = strdup(s1);
-	newAttr->value = strdup(s2);
+	newAttr->name = _strdup(s1);
+	newAttr->value = _strdup(s2);
 	/* insert in attributes ring */
 	if (newElt->attr == NULL) {
 	    newElt->attr = newAttr;
@@ -211,7 +211,7 @@ CharacterData(void *userData, const char *s, int len)
     
     if (s3 > s2) {
 	*(s3+1) = 0;
-	(*curElt)->pcdata = strdup(s2);
+	(*curElt)->pcdata = _strdup(s2);
     }
     free(s1);
 }
@@ -382,7 +382,7 @@ xmlGetAttr(txmlElement *curElt, char *attrname)
 	do {
 	    cutAttr = cutAttr->next;
 	    if (strcmp(cutAttr->name, attrname) == 0) {
-		return strdup(cutAttr->value);
+		return _strdup(cutAttr->value);
 	    }
 	} while (cutAttr != curElt->attr);
     }

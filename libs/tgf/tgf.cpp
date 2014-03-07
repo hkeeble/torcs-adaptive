@@ -110,10 +110,12 @@ void _tgf_win_free(void * memblock)
 		assert( 0 );
 	}
 
+	/* What does this do? Fails to assert for client and berniProc in TORCS adaptive... */
 	if (*((int*)p + 1) != 123456789) {
 		assert( 0 );
 	}
 
+	/* Same for this... */
 	if(*((int*)(p + *(int*)p ) - 1) != 987654321) {
 		assert( 0 );
 	}
@@ -221,13 +223,13 @@ char * GfTime2Str(tdble sec, int sgn)
 	} else {
 		snprintf(buf, BUFSIZE, "      %s%2.2d:%2.2d", sign,s,c);
 	}
-	return strdup(buf);
+	return _strdup(buf);
 }
 
 
-static char *localDir = strdup("");
-static char *libDir = strdup("");
-static char *dataDir = strdup("");
+static char *localDir = _strdup("");
+static char *libDir = _strdup("");
+static char *dataDir = _strdup("");
 
 
 char * GetLocalDir(void)
@@ -239,7 +241,7 @@ char * GetLocalDir(void)
 void SetLocalDir(char *buf)
 {
 	free(localDir);
-	localDir = strdup(buf);
+	localDir = _strdup(buf);
 }
 
 
@@ -252,7 +254,7 @@ char * GetLibDir(void)
 void SetLibDir(char *buf)
 {
 	free(libDir);
-	libDir = strdup(buf);
+	libDir = _strdup(buf);
 }
 
 
@@ -265,7 +267,7 @@ char * GetDataDir(void)
 void SetDataDir(char *buf)
 {
 	free(dataDir);
-	dataDir = strdup(buf);
+	dataDir = _strdup(buf);
 }
 
 

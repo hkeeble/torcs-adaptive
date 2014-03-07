@@ -68,8 +68,8 @@ graphInit(int /* idx */, void *pt)
 extern "C" int
 ssggraph(tModInfo *modInfo)
 {
-    modInfo->name = strdup("ssggraph");		        		/* name of the module (short) */
-    modInfo->desc = strdup("The Graphic Library using PLIB ssg");	/* description of the module (can be long) */
+    modInfo->name = _strdup("ssggraph");		        		/* name of the module (short) */
+    modInfo->desc = _strdup("The Graphic Library using PLIB ssg");	/* description of the module (can be long) */
     modInfo->fctInit = graphInit;				/* init function */
     modInfo->gfId = 1;						/* v 1  */
 

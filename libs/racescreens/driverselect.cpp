@@ -375,8 +375,8 @@ RmDriversSelect(void *vs)
 							if (carhdle) {
 								curDrv = (tDrvElt*)calloc(1, sizeof(tDrvElt));
 								curDrv->index = curmod->modInfo[i].index;
-								curDrv->dname = strdup(dname);
-								curDrv->name = strdup(curmod->modInfo[i].name);
+								curDrv->dname = _strdup(dname);
+								curDrv->name = _strdup(curmod->modInfo[i].name);
 								curDrv->car = carhdle;
 								if (human) {
 									curDrv->human = 1;

@@ -94,7 +94,7 @@ static int windowsModLoad(unsigned int gfid, char *sopath, tModList **modlist)
 			if (fModInfo(curMod->modInfo) == 0) {
 				GfOut(">>> %s >>>\n", sopath);
 				curMod->handle = handle;
-				curMod->sopath = strdup(sopath);
+				curMod->sopath = _strdup(sopath);
 				if (*modlist == NULL) {
 					*modlist = curMod;
 					curMod->next = curMod;
@@ -165,7 +165,7 @@ static int windowsModInfo(unsigned int gfid, char *sopath, tModList **modlist)
 			if (fModInfo(curMod->modInfo) == 0) {
 				GfOut("Request Info for %s\n", sopath);
 				curMod->handle = NULL;
-				curMod->sopath = strdup(sopath);
+				curMod->sopath = _strdup(sopath);
 				if (*modlist == NULL) {
 					*modlist = curMod;
 					curMod->next = curMod;
@@ -255,7 +255,7 @@ static int windowsModLoadDir(unsigned int gfid, char *dir, tModList **modlist)
 					GfOut(">>> %s loaded >>>\n", sopath);
 					modnb++;
 					curMod->handle = handle;
-					curMod->sopath = strdup(sopath);
+					curMod->sopath = _strdup(sopath);
 					/* add the module in the list */
 					if (*modlist == NULL) {
 						*modlist = curMod;
@@ -357,7 +357,7 @@ static int windowsModInfoDir(unsigned int gfid, char *dir, int level, tModList *
 						if (fModInfo(curMod->modInfo) == 0) {
 							modnb++;
 							curMod->handle = NULL;
-							curMod->sopath = strdup(sopath);
+							curMod->sopath = _strdup(sopath);
 							/* add the module in the list */
 							if (*modlist == NULL) {
 								*modlist = curMod;
@@ -526,7 +526,7 @@ static tFList* windowsDirGetList(const char *dir)
 		do {
 			if ( strcmp(FData.name, ".") != 0 && strcmp(FData.name, "..") != 0 ) {
 				curf = (tFList*)calloc(1, sizeof(tFList));
-				curf->name = strdup(FData.name);
+				curf->name = _strdup(FData.name);
 				if (flist == (tFList*)NULL) {
 					curf->next = curf;
 					curf->prev = curf;
@@ -591,7 +591,7 @@ static tFList *windowsDirGetListFiltered(const char *dir, const char *suffix)
 			fnameLg = strlen(FData.name);
 			if ((fnameLg > suffixLg) && (strcmp(FData.name + fnameLg - suffixLg, suffix) == 0)) {
 				curf = (tFList*)calloc(1, sizeof(tFList));
-				curf->name = strdup(FData.name);
+				curf->name = _strdup(FData.name);
 				if (flist == (tFList*)NULL) {
 					curf->next = curf;
 					curf->prev = curf;

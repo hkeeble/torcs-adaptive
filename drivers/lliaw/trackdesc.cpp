@@ -19,7 +19,7 @@
 
 #include "trackdesc.h"
 #include "berniw.h"
-
+#include <math.h>
 
 TrackSegment::TrackSegment()
 {

@@ -183,9 +183,9 @@ void setTexture(tTexElt **texList, tTexElt **curTexElt, unsigned int &curTexId, 
 		*curTexElt = (tTexElt *)calloc(1, sizeof(tTexElt));
 		(*curTexElt)->next = *curTexElt;
 		*texList = *curTexElt;
-		(*curTexElt)->name = strdup(texname);
-		(*curTexElt)->namebump = strdup(texnamebump);
-		(*curTexElt)->nameraceline = strdup(texnameraceline);
+		(*curTexElt)->name = _strdup(texname);
+		(*curTexElt)->namebump = _strdup(texnamebump);
+		(*curTexElt)->nameraceline = _strdup(texnameraceline);
 
 		(*curTexElt)->texid = newTextureId();
 	} else {
@@ -210,9 +210,9 @@ void setTexture(tTexElt **texList, tTexElt **curTexElt, unsigned int &curTexId, 
 			*curTexElt = (tTexElt *)calloc(1, sizeof(tTexElt));
 			(*curTexElt)->next = *texList;
 			*texList = *curTexElt;
-			(*curTexElt)->name = strdup(texname);
-			(*curTexElt)->namebump = strdup(texnamebump);
-			(*curTexElt)->nameraceline = strdup(texnameraceline);
+			(*curTexElt)->name = _strdup(texname);
+			(*curTexElt)->namebump = _strdup(texnamebump);
+			(*curTexElt)->nameraceline = _strdup(texnameraceline);
 			(*curTexElt)->texid = newTextureId();
 		}
 	}
@@ -234,7 +234,7 @@ void newDispList(int texchange, int bump, int nbvert, int &startNeeded, const ch
 				*theCurDispElt = aDispElt = (tDispElt *)malloc(sizeof(tDispElt));
 				aDispElt->start = nbvert;
 				aDispElt->nb = 0;
-				aDispElt->name = strdup(name);
+				aDispElt->name = _strdup(name);
 				aDispElt->id = _id;
 				aDispElt->texture = curTexElt;
 				if (Groups[_id].nb == 0) {
@@ -254,7 +254,7 @@ void newDispList(int texchange, int bump, int nbvert, int &startNeeded, const ch
 			*theCurDispElt = aDispElt = (tDispElt *)malloc(sizeof(tDispElt));
 			aDispElt->start = nbvert;
 			aDispElt->nb = 0;
-			aDispElt->name = strdup(name);
+			aDispElt->name = _strdup(name);
 			aDispElt->id = _id;
 			aDispElt->texture = curTexElt;
 			aDispElt->next = aDispElt;

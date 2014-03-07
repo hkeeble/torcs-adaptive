@@ -8,8 +8,12 @@
 
 namespace procBot
 {
-	PStateManager::PStateManager(tTrack* const track) : PStateManager()
+	PStateManager::PStateManager(tTrack* const track)
 	{
+		segsOnLastUpdate = 0;
+		lastEnd = nullptr;
+		currentSegs = 0;
+		updateNeeded = false;
 		torcstrack = track;
 		Init();
 	}

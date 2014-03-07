@@ -202,10 +202,10 @@ RmGetTrackName(char *category, char *trackName)
 	trackHandle = GfParmReadFile(buf, GFPARM_RMODE_STD); /* don't release, the name is used later */
 
 	if (trackHandle) {
-		name = strdup(GfParmGetStr(trackHandle, TRK_SECT_HDR, TRK_ATT_NAME, trackName));
+		name = _strdup(GfParmGetStr(trackHandle, TRK_SECT_HDR, TRK_ATT_NAME, trackName));
 	} else {
 		GfTrace("File %s has pb\n", buf);
-		return strdup("");
+		return _strdup("");
 	}
 
 	GfParmReleaseHandle(trackHandle);
@@ -230,10 +230,10 @@ RmGetCategoryName(char *category)
 	categoryHandle = GfParmReadFile(buf, GFPARM_RMODE_STD); /* don't release, the name is used later */
 
 	if (categoryHandle) {
-		name = strdup(GfParmGetStr(categoryHandle, TRK_SECT_HDR, TRK_ATT_NAME, category));
+		name = _strdup(GfParmGetStr(categoryHandle, TRK_SECT_HDR, TRK_ATT_NAME, category));
 	} else {
 		GfTrace("File %s has pb\n", buf);
-		return strdup("");
+		return _strdup("");
 	}
 
 	GfParmReleaseHandle(categoryHandle);

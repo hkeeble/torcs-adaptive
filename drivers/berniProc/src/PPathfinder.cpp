@@ -1,4 +1,5 @@
 #include "PPathfinder.h"
+#include "berniProc.h"
 
 namespace procBot
 {
@@ -10,6 +11,7 @@ namespace procBot
 		track = itrack;
 		car = carDesc->getCarPtr();;
 		this->carDesc = carDesc;
+		previousPSCount = 0;
 		Init(s);
 
 		// Initialize the state manager
@@ -254,6 +256,7 @@ namespace procBot
 		for (i = previousPSCount; i < ps.Count(); i++)
 			ps(i)->setLoc(track->getSegmentPtr(i)->getMiddle());
 
+#ifdef USE_CLOTHOIDS
 		/* read parameter files and compute path */
 		if (loadClothoidParams(cp)) {
 			int i = 0, k = 0;
@@ -276,13 +279,14 @@ namespace procBot
 				k = k + (i - k + ps.Count()) % ps.Count();
 			}
 		}
+#endif // USE_CLOTHOIDS
 
-		optimize3(0, ps.Count(), 1.0);
-		optimize3(2, ps.Count(), 1.0);
-		optimize3(1, ps.Count(), 1.0);
+		optimize3(previousPSCount, ps.Count(), 1.0);
+		optimize3(previousPSCount + 2, ps.Count(), 1.0);
+		optimize3(previousPSCount + 1, ps.Count(), 1.0);
 
-		optimize2(0, 10 * ps.Count(), 0.5);
-		optimize(0, 80 * ps.Count(), 1.0);
+		optimize2(previousPSCount, 10 * ps.Count(), 0.5);
+		optimize(previousPSCount, 80 * ps.Count(), 1.0);
 
 		for (int k = 0; k < 10; k++) {
 			const int step = 65536 * 64;
@@ -294,7 +298,7 @@ namespace procBot
 		}
 
 		/* init pit ond optimal path */
-		for (i = 0; i < ps.Count(); i++) {
+		for (i = previousPSCount; i < ps.Count(); i++) {
 			ps(i)->setOptLoc(ps(i)->getLoc());
 			ps(i)->setPitLoc(ps(i)->getOptLoc());
 		}
@@ -302,7 +306,7 @@ namespace procBot
 		/* compute possible speeds, direction vector and length of trajectoies */
 		u = ps.Count() - 1; v = 0; w = 1;
 
-		for (i = 0; i < ps.Count(); i++) {
+		for (i = previousPSCount; i < ps.Count(); i++) {
 			r = radius(ps(u)->getLoc()->x, ps(u)->getLoc()->y,
 				ps(v)->getLoc()->x, ps(v)->getLoc()->y, ps(w)->getLoc()->x, ps(w)->getLoc()->y);
 			ps(i)->setRadius(r);

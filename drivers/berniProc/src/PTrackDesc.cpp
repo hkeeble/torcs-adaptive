@@ -1,4 +1,5 @@
 #include "PTrackDesc.h"
+#include "berniProc.h"
 
 namespace procBot
 {

@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="berniw"
+	Name="testBot"
 	ProjectGUID="{781B5B1E-48E0-4C0E-8A4A-5466BFC9637C}"
-	RootNamespace="berniw"
+	RootNamespace="testBot"
 	TargetFrameworkVersion="0"
 	>
 	<Platforms>
@@ -44,7 +44,7 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Debug/berniw.tlb"
+				TypeLibraryName=".\Debug/testBot.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -54,7 +54,7 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;BERNIW_EXPORTS;DEBUG;DEBUG_OUT"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
-				PrecompiledHeaderFile=".\Debug/berniw.pch"
+				PrecompiledHeaderFile=".\Debug/testBot.pch"
 				AssemblerListingLocation=".\Debug/"
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/"
@@ -79,21 +79,21 @@
 				IgnoreImportLibrary="true"
 				LinkLibraryDependencies="false"
 				AdditionalDependencies="tgf.lib robottools.lib sg_vs2008_32.lib ul_vs2008_32.lib"
-				OutputFile=".\Debug/berniw.dll"
+				OutputFile=".\Debug/testBot.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="../../../export/libd,../../windows/lib"
 				GenerateManifest="false"
 				EnableUAC="false"
 				IgnoreDefaultLibraryNames="LIBCMT"
-				ModuleDefinitionFile=".\berniw.def"
+				ModuleDefinitionFile=".\testBot.def"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Debug/berniw.pdb"
+				ProgramDatabaseFile=".\Debug/testBot.pdb"
 				GenerateMapFile="true"
-				MapFileName=".\Debug/berniw.map"
+				MapFileName=".\Debug/testBot.map"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
-				ImportLibrary=".\Debug/berniw.lib"
+				ImportLibrary=".\Debug/testBot.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -108,7 +108,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\Debug/berniw.bsc"
+				OutputFile=".\Debug/testBot.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -118,7 +118,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)..\runtimed\drivers\berniw"
+				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)..\runtimed\drivers\testBot"
 			/>
 		</Configuration>
 		<Configuration
@@ -150,7 +150,7 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Release/berniw.tlb"
+				TypeLibraryName=".\Release/testBot.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -163,7 +163,7 @@
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				EnableFunctionLevelLinking="false"
-				PrecompiledHeaderFile=".\Release/berniw.pch"
+				PrecompiledHeaderFile=".\Release/testBot.pch"
 				AssemblerListingLocation=".\Release/"
 				ObjectFile=".\Release/"
 				ProgramDataBaseFileName=".\Release/"
@@ -186,19 +186,19 @@
 				IgnoreImportLibrary="true"
 				LinkLibraryDependencies="false"
 				AdditionalDependencies="tgf.lib robottools.lib sg_vs2008_32.lib ul_vs2008_32.lib"
-				OutputFile=".\Release/berniw.dll"
+				OutputFile=".\Release/testBot.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="../../../export/lib,../../windows/lib"
 				GenerateManifest="false"
 				EnableUAC="false"
-				ModuleDefinitionFile=".\berniw.def"
-				ProgramDatabaseFile=".\Release/berniw.pdb"
+				ModuleDefinitionFile=".\testBot.def"
+				ProgramDatabaseFile=".\Release/testBot.pdb"
 				GenerateMapFile="true"
-				MapFileName=".\Release/berniw.map"
+				MapFileName=".\Release/testBot.map"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
-				ImportLibrary=".\Release/berniw.lib"
+				ImportLibrary=".\Release/testBot.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -213,7 +213,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\Release/berniw.bsc"
+				OutputFile=".\Release/testBot.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -223,7 +223,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)runtime\drivers\berniw"
+				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)runtime\drivers\testBot"
 			/>
 		</Configuration>
 	</Configurations>
@@ -235,7 +235,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="berniw.cpp"
+				RelativePath="testBot.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -257,7 +257,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="berniw.def"
+				RelativePath="testBot.def"
 				>
 			</File>
 			<File
@@ -354,7 +354,7 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath="berniw.h"
+				RelativePath="testBot.h"
 				>
 			</File>
 			<File

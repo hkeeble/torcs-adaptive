@@ -1,9 +1,12 @@
-/*
-    File: berniProc.xml
-    Author: Bernhard Wymann
-    Modified by: Henri Keeble
-	Desc: Modified version of the robot berniw for TORCS adaptive.
-*/
+/***************************************************************************
+
+    file                 : testBot.cpp
+    created              : Mon Apr 17 13:51:00 CET 2000
+    copyright            : (C) 2000-2002 by Bernhard Wymann
+    email                : testBot@bluewin.ch
+    version              : $Id: testBot.cpp,v 1.38.2.3 2012/02/09 22:36:23 testBot Exp $
+
+ ***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -15,14 +18,12 @@
  ***************************************************************************/
 
 
-#include "berniProc.h"
+#include "testBot.h"
 #include <portability.h>
 
 #ifdef DMALLOC
 #include "dmalloc.h"
 #endif
-
-using namespace procBot;
 
 /* function prototypes */
 static void initTrack(int index, tTrack* track, void *carHandle, void **carParmHandle, tSituation * situation);
@@ -30,28 +31,28 @@ static void drive(int index, tCarElt* car, tSituation *situation);
 static void newRace(int index, tCarElt* car, tSituation *situation);
 static int  InitFuncPt(int index, void *pt);
 static int  pitcmd(int index, tCarElt* car, tSituation *s);
-static void update(int index, tSituation *situation);
+static void update(int index, tSituation *s);
 static void shutdown(int index);
 
 
 static const char* botname[BOTS] = {
-	"berniProc 1", "berniProc 2", "berniProc 3", "berniProc 4", "berniProc 5",
-	"berniProc 6", "berniProc 7", "berniProc 8", "berniProc 9", "berniProc 10"
+	"testBot 1", "testBot 2", "testBot 3", "testBot 4", "testBot 5",
+	"testBot 6", "testBot 7", "testBot 8", "testBot 9", "testBot 10"
 };
 
 static const char* botdesc[BOTS] = {
-	"berniProc 1", "berniProc 2", "berniProc 3", "berniProc 4", "berniProc 5",
-	"berniProc 6", "berniProc 7", "berniProc 8", "berniProc 9", "berniProc 10"
+	"testBot 1", "testBot 2", "testBot 3", "testBot 4", "testBot 5",
+	"testBot 6", "testBot 7", "testBot 8", "testBot 9", "testBot 10"
 };
 
 /* Module entry point */
-extern "C" int berniProc(tModInfo *modInfo)
+extern "C" int testBot(tModInfo *modInfo)
 {
 	//char	buffer[BUFSIZE];
 
 	for (int i = 0; i < BOTS; i++) {
-		modInfo[i].name = strdup(botname[i]);	/* name of the module (short) */
-		modInfo[i].desc = strdup(botdesc[i]);	/* description of the module (can be long) */
+		modInfo[i].name = _strdup(botname[i]);	/* name of the module (short) */
+		modInfo[i].desc = _strdup(botdesc[i]);	/* description of the module (can be long) */
 		modInfo[i].fctInit = InitFuncPt;		/* init function */
 		modInfo[i].gfId    = ROB_IDENT;			/* supported framework version */
 		modInfo[i].index   = i+1;
@@ -76,30 +77,33 @@ static int InitFuncPt(int index, void *pt)
 }
 
 
-static PCarDesc* mycar[BOTS] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
-static POtherCarDesc* ocar = nullptr;
-static PTrackDesc* myTrackDesc = nullptr;
-static int segsInCurrentTrack = 0;
+static MyCar* mycar[BOTS] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
+static OtherCar* ocar = NULL;
+static TrackDesc* myTrackDesc = NULL;
 static double currenttime;
 static const tdble waitToTurn = 1.0; /* how long should i wait till i try to turn backwards */
 
+static void update(int index, tSituation *s)
+{
+
+}
 
 /* release resources when the module gets unloaded */
 static void shutdown(int index) {
 	int i = index - 1;
-	if (mycar[i] != nullptr) {
+	if (mycar[i] != NULL) {
 		delete mycar[i];
-		mycar[i] = nullptr;
+		mycar[i] = NULL;
 		//free(botdesc[i]);
 		//free(botname[i]);
 	}
-	if (myTrackDesc != nullptr) {
+	if (myTrackDesc != NULL) {
 		delete myTrackDesc;
-		myTrackDesc = nullptr;
+		myTrackDesc = NULL;
 	}
-	if (ocar != nullptr) {
+	if (ocar != NULL) {
 		delete [] ocar;
-		ocar = nullptr;
+		ocar = NULL;
 	}
 }
 
@@ -107,54 +111,46 @@ static void shutdown(int index) {
 /* initialize track data, called for every selected driver */
 static void initTrack(int index, tTrack* track, void *carHandle, void **carParmHandle, tSituation * situation)
 {
-	if ((myTrackDesc != nullptr) && (myTrackDesc->GetTorcsTrack() != track)) {
+	if ((myTrackDesc != NULL) && (myTrackDesc->getTorcsTrack() != track)) {
 		delete myTrackDesc;
-		myTrackDesc = nullptr;
+		myTrackDesc = NULL;
 	}
-	if (myTrackDesc == nullptr) {
-		myTrackDesc = new PTrackDesc(track);
+	if (myTrackDesc == NULL) {
+		myTrackDesc = new TrackDesc(track);
 	}
-
-	// Initialize number of segments
-	segsInCurrentTrack = myTrackDesc->GetTorcsTrack()->nseg;
 
 	char buffer[BUFSIZE];
 	char* trackname = track->internalname;
 
-	snprintf(buffer, BUFSIZE, "drivers/berniProc/%d/%s", index, trackname);
+	snprintf(buffer, BUFSIZE, "drivers/testBot/%d/%s", index, trackname);
     *carParmHandle = GfParmReadFile(buffer, GFPARM_RMODE_STD);
 
-	if (*carParmHandle == nullptr) {
-		snprintf(buffer, BUFSIZE, "drivers/berniProc/%d/default.xml", index);
+	if (*carParmHandle == NULL) {
+		snprintf(buffer, BUFSIZE, "drivers/testBot/%d/default.xml", index);
 	    *carParmHandle = GfParmReadFile(buffer, GFPARM_RMODE_STD);
 	}
 
 	/* Load and set parameters */
-	float fuel = 10000000000;
-	GfParmSetNum(*carParmHandle, SECT_CAR, PRM_FUEL, (char*)nullptr, MIN(fuel, 100.0));
+	float fuel = GfParmGetNum(*carParmHandle, BERNIW_SECT_PRIV, BERNIW_ATT_FUELPERLAP,
+		(char*)NULL, track->length*MyCar::MAX_FUEL_PER_METER);
+	fuel *= (situation->_totLaps + 1.0);
+	GfParmSetNum(*carParmHandle, SECT_CAR, PRM_FUEL, (char*)NULL, MIN(fuel, 100.0));
 }
 
 
 /* initialize driver for the race, called for every selected driver */
 static void newRace(int index, tCarElt* car, tSituation *situation)
 {
-	if (ocar != nullptr) delete [] ocar;
-	ocar = new POtherCarDesc[situation->_ncars];
+	if (ocar != NULL) delete [] ocar;
+	ocar = new OtherCar[situation->_ncars];
 	for (int i = 0; i < situation->_ncars; i++) {
 		ocar[i].init(myTrackDesc, situation->cars[i], situation);
 	}
 
-	if (mycar[index-1] != nullptr) delete mycar[index-1];
-	mycar[index-1] = new PCarDesc(myTrackDesc, car, situation);
+	if (mycar[index-1] != NULL) delete mycar[index-1];
+	mycar[index-1] = new MyCar(myTrackDesc, car, situation);
 
 	currenttime = situation->currentTime;
-}
-
-/* Used to update the car's understanding of the track and pathfinder before the call to the drive function, in a procedural track */
-static void update(int index, tSituation *situation)
-{
-	myTrackDesc->Update(); // Update the track description
-	mycar[index - 1]->getPathfinderPtr()->Update(situation); // Update the pathfinder based upon the new track
 }
 
 /* controls the car */
@@ -168,14 +164,11 @@ static void drive(int index, tCarElt* car, tSituation *situation)
 	tdble b4;							/* brake value for avoiding high angle of attack */
 	tdble steer, targetAngle, shiftaccel;
 
-	PCarDesc* myc = mycar[index-1];
-	PPathfinder* mpf = myc->getPathfinderPtr();
+	MyCar* myc = mycar[index-1];
+	Pathfinder* mpf = myc->getPathfinderPtr();
 
 	b1 = b2 = b3 = b4 = 0.0;
 	shiftaccel = 0.0;
-
-	/* compute dynamic path according to the situation */
-	mpf->dynamicPlan(myc->getCurrentSegId(), car, situation, myc, ocar);
 
 	/* update some values needed */
 	myc->update(myTrackDesc, car, situation);
@@ -204,6 +197,9 @@ static void drive(int index, tCarElt* car, tSituation *situation)
 		myc->startmode = false;
 		myc->loadBehaviour(myc->NORMAL);
 	}
+
+	/* compute path according to the situation */
+	mpf->plan(myc->getCurrentSegId(), car, situation, myc, ocar);
 
 	/* clear ctrl structure with zeros and set the current gear */
 	memset(&car->ctrl, 0, sizeof(tCarCtrl));
@@ -429,8 +425,8 @@ static void drive(int index, tCarElt* car, tSituation *situation)
 /* pitstop callback */
 static int pitcmd(int index, tCarElt* car, tSituation *s)
 {
-	PCarDesc* myc = mycar[index-1];
-	PPathfinder* mpf = myc->getPathfinderPtr();
+	MyCar* myc = mycar[index-1];
+	Pathfinder* mpf = myc->getPathfinderPtr();
 
 	car->_pitFuel = MAX(MIN((car->_remainingLaps+1.0)*myc->fuelperlap - car->_fuel, car->_tank - car->_fuel), 0.0);
 	myc->lastpitfuel = MAX(car->_pitFuel, 0.0);

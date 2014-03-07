@@ -29,13 +29,13 @@ namespace perfMeasurement
 		return currentTime;
 	}
 
-	PMDataCollection::PMDataCollection()
+	PMDataCollection::PMDataCollection() : maxDataSets(5)
 	{
 		data = std::vector<PMData>();
 		nOfDataSets = 0;
 	}
 
-	PMDataCollection::PMDataCollection(const PMDataCollection& param)
+	PMDataCollection::PMDataCollection(const PMDataCollection& param) : maxDataSets(5)
 	{
 		data = param.data;
 		nOfDataSets = param.nOfDataSets;

@@ -1,4 +1,4 @@
-ROBOT = berniw
+ROBOT = testBot
 
 MODULE = ${ROBOT}.so
 

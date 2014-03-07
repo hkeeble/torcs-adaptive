@@ -188,7 +188,7 @@ GfHashAddStr(void *hash, const char *key, const void *data)
 		return 1;
 	}
 
-	newElem->key = strdup(key);
+	newElem->key = _strdup(key);
 	newElem->size = strlen(key) + 1;
 	newElem->data = data;
 	GF_TAILQ_INSERT_TAIL(&(curHeader->hashHead[index]), newElem, link);

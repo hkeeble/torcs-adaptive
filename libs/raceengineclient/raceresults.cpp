@@ -124,8 +124,8 @@ ReUpdateStandings(void)
 	/* Read the current standings */
 	for (i = 0; i < curDrv; i++) {
 		snprintf(path2, BUFSIZE, "%s/%d", RE_SECT_STANDINGS, i + 1);
-		standings[i].carName = strdup(GfParmGetStr(results, path2, RE_ATTR_NAME, 0));
-		standings[i].modName = strdup(GfParmGetStr(results, path2, RE_ATTR_MODULE, 0));
+		standings[i].carName = _strdup(GfParmGetStr(results, path2, RE_ATTR_NAME, 0));
+		standings[i].modName = _strdup(GfParmGetStr(results, path2, RE_ATTR_MODULE, 0));
 		standings[i].drvIdx  = (int)GfParmGetNum(results, path2, RE_ATTR_IDX, NULL, 0);
 		standings[i].points  = (int)GfParmGetNum(results, path2, RE_ATTR_POINTS, NULL, 0);
 	}
@@ -147,8 +147,8 @@ ReUpdateStandings(void)
 		if (!found) {
 			/* Add the new driver */
 			curDrv++;
-			standings[j].carName = strdup(carName);
-			standings[j].modName = strdup(GfParmGetStr(results, path, RE_ATTR_MODULE, 0));
+			standings[j].carName = _strdup(carName);
+			standings[j].modName = _strdup(GfParmGetStr(results, path, RE_ATTR_MODULE, 0));
 			standings[j].drvIdx  = (int)GfParmGetNum(results, path, RE_ATTR_IDX, NULL, 0);
 			standings[j].points  = (int)GfParmGetNum(results, path, RE_ATTR_POINTS, NULL, 0);
 		} else {

@@ -205,13 +205,13 @@ GenCarsInfo(void)
 			GF_TAILQ_INIT(&(curCat->CarsInfoList));
 			char* str = strchr(curFile->name, '.');
 			*str = '\0';
-			curCat->_Name = strdup(curFile->name);
+			curCat->_Name = _strdup(curFile->name);
 			snprintf(buf, BUFSIZE, "categories/%s.xml", curFile->name);
 			hdle = GfParmReadFile(buf, GFPARM_RMODE_STD);
 			if (!hdle) {
 				continue;
 			}
-			curCat->_DispName = strdup(GfParmGetName(hdle));
+			curCat->_DispName = _strdup(GfParmGetName(hdle));
 			GfParmReleaseHandle(hdle);
 			GF_TAILQ_INSERT_TAIL(&CatsInfoList, curCat, link);
 		} while (curFile != files);
@@ -224,14 +224,14 @@ GenCarsInfo(void)
 		do {
 			curFile = curFile->next;
 			curCar = (tCarInfo*)calloc(1, sizeof(tCarInfo));
-			curCar->_Name = strdup(curFile->name);
+			curCar->_Name = _strdup(curFile->name);
 			snprintf(buf, BUFSIZE, "cars/%s/%s.xml", curFile->name, curFile->name);
 			carparam = GfParmReadFile(buf, GFPARM_RMODE_STD);
 			if (!carparam) {
 				continue;
 			}
 		
-			curCar->_DispName = strdup(GfParmGetName(carparam));
+			curCar->_DispName = _strdup(GfParmGetName(carparam));
 			/* search for the category */
 			const char* str = GfParmGetStr(carparam, SECT_CAR, PRM_CATEGORY, "");
 			curCat = GF_TAILQ_FIRST(&CatsInfoList);
@@ -286,7 +286,7 @@ static void
 DeletePlayer(void * /* dummy */)
 {
 	if (curPlayer) {
-		curPlayer->_DispName = strdup(NO_DRV);
+		curPlayer->_DispName = _strdup(NO_DRV);
 		refreshEditVal();
 		UpdtScrollList();
 	}
@@ -329,8 +329,8 @@ GenDrvList(void)
 		snprintf(sstring, SSTRINGSIZE, "%s/%s/%d", ROB_SECT_ROBOTS, ROB_LIST_INDEX, i+1);
 		driver = GfParmGetStr(drvinfo, sstring, ROB_ATTR_NAME, "");
 		if (strlen(driver) == 0) {
-			PlayersInfo[i]._DispName = strdup(NO_DRV);
-			PlayersInfo[i]._Name = strdup(dllname);
+			PlayersInfo[i]._DispName = _strdup(NO_DRV);
+			PlayersInfo[i]._Name = _strdup(dllname);
 			PlayersInfo[i].carinfo = GF_TAILQ_FIRST(&((GF_TAILQ_FIRST(&CatsInfoList))->CarsInfoList));
 			PlayersInfo[i].racenumber = 0;
 			PlayersInfo[i].color[0] = 1.0;
@@ -338,8 +338,8 @@ GenDrvList(void)
 			PlayersInfo[i].color[2] = 0.5;
 			PlayersInfo[i].color[3] = 1.0;
 		} else {
-			PlayersInfo[i]._DispName = strdup(driver);
-			PlayersInfo[i]._Name = strdup(dllname);
+			PlayersInfo[i]._DispName = _strdup(driver);
+			PlayersInfo[i]._Name = _strdup(dllname);
 			PlayersInfo[i].skilllevel = 0;
 			str = GfParmGetStr(drvinfo, sstring, ROB_ATTR_LEVEL, level_str[0]);
 			for(j = 0; j < nbLevels; j++) {
@@ -461,9 +461,9 @@ ChangeName(void * /* dummy */)
 		}
 
 		if (strlen(val)) {
-			curPlayer->_DispName = strdup(val);
+			curPlayer->_DispName = _strdup(val);
 		} else {
-			curPlayer->_DispName = strdup(NO_DRV);
+			curPlayer->_DispName = _strdup(NO_DRV);
 		}
 	}
 	UpdtScrollList();

@@ -629,7 +629,7 @@ grInitCar(tCarElt *car)
 	ssgModelPath(buf);
 	snprintf(buf, BUFSIZE, "drivers/%s/%d;drivers/%s;cars/%s", car->_modName, car->_driverIndex, car->_modName, car->_carName);
 	ssgTexturePath(buf);
-	grTexturePath = strdup(buf);
+	grTexturePath = _strdup(buf);
 
 	/* loading raw car level 0*/
 	selIndex = 0; 	/* current selector index */
@@ -642,7 +642,7 @@ grInitCar(tCarElt *car)
 	grCarInfo[index].carEntity = carEntity;
 
 	/* Set a selector on the driver */
-	char* stmp = strdup("DRIVER");
+	char* stmp = _strdup("DRIVER");
 	ssgBranch *b = (ssgBranch *)carEntity->getByName(stmp);
 	free(stmp);
 

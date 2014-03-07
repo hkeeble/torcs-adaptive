@@ -765,30 +765,30 @@ GfuiAddKey(void *scr, unsigned char key, const char *descr, void *userData, tfui
 	curKey->onPress = onKeyPressed;
 
 	if (descr == NULL) {
-		curKey->descr = strdup("");
+		curKey->descr = _strdup("");
 	} else {
-		curKey->descr = strdup(descr);
+		curKey->descr = _strdup(descr);
 	}
 
 	switch(key){
 		case 8:
-			curKey->name = strdup("backspace");
+			curKey->name = _strdup("backspace");
 			break;
 		case 9:
-			curKey->name = strdup("tab");
+			curKey->name = _strdup("tab");
 			break;
 		case 13:
-			curKey->name = strdup("enter");
+			curKey->name = _strdup("enter");
 			break;
 		case 27:
-			curKey->name = strdup("esc");
+			curKey->name = _strdup("esc");
 			break;
 		case ' ':
-			curKey->name = strdup("space");
+			curKey->name = _strdup("space");
 			break;
 		default:
 			snprintf(buf, BUFSIZE, "%c", key);
-			curKey->name = strdup(buf);
+			curKey->name = _strdup(buf);
 			break;
 	}
 	
@@ -837,74 +837,74 @@ GfuiAddSKey(void *scr, int key, const char *descr, void *userData, tfuiCallback 
 	curKey->onPress = onKeyPressed;
 
 	if (descr == NULL) {
-		curKey->descr = strdup("");
+		curKey->descr = _strdup("");
 	} else {
-		curKey->descr = strdup(descr);
+		curKey->descr = _strdup(descr);
 	}
 
 	switch(key) {
 		case GLUT_KEY_F1:
-			curKey->name = strdup("F1");
+			curKey->name = _strdup("F1");
 			break;
 		case GLUT_KEY_F2:
-			curKey->name = strdup("F2");
+			curKey->name = _strdup("F2");
 			break;
 		case GLUT_KEY_F3:
-			curKey->name = strdup("F3");
+			curKey->name = _strdup("F3");
 			break;
 		case GLUT_KEY_F4:
-			curKey->name = strdup("F4");
+			curKey->name = _strdup("F4");
 			break;
 		case GLUT_KEY_F5:
-			curKey->name = strdup("F5");
+			curKey->name = _strdup("F5");
 			break;
 		case GLUT_KEY_F6:
-			curKey->name = strdup("F6");
+			curKey->name = _strdup("F6");
 			break;
 		case GLUT_KEY_F7:
-			curKey->name = strdup("F7");
+			curKey->name = _strdup("F7");
 			break;
 		case GLUT_KEY_F8:
-			curKey->name = strdup("F8");
+			curKey->name = _strdup("F8");
 			break;
 		case GLUT_KEY_F9:
-			curKey->name = strdup("F9");
+			curKey->name = _strdup("F9");
 			break;
 		case GLUT_KEY_F10:
-			curKey->name = strdup("F10");
+			curKey->name = _strdup("F10");
 			break;
 		case GLUT_KEY_F11:
-			curKey->name = strdup("F11");
+			curKey->name = _strdup("F11");
 			break;
 		case GLUT_KEY_F12:
-			curKey->name = strdup("F12");
+			curKey->name = _strdup("F12");
 			break;
 		case GLUT_KEY_LEFT:
-			curKey->name = strdup("Left Arrow");
+			curKey->name = _strdup("Left Arrow");
 			break;
 		case GLUT_KEY_UP:
-			curKey->name = strdup("Up Arrow");
+			curKey->name = _strdup("Up Arrow");
 			break;
 		case GLUT_KEY_RIGHT:
-			curKey->name = strdup("Right Arrow");
+			curKey->name = _strdup("Right Arrow");
 			break;
 		case GLUT_KEY_DOWN:
-			curKey->name = strdup("Down Arrow");
+			curKey->name = _strdup("Down Arrow");
 			break;
 		case GLUT_KEY_PAGE_UP:
-			curKey->name = strdup("Page Up");
+			curKey->name = _strdup("Page Up");
 			break;
 		case GLUT_KEY_PAGE_DOWN:
-			curKey->name = strdup("Page Down");
+			curKey->name = _strdup("Page Down");
 			break;
 		case GLUT_KEY_HOME:
-			curKey->name = strdup("Home");
+			curKey->name = _strdup("Home");
 			break;
 		case GLUT_KEY_END:
-			curKey->name = strdup("End");
+			curKey->name = _strdup("End");
 			break;
 		case GLUT_KEY_INSERT:
-			curKey->name = strdup("Insert");
+			curKey->name = _strdup("Insert");
 			break;
 	}
 	

@@ -48,8 +48,8 @@ static const char* botdesc[BOTS] = {
 extern "C" int botProc(tModInfo *modInfo)
 {
 	for (int i = 0; i < BOTS; i++) {
-		modInfo[i].name = strdup(botname[i]);
-		modInfo[i].desc = strdup(botdesc[i]);
+		modInfo[i].name = _strdup(botname[i]);
+		modInfo[i].desc = _strdup(botdesc[i]);
 		modInfo[i].fctInit = InitFuncPt;
 		modInfo[i].gfId = ROB_IDENT;
 		modInfo[i].index = i + 1;

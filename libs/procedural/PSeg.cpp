@@ -24,7 +24,7 @@ namespace procedural
 
 	PSegFactory* PSegFactory::instance = NULL;
 
-	PSegFactory::PSegFactory()
+	PSegFactory::PSegFactory() : ranges(PSegmentRanges(PRange(MIN_ARC, MAX_ARC), PRange(MIN_RADIUS, MAX_RADIUS), PRange(MIN_LENGTH, MAX_LENGTH)))
 	{
 		cornerChance = straightChance = 50.f;
 		srand(time(0));

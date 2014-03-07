@@ -132,7 +132,7 @@ InitObjects(tTrack *track, void *TrackHandle)
 	GF_TAILQ_INIT(&objhead);
 
 	snprintf(buf, BUFSIZE, "tracks/%s/%s;data/objects", track->category, track->internalname);
-	search = strdup(buf);
+	search = _strdup(buf);
 
 	snprintf(path, BUFSIZE, "tracks/%s/%s;data/objects;data/textures;.", track->category, track->internalname);
 	ssgTexturePath(path);

@@ -2,18 +2,18 @@
 <html>
 
 <head>
-	<title>berniw torcs driver readme</title>
+	<title>testBot torcs driver readme</title>
 	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 </head>
 
 <body>
 
-<h2>berniw development snapshot for torcs-1.2.0</h2>
+<h2>testBot development snapshot for torcs-1.2.0</h2>
 
-<h3>1.0 what is berniw?</h3>
+<h3>1.0 what is testBot?</h3>
 
 <p>
-berniw is a car driver for the open racing car simulator, look at <a href="http://torcs.org">
+testBot is a car driver for the open racing car simulator, look at <a href="http://torcs.org">
 torcs.org</a>. at this place i would like to thank the developers of torcs, i had a lot of fun
 during the development of this driver, they do a great job:-)
 </p>
@@ -23,7 +23,7 @@ during the development of this driver, they do a great job:-)
 <p>
 gnu general public license 2. anyway, please don't look too hard in the code yet, or my reputation
 will be lost...;-). download the latest version <a href="download/berniw20020125.tar.bz2">berniw20020125.tar.bz2</a> here (it's more recent than the one included in 1.0.0). if you get the CVS
-version of torcs, you don't need this package, berniw is already included.
+version of torcs, you don't need this package, testBot is already included.
 </p>
 
 <h4>1.1.1 older versions</h4>
@@ -32,7 +32,7 @@ version of torcs, you don't need this package, berniw is already included.
 - <a href="download/berniw20011103.tar.bz2">berniw20011103.tar.bz2</a> for torcs 1.0.0-pre7.<br>
 </p>
 
-<h3>1.2 how do i install berniw?</h3>
+<h3>1.2 how do i install testBot?</h3>
 
 <p>
 so, first you need a working version of torcs 1.2.0 under linux with sources installed. i
@@ -49,11 +49,11 @@ export MAKE_DEFAULT=/usr/src/torcs/torcs/Make-default.mk<br>
 now change to the drivers directory:<br>
 cd $TORCS_BASE/src/drivers<br>
 <br>
-unpack the berniw package (where YYYYMMDD means the version you got, eg. 20011225):<br>
+unpack the testBot package (where YYYYMMDD means the version you got, eg. 20011225):<br>
 tar xfvI ~/berniwYYYYMMDD.tar.bz2<br>
 <br>
 compile and install:<br>
-cd berniw<br>
+cd testBot<br>
 make<br>
 make install<br>
 if you discover trouble send me a mail to berni4you@gmx.ch.<br>
@@ -61,7 +61,7 @@ if you discover trouble send me a mail to berni4you@gmx.ch.<br>
 run it:<br>
 cd /usr/local/games/torcs<br>
 ./torcs<br>
-now choose a berniw, have fun.<br>
+now choose a testBot, have fun.<br>
 </p>
 
 <h3>1.3 features</h3>
@@ -82,13 +82,13 @@ now choose a berniw, have fun.<br>
 - improve stability (of car, not of the code).<br>
 - review the code and choose better names for variables/procedures, improve comments.<br>
 - replace quick hacks with serious routines.<br>
-- communication between berniw's.<br>
+- communication between testBot's.<br>
 - improve behavior model.<br>
 </p>
 
 <h3>1.5 would you like to get involved?</h3>
 <p>
-if you are interested, you can tune the setups for the cars. they are in the berniw 1-10 directories, named according to the track. if you have a good one, it's welcome, of course (berni4you@gmx.ch).<br>
+if you are interested, you can tune the setups for the cars. they are in the testBot 1-10 directories, named according to the track. if you have a good one, it's welcome, of course (berni4you@gmx.ch).<br>
 </p>
 
 <h3>1.6 contributors</h3>
@@ -115,7 +115,7 @@ if you are interested, you can tune the setups for the cars. they are in the ber
 <p>
 - changed correctpath(), takes now actual car direction to compute trajectory instead of parrallel to the track.<br>
 - setups.<br>
-- new skin for berniw 2-7.<br>
+- new skin for testBot 2-7.<br>
 </p>
 
 <h4>21. nov. 2002</h4>
@@ -126,16 +126,16 @@ if you are interested, you can tune the setups for the cars. they are in the ber
 <h4>till 19. nov. 2002</h4>
 <p>
 - setups.<br>
-- berniw 5 changed to gt-40.<br>
+- testBot 5 changed to gt-40.<br>
 - berniw2-7 changed to porsche-gt3.<br>
-- skin for berniw 5.<br>
+- skin for testBot 5.<br>
 </p>
 
 <h4>till 10. oct. 2002</h4>
 <p>
 - setups.<br>
-- berniw 2-10 changed to 360-modena.<br>
-- changed skins of berniw 9 and berniw 2-9.<br>
+- testBot 2-10 changed to 360-modena.<br>
+- changed skins of testBot 9 and testBot 2-9.<br>
 - some changes in breaking code.<br>
 </p>
 
@@ -188,7 +188,7 @@ if you are interested, you can tune the setups for the cars. they are in the ber
 <p>
 - some setups.<br>
 - changed parameter MAXALLOWEDPITCH to fix crazy behaviour on a-speedway (mycar.cpp).<br>
-- some changes in steer code (berniw.cpp).<br>
+- some changes in steer code (testBot.cpp).<br>
 - changed overtaking, tried to compensate "noise" from interpolation.<br>
 </p>
 
@@ -223,7 +223,7 @@ if you are interested, you can tune the setups for the cars. they are in the ber
 <p>
 - merged with torcs 1.1, eg. no frontwing anymore, etc.<br>
 - added some updates for efficiency.<br>
-- changed berniw 3 to porsche-gt1.<br>
+- changed testBot 3 to porsche-gt1.<br>
 - fixed a minor bug in my aerodynamics stuff.<br>
 - experimental windows port.
 - ...
@@ -286,8 +286,8 @@ if you are interested, you can tune the setups for the cars. they are in the ber
 
 <h4>19. dec. 2001</h4>
 <p>
-- added a viper (berniw 4), setups and texture are not done.<br>
-- added an acura-nsx (berniw 3), setups and texture not done.<br>
+- added a viper (testBot 4), setups and texture are not done.<br>
+- added an acura-nsx (testBot 3), setups and texture not done.<br>
 - minor code cleanups.<br>
 </p>
 
@@ -299,7 +299,7 @@ if you are interested, you can tune the setups for the cars. they are in the ber
 
 <h4>17. dec. 2001</h4>
 <p>
-- added defines in pathfinder.h. you can now choose the trajectory on compile time through defining PATH_K1999 or PATH_BERNIW. if you choose none, the driver will drive on the midde of the track. if you choose both, first a berniw path is generated, then a K1999 optimisation is performed. the reason for having two path's handy is, that you can check, if an idea is "in general" good, and not just on one path.<br>
+- added defines in pathfinder.h. you can now choose the trajectory on compile time through defining PATH_K1999 or PATH_BERNIW. if you choose none, the driver will drive on the midde of the track. if you choose both, first a testBot path is generated, then a K1999 optimisation is performed. the reason for having two path's handy is, that you can check, if an idea is "in general" good, and not just on one path.<br>
 - added support to take care of bumps (ala dirt-2).<br>
 </p>
 
@@ -334,8 +334,8 @@ if you are interested, you can tune the setups for the cars. they are in the ber
 
 <h4>4. dec. 2001</h4>
 <p>
-- setups for berniw 9, so it stays on every track.<br>
-- little strategy (refueling: laps behind leader) change in berniw.cpp.<br>
+- setups for testBot 9, so it stays on every track.<br>
+- little strategy (refueling: laps behind leader) change in testBot.cpp.<br>
 </p>
 
 <h4>28. nov. 2001</h4>
@@ -345,24 +345,24 @@ if you are interested, you can tune the setups for the cars. they are in the ber
 
 <h4>26. nov. 2001</h4>
 <p>
-- setups for berniw 1-9, eroad, e-track-4.<br>
-- textures for berniw 6-8.<br>
+- setups for testBot 1-9, eroad, e-track-4.<br>
+- textures for testBot 6-8.<br>
 - handling of rwd, fwd and 4wd.<br>
 - moved some code.<br>
 </p>
 
 <h4>till 25. nov. 2001</h4>
 <p>
-- moved berniw 10 into a buggy.<br>
-- moved berniw 9 into a mc-laren-f1.<br>
-- moved berniw 8 into a corvette.<br>
-- moved berniw 7 into a lotus-gt1.<br>
-- moved berniw 6 into a 155-DTM.<br>
-- new setups for berniw 1-5 (brake balance).<br>
+- moved testBot 10 into a buggy.<br>
+- moved testBot 9 into a mc-laren-f1.<br>
+- moved testBot 8 into a corvette.<br>
+- moved testBot 7 into a lotus-gt1.<br>
+- moved testBot 6 into a 155-DTM.<br>
+- new setups for testBot 1-5 (brake balance).<br>
 - cleaned up old stuff.<br>
 - added some trajectory code (not used yet).<br>
 - bug hunting, reporting.<br>
-- berniw becomes integrated into the torcs CVS:-).<br>
+- testBot becomes integrated into the torcs CVS:-).<br>
 </p>
 
 <h3>1.8 how does it work</h3>

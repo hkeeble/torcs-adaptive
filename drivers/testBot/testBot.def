@@ -1,0 +1,10 @@
+;
+; testBot.def
+;
+
+LIBRARY
+
+SECTIONS .data READ WRITE
+
+EXPORTS
+	testBot

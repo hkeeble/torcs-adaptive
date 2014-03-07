@@ -6,6 +6,7 @@
 */
 
 #include "PPathfinder.h"
+#include "spline.h"
 
 namespace procBot
 {
