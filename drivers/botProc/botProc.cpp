@@ -21,7 +21,10 @@
 #include <robottools.h>
 #include <robot.h>
 
+#include "Car.h"
+
 static tTrack *curTrack;
+static Car *myc = new Car();
 
 static void initTrack(int index, tTrack* track, void *carHandle, void **carParmHandle, tSituation *s);
 static void newrace(int index, tCarElt* car, tSituation *s);
@@ -78,6 +81,7 @@ static int InitFuncPt(int index, void *pt)
 static void initTrack(int index, tTrack* track, void *carHandle, void **carParmHandle, tSituation *s)
 {
     curTrack = track;
+	myc->SetTrack(track);
     *carParmHandle = nullptr;
 }
 
@@ -85,6 +89,7 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 /* Start a new race. */
 static void newrace(int index, tCarElt* car, tSituation *s)
 {
+	myc->SetCar(car);
 }
 
 
@@ -92,23 +97,8 @@ static void newrace(int index, tCarElt* car, tSituation *s)
 static void
 drive(int index, tCarElt* car, tSituation *s)
 {
-    memset(&car->ctrl, 0, sizeof(tCarCtrl));
-
-    float angle;
-    const float SC = 1.0;
-
-    angle = RtTrackSideTgAngleL(&(car->_trkPos)) - car->_yaw;
-    NORM_PI_PI(angle); // put the angle back in the range from -PI to PI
-    angle -= SC*car->_trkPos.toMiddle/car->_trkPos.seg->width;
-
-    // set up the values to return
-    car->ctrl.steer = angle / car->_steerLock;
-    car->ctrl.gear = 1; // first gear
-
-    car->ctrl.accelCmd = 0.6; // 60% accelerator pedal
-    car->ctrl.brakeCmd = 0.0; // no brakes
+	myc->Update();
 }
-
 
 /* End of the current race */
 static void endrace(int index, tCarElt *car, tSituation *s)

@@ -7,6 +7,10 @@
 #define _PROC_TRACK_MANAGER_H_
 
 #include <ctime>
+#include <fstream>
+#include <vector>
+#include <sstream>
+
 #include "PTrack.h"
 #include "PRange.h"
 #include "PSSGState.h"

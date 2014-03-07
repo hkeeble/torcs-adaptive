@@ -141,7 +141,7 @@ namespace procBot
 			double derror;			/* distance to desired trajectory */
 
 			PCarDesc(PTrackDesc* track, tCarElt* car, tSituation *situation);
-			~PCarDesc();
+			virtual ~PCarDesc();
 
 			void info(void);
 			void update(PTrackDesc* track, tCarElt* car, tSituation *situation);

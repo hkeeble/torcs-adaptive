@@ -36,6 +36,12 @@
     <ClCompile Include="PSSGState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PFileManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PLoadTrackMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Diagram.cd" />

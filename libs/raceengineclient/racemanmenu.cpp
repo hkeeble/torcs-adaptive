@@ -38,6 +38,8 @@
 
 #include "racemanmenu.h"
 
+#include "taManager.h"
+
 static float red[4]  = {1.0, 0.0, 0.0, 1.0};
 
 static void *racemanMenuHdle = NULL;
@@ -46,6 +48,9 @@ static tRmTrackSelect ts;
 static tRmDrvSelect ds;
 static tRmRaceParam rp;
 static tRmFileSelect fs;
+
+/* Procedural track selection screen */
+static PTrackSelectMenu pts;
 
 static void reConfigRunState(void);
 
@@ -183,7 +188,18 @@ reConfigRunState(void)
 		}
 		RmRaceParamMenu(&rp);
 	}
-	
+	else if (!strcmp(conf, RM_VAL_LOADPROCTRK)) { /* Load a previous procedural track */
+		pts.nextScreen = reConfigHookInit();
+		if (curConf == 1) {
+			pts.prevScreen = racemanMenuHdle;
+		}
+		else {
+			pts.prevScreen = reConfigBackHookInit();
+		}
+		
+		torcsAdaptive::TAManager::Get()->ShowTrackSelectMenu(&pts);
+	}
+
 	curConf++;
 	GfParmSetNum(params, RM_SECT_CONF, RM_ATTR_CUR_CONF, NULL, curConf);
 	

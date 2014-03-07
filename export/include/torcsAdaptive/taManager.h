@@ -6,8 +6,13 @@
 #ifndef _TORCS_ADAPTIVE_MANAGER_H_
 #define _TORCS_ADAPTIVE_MANAGER_H_
 
+#include <windows.h>
+#include <sstream>
+
 #include "perfMeasurement\PMManager.h"
 #include "procedural\pTrackManager.h"
+#include "procedural\PFileManager.h"
+#include "procedural\PLoadTrackMenu.h"
 #include "procedural\PRange.h"
 #include "TAHud.h"
 
@@ -25,7 +30,7 @@ using namespace perfMeasurement;
 namespace torcsAdaptive
 {
 	// Currently defined track length
-	#define TA_TR_LENGTH 5000
+	#define TA_TR_LENGTH 500
 
 	/* Type of TORCS-Adaptive Race currently active.
 		0 - None: Assigned as default, therefore only set if TAManager::Init() has not been called, adaptive/procedural race not active.
@@ -38,6 +43,9 @@ namespace torcsAdaptive
 		Adaptive,
 		Procedural
 	};
+
+	/* Retrieve the current executable's directory */
+	char* GetCurrentDir();
 
 	class TAManager
 	{
@@ -52,6 +60,7 @@ namespace torcsAdaptive
 		TARaceType raceType;
 		PMManager* perfMeasurement;
 		PTrackManager* trackManager;
+		PFileManager* fileManager;
 		tRmInfo* raceManager;
 		tCarElt* car;
 
@@ -59,7 +68,18 @@ namespace torcsAdaptive
 
 		// The TORCS Adaptive HUD
 		TAHud hud;
-	
+
+		void* endRaceMenuHndle;
+
+		/* Output the current track */
+		void OutputTrack();
+
+		/* Read in the given track */
+		void ReadTrack(std::string fPath);
+
+		/* Encapsulates the track loading menu for procedural tracks */
+		PLoadTrackMenu loadMenu;
+
 	public:
 		static TAManager* Get();
 		virtual ~TAManager();
@@ -114,6 +134,9 @@ namespace torcsAdaptive
 
 		/* Draws TORCS-Adaptive specific content to the UI */
 		void DrawBoard();
+
+		/* Shows a track selection menu */
+		void ShowTrackSelectMenu(void* vs);
 	};
 }
 #endif // _TORCS_ADAPTIVE_MANAGER_H_

@@ -277,6 +277,9 @@ typedef struct RmInfo
 #define RM_VAL_CONFRACELEN	"race length"
 #define RM_VAL_CONFDISPMODE	"display mode"
 
+/* TORCS Adaptive - used to load previous procedural tracks */
+#define RM_VAL_LOADPROCTRK "load previous track"
+
 #define RM_VAL_DRV_LIST_ORDER	"drivers list"
 #define RM_VAL_LAST_RACE_ORDER	"last race"
 #define RM_VAL_LAST_RACE_RORDER	"last race reversed"

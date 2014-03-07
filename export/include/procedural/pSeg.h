@@ -20,11 +20,8 @@ namespace procedural
 	/* Represents segment data for torcs-adaptive. */
 	class PSeg
 	{
-	private:
-		PSeg();
 	public:	
-		friend class PSegFactory;
-
+		PSeg();
 		virtual ~PSeg();
 
 		int	id;	

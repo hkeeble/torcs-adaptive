@@ -5,9 +5,31 @@ Desc: Defines a singleton class that manages TORCS-Adaptive specific races. See 
 */
 #include "TAManager.h"
 #include "procedural\trackdesc.h"
+#include "../../client/mainmenu.h"
 
 namespace torcsAdaptive
 {
+	char* GetCurrentDir()
+	{
+		// Get Path
+		TCHAR path[MAX_PATH];
+		GetModuleFileName(NULL, path, MAX_PATH);
+
+		// Convert to string
+		std::stringstream ss;
+		ss << path;
+		std::string s = ss.str();
+
+		// Remove Executable Name
+		unsigned int pos = s.find_last_of("\\");
+		s = s.substr(0, pos + 1);
+
+		char* realPath = (char*)calloc(strlen(s.c_str()), sizeof(char));
+		strcpy(realPath, s.c_str());
+
+		return realPath;
+	}
+
 	TAManager* TAManager::instance = nullptr;
 
 	TAManager::TAManager()
@@ -15,6 +37,10 @@ namespace torcsAdaptive
 		raceType = TARaceType::None;
 		perfMeasurement = nullptr;
 		trackManager = nullptr;
+
+		// Obtain pointer to file manager
+		fileManager = PFileManager::Get();
+		
 		currentSkillLevel = 0.f;
 	}
 
@@ -164,8 +190,44 @@ namespace torcsAdaptive
 		TrackDesc desc = TrackDesc(trackManager->GetTrack()->trk);
 		desc.plot((char*)(std::string((char*)trackManager->GetTrack()->GetFilePath()) + std::string("procTrackPlot.dat")).c_str());
 
+		/* Output the track to a text file for later reading */
+		OutputTrack();
+
 		if (trackManager)
 			delete trackManager;
+	}
+
+	void TAManager::OutputTrack()
+	{
+		std::string fname = "";
+
+		// Count number of files already in directory
+		WIN32_FIND_DATA fData;
+		char* executableDir = GetCurrentDir();
+		std::string searchDir = executableDir;
+		searchDir.append("tracks\\procedural\\" + std::string(raceManager->track->name) + "\\previousTracks\\");
+		std::string saveDir = searchDir;
+		searchDir.append("*.trk");
+
+		HANDLE find = FindFirstFile(searchDir.c_str(), &fData);
+		int fCount = 0;
+		if (find != INVALID_HANDLE_VALUE)
+		{
+			fCount++;
+			while (FindNextFile(find, &fData) == TRUE)
+				fCount++;
+		}
+
+		// Create name of file from file count
+		fname += std::to_string(fCount);
+
+		// Write out the track
+		fileManager->OutputTrack(saveDir + fname, trackManager);
+	}
+
+	void TAManager::ReadTrack(std::string fPath)
+	{
+		fileManager->ReadTrack(fPath, trackManager);
 	}
 
 	void TAManager::InitCarPos()
@@ -210,5 +272,11 @@ namespace torcsAdaptive
 			hud.Render(perfMeasurement->GetSkillEstimate());
 		else
 			hud.Render(NULL_SKILL_LEVEL);
+	}
+
+	void TAManager::ShowTrackSelectMenu(void* vs)
+	{
+		PTrackSelectMenu* m = (PTrackSelectMenu*)vs;
+		loadMenu.Create(m);
 	}
 }

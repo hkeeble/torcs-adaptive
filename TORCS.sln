@@ -78,6 +78,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "berniProc", "drivers\berniP
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "procBot", "libs\procBot\procBot.vcxproj", "{E939DAD9-8969-43EA-AB2F-E3234125B2A0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lliawProc", "drivers\lliawProc\lliawProc.vcxproj", "{516A7D41-CF69-46DF-A1D3-17447AC86565}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -352,6 +354,14 @@ Global
 		{E939DAD9-8969-43EA-AB2F-E3234125B2A0}.Release|Win32.ActiveCfg = Release|Win32
 		{E939DAD9-8969-43EA-AB2F-E3234125B2A0}.Release|Win32.Build.0 = Release|Win32
 		{E939DAD9-8969-43EA-AB2F-E3234125B2A0}.Release|x64.ActiveCfg = Release|Win32
+		{516A7D41-CF69-46DF-A1D3-17447AC86565}.Debug|ARM.ActiveCfg = Debug|Win32
+		{516A7D41-CF69-46DF-A1D3-17447AC86565}.Debug|Win32.ActiveCfg = Debug|Win32
+		{516A7D41-CF69-46DF-A1D3-17447AC86565}.Debug|Win32.Build.0 = Debug|Win32
+		{516A7D41-CF69-46DF-A1D3-17447AC86565}.Debug|x64.ActiveCfg = Debug|Win32
+		{516A7D41-CF69-46DF-A1D3-17447AC86565}.Release|ARM.ActiveCfg = Release|Win32
+		{516A7D41-CF69-46DF-A1D3-17447AC86565}.Release|Win32.ActiveCfg = Release|Win32
+		{516A7D41-CF69-46DF-A1D3-17447AC86565}.Release|Win32.Build.0 = Release|Win32
+		{516A7D41-CF69-46DF-A1D3-17447AC86565}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

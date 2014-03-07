@@ -31,9 +31,6 @@ namespace procBot
 	#define FNIS "drivers/berniProc/intsinsqr.dat"
 	#define FNIC "drivers/berniProc/intcossqr.dat"
 
-	/* how far we look forward for overtaking, collisions, etc */
-	#define AHEAD 50
-
 	/* how many segments can i pass per simulation step, depends on TRACKRES, simulation->_deltaTime and speed */
 	#define SEGRANGE 3
 
@@ -133,6 +130,8 @@ namespace procBot
 			int changed;
 			double pitspeedsqrlimit;	/* speed limit for pit lane squared */
 
+			int ahead; /* Distance, in meters, to look ahead */
+
 			int collcars;
 			tOCar* o;
 			tOverlapTimer* overlaptimer;
@@ -216,7 +215,7 @@ namespace procBot
 
 
 	inline void PPathfinder::setPitStop(bool p, int id) {
-		if (isPitAvailable() && track->isBetween(e3, (s1 - AHEAD + ps.Count()) % ps.Count(), id) && p) {
+		if (isPitAvailable() && track->isBetween(e3, (s1 - ahead + ps.Count()) % ps.Count(), id) && p) {
 			pitStop = true ;
 		} else {
 			pitStop = false;

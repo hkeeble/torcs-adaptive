@@ -37,7 +37,7 @@ namespace procBot
 			// Initialize length and nsegments, with both corresponding to the new part of the track
 			int nOfNewSegs = 0;
 			double tracklength = 0.0;
-			
+
 			if (ts.Count() == 0)
 			{
 				end = stateMngr.GetEnd();
@@ -71,7 +71,8 @@ namespace procBot
 			double curseglen = 0.0;
 			curSeg = (tTrackSeg*)end->next;
 
-			do {
+			for (int i = 0; i < nOfNewSegs; i++)
+			{
 				if (curSeg->type == TR_STR) {
 					double dxl = (curSeg->vertex[TR_EL].x - curSeg->vertex[TR_SL].x) / (curSeg->length / TRACKRES);
 					double dyl = (curSeg->vertex[TR_EL].y - curSeg->vertex[TR_SL].y) / (curSeg->length / TRACKRES);
@@ -135,25 +136,11 @@ namespace procBot
 				}
 
 				curSeg = curSeg->next;
-			} while ((curSeg != end) && curSeg);
+			}
 
 			if (currentts != nOfNewSegs) printf("error: PTrackDesc::PTrackDesc currentts %d != nOfNewSegs %d.\n", currentts, nOfNewSegs);
 
 			int i;
-
-			/* setting up pit and length */
-			for (i = 0; i < nOfNewSegs; i++) {
-				int j = (i + nOfNewSegs - 1) % nOfNewSegs;
-				int k = (i + nOfNewSegs + 1) % nOfNewSegs;
-				if ((newSegs[i].getRaceType() & TR_PITENTRY) && !(newSegs[j].getRaceType() & TR_PITENTRY)) {
-					nPitEntryStart = i;
-				}
-				if ((newSegs[i].getRaceType() & TR_PITEXIT) && !(newSegs[k].getRaceType() & TR_PITEXIT)) {
-					nPitExitEnd = i;
-				}
-				v3d* p = newSegs[k].getMiddle();
-				newSegs[i].setLength(newSegs[i].distToMiddle2D(p->x, p->y));
-			}
 
 			/* init kbeta, for height profile of track */
 			v3d *p0, *p1, *p2;

@@ -18,6 +18,8 @@ namespace procBot
 
 		// Plan a static route using the car description, without taking into account the current situation
 		staticPlan(carDesc);
+
+		ahead = track->GetTorcsTrack()->length - getCurrentSegment(car);
 	}
 
 	void PPathfinder::Init(tSituation* s)
@@ -289,7 +291,7 @@ namespace procBot
 
 		for (int k = 0; k < 10; k++) {
 			const int step = 65536 * 64;
-			for (int j = 0; j < ps.Count(); j++) {
+			for (int j = previousPSCount; j < ps.Count(); j++) {
 				for (int i = step; i > 0; i /= 2) {
 					smooth(j, (double)i / (step / 2), myc->CARWIDTH / 2.0);
 				}
@@ -359,13 +361,13 @@ namespace procBot
 
 		/* load precomputed trajectory */
 		if (!pitStop && !inPit) {
-			for (i = start; i < trackSegId + AHEAD + SEGRANGE; i++) {
+			for (i = start; i < trackSegId + ahead + SEGRANGE; i++) {
 				int j = (i + ps.Count()) % ps.Count();
 				ps(j)->setLoc(ps(j)->getOptLoc());
 			}
 		}
 		else {
-			for (i = start; i < trackSegId + AHEAD + SEGRANGE; i++) {
+			for (i = start; i < trackSegId + ahead + SEGRANGE; i++) {
 				int j = (i + ps.Count()) % ps.Count();
 				ps(j)->setLoc(ps(j)->getPitLoc());
 			}
@@ -374,7 +376,7 @@ namespace procBot
 		collcars = updateOCar(trackSegId, situation, myc, ocar, o);
 		updateOverlapTimer(trackSegId, situation, myc, ocar, o, overlaptimer);
 
-		if (!inPit && (!pitStop || track->isBetween(e3, (s1 - AHEAD + ps.Count()) % ps.Count(), trackSegId))) {
+		if (!inPit && (!pitStop || track->isBetween(e3, (s1 - ahead + ps.Count()) % ps.Count(), trackSegId))) {
 			/* are we on the trajectory or do i need a correction */
 			if ((myc->derror > myc->PATHERR*myc->PATHERRFACTOR ||
 				(myc->getDeltaPitch() > myc->MAXALLOWEDPITCH && myc->getSpeed() > myc->FLYSPEED))) {
@@ -402,7 +404,7 @@ namespace procBot
 		v = (v + ps.Count()) % ps.Count();
 		w = (w + ps.Count()) % ps.Count();
 
-		for (i = start; i < trackSegId + AHEAD + SEGRANGE; i++) {
+		for (i = start; i < trackSegId + ahead + SEGRANGE; i++) {
 			if (i > ps.Count()) break;
 			int j = (i + ps.Count()) % ps.Count();
 			/* taking 2 radiuses to reduce "noise" */
@@ -450,7 +452,7 @@ namespace procBot
 		/* set speed limits on the path, in case there is an obstacle (other car) */
 		changed += collision(trackSegId, car, situation, myc, ocar);
 
-		lastPlan = trackSegId; lastPlanRange = AHEAD;
+		lastPlan = trackSegId; lastPlanRange = ahead;
 	}
 
 
@@ -612,7 +614,7 @@ namespace procBot
 
 		double d = track->distToMiddle(id, myc->getCurrentPos());
 		//	double factor = MIN(myc->CORRLEN*fabs(d), ps.Count()/2.0);
-		double factor = MIN(MIN(myc->CORRLEN*myc->derror, ps.Count() / 2.0), AHEAD);
+		double factor = MIN(MIN(myc->CORRLEN*myc->derror, ps.Count() / 2.0), ahead);
 		int endid = (id + (int)(factor)+ps.Count()) % ps.Count();
 
 		if (fabs(d) > (track->getSegmentPtr(id)->getWidth() - myc->CARWIDTH) / 2.0) {
@@ -664,7 +666,7 @@ namespace procBot
 			}
 		}
 		else {
-			double newdisttomiddle[AHEAD];
+			double* newdisttomiddle = new double[ahead];
 			for (i = id; (j = (i + ps.Count()) % ps.Count()) != endid; i++) {
 				d = spline(2, l, s, y, ys);
 				if (fabs(d) > (track->getSegmentPtr(j)->getWidth() - myc->CARWIDTH) / 2.0 - myc->MARGIN) {
@@ -680,6 +682,8 @@ namespace procBot
 				q = *pp + (*qq)*newdisttomiddle[i - id];
 				ps(j)->setLoc(&q);
 			}
+
+			delete[] newdisttomiddle;
 		}
 
 		/* align previos point for getting correct speedsqr in PPathfinder::plan(...) */
@@ -745,7 +749,7 @@ namespace procBot
 
 		/* not enough space, so we try to overtake */
 		if (((o[collcarindex].mincorner < myc->CARWIDTH / 2.0 + myc->DIST) && (minTime < myc->TIMETOCATCH)) || !sidechangeallowed) {
-			int overtakerange = (int)MIN(MAX((3 * minTime*myc->getSpeed()), myc->MINOVERTAKERANGE), AHEAD - 50);
+			int overtakerange = (int)MIN(MAX((3 * minTime*myc->getSpeed()), myc->MINOVERTAKERANGE), ahead - 50);
 			double d = o[collcarindex].disttomiddle;
 			double mydisttomiddle = track->distToMiddle(myc->getCurrentSegId(), myc->getCurrentPos());
 			double y[3], ys[3], s[3];
@@ -824,7 +828,7 @@ namespace procBot
 			s[2] = s[1] + countSegments(trackSegId1, trackSegId2);
 
 			/* check path for leaving to track */
-			double newdisttomiddle[AHEAD];
+			double* newdisttomiddle = new double[ahead];
 			int i, j;
 			double l = 0.0; v3d q, *pp, *qq;
 			for (i = trackSegId; (j = (i + ps.Count()) % ps.Count()) != trackSegId2; i++) {
@@ -845,8 +849,10 @@ namespace procBot
 				ps(j)->setLoc(&q);
 			}
 
+			delete[] newdisttomiddle;
+
 			/* reload old trajectory where needed */
-			for (i = trackSegId2; (j = (i + ps.Count()) % ps.Count()) != (trackSegId + AHEAD) % ps.Count(); i++) {
+			for (i = trackSegId2; (j = (i + ps.Count()) % ps.Count()) != (trackSegId + ahead) % ps.Count(); i++) {
 				ps(j)->setLoc(ps(j)->getOptLoc());
 			}
 
@@ -995,7 +1001,8 @@ namespace procBot
 				s[3] = s[2] + countSegments(trackSegId2, trackSegId3);
 
 				/* check path for leaving to track */
-				double newdisttomiddle[AHEAD], d;
+				double* newdisttomiddle = new double[ahead];
+				double d;
 				int i, j;
 				double l = 0.0; v3d q, *pp, *qq;
 				for (i = trackSegId; (j = (i + ps.Count()) % ps.Count()) != trackSegId3; i++) {
@@ -1015,8 +1022,10 @@ namespace procBot
 					ps(j)->setLoc(&q);
 				}
 
+				delete [] newdisttomiddle;
+
 				/* reload old trajectory where needed */
-				for (i = trackSegId3; (j = (i + ps.Count()) % ps.Count()) != (trackSegId + AHEAD) % ps.Count(); i++) {
+				for (i = trackSegId3; (j = (i + ps.Count()) % ps.Count()) != (trackSegId + ahead) % ps.Count(); i++) {
 					ps(j)->setLoc(ps(j)->getOptLoc());
 				}
 
@@ -1044,6 +1053,9 @@ namespace procBot
 
 			// Append the collection of path segments
 			ps.Append(newSegs.Segments());
+
+			// Calculate distance to look ahead
+			ahead = track->GetTorcsTrack()->length - getCurrentSegment(car);;
 
 			// Compute a new static plan
 			staticPlan(carDesc);
