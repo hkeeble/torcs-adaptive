@@ -9,7 +9,7 @@
 #define _P_TRACK_SEGMENT_H_
 
 #include <track.h>
-#include "linalg.h"
+#include "taMath/taMath.h"
 
 namespace procBot
 {

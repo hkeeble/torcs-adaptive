@@ -1,5 +1,4 @@
 #include "PPathfinder.h"
-#include "berniProc.h"
 
 namespace procBot
 {

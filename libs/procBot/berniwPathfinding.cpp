@@ -10,54 +10,6 @@
 
 namespace procBot
 {
-	/* load parameters for clothoid from the files */
-	bool PPathfinder::loadClothoidParams(tParam* p)
-	{
-		double dummy;
-		FILE* fd = fopen(FNPF, "r");
-
-		/* read FNPF */
-		if (fd != NULL) {
-			for (int i = 0; i < NTPARAMS; i++) {
-				fscanf(fd, "%lf %lf", &p[i].x, &p[i].pd);
-			}
-		}
-		else {
-			printf("error in loadClothoidParams(tParam* p): couldn't open file %s.\n", FNPF);
-			return false;
-		}
-		fclose(fd);
-
-		/* read FNIS */
-		fd = fopen(FNIS, "r");
-		if (fd != NULL) {
-			for (int i = 0; i < NTPARAMS; i++) {
-				fscanf(fd, "%lf %lf", &dummy, &p[i].is);
-			}
-		}
-		else {
-			printf("error in loadClothoidParams(tParam* p): couldn't open file %s.\n", FNIS);
-			return false;
-		}
-		fclose(fd);
-
-		/* read FNIC */
-		fd = fopen(FNIC, "r");
-		if (fd != NULL) {
-			for (int i = 0; i < NTPARAMS; i++) {
-				fscanf(fd, "%lf %lf", &dummy, &p[i].ic);
-			}
-		}
-		else {
-			printf("error in loadClothoidParams(tParam* p): couldn't open file %s.\n", FNIC);
-			return false;
-		}
-		fclose(fd);
-
-		return true;
-	}
-
-
 	/*
 	computes int(sin(u^2), u=0..alpha), where alpha is [0..PI).
 	*/
@@ -78,37 +30,6 @@ namespace procBot
 		/* linear interpoation between the nearest known two points */
 		return cp[i].ic + (alpha - cp[i].x)*(cp[j].ic - cp[i].ic) / TPRES;
 	}
-
-
-	/*
-	computes clothoid parameter pd(look with maple at clothoid.mws), where alpha is [0..PI).
-	*/
-	double PPathfinder::clothparam(double alpha)
-	{
-		int i = (int)floor(alpha / TPRES), j = i + 1;
-		/* linear interpoation between the nearest known two points */
-		return cp[i].pd + (alpha - cp[i].x)*(cp[j].pd - cp[i].pd) / TPRES;
-	}
-
-
-	/*
-	computes clothoid parameter sigma (look with maple at clothoid.mws), where beta is [0..PI) and y > 0.0.
-	*/
-	double PPathfinder::clothsigma(double beta, double y)
-	{
-		double a = intsinsqr(sqrt(fabs(beta))) / y;
-		return a*a*2.0;
-	}
-
-
-	/*
-	computes the langth of the clothoid(look with maple at clothoid.mws), where beta is [0..PI) and y > 0.0.
-	*/
-	double PPathfinder::clothlength(double beta, double y)
-	{
-		return 2.0*sqrt(2.0*beta / clothsigma(beta, y));
-	}
-
 
 	/*
 	searches for the startid of a part, eg. TR_STR

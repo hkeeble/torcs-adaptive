@@ -7,6 +7,7 @@
 
 #include "linalg.h"
 #include "spline.h"
+#include <float.h>
 
 #ifndef _TA_MATH_H_
 #define _TA_MATH_H_

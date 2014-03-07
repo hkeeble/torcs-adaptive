@@ -32,7 +32,7 @@ namespace procBot
 	#define FNIC "drivers/berniProc/intcossqr.dat"
 
 	/* how far we look forward for overtaking, collisions, etc */
-	#define AHEAD 500
+	#define AHEAD 50
 
 	/* how many segments can i pass per simulation step, depends on TRACKRES, simulation->_deltaTime and speed */
 	#define SEGRANGE 3

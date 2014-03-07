@@ -8,7 +8,7 @@
 #ifndef _PATH_SEG_H_
 #define _PATH_SEG_H_
 
-#include "linalg.h"
+#include "taMath\taMath.h"
 #include "tgf.h"
 
 namespace procBot

@@ -20,72 +20,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\berniProc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\berniwPathfinding.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PathSeg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PathSegCollection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PCarDesc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PPathfinder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PStateManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PTrackDesc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PTrackSegment.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PTrackSegmentCollection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\spline.cpp">
+    <ClCompile Include="berniProc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\berniProc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\PathSeg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\PathSegCollection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\PCarDesc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\PPathfinder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\PStateManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\PTrackDesc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\PTrackSegment.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\PTrackSegmentCollection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\linalg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\spline.h">
+    <ClInclude Include="berniProc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

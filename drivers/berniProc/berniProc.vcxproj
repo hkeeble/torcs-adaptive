@@ -58,7 +58,7 @@
       <SDLCheck>false</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;BERNIPROC_EXPORTS;DEBUG;DEBUG_OUT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../windows/include;../../..;$(SolutionDir)\config\;$(ProjectDir)\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../windows/include;../../..;$(SolutionDir)\config\;$(ProjectDir)\include\;$(SolutionDir)/export/include/procBot/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AssemblerListingLocation>./Debug/</AssemblerListingLocation>
       <ObjectFileName>./Debug/</ObjectFileName>
@@ -67,8 +67,8 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)/export/libd;../../windows/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>tgf.lib;robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\export\libd\;$(SolutionDir)\windows\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>tgf.lib;robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;procBot.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Debug/berniProc.dll</OutputFile>
       <MapFileName>.\Debug/berniProc.map</MapFileName>
       <IgnoreSpecificDefaultLibraries>LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -91,7 +91,7 @@
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>NDEBUG;WIN32;_CRT_SECURE_NO_WARNINGS;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\export\include\;$(SolutionDir)\export\include\taMath\;$(SolutionDir)\export\include\procBot\;$(SolutionDir)\windows\include\;$(SolutionDir)\config\;%(AdditionalIncludeDirectories);$(ProjectDir)\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../windows/include;../../..;$(SolutionDir)\config\;$(ProjectDir)\include\;$(SolutionDir)/export/include/procBot/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -108,30 +108,10 @@
     <None Include="berniProc.def" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\berniProc.cpp" />
-    <ClCompile Include="src\berniwPathfinding.cpp" />
-    <ClCompile Include="src\PathSeg.cpp" />
-    <ClCompile Include="src\PathSegCollection.cpp" />
-    <ClCompile Include="src\PCarDesc.cpp" />
-    <ClCompile Include="src\PPathfinder.cpp" />
-    <ClCompile Include="src\PStateManager.cpp" />
-    <ClCompile Include="src\PTrackDesc.cpp" />
-    <ClCompile Include="src\PTrackSegment.cpp" />
-    <ClCompile Include="src\PTrackSegmentCollection.cpp" />
-    <ClCompile Include="src\spline.cpp" />
+    <ClCompile Include="berniProc.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\berniProc.h" />
-    <ClInclude Include="include\linalg.h" />
-    <ClInclude Include="include\PathSeg.h" />
-    <ClInclude Include="include\PathSegCollection.h" />
-    <ClInclude Include="include\PCarDesc.h" />
-    <ClInclude Include="include\PPathfinder.h" />
-    <ClInclude Include="include\PStateManager.h" />
-    <ClInclude Include="include\PTrackDesc.h" />
-    <ClInclude Include="include\PTrackSegment.h" />
-    <ClInclude Include="include\PTrackSegmentCollection.h" />
-    <ClInclude Include="include\spline.h" />
+    <ClInclude Include="berniProc.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
