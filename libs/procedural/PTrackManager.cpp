@@ -5,6 +5,7 @@
 */
 #include "PTrackManager.h"
 #include "trackgen\trackgen.h"
+#include "PFileManager.h"
 
 namespace procedural
 {
@@ -15,17 +16,23 @@ namespace procedural
 		segFactory = nullptr;
 	}
 
-	PTrackManager::PTrackManager(std::string trackName, tdble trackLength, tRmInfo* RaceManager) : MAX_DIST_FROM_END(3)
+	PTrackManager::PTrackManager(tRmInfo* RaceManager) : MAX_DIST_FROM_END(3)
 	{
 		pOut("Initializing procedural track manager...\n");
+		raceManager = RaceManager; // Save pointer to race manager
+	}
+
+	void PTrackManager::InitTrack(std::string config, tdble length)
+	{
+		pOut("Initialize procedural track configuration...\n");
 
 		std::string acname, xmlname, filePath, modeldir, texturedir;
 
 		pOut("Setting track file path and file names...\n");
-		acname = trackName + ".ac";
-		xmlname = trackName + ".xml";
-		filePath = "tracks/procedural/" + trackName + "/";
-		modeldir = "tracks\\adaptive\\" + trackName + "\\";
+		acname = config + ".ac";
+		xmlname = config + ".xml";
+		filePath = "tracks/procedural/" + config + "/";
+		modeldir = "tracks\\adaptive\\" + config + "\\";
 		texturedir = "data\\textures";
 
 		pOut("Setting Track 3D Description Loader Options...\n");
@@ -33,22 +40,26 @@ namespace procedural
 		lopts->setModelDir(modeldir.c_str());
 		lopts->setTextureDir(texturedir.c_str());
 
-		pOut("Track manager obtaining pointers to segment factory and racemanager...\n");
+		pOut("Track manager obtaining pointer to segment factory...\n");
 		segFactory = PSegFactory::GetInstance(); // Obtain pointer to segment factory
-		raceManager = RaceManager; // Save pointer to race manager
 
 		pOut("Initializing segment factory...\n");
 		segFactory->SetChances(45.f, 65.f);
 
 		// Initialize the procedural track, and point racemanager to the procedural track
 		pOut("Initializing procedural track structure and TORCS track structure...\n");
-		track = raceManager->_reTrackItf.PTrackInit(trackLength, (char*)acname.c_str(), (char*)xmlname.c_str(), (char*)filePath.c_str(),
+		track = raceManager->_reTrackItf.PTrackInit(length, (char*)acname.c_str(), (char*)xmlname.c_str(), (char*)filePath.c_str(),
 			lopts, raceManager->raceEngineInfo.displayMode == RM_DISP_MODE_CONSOLE);
 
 		pOut("Setting racemanager track to procedural track...\n");
 		raceManager->track = track->trk;
 
 		previousSegType = track->GetEnd()->type;
+	}
+
+	void PTrackManager::LoadTrack(std::string path)
+	{
+		PFileManager::Get()->ReadTrack(path, this);
 	}
 
 	PTrackManager::PTrackManager(const PTrackManager& param) : MAX_DIST_FROM_END(3)

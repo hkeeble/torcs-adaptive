@@ -40,13 +40,19 @@ namespace procedural
 
 		public:
 			PTrackManager();
-			PTrackManager(std::string trackName, tdble trackLength, tRmInfo* RaceManager);
+			PTrackManager(tRmInfo* RaceManager);
 			PTrackManager(const PTrackManager& param);
 			PTrackManager& operator=(const PTrackManager& param);
 			virtual ~PTrackManager();
 
 			/* Initialize car data to be tracked for procedural generation. */
 			void Init(tCarElt* car);
+
+			/* Initialize a procedural track given a configuration */
+			void InitTrack(std::string config, tdble length);
+
+			/* Loads a pregenerated track from the given path */
+			void LoadTrack(std::string path);
 
 			/* Add a given segment to the track contained in the race manager passed in. */
 			void AddSegment(const PSeg& segment);

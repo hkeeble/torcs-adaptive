@@ -123,8 +123,14 @@ ReRaceEventInit(void)
 		ReInitTrack();
 	else
 	{
-		RmLoadingScreenSetText("Initializing Procedural Track...");
-		taManager->InitTrack("testTrack1");
+		// If a pregenerated track has not been chose, initialize a new procedural track
+		if (taManager->GetRaceType() != torcsAdaptive::TARaceType::Pregenerated)
+		{
+			RmLoadingScreenSetText("Initializing Procedural Track...");
+			taManager->InitTrack();
+		}
+		else // Otherwise, load a pregenerated track
+			taManager->LoadTrack();
 	}
 
 	// Initialize Graphics

@@ -42,6 +42,9 @@
     <ClCompile Include="PLoadTrackMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PTrackSelectConfigMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Diagram.cd" />

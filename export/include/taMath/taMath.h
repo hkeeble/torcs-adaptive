@@ -12,6 +12,17 @@
 #ifndef _TA_MATH_H_
 #define _TA_MATH_H_
 
+struct Rect
+{
+	Rect() { width = height = x = y = 0; }
+	Rect(int w, int h, int x, int y) { width = w; height = h; this->x = x; this->y = y; }
+
+	int width;
+	int height;
+	int x;
+	int y;
+};
+
 inline double sign(double number)
 {
 	return (number >= 0.0) ? 1.0 : -1.0;

@@ -623,7 +623,7 @@ ReOneStep(double deltaTimeIncrement)
 				robot = s->cars[i]->robot;
 
 				// --- If the track is procedural and the robot requires a track description, allow it to update before driving ---
-				if (TAManager::Get()->IsActive() && robot->rbUpdate)
+				if (TAManager::Get()->IsProcedural() && robot->rbUpdate)
 					robot->rbUpdate(robot->index, s);
 
 				// --- Drive/Update the robot ---

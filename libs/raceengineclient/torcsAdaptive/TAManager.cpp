@@ -9,27 +9,6 @@ Desc: Defines a singleton class that manages TORCS-Adaptive specific races. See 
 
 namespace torcsAdaptive
 {
-	char* GetCurrentDir()
-	{
-		// Get Path
-		TCHAR path[MAX_PATH];
-		GetModuleFileName(NULL, path, MAX_PATH);
-
-		// Convert to string
-		std::stringstream ss;
-		ss << path;
-		std::string s = ss.str();
-
-		// Remove Executable Name
-		unsigned int pos = s.find_last_of("\\");
-		s = s.substr(0, pos + 1);
-
-		char* realPath = (char*)calloc(strlen(s.c_str()), sizeof(char));
-		strcpy(realPath, s.c_str());
-
-		return realPath;
-	}
-
 	TAManager* TAManager::instance = nullptr;
 
 	TAManager::TAManager()
@@ -42,6 +21,9 @@ namespace torcsAdaptive
 		fileManager = PFileManager::Get();
 		
 		currentSkillLevel = 0.f;
+
+		configName = NO_CONFIG_SET;
+		trackLoadPath = NO_TRACK_LOAD_PATH;
 	}
 
 	TAManager* TAManager::Get()
@@ -75,8 +57,12 @@ namespace torcsAdaptive
 	{
 		raceManager = RaceManager;
 
+		trackManager = new PTrackManager(raceManager);
+
 		// Initialize Race Mode for TORCS Adaptive
-		if (strcmp(raceManager->raceEngineInfo.name, "Adaptive Race") == 0)
+		if (trackLoadPath != NO_TRACK_LOAD_PATH)
+			SetRaceType(TARaceType::Pregenerated);
+		else if (strcmp(raceManager->raceEngineInfo.name, "Adaptive Race") == 0)
 			SetRaceType(TARaceType::Adaptive);
 		else if (strcmp(raceManager->raceEngineInfo.name, "Procedural Race") == 0)
 			SetRaceType(TARaceType::Procedural);
@@ -109,12 +95,27 @@ namespace torcsAdaptive
 		}
 	}
 
-	void TAManager::InitTrack(std::string trackName)
+	void TAManager::InitTrack()
 	{
 		if (!raceManager)
 			taOut("Failed to initialize procedural track in TAManager. Ensure Init is called before InitTrack.\n");
 		else
-			trackManager = new PTrackManager(trackName, TA_TR_LENGTH, raceManager);
+		{
+			// If not config is set, then set to the first config in the directory
+			if (configName == NO_CONFIG_SET);
+			{
+				std::vector<std::string> configs = fileManager->DirectoriesInDirectory(std::string(fileManager->GetCurrentDir()) + "tracks\\procedural\\");
+				SetConfiguration(configs[2]);
+			}
+			trackManager->InitTrack(configName, TA_TR_LENGTH);
+		}
+	}
+
+	void TAManager::LoadTrack()
+	{
+		if (!raceManager)
+			taOut("Failed to load pregenerated track in TAManager. Ensure Init is called before InitTrack.\n");
+		trackManager->LoadTrack(trackLoadPath);
 	}
 
 	void TAManager::InitTrkManager(tCarElt* car)
@@ -175,6 +176,14 @@ namespace torcsAdaptive
 			return true;
 	}
 
+	bool TAManager::IsProcedural() const
+	{
+		if (raceType == TARaceType::Adaptive || raceType == TARaceType::Procedural)
+			return true;
+		else
+			return false;
+	}
+
 	void TAManager::CheckIfFinished()
 	{
 		if (trackManager->CurrentLength() >= trackManager->TotalLength())
@@ -201,33 +210,17 @@ namespace torcsAdaptive
 	{
 		std::string fname = "";
 
-		// Count number of files already in directory
-		WIN32_FIND_DATA fData;
-		char* executableDir = GetCurrentDir();
+		// Get the number of files already in directory
+		char* executableDir = fileManager->GetCurrentDir();
 		std::string searchDir = executableDir;
 		searchDir.append("tracks\\procedural\\" + std::string(raceManager->track->name) + "\\previousTracks\\");
-		std::string saveDir = searchDir;
-		searchDir.append("*.trk");
-
-		HANDLE find = FindFirstFile(searchDir.c_str(), &fData);
-		int fCount = 0;
-		if (find != INVALID_HANDLE_VALUE)
-		{
-			fCount++;
-			while (FindNextFile(find, &fData) == TRUE)
-				fCount++;
-		}
+		std::vector<std::string> files = fileManager->FilesInDirectory(searchDir, "*.trk");
 
 		// Create name of file from file count
-		fname += std::to_string(fCount);
+		fname += std::to_string(files.size());
 
 		// Write out the track
-		fileManager->OutputTrack(saveDir + fname, trackManager);
-	}
-
-	void TAManager::ReadTrack(std::string fPath)
-	{
-		fileManager->ReadTrack(fPath, trackManager);
+		fileManager->OutputTrack(searchDir + fname, trackManager);
 	}
 
 	void TAManager::InitCarPos()
@@ -274,9 +267,14 @@ namespace torcsAdaptive
 			hud.Render(NULL_SKILL_LEVEL);
 	}
 
-	void TAManager::ShowTrackSelectMenu(void* vs)
+	void TAManager::SetConfiguration(std::string config)
 	{
-		PTrackSelectMenu* m = (PTrackSelectMenu*)vs;
-		loadMenu.Create(m);
+		configName = config;
 	}
+
+	void TAManager::SetTrackLoadPath(std::string path)
+	{
+		trackLoadPath = path;
+	}
+
 }

@@ -49,8 +49,7 @@ static tRmDrvSelect ds;
 static tRmRaceParam rp;
 static tRmFileSelect fs;
 
-/* Procedural track selection screen */
-static PTrackSelectMenu pts;
+static PMenuParams pmp;
 
 static void reConfigRunState(void);
 
@@ -188,17 +187,6 @@ reConfigRunState(void)
 		}
 		RmRaceParamMenu(&rp);
 	}
-	else if (!strcmp(conf, RM_VAL_LOADPROCTRK)) { /* Load a previous procedural track */
-		pts.nextScreen = reConfigHookInit();
-		if (curConf == 1) {
-			pts.prevScreen = racemanMenuHdle;
-		}
-		else {
-			pts.prevScreen = reConfigBackHookInit();
-		}
-		
-		torcsAdaptive::TAManager::Get()->ShowTrackSelectMenu(&pts);
-	}
 
 	curConf++;
 	GfParmSetNum(params, RM_SECT_CONF, RM_ATTR_CUR_CONF, NULL, curConf);
@@ -283,14 +271,39 @@ ReRacemanMenu(void)
 		GfuiTitleCreate(racemanMenuHdle, str, strlen(str));
 	}
 
+	/* Procedural race menu */
+	if (!strcmp(ReInfo->raceEngineInfo.name, "Procedural Race"))
+	{
+		pmp = PMenuParams();
+		pmp.nextScreen = racemanMenuHdle;
+		pmp.prevScreen = racemanMenuHdle;
 
-	GfuiMenuButtonCreate(racemanMenuHdle,
+		GfuiMenuButtonCreate(racemanMenuHdle,
+			"New Track", "Start a race with a procedurally generated track.",
+			&pmp, ReStartNewRace);
+
+		GfuiMenuButtonCreate(racemanMenuHdle,
+			"Load Track", "Reload a previously generated track.",
+			&pmp, PCreateTrackSelectMenu);
+
+		GfuiMenuButtonCreate(racemanMenuHdle,
+			"Set Track Configuration", "Set the track configuration ready for procedural generation.",
+			&pmp, PCreateTrackConfigSelectMenu);
+
+		GfuiMenuButtonCreate(racemanMenuHdle,
+			"Configure Drivers", "Configure drivers in the race.",
+			NULL, reConfigureMenu);
+	}
+	else
+	{
+		GfuiMenuButtonCreate(racemanMenuHdle,
 			"New Race", "Start a New Race",
 			NULL, ReStartNewRace);
 
-	GfuiMenuButtonCreate(racemanMenuHdle, 
+		GfuiMenuButtonCreate(racemanMenuHdle,
 			"Configure Race", "Configure The Race",
 			NULL, reConfigureMenu);
+	}
 
 /*     GfuiMenuButtonCreate(racemanMenuHdle, */
 /* 			 "Configure Players", "Players configuration menu", */

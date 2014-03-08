@@ -12,7 +12,7 @@
 #include "perfMeasurement\PMManager.h"
 #include "procedural\pTrackManager.h"
 #include "procedural\PFileManager.h"
-#include "procedural\PLoadTrackMenu.h"
+#include "procedural\PMenu.h"
 #include "procedural\PRange.h"
 #include "TAHud.h"
 
@@ -36,16 +36,15 @@ namespace torcsAdaptive
 		0 - None: Assigned as default, therefore only set if TAManager::Init() has not been called, adaptive/procedural race not active.
 		1 - Adaptive: Adaptive race with performance measurement.
 		2 - Procedural: Procedural Race without performance measurement.
+		3 - Pregenerated: A race with a previously procedurally generated track is loaded.
 	*/
 	enum class TARaceType
 	{
 		None,
 		Adaptive,
-		Procedural
+		Procedural,
+		Pregenerated
 	};
-
-	/* Retrieve the current executable's directory */
-	char* GetCurrentDir();
 
 	class TAManager
 	{
@@ -64,6 +63,12 @@ namespace torcsAdaptive
 		tRmInfo* raceManager;
 		tCarElt* car;
 
+		/* Name of the current configuration */
+		std::string configName;
+
+		/* Path to load track from */
+		std::string trackLoadPath;
+
 		bool raceOnConsole; // Is current race on console?
 
 		// The TORCS Adaptive HUD
@@ -73,12 +78,6 @@ namespace torcsAdaptive
 
 		/* Output the current track */
 		void OutputTrack();
-
-		/* Read in the given track */
-		void ReadTrack(std::string fPath);
-
-		/* Encapsulates the track loading menu for procedural tracks */
-		PLoadTrackMenu loadMenu;
 
 	public:
 		static TAManager* Get();
@@ -103,7 +102,10 @@ namespace torcsAdaptive
 		void InitGraphics();
 
 		/* Initialize track, must call Init before this */
-		void InitTrack(std::string trackName);
+		void InitTrack();
+
+		/* Loads a pregenerated track into the track manager, use SetTrackLoadPath to pass in the path first */
+		void LoadTrack();
 
 		/* Set the current race type */
 		void SetRaceType(const TARaceType& RaceType);
@@ -132,11 +134,17 @@ namespace torcsAdaptive
 		/* Tests whether or not the TAManager is active - if either Adaptive or Procedural Mode are active */
 		bool IsActive() const;
 
+		/* Tests whether or not the TAManager is in a procedural race mode - that is, if a pregenerated track is not loaded */
+		bool IsProcedural() const;
+
 		/* Draws TORCS-Adaptive specific content to the UI */
 		void DrawBoard();
 
-		/* Shows a track selection menu */
-		void ShowTrackSelectMenu(void* vs);
+		/* Set the current track configuration */
+		void SetConfiguration(std::string config);
+
+		/* Set the path to load a track from */
+		void SetTrackLoadPath(std::string path);
 	};
 }
 #endif // _TORCS_ADAPTIVE_MANAGER_H_

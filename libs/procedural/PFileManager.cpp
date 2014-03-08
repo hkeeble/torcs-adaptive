@@ -10,6 +10,29 @@ namespace procedural
 {
 	PFileManager* PFileManager::instance = nullptr;
 
+	PFileManager::PFileManager() : trackManager(nullptr)
+	{
+		/* Get the current directory (as this will not change) */
+
+		// Get Path
+		TCHAR path[MAX_PATH];
+		GetModuleFileName(NULL, path, MAX_PATH);
+
+		// Convert to string
+		std::stringstream ss;
+		ss << path;
+		std::string s = ss.str();
+
+		// Remove Executable Name
+		unsigned int pos = s.find_last_of("\\");
+		s = s.substr(0, pos + 1);
+
+		char* realPath = (char*)calloc(strlen(s.c_str()), sizeof(char));
+		strcpy(realPath, s.c_str());
+
+		CurrentDir = realPath;
+	};
+
 	std::string PFileManager::ConstructSegmentOutput(tTrackSeg* seg)
 	{
 		std::string string = "";
@@ -160,5 +183,51 @@ namespace procedural
 		}
 		else
 			pOut("Error, could not load file for track reading!\n");
+	}
+
+	std::vector<std::string> PFileManager::FilesInDirectory(std::string dirPath, std::string fType)
+	{
+		std::vector<std::string> files = std::vector<std::string>();
+		WIN32_FIND_DATA fData;
+		HANDLE find = FindFirstFile((dirPath + fType).c_str(), &fData);
+		
+		if (find != INVALID_HANDLE_VALUE)
+		{
+			do {
+				files.push_back(fData.cFileName);
+			} while (FindNextFile(find, &fData) == TRUE);
+		}
+
+		return files;
+	}
+
+	std::vector<std::string> PFileManager::DirectoriesInDirectory(std::string dir)
+	{
+		std::vector<std::string> files = std::vector<std::string>();
+
+		HANDLE hFind = INVALID_HANDLE_VALUE;
+		WIN32_FIND_DATAA fi;
+
+		hFind = FindFirstFile((dir + "*").c_str(), &fi);
+
+		// Handle errors
+		if (hFind == INVALID_HANDLE_VALUE)
+		{
+			pOut("Error searching directory for other directories: Failed to find any files!\n");
+			return files;
+		}
+		
+		// Build list of directories
+		do {
+			if (fi.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+				files.push_back(fi.cFileName);
+		} while (FindNextFile(hFind, &fi));
+
+		return files;
+	}
+
+	char* PFileManager::GetCurrentDir()
+	{
+		return CurrentDir;
 	}
 }
