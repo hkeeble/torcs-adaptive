@@ -210,17 +210,25 @@ namespace torcsAdaptive
 	{
 		std::string fname = "";
 
-		// Get the number of files already in directory
+		// Get executable's directory
 		char* executableDir = fileManager->GetCurrentDir();
+
+		// Build track config directory path
+		std::string configDir = std::string(executableDir) + "tracks\\procedural\\" + std::string(raceManager->track->name) + "\\";
+
+		// Build path to search for configurations
 		std::string searchDir = executableDir;
 		searchDir.append("tracks\\procedural\\" + std::string(raceManager->track->name) + "\\previousTracks\\");
-		std::vector<std::string> files = fileManager->FilesInDirectory(searchDir, "*.trk");
+
+		// Obtain all previous tracks
+		std::vector<std::string> files = fileManager->FilesInDirectory(searchDir, "*.xml");
 
 		// Create name of file from file count
-		fname += std::to_string(files.size());
+		fname += "track" + std::to_string(files.size());
+		fname.append(".xml"); // Append with track desc extension
 
 		// Write out the track
-		fileManager->OutputTrack(searchDir + fname, trackManager);
+		fileManager->OutputTrack(fname, configDir, std::string(raceManager->track->name), trackManager);
 	}
 
 	void TAManager::InitCarPos()

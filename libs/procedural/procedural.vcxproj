@@ -17,6 +17,8 @@
     <ClCompile Include="PRange.cpp" />
     <ClCompile Include="PSeg.cpp" />
     <ClCompile Include="PTrack.cpp" />
+    <ClCompile Include="PTrackConfig.cpp" />
+    <ClCompile Include="PTrackFileManager.cpp" />
     <ClCompile Include="PTrackManager.cpp" />
     <ClCompile Include="PTrackSelectConfigMenu.cpp" />
     <ClCompile Include="PTrackState.cpp" />

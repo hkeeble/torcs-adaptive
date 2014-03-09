@@ -31,6 +31,9 @@ namespace procedural
 		strcpy(realPath, s.c_str());
 
 		CurrentDir = realPath;
+
+		// Initialize a track file manager
+		trkFileManager = PTrackFileManager();
 	};
 
 	std::string PFileManager::ConstructSegmentOutput(tTrackSeg* seg)
@@ -110,8 +113,28 @@ namespace procedural
 		return instance;
 	}
 
-	void PFileManager::OutputTrack(std::string fileName, PTrackManager* trkMngr)
+	void PFileManager::OutputTrack(std::string fileName, std::string configPath, std::string configName, PTrackManager* trkMngr)
 	{
+		std::string filePath = configPath + "previousTracks\\" + fileName;
+		std::string trkName = fileName;
+
+		// Trim the file extension from the track name
+		trkName.erase(trkName.length() - 1, 4);
+
+		// Open/Create file handle
+		void* newHandle = GfParmReadFile(filePath.c_str(), GFPARM_RMODE_CREAT);
+		
+		// Get file handle of track configuration
+		void* configHandle = GfParmReadFile((configPath + configName + ".xml").c_str(), GFPARM_RMODE_STD | GFPARM_RMODE_CREAT | GFPARM_RMODE_PRIVATE);
+
+		trkFileManager.WriteTrackTo(newHandle, configHandle, trkMngr->GetTrack()->trk, trkName);
+
+		// Set headers for surfaces entity
+		GfParmSetDTD(newHandle, nullptr, "[<!ENTITY default - surfaces SYSTEM \"../../../../data/tracks/surfaces.xml\">]>");
+
+		// Write file
+		GfParmWriteFile(filePath.c_str(), newHandle, fileName.c_str());
+
 		// Obtain pointers
 		trackManager = trkMngr;
 		procTrack = trackManager->GetTrack();
@@ -161,11 +184,11 @@ namespace procedural
 			int lCount = 0;
 			int segNumb = 0;
 
+			char* c = new char;
+
 			// Read each segment into an individual string
-			while (!stream.eof())
+			while (stream.read(c, 1))
 			{
-				char* c = nullptr;
-				stream.readsome(c, 1);
 				if (*c == '\n')
 					lCount++;
 				if (lCount > PARAM_COUNT)

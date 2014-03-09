@@ -30,7 +30,7 @@ using namespace perfMeasurement;
 namespace torcsAdaptive
 {
 	// Currently defined track length
-	#define TA_TR_LENGTH 500
+	#define TA_TR_LENGTH 100
 
 	/* Type of TORCS-Adaptive Race currently active.
 		0 - None: Assigned as default, therefore only set if TAManager::Init() has not been called, adaptive/procedural race not active.

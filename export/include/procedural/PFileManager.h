@@ -12,6 +12,7 @@
 
 #include "pSeg.h"
 #include "PTrackManager.h"
+#include "PTrackFileManager.h"
 #include "track.h"
 
 namespace procedural
@@ -53,12 +54,14 @@ namespace procedural
 		// The current directory. This is found upon instantiation of the singleton
 		char* CurrentDir;
 
+		PTrackFileManager trkFileManager;
+
 	public:
 		/* Get the singleton instance of the file manager class */
 		static PFileManager* Get();
 
 		/* Outputs the current track to a text file */
-		void OutputTrack(std::string fileName, PTrackManager* trkMngr);
+		void OutputTrack(std::string fileName, std::string configPath, std::string configName, PTrackManager* trkMngr);
 
 		/* Reads a track from a text file */
 		void ReadTrack(std::string fileName, PTrackManager* trkMngr);
