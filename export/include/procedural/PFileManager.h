@@ -30,6 +30,8 @@ namespace procedural
 	#define RADIUS_LINE_IDX 3
 	#define ARC_LINE_IDX	4
 
+#define FILE_SEARCH_UNFILTERED "*"
+
 	/* A singleton class to represent the file manager system used by the procedural library. WORKS WITH WINDOWS ONLY. */
 	class PFileManager
 	{
@@ -67,7 +69,7 @@ namespace procedural
 		void ReadTrack(std::string fileName, PTrackManager* trkMngr);
 
 		/* Find the files with the given extension in the given directory, leave extension blank for all files */
-		std::vector<std::string> FilesInDirectory(std::string dirPath, std::string fType = "*");
+		std::vector<std::string> FilesInDirectory(std::string dirPath, std::string fType = FILE_SEARCH_UNFILTERED);
 
 		/* Searches the given directory for a list of all directories it contains */
 		std::vector<std::string> DirectoriesInDirectory(std::string dir);

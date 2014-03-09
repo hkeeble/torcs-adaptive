@@ -33,7 +33,7 @@ namespace procedural
 
 	// Scroll List Contents
 	static std::vector<std::string>* dirs;
-	static std::vector<std::string>* trkFiles;
+	static std::vector<std::string>* trkDirs;
 
 	// Paths - user data
 	static std::vector<std::string>* dirPaths;
@@ -68,7 +68,7 @@ namespace procedural
 
 		// Initialize scroll list contents
 		dirs = new std::vector<std::string>();
-		trkFiles = new std::vector<std::string>();
+		trkDirs = new std::vector<std::string>();
 
 		// Initialize user data
 		dirPaths = new std::vector<std::string>();
@@ -159,8 +159,8 @@ namespace procedural
 		std::string searchFolder = std::string(fileManager->GetCurrentDir()) + "tracks\\procedural\\" + selectedFolder + "\\previousTracks\\";
 
 		// Find all TRK files in the directory
-		trkFiles->clear();
-		*trkFiles = fileManager->FilesInDirectory(searchFolder, "*.trk");
+		trkDirs->clear();
+		*trkDirs = fileManager->DirectoriesInDirectory(searchFolder);
 
 		// Remove old elements
 		void* tmp;
@@ -170,13 +170,13 @@ namespace procedural
 
 		// Initialize user data array
 		trkPaths->clear();
-		for (int i = 0; i < trkFiles->size(); i++)
-			trkPaths->push_back(searchFolder + trkFiles->at(i));
+		for (int i = 0; i < trkDirs->size(); i++)
+			trkPaths->push_back(searchFolder + trkDirs->at(i));
 
 		// Add new elements
-		nOfTracksInScrollList = trkFiles->size();
+		nOfTracksInScrollList = trkDirs->size();
 		for (int i = 0; i < nOfTracksInScrollList; i++)
-			GfuiScrollListInsertElement(handle, trkListID, (char*)trkFiles->at(i).c_str(), i, (char*)trkPaths->at(i).c_str());
+			GfuiScrollListInsertElement(handle, trkListID, (char*)trkDirs->at(i).c_str(), i, (char*)trkPaths->at(i).c_str());
 	}
 
 	static void PResetLoadScreen()
@@ -184,15 +184,15 @@ namespace procedural
 		// Delete vector pointers
 		if (dirs)
 			delete dirs;
-		if (trkFiles)
-			delete trkFiles;
+		if (trkDirs)
+			delete trkDirs;
 		if (dirPaths)
 			delete dirPaths;
 		if (trkPaths)
 			delete trkPaths;
 
 		dirs = nullptr;
-		trkFiles = nullptr;
+		trkDirs = nullptr;
 		dirPaths = nullptr;
 		trkPaths = nullptr;
 		handle = nullptr;

@@ -225,10 +225,10 @@ namespace torcsAdaptive
 		searchDir.append("tracks\\procedural\\" + std::string(raceManager->track->name) + "\\previousTracks\\");
 
 		// Obtain all previous tracks
-		std::vector<std::string> files = fileManager->FilesInDirectory(searchDir, "*.xml");
+		std::vector<std::string> configs = fileManager->DirectoriesInDirectory(searchDir);
 
 		// Create name of file from file count
-		trackName = "track" + std::to_string(files.size());
+		trackName = "track" + std::to_string(configs.size());
 		fileName = trackName + ".xml"; // Append with track desc extension
 
 		// Write out the track

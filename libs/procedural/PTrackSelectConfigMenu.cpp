@@ -19,6 +19,7 @@ namespace procedural
 
 	// Static user data for this menu
 	static std::string* selectedConfig;
+	static std::string selectedConfigPath;
 	static int selectedIndex = 0;
 	static std::string fPath;
 	static std::vector<std::string>* configs;
@@ -100,11 +101,11 @@ namespace procedural
 		}
 
 		// Create buttons
-		GfuiButtonCreate(handle, "Back", GFUI_FONT_LARGE, 310 + 100, 240, GfuiFontWidth(GFUI_FONT_LARGE, "Back") + 20,
-			GFUI_ALIGN_HL_VC, 0, p, PCancelConfig, nullptr, nullptr, nullptr);
+		GfuiButtonCreate(handle, "Back", GFUI_FONT_MEDIUM, 360, 240, GfuiFontWidth(GFUI_FONT_MEDIUM, "Back") + 20,
+			GFUI_ALIGN_HC_VC, 0, p, PCancelConfig, nullptr, nullptr, nullptr);
 
-		GfuiButtonCreate(handle, "Accept", GFUI_FONT_LARGE, 310, 240, GfuiFontWidth(GFUI_FONT_LARGE, "Accept") + 20,
-			GFUI_ALIGN_HL_VC, 0, p, PAcceptConfig, nullptr, nullptr, nullptr);
+		GfuiButtonCreate(handle, "Accept", GFUI_FONT_MEDIUM, 360 + 150, 240, GfuiFontWidth(GFUI_FONT_MEDIUM, "Accept") + 20,
+			GFUI_ALIGN_HC_VC, 0, p, PAcceptConfig, nullptr, nullptr, nullptr);
 
 		// Display configuration information
 		mainWidthID = GfuiLabelCreate(handle, "Main Width: - ", GFUI_FONT_MEDIUM, 310, 400, GFUI_ALIGN_HL_VC, MAX_LABEL_LEN);
@@ -123,6 +124,8 @@ namespace procedural
 		PMenuParams* p = (PMenuParams*)params;
 		p->configName = *selectedConfig;
 	
+
+
 		GfuiScreenRelease(handle);
 		PResetConfigSelect();
 
@@ -150,27 +153,27 @@ namespace procedural
 
 	static void PUpdateConfigSelection()
 	{
-		std::string fPath = "tracks\\procedural\\" + *selectedConfig + "\\" + *selectedConfig + ".xml";
+		std::string fPath = "tracks/procedural/" + *selectedConfig + "/" + *selectedConfig + ".xml";
 
-		//void* fileHandle = GfParmReadFile(fPath.c_str(), GFPARM_RMODE_STD);
+		void* fileHandle = GfParmReadFile(fPath.c_str(), GFPARM_RMODE_STD);
 
-		//tdble mainWidth = GfParmGetNum(fileHandle, TRK_SECT_MAIN, TRK_ATT_WIDTH, (char*)nullptr, 0);
-		//tdble lsideWidth = GfParmGetNum(fileHandle, TRK_SECT_MAIN, TRK_ATT_LSW, (char*)nullptr, 0);
-		//tdble rsideWidth = GfParmGetNum(fileHandle, TRK_SECT_MAIN, TRK_ATT_RSW, (char*)nullptr, 0);
+		tdble mainWidth = GfParmGetNum(fileHandle, TRK_SECT_MAIN, TRK_ATT_WIDTH, (char*)nullptr, 0);
+		tdble lsideWidth = GfParmGetNum(fileHandle, TRK_SECT_MAIN, TRK_ATT_LSW, (char*)nullptr, 0);
+		tdble rsideWidth = GfParmGetNum(fileHandle, TRK_SECT_MAIN, TRK_ATT_RSW, (char*)nullptr, 0);
 
-		//std::string mainSurface = GfParmGetStr(fileHandle, TRK_SECT_MAIN, TRK_ATT_SURF, " - ");
-		//std::string lsideSurface = GfParmGetStr(fileHandle, TRK_SECT_MAIN, TRK_ATT_LSSURF, " - ");
-		//std::string rsideSurface = GfParmGetStr(fileHandle, TRK_SECT_MAIN, TRK_ATT_RSSURF, " - ");
+		std::string mainSurface = GfParmGetStr(fileHandle, TRK_SECT_MAIN, TRK_ATT_SURF, " - ");
+		std::string lsideSurface = GfParmGetStr(fileHandle, TRK_SECT_MAIN, TRK_ATT_LSSURF, " - ");
+		std::string rsideSurface = GfParmGetStr(fileHandle, TRK_SECT_MAIN, TRK_ATT_RSSURF, " - ");
 
-		//GfuiLabelSetText(handle, mainWidthID, std::string("Main Width: " + std::to_string(mainWidth)).c_str());
-		//GfuiLabelSetText(handle, lsideWidthID, std::string("Left Side Width: " + std::to_string(lsideWidth)).c_str());
-		//GfuiLabelSetText(handle, rsideWidthID, std::string("Right Side Width: " + std::to_string(rsideWidth)).c_str());
+		GfuiLabelSetText(handle, mainWidthID, std::string("Main Width: " + std::to_string(mainWidth)).c_str());
+		GfuiLabelSetText(handle, lsideWidthID, std::string("Left Side Width: " + std::to_string(lsideWidth)).c_str());
+		GfuiLabelSetText(handle, rsideWidthID, std::string("Right Side Width: " + std::to_string(rsideWidth)).c_str());
 
-		//GfuiLabelSetText(handle, mainSurfaceID, std::string("Main Surface: " + mainSurface).c_str());
-		//GfuiLabelSetText(handle, lsideSurfaceID, std::string("Left Side Surface: " + lsideSurface).c_str());
-		//GfuiLabelSetText(handle, rsideSurfaceID, std::string("Right Side Surface: " + rsideSurface).c_str());
+		GfuiLabelSetText(handle, mainSurfaceID, std::string("Main Surface: " + mainSurface).c_str());
+		GfuiLabelSetText(handle, lsideSurfaceID, std::string("Left Side Surface: " + lsideSurface).c_str());
+		GfuiLabelSetText(handle, rsideSurfaceID, std::string("Right Side Surface: " + rsideSurface).c_str());
 
-		// GfParmReleaseHandle(fileHandle);
+		 GfParmReleaseHandle(fileHandle);
 	}
 
 	static void PResetConfigSelect()

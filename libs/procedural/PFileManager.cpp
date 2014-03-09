@@ -116,22 +116,32 @@ namespace procedural
 	void PFileManager::OutputTrack(std::string trackName, std::string fileName, std::string configPath, std::string configName, PTrackManager* trkMngr)
 	{
 		// Construct the filepath
-		std::string filePath = configPath + "previousTracks\\" + fileName;
-
-		// Open/Create file handle
-		void* newHandle = GfParmReadFile(filePath.c_str(), GFPARM_RMODE_CREAT);
+		std::string filePath = configPath + "previousTracks/" + trackName + "/";
 		
-		// Get file handle of track configuration
-		void* configHandle = GfParmReadFile((configPath + configName + ".xml").c_str(), GFPARM_RMODE_STD | GFPARM_RMODE_CREAT | GFPARM_RMODE_PRIVATE);
+		// Construct a relative path for use with Gf functions
+		std::string relativeCfgPath = "tracks/procedural/" + configName + "/";
 
-		// Write the track and configuration into the handle
-		trkFileManager.WriteTrackTo(newHandle, configHandle, trkMngr->GetTrack()->trk, trackName);
+		if (GfCreateDir((char*)filePath.c_str()))
+		{
+			filePath.append(fileName);
 
-		// Set headers correctly
-		GfParmSetDTD(newHandle, nullptr, "[<!ENTITY default - surfaces SYSTEM \"../../../../data/tracks/surfaces.xml\">]>");
+			// Open/Create file handle
+			void* newHandle = GfParmReadFile(filePath.c_str(), GFPARM_RMODE_CREAT);
 
-		// Write file
-		GfParmWriteFile(filePath.c_str(), newHandle, fileName.c_str());
+			// Get file handle of track configuration
+			void* configHandle = GfParmReadFile((relativeCfgPath + configName + ".xml").c_str(), GFPARM_RMODE_STD);
+
+			// Write the track and configuration into the handle
+			trkFileManager.WriteTrackTo(newHandle, configHandle, trkMngr->GetTrack()->trk, trackName);
+
+			// Set headers correctly
+			GfParmSetDTD(newHandle, nullptr, "[<!ENTITY default - surfaces SYSTEM \"../../../../data/tracks/surfaces.xml\">]>");
+
+			// Write file
+			GfParmWriteFile(filePath.c_str(), newHandle, fileName.c_str());
+		}
+		else
+			pOut("Error outputting track, could not create track directory!\n");
 	}
 
 	void PFileManager::ReadTrack(std::string fileName, PTrackManager* trkMngr)
@@ -178,17 +188,29 @@ namespace procedural
 
 	std::vector<std::string> PFileManager::FilesInDirectory(std::string dirPath, std::string fType)
 	{
+		// Declare variables
 		std::vector<std::string> files = std::vector<std::string>();
-		WIN32_FIND_DATA fData;
-		HANDLE find = FindFirstFile((dirPath + fType).c_str(), &fData);
-		
-		if (find != INVALID_HANDLE_VALUE)
-		{
-			do {
-				files.push_back(fData.cFileName);
-			} while (FindNextFile(find, &fData) == TRUE);
-		}
+		FList* filesList;
+		FList* curFile;
 
+		// Construct a directory list
+		if (fType != FILE_SEARCH_UNFILTERED)
+			filesList = GfDirGetListFiltered(dirPath.c_str(), fType.c_str());
+		else
+			filesList = GfDirGetList(dirPath.c_str());
+		curFile = filesList;
+
+		// Read the directory list into a vector
+		do {
+			if (std::string(curFile->name).find(fType, 0) != std::string::npos)
+				files.push_back(curFile->name);
+			curFile = curFile->next;
+		} while (curFile != filesList);
+
+		// Fre the directory list
+		GfDirFreeList(filesList, nullptr, true, true);
+
+		// Return list of files
 		return files;
 	}
 
@@ -211,7 +233,10 @@ namespace procedural
 		// Build list of directories
 		do {
 			if (fi.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-				files.push_back(fi.cFileName);
+			{
+				if (fi.cFileName != "." && fi.cFileName != "..")
+					files.push_back(fi.cFileName);
+			}
 		} while (FindNextFile(hFind, &fi));
 
 		return files;
