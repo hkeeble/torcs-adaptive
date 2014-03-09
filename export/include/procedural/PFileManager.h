@@ -61,7 +61,7 @@ namespace procedural
 		static PFileManager* Get();
 
 		/* Outputs the current track to a text file */
-		void OutputTrack(std::string fileName, std::string configPath, std::string configName, PTrackManager* trkMngr);
+		void OutputTrack(std::string trackName, std::string fileName, std::string configPath, std::string configName, PTrackManager* trkMngr);
 
 		/* Reads a track from a text file */
 		void ReadTrack(std::string fileName, PTrackManager* trkMngr);

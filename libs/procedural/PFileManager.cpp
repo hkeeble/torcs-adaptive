@@ -113,13 +113,10 @@ namespace procedural
 		return instance;
 	}
 
-	void PFileManager::OutputTrack(std::string fileName, std::string configPath, std::string configName, PTrackManager* trkMngr)
+	void PFileManager::OutputTrack(std::string trackName, std::string fileName, std::string configPath, std::string configName, PTrackManager* trkMngr)
 	{
+		// Construct the filepath
 		std::string filePath = configPath + "previousTracks\\" + fileName;
-		std::string trkName = fileName;
-
-		// Trim the file extension from the track name
-		trkName.erase(trkName.length() - 1, 4);
 
 		// Open/Create file handle
 		void* newHandle = GfParmReadFile(filePath.c_str(), GFPARM_RMODE_CREAT);
@@ -127,43 +124,14 @@ namespace procedural
 		// Get file handle of track configuration
 		void* configHandle = GfParmReadFile((configPath + configName + ".xml").c_str(), GFPARM_RMODE_STD | GFPARM_RMODE_CREAT | GFPARM_RMODE_PRIVATE);
 
-		trkFileManager.WriteTrackTo(newHandle, configHandle, trkMngr->GetTrack()->trk, trkName);
+		// Write the track and configuration into the handle
+		trkFileManager.WriteTrackTo(newHandle, configHandle, trkMngr->GetTrack()->trk, trackName);
 
-		// Set headers for surfaces entity
+		// Set headers correctly
 		GfParmSetDTD(newHandle, nullptr, "[<!ENTITY default - surfaces SYSTEM \"../../../../data/tracks/surfaces.xml\">]>");
 
 		// Write file
 		GfParmWriteFile(filePath.c_str(), newHandle, fileName.c_str());
-
-		// Obtain pointers
-		trackManager = trkMngr;
-		procTrack = trackManager->GetTrack();
-
-		// Create Stream and open file
-		std::ofstream stream;
-		stream.open(fileName + TRACK_OUT_FTYPE, std::ios::app);
-
-		if (stream.is_open())
-		{
-			// Get track pointer
-			tTrackSeg* seg = procTrack->GetStart();
-
-			// Write Data
-			do{
-				std::string string = ConstructSegmentOutput(seg);
-				stream.write(string.c_str(), string.length());
-				stream.write("\n", 1);
-				seg = seg->next;
-			} while (seg != procTrack->GetStart());
-
-			// Close Stream
-			stream.flush();
-			stream.close();
-		}
-		else
-		{
-			pOut("Failed to output track file, could not open file.");
-		}
 	}
 
 	void PFileManager::ReadTrack(std::string fileName, PTrackManager* trkMngr)

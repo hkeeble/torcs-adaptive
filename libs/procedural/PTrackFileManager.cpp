@@ -73,9 +73,9 @@ namespace procedural
 		GfParmSetNum(newTrackHandle, TRK_SECT_GRAPH, TRK_ATT_SPEC_B, (char*)nullptr, config.Graphic().specBGColorB);
 
 		// Light positions
-		GfParmSetNum(newTrackHandle, TRK_SECT_GRAPH, TRK_ATT_LIPOS_X, (char*)nullptr, config.Graphic().BGColorR);
-		GfParmSetNum(newTrackHandle, TRK_SECT_GRAPH, TRK_ATT_LIPOS_Y, (char*)nullptr, config.Graphic().BGColorR);
-		GfParmSetNum(newTrackHandle, TRK_SECT_GRAPH, TRK_ATT_LIPOS_Z, (char*)nullptr, config.Graphic().BGColorR);
+		GfParmSetNum(newTrackHandle, TRK_SECT_GRAPH, TRK_ATT_LIPOS_X, (char*)nullptr, config.Graphic().lPosX);
+		GfParmSetNum(newTrackHandle, TRK_SECT_GRAPH, TRK_ATT_LIPOS_Y, (char*)nullptr, config.Graphic().lPosY);
+		GfParmSetNum(newTrackHandle, TRK_SECT_GRAPH, TRK_ATT_LIPOS_Z, (char*)nullptr, config.Graphic().lPosZ);
 		
 		// Write out terrain generation config data
 		WriteTerrainGenerationConfigTo(newTrackHandle, config);

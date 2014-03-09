@@ -208,27 +208,31 @@ namespace torcsAdaptive
 
 	void TAManager::OutputTrack()
 	{
-		std::string fname = "";
+		// Declare the strings to be used
+		std::string fileName;
+		std::string trackName;
+		std::string configDir;
+		std::string searchDir;
 
 		// Get executable's directory
 		char* executableDir = fileManager->GetCurrentDir();
 
 		// Build track config directory path
-		std::string configDir = std::string(executableDir) + "tracks\\procedural\\" + std::string(raceManager->track->name) + "\\";
+		configDir = std::string(executableDir) + "tracks\\procedural\\" + std::string(raceManager->track->name) + "\\";
 
 		// Build path to search for configurations
-		std::string searchDir = executableDir;
+		searchDir = executableDir;
 		searchDir.append("tracks\\procedural\\" + std::string(raceManager->track->name) + "\\previousTracks\\");
 
 		// Obtain all previous tracks
 		std::vector<std::string> files = fileManager->FilesInDirectory(searchDir, "*.xml");
 
 		// Create name of file from file count
-		fname += "track" + std::to_string(files.size());
-		fname.append(".xml"); // Append with track desc extension
+		trackName = "track" + std::to_string(files.size());
+		fileName = trackName + ".xml"; // Append with track desc extension
 
 		// Write out the track
-		fileManager->OutputTrack(fname, configDir, std::string(raceManager->track->name), trackManager);
+		fileManager->OutputTrack(trackName, fileName, configDir, std::string(raceManager->track->name), trackManager);
 	}
 
 	void TAManager::InitCarPos()
