@@ -4,7 +4,6 @@
 	Desc: Defines a singleton class to manage a procedural track.
 */
 #include "PTrackManager.h"
-#include "trackgen\trackgen.h"
 #include "PFileManager.h"
 
 namespace procedural
@@ -46,11 +45,11 @@ namespace procedural
 		pOut("Initializing segment factory...\n");
 		segFactory->SetChances(45.f, 65.f);
 
-		// Initialize the procedural track, and point racemanager to the procedural track
-		pOut("Initializing procedural track structure and TORCS track structure...\n");
-		track = raceManager->_reTrackItf.PTrackInit(length, (char*)acname.c_str(), (char*)xmlname.c_str(), (char*)filePath.c_str(),
-			lopts, raceManager->raceEngineInfo.displayMode == RM_DISP_MODE_CONSOLE);
+		// Initialize the procedural track.
+		pOut("Initializing procedural track structure...\n");
+		track = new PTrack(length, const_cast<char*>(acname.c_str()), const_cast<char*>(xmlname.c_str()), const_cast<char*>(filePath.c_str()), lopts);
 
+		// Point the racemaneger to the procedural track
 		pOut("Setting racemanager track to procedural track...\n");
 		raceManager->track = track->trk;
 
@@ -106,7 +105,7 @@ namespace procedural
 
 		// Add Segment
 		pOut("\tAdding segment to track.\n");
-		raceManager->_reTrackItf.PAddSegment(segment, track);
+		track->AddSegment(segment);
 		pOut("New segment added.\n");
 	}
 
@@ -161,14 +160,19 @@ namespace procedural
 
 		pOut("\tGenerating new 3D Description.\n");
 
-		// Update the AC File (could maybe move this from external library into this class, for the sake of clarity.)
-		raceManager->_reTrackItf.PUpdateACFile(track);
+		// Update the AC File
+		UpdateACFile();
 
 		// Append existing 3D Description
 		raceManager->_reGraphicItf.PGrAppend3DDesc(track);
 
 		// Reattach 3D description
 		raceManager->_reGraphicItf.PGrAttach3DDesc(track->GetTrackDesc());
+	}
+
+	void PTrackManager::UpdateACFile()
+	{
+		track->UpdateACFile();
 	}
 
 	tdble PTrackManager::PercentDistanceToEnd(tdble segLength, tdble distToStart)

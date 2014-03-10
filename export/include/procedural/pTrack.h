@@ -13,6 +13,7 @@
 #include "CarData.h"
 #include "PSSGState.h"
 #include "track.h"
+#include "trackbuild.h"
 #include "../../../windows/include/plib/ssg.h"
 
 // Forward declarations (inclusion of track would result in circular inclusion)
@@ -40,8 +41,14 @@ namespace procedural
 		/* Concatenates two char and returns the result. */
 		const char *const StrCon(const char *const a, const char *const b);
 
+		/* Appends to the track's AC file with data stored in the temporary AC file. */
+		void AppendACFile(int segmentID);
+
+		/* Builds a TORCS track strcuture, function dependent upon track library */
+		tTrack* BuildTrack(const char* const fName);
+
 	public:
-		PTrack(tTrack* track, tdble totalLength, char* acname, char* xmlname, char* filepath, ssgLoaderOptions* loaderoptions);
+		PTrack(tdble totalLength, char* acname, char* xmlname, char* filepath, ssgLoaderOptions* loaderoptions);
 		~PTrack();
 		PTrack(const PTrack& param);
 		PTrack& operator=(const PTrack& param);
@@ -67,8 +74,11 @@ namespace procedural
 		/* Get the total INTENDED track length - not the current total length */
 		tdble TotalLength() const;
 
-		/* Appends the track's AC file with data stored in temporary AC file */
-		void UpdateACFile(int segmentID);
+		/* Updates the track's AC file. */
+		void UpdateACFile();
+
+		/* Adds a segment to the track structure */
+		void AddSegment(const PSeg& seg);
 
 		/* Get Accessors */
 		const ssgLoaderOptions *const GetLoaderOptions();

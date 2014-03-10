@@ -51,9 +51,13 @@
     <ClCompile Include="PTrackFileManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PAddSegment.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Diagram.cd" />
     <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>

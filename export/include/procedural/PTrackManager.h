@@ -36,6 +36,9 @@ namespace procedural
 			/* Internal deep copy function */
 			void cpy(const PTrackManager& param);
 
+			/* Update the current track's AC file */
+			void UpdateACFile();
+
 			const int MAX_DIST_FROM_END; // Maximum distance car can be from the end of the track before a new segment is generated
 
 		public:
@@ -77,6 +80,9 @@ namespace procedural
 
 			/* Checks if the car is currently on the last existing segment */
 			bool CarOnLastSegment();
+
+			/* Sets the current temporary track pointer */
+			void SetTempTrackPtr(tTrack* tempTrack);
 	};
 }
 

@@ -6,16 +6,14 @@
 #include "PTrack.h"
 #include "PTrackState.h"
 #include "pDefs.h"
+#include "trackgen\trackgen.h"
 #include <fstream>
 
 namespace procedural
 {
 	// Track Info Definitions
-	PTrack::PTrack(tTrack* track, tdble totalLength, char* acname, char* xmlname,  char* filepath, ssgLoaderOptions* loaderoptions)
+	PTrack::PTrack(tdble totalLength, char* acname, char* xmlname,  char* filepath, ssgLoaderOptions* loaderoptions)
 	{
-		// Initialize TORCS Track Structure and Segment Collection
-		this->trk = track;
-
 		// Initialize track state
 		state = PTrackState();
 		root = nullptr;
@@ -44,6 +42,16 @@ namespace procedural
 		// Initialize loader state
 		ssgState = new PSSGState();
 		ssgState->SetLoaderOptions(new ssgLoaderOptions(*loaderoptions));
+
+		// Build the TORCS track structure
+		trk = BuildTrack(GetXMLPathAndName());
+
+		// Add initial segment
+		AddSegment(PSegFactory::GetInstance()->CreateRandomStr(0));
+
+		// Generate an initial 3D description
+		char* acPathName = (char*)GetACPathAndName();
+		GenerateTrack(trk, trk->params, acPathName, nullptr, 0, 0, 0);
 	}
 
 	PTrack::PTrack(const PTrack& param)
@@ -185,7 +193,29 @@ namespace procedural
 		return filePath;
 	}
 
-	void PTrack::UpdateACFile(int segmentID)
+	void PTrack::UpdateACFile()
+	{
+		tTrack* trackTmp = BuildTrack(GetXMLPathAndName());
+
+		// Initialize a single segment as the last segment in the given track
+		trackTmp->seg = new tTrackSeg(*GetEnd());
+
+		// Break links to actual track
+		trackTmp->seg->prev = trackTmp->seg;
+		trackTmp->seg->next = trackTmp->seg;
+
+		// Manually set some parameters used by track generator
+		trackTmp->nseg = 1;
+		trackTmp->length = trackTmp->seg->length;
+
+		// Generate 3D description in temporary file
+		GenerateTrack(trackTmp, trackTmp->params, (char*)GetTempACPathAndName(), nullptr, 0, 0, 0);
+
+		// Update track's AC file
+		AppendACFile(trackTmp->seg->id);
+	}
+
+	void PTrack::AppendACFile(int segmentID)
 	{
 		std::fstream infile(GetTempACPathAndName()); // Get file stream from temporary AC file
 		std::ofstream outfile;
@@ -267,6 +297,26 @@ namespace procedural
 	tdble PTrack::TotalLength() const
 	{
 		return totalLength;
+	}
+
+	tTrack* PTrack::BuildTrack(const char *const fName)
+	{
+		tTrack* track = (tTrack*)calloc(1, sizeof(tTrack));
+		void* trackHandle;
+		tRoadCam* theCamList = (tRoadCam*)NULL;
+
+		track->params = trackHandle = GfParmReadFile(fName, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT | GFPARM_RMODE_PRIVATE);
+
+		track->filename = _strdup(fName);
+
+		GetTrackHeader(trackHandle, track);
+
+		ReadTrack3(track, trackHandle, &theCamList, 0);
+
+		// Initialize Sides
+		InitSides(track->params, track);
+
+		return track;
 	}
 
 #ifdef _DEBUG
