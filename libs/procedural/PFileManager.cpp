@@ -54,48 +54,7 @@ namespace procedural
 		return string;
 	}
 
-	void PFileManager::ConstructSegmentInput(const std::string& input)
-	{
-		// First, divide the input into lines
-		std::vector<std::string> lines = std::vector<std::string>();
-		lines.push_back("");
-		int curLine = 0;
-
-		for (int i = 0; i < input.length(); i++)
-		{
-			if (input[i] == '\n')
-			{
-				lines.push_back("");
-				curLine++;
-			}
-			else
-				lines[curLine].append((const char*)input[i]);
-		}
-
-		// Then, get the values from the lines
-		int id = strToInt(lines[ID_LINE_IDX]);
-		int type = strToInt(lines[TYPE_LINE_IDX]);
-		tdble radius = strToInt(lines[RADIUS_LINE_IDX]);
-		tdble length = strToInt(lines[LENGTH_LINE_IDX]);
-		tdble arc = strToInt(lines[ARC_LINE_IDX]);
-
-		// Finally, create the segment with the segment factory and add it the track
-		switch (type)
-		{
-		case TR_STR:
-			trackManager->AddSegment(PSegFactory::GetInstance()->CreateSegStr(id, length));
-			break;
-		case TR_LFT:
-			trackManager->AddSegment(PSegFactory::GetInstance()->CreateSegCnr(id, PCornerType::CTLeft, radius, arc));
-			break;
-		case TR_RGT:
-			trackManager->AddSegment(PSegFactory::GetInstance()->CreateSegCnr(id, PCornerType::CTRight, radius, arc));
-			break;
-		default:
-			pOut("Error reading track segment, segmenti is of unknown type or type has been read incorrectly!\n");
-			break;
-		}
-	}
+	
 
 	int PFileManager::strToInt(std::string string)
 	{
@@ -113,8 +72,10 @@ namespace procedural
 		return instance;
 	}
 
-	void PFileManager::OutputTrack(std::string trackName, std::string fileName, std::string configPath, std::string configName, PTrackManager* trkMngr)
+	void PFileManager::OutputTrack(std::string trackName, std::string configPath, std::string configName, tTrack* track)
 	{
+		pOut("Outputting track file...\n");
+
 		// Construct the filepath
 		std::string filePath = configPath + "previousTracks/" + trackName + "/";
 		
@@ -123,67 +84,26 @@ namespace procedural
 
 		if (GfCreateDir((char*)filePath.c_str()))
 		{
-			filePath.append(fileName);
-
-			// Open/Create file handle
-			void* newHandle = GfParmReadFile(filePath.c_str(), GFPARM_RMODE_CREAT);
-
-			// Get file handle of track configuration
-			void* configHandle = GfParmReadFile((relativeCfgPath + configName + ".xml").c_str(), GFPARM_RMODE_STD);
+			// Append track name to file path
+			filePath.append(trackName + ".xml");
 
 			// Write the track and configuration into the handle
-			trkFileManager.WriteTrackTo(newHandle, configHandle, trkMngr->GetTrack()->trk, trackName);
+			trkFileManager.WriteTrackTo(filePath, trackName, track);
 
-			// Set headers correctly
-			GfParmSetDTD(newHandle, nullptr, "[<!ENTITY default - surfaces SYSTEM \"../../../../data/tracks/surfaces.xml\">]>");
+			pOut("Outputting track 3D Description...\n");
 
-			// Write file
-			GfParmWriteFile(filePath.c_str(), newHandle, fileName.c_str());
+			// Write out 3D description of entire track
+			GenerateTrack(track, track->params, const_cast<char*>(std::string(relativeCfgPath + "previousTracks/" + trackName + "/" + trackName + ".ac").c_str()), nullptr, 0, 0, 0);
+
+			pOut("Track files output successfully!\n");
 		}
 		else
 			pOut("Error outputting track, could not create track directory!\n");
 	}
 
-	void PFileManager::ReadTrack(std::string fileName, PTrackManager* trkMngr)
+	std::vector<PSeg> PFileManager::ReadTrackSegments(std::string filePath)
 	{
-		// Obtain pointers
-		trackManager = trkMngr;
-		procTrack = trackManager->GetTrack();
-
-		// Create stream and open file
-		std::fstream stream;
-		stream.open(fileName, std::ios::in);
-
-		if (stream.is_open())
-		{
-			// Initialize segments vector
-			std::vector<std::string> segments = std::vector<std::string>();
-			segments.push_back(""); // Add an initial segment
-			int lCount = 0;
-			int segNumb = 0;
-
-			char* c = new char;
-
-			// Read each segment into an individual string
-			while (stream.read(c, 1))
-			{
-				if (*c == '\n')
-					lCount++;
-				if (lCount > PARAM_COUNT)
-				{
-					segNumb++;
-					segments.push_back("");
-				}
-				else
-					segments[segNumb].append(c);
-			}
-
-			// Construct all segments
-			for (auto i : segments)
-				ConstructSegmentInput(i);
-		}
-		else
-			pOut("Error, could not load file for track reading!\n");
+		return trkFileManager.ReadTrackFrom(filePath);
 	}
 
 	std::vector<std::string> PFileManager::FilesInDirectory(std::string dirPath, std::string fType)

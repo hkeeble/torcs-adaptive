@@ -54,6 +54,30 @@ namespace procedural
 		GenerateTrack(trk, trk->params, acPathName, nullptr, 0, 0, 0);
 	}
 
+	PTrack::PTrack(std::vector<PSeg> segs, std::string configPath, std::string acPath)
+	{
+		// Build track basics from configuration path
+		trk = BuildTrack(configPath.c_str());
+
+		// Add all segments to the track
+		for (int i = 0; i < segs.size(); i++)
+			AddSegment(segs[i]);
+
+		// Generate a 3D description for the track
+		GenerateTrack(trk, trk->params, const_cast<char*>(acPath.c_str()), nullptr, 0, 0, 0);
+
+		// Set start and end segments
+		SetStart(trk->seg->next);
+		SetEnd(trk->seg);
+
+		// Initialize used variables
+		ssgState = nullptr;
+		filePath = nullptr;
+		xmlFile = nullptr;
+		acName = nullptr;
+		tempACName = nullptr;
+	}
+
 	PTrack::PTrack(const PTrack& param)
 	{
 		cpy(param);

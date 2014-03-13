@@ -22,8 +22,8 @@ namespace torcsAdaptive
 		
 		currentSkillLevel = 0.f;
 
-		configName = NO_CONFIG_SET;
-		trackLoadPath = NO_TRACK_LOAD_PATH;
+		// Initialize the load state
+		loadState = PTrackLoadState();
 	}
 
 	TAManager* TAManager::Get()
@@ -56,18 +56,20 @@ namespace torcsAdaptive
 	void TAManager::Init(tRmInfo* RaceManager)
 	{
 		raceManager = RaceManager;
-
 		trackManager = new PTrackManager(raceManager);
 
 		// Initialize Race Mode for TORCS Adaptive
-		if (trackLoadPath != NO_TRACK_LOAD_PATH)
+		if (loadState.LoadType() == PLoadType::TRACK)
 			SetRaceType(TARaceType::Pregenerated);
-		else if (strcmp(raceManager->raceEngineInfo.name, "Adaptive Race") == 0)
-			SetRaceType(TARaceType::Adaptive);
-		else if (strcmp(raceManager->raceEngineInfo.name, "Procedural Race") == 0)
-			SetRaceType(TARaceType::Procedural);
-		else
-			SetRaceType(TARaceType::None);
+		else if (loadState.LoadType() == PLoadType::CONFIG)
+		{
+			if (strcmp(raceManager->raceEngineInfo.name, ADAPTIVE_RACE) == 0)
+				SetRaceType(TARaceType::Adaptive);
+			else if (strcmp(raceManager->raceEngineInfo.name, PROCEDURAL_RACE) == 0)
+				SetRaceType(TARaceType::Procedural);
+			else
+				SetRaceType(TARaceType::None);
+		}
 
 		// Initialize the HUD
 		hud.Init(raceType == TARaceType::Adaptive);
@@ -76,6 +78,9 @@ namespace torcsAdaptive
 			raceOnConsole = true;
 		else
 			raceOnConsole = false;
+
+		// Initialize the track
+		InitTrack();
 	}
 
 	void TAManager::InitGraphics()
@@ -97,25 +102,14 @@ namespace torcsAdaptive
 
 	void TAManager::InitTrack()
 	{
-		if (!raceManager)
-			taOut("Failed to initialize procedural track in TAManager. Ensure Init is called before InitTrack.\n");
-		else
+		// If not config is set, then set to the first config in the directory
+		if (loadState.ConfigName() == NO_CONFIG_SET);
 		{
-			// If not config is set, then set to the first config in the directory
-			if (configName == NO_CONFIG_SET);
-			{
-				std::vector<std::string> configs = fileManager->DirectoriesInDirectory(std::string(fileManager->GetCurrentDir()) + "tracks\\procedural\\");
-				SetConfiguration(configs[2]);
-			}
-			trackManager->InitTrack(configName, TA_TR_LENGTH);
+			std::vector<std::string> configs = fileManager->DirectoriesInDirectory(std::string(fileManager->GetCurrentDir()) + "tracks\\procedural\\");
+			loadState.SetConfiguration(configs[2], "tracks/procedural/" + configs[2] + "/");
 		}
-	}
-
-	void TAManager::LoadTrack()
-	{
-		if (!raceManager)
-			taOut("Failed to load pregenerated track in TAManager. Ensure Init is called before InitTrack.\n");
-		trackManager->LoadTrack(trackLoadPath);
+		
+		trackManager->InitTrack(loadState);
 	}
 
 	void TAManager::InitTrkManager(tCarElt* car)
@@ -199,40 +193,11 @@ namespace torcsAdaptive
 		TrackDesc desc = TrackDesc(trackManager->GetTrack()->trk);
 		desc.plot((char*)(std::string((char*)trackManager->GetTrack()->GetFilePath()) + std::string("procTrackPlot.dat")).c_str());
 
-		/* Output the track to a text file for later reading */
-		OutputTrack();
+		/* Output the current track */
+		trackManager->OutputCurrentTrack();
 
 		if (trackManager)
 			delete trackManager;
-	}
-
-	void TAManager::OutputTrack()
-	{
-		// Declare the strings to be used
-		std::string fileName;
-		std::string trackName;
-		std::string configDir;
-		std::string searchDir;
-
-		// Get executable's directory
-		char* executableDir = fileManager->GetCurrentDir();
-
-		// Build track config directory path
-		configDir = std::string(executableDir) + "tracks\\procedural\\" + std::string(raceManager->track->name) + "\\";
-
-		// Build path to search for configurations
-		searchDir = executableDir;
-		searchDir.append("tracks\\procedural\\" + std::string(raceManager->track->name) + "\\previousTracks\\");
-
-		// Obtain all previous tracks
-		std::vector<std::string> configs = fileManager->DirectoriesInDirectory(searchDir);
-
-		// Create name of file from file count
-		trackName = "track" + std::to_string(configs.size());
-		fileName = trackName + ".xml"; // Append with track desc extension
-
-		// Write out the track
-		fileManager->OutputTrack(trackName, fileName, configDir, std::string(raceManager->track->name), trackManager);
 	}
 
 	void TAManager::InitCarPos()
@@ -279,14 +244,9 @@ namespace torcsAdaptive
 			hud.Render(NULL_SKILL_LEVEL);
 	}
 
-	void TAManager::SetConfiguration(std::string config)
+	void TAManager::SetLoadState(const PTrackLoadState& loadState)
 	{
-		configName = config;
-	}
-
-	void TAManager::SetTrackLoadPath(std::string path)
-	{
-		trackLoadPath = path;
+		this->loadState = loadState;
 	}
 
 }

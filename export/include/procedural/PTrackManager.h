@@ -15,6 +15,7 @@
 #include "PRange.h"
 #include "PSSGState.h"
 #include "raceman.h"
+#include "PTrackLoadState.h"
 
 namespace procedural
 {
@@ -51,11 +52,11 @@ namespace procedural
 			/* Initialize car data to be tracked for procedural generation. */
 			void Init(tCarElt* car);
 
-			/* Initialize a procedural track given a configuration */
-			void InitTrack(std::string config, tdble length);
-
-			/* Loads a pregenerated track from the given path */
-			void LoadTrack(std::string path);
+			/*
+			 * Initialize a procedural track given a configuration
+			 * loadState The current load state. Tells the trackmanager what type of track to load - a pregenerated one or a configuration, and also where to find all the neccesary files.
+			*/
+			void InitTrack(PTrackLoadState loadState);
 
 			/* Add a given segment to the track contained in the race manager passed in. */
 			void AddSegment(const PSeg& segment);
@@ -83,6 +84,9 @@ namespace procedural
 
 			/* Sets the current temporary track pointer */
 			void SetTempTrackPtr(tTrack* tempTrack);
+
+			/* Outputs the current track */
+			void OutputCurrentTrack();
 	};
 }
 

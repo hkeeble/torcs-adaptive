@@ -144,8 +144,10 @@ namespace procedural
 
 	static void PAcceptTrackSelectMenu(void* params)
 	{
+		// Set all parameters for later use
 		PMenuParams* p = (PMenuParams*)params;
-		p->trackLoadPath = std::string(fileManager->GetCurrentDir()) + "tracks\\procedural\\" + selectedFolder + "\\previousTracks\\" + selectedTrack;
+		p->loadState = PTrackLoadState(selectedTrack, std::string("tracks/procedural/" + selectedFolder + "/previousTracks/" + selectedTrack + "/"),
+			selectedFolder, "tracks/procedural/" + selectedFolder + "/");
 
 		GfuiScreenRelease(handle);
 		PResetLoadScreen();
@@ -156,7 +158,7 @@ namespace procedural
 	static void PUpdateTrackList(void* /* dummy param */)
 	{
 		// Construct the folder path to search for .TRK files
-		std::string searchFolder = std::string(fileManager->GetCurrentDir()) + "tracks\\procedural\\" + selectedFolder + "\\previousTracks\\";
+		std::string searchFolder = std::string(fileManager->GetCurrentDir()) + "tracks/procedural/" + selectedFolder + "/previousTracks/";
 
 		// Find all TRK files in the directory
 		trkDirs->clear();

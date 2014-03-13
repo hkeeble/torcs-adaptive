@@ -137,13 +137,10 @@ void
 ReStartNewRace(void * pmp)
 {
 	// If procedural race, use the data passed out of MenuParams to set the race configuration or load path
-	if (!strcmp(ReInfo->raceEngineInfo.name, "Procedural Race"))
+	if (pmp)
 	{
 		PMenuParams* p = (PMenuParams*)pmp;
-		if (p->configName != NO_CONFIG_SET)
-			taManager->SetConfiguration(p->configName);
-		if (p->trackLoadPath != NO_TRACK_LOAD_PATH)
-			taManager->SetTrackLoadPath(p->trackLoadPath);
+		taManager->SetLoadState(p->loadState);
 	}
 
 	ReInitResults();

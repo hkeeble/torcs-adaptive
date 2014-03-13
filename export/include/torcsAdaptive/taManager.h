@@ -32,6 +32,10 @@ namespace torcsAdaptive
 	// Currently defined track length
 	#define TA_TR_LENGTH 1000
 
+	// Race Manager Names
+	#define ADAPTIVE_RACE "Adaptive Race"
+	#define PROCEDURAL_RACE "Procedural Race"
+
 	/* Type of TORCS-Adaptive Race currently active.
 		0 - None: Assigned as default, therefore only set if TAManager::Init() has not been called, adaptive/procedural race not active.
 		1 - Adaptive: Adaptive race with performance measurement.
@@ -55,26 +59,29 @@ namespace torcsAdaptive
 		/* Singleton instance  */
 		static TAManager* instance;
 
+		// The current player's skill level
 		float currentSkillLevel;
+
+		// The current race type
 		TARaceType raceType;
+
+		// Pointers to main management objects
 		PMManager* perfMeasurement;
 		PTrackManager* trackManager;
 		PFileManager* fileManager;
 		tRmInfo* raceManager;
+
+		// Pointer to the car
 		tCarElt* car;
 
-		/* Name of the current configuration */
-		std::string configName;
-
-		/* Path to load track from */
-		std::string trackLoadPath;
-
-		bool raceOnConsole; // Is current race on console?
+		// Is current race on console?
+		bool raceOnConsole;
 
 		// The TORCS Adaptive HUD
 		TAHud hud;
 
-		void* endRaceMenuHndle;
+		/* The current load state */
+		PTrackLoadState loadState;
 
 		/* Output the current track */
 		void OutputTrack();
@@ -103,9 +110,6 @@ namespace torcsAdaptive
 
 		/* Initialize track, must call Init before this */
 		void InitTrack();
-
-		/* Loads a pregenerated track into the track manager, use SetTrackLoadPath to pass in the path first */
-		void LoadTrack();
 
 		/* Set the current race type */
 		void SetRaceType(const TARaceType& RaceType);
@@ -140,11 +144,8 @@ namespace torcsAdaptive
 		/* Draws TORCS-Adaptive specific content to the UI */
 		void DrawBoard();
 
-		/* Set the current track configuration */
-		void SetConfiguration(std::string config);
-
 		/* Set the path to load a track from */
-		void SetTrackLoadPath(std::string path);
+		void SetLoadState(const PTrackLoadState& loadState);
 	};
 }
 #endif // _TORCS_ADAPTIVE_MANAGER_H_

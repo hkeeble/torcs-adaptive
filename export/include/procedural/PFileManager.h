@@ -9,28 +9,18 @@
 
 #include <string>
 #include <sstream>
+#include <fstream>
 
 #include "pSeg.h"
 #include "PTrackManager.h"
 #include "PTrackFileManager.h"
+#include "trackgen\trackgen.h"
 #include "track.h"
 
 namespace procedural
 {
 #ifdef WIN32 // This class is only applicable to a windows build
-
-	// Track input and output defines
-	#define TRACK_OUT_FTYPE ".trk" // Track output filetype
-
-		// Line indices for reading
-	#define PARAM_COUNT		5
-	#define ID_LINE_IDX		0
-	#define TYPE_LINE_IDX	1
-	#define LENGTH_LINE_IDX 2
-	#define RADIUS_LINE_IDX 3
-	#define ARC_LINE_IDX	4
-
-#define FILE_SEARCH_UNFILTERED "*"
+	#define FILE_SEARCH_UNFILTERED "*"
 
 	/* A singleton class to represent the file manager system used by the procedural library. WORKS WITH WINDOWS ONLY. */
 	class PFileManager
@@ -63,10 +53,10 @@ namespace procedural
 		static PFileManager* Get();
 
 		/* Outputs the current track to a text file */
-		void OutputTrack(std::string trackName, std::string fileName, std::string configPath, std::string configName, PTrackManager* trkMngr);
+		void OutputTrack(std::string trackName, std::string configPath, std::string configName, tTrack* track);
 
-		/* Reads a track from a text file */
-		void ReadTrack(std::string fileName, PTrackManager* trkMngr);
+		/* Reads track segments from a file */
+		std::vector<PSeg> ReadTrackSegments(std::string filePath);
 
 		/* Find the files with the given extension in the given directory, leave extension blank for all files */
 		std::vector<std::string> FilesInDirectory(std::string dirPath, std::string fType = FILE_SEARCH_UNFILTERED);

@@ -21,44 +21,61 @@ namespace procedural
 		raceManager = RaceManager; // Save pointer to race manager
 	}
 
-	void PTrackManager::InitTrack(std::string config, tdble length)
+	void PTrackManager::InitTrack(PTrackLoadState loadState)
 	{
-		pOut("Initialize procedural track configuration...\n");
-
+		// Set neccesary paths
 		std::string acname, xmlname, filePath, modeldir, texturedir;
 
-		pOut("Setting track file path and file names...\n");
-		acname = config + ".ac";
-		xmlname = config + ".xml";
-		filePath = "tracks/procedural/" + config + "/";
-		modeldir = "tracks\\adaptive\\" + config + "\\";
+		xmlname = loadState.ConfigName() + ".xml";
+		modeldir = "tracks/procedural/" + loadState.ConfigName() + "/";
 		texturedir = "data\\textures";
 
-		pOut("Setting Track 3D Description Loader Options...\n");
-		ssgLoaderOptions* lopts = new ssgLoaderOptions();
-		lopts->setModelDir(modeldir.c_str());
-		lopts->setTextureDir(texturedir.c_str());
 
-		pOut("Track manager obtaining pointer to segment factory...\n");
-		segFactory = PSegFactory::GetInstance(); // Obtain pointer to segment factory
+		if (loadState.LoadType() == PLoadType::CONFIG) // Default TORCS Adaptive track initialization - initializes a configuration for a procedural track
+		{
+			pOut("Initialize procedural track configuration...\n");
 
-		pOut("Initializing segment factory...\n");
-		segFactory->SetChances(45.f, 65.f);
+			std::string acname, xmlname, filePath, modeldir, texturedir;
 
-		// Initialize the procedural track.
-		pOut("Initializing procedural track structure...\n");
-		track = new PTrack(length, const_cast<char*>(acname.c_str()), const_cast<char*>(xmlname.c_str()), const_cast<char*>(filePath.c_str()), lopts);
+			pOut("Setting track file path and file names...\n");
+			acname = loadState.ConfigName() + ".ac";
+			filePath = "tracks/procedural/" + loadState.ConfigName() + "/";
 
-		// Point the racemaneger to the procedural track
-		pOut("Setting racemanager track to procedural track...\n");
-		raceManager->track = track->trk;
+			pOut("Setting Track 3D Description Loader Options...\n");
+			ssgLoaderOptions* lopts = new ssgLoaderOptions();
+			lopts->setModelDir(modeldir.c_str());
+			lopts->setTextureDir(texturedir.c_str());
 
-		previousSegType = track->GetEnd()->type;
-	}
+			pOut("Track manager obtaining pointer to segment factory...\n");
+			segFactory = PSegFactory::GetInstance(); // Obtain pointer to segment factory
 
-	void PTrackManager::LoadTrack(std::string path)
-	{
-		PFileManager::Get()->ReadTrack(path, this);
+			pOut("Initializing segment factory...\n");
+			segFactory->SetChances(45.f, 65.f);
+
+			// Initialize the procedural track.
+			pOut("Initializing procedural track structure...\n");
+			track = new PTrack(1000, const_cast<char*>(acname.c_str()), const_cast<char*>(xmlname.c_str()), const_cast<char*>(filePath.c_str()), lopts);
+
+			// Point the racemanager to the procedural track
+			pOut("Setting racemanager track to procedural track...\n");
+			raceManager->track = track->trk;
+
+			previousSegType = track->GetEnd()->type;
+		}
+		else if (loadState.LoadType() == PLoadType::TRACK) // Initialization if a pre-generated track is to be loaded
+		{
+			// Read in the segments
+			std::vector<PSeg> segs = PFileManager::Get()->ReadTrackSegments(loadState.TrackPath() + loadState.TrackFileName());
+
+			// Initialize the procedural track
+			track = new PTrack(segs, loadState.ConfigPath() + loadState.ConfigFileName(), loadState.ConfigPath() + "previousTracks/" + loadState.TrackName() + "/" + loadState.TrackName() + ".ac");
+
+			// Set neccesary paths
+
+
+			// Point the racemanager to the procedural track
+			raceManager->track = track->trk;
+		}
 	}
 
 	PTrackManager::PTrackManager(const PTrackManager& param) : MAX_DIST_FROM_END(3)
@@ -204,5 +221,37 @@ namespace procedural
 	bool PTrackManager::CarOnLastSegment()
 	{
 		return (carData.CurrentSeg()->id == track->GetEnd()->id);
+	}
+
+	void PTrackManager::OutputCurrentTrack()
+	{
+		// Obtain a pointer to the file manager
+		PFileManager* fManager = PFileManager::Get();
+
+		// Declare the strings to be used
+		std::string fileName;
+		std::string trackName;
+		std::string configDir;
+		std::string searchDir;
+
+		// Get executable's directory
+		char* executableDir = fManager->GetCurrentDir();
+
+		// Build track config directory path
+		configDir = std::string(executableDir) + "tracks\\procedural\\" + std::string(raceManager->track->name) + "\\";
+
+		// Build path to search for configurations
+		searchDir = executableDir;
+		searchDir.append("tracks\\procedural\\" + std::string(raceManager->track->name) + "\\previousTracks\\");
+
+		// Obtain all previous tracks
+		std::vector<std::string> configs = fManager->DirectoriesInDirectory(searchDir);
+
+		// Create name of file from file count
+		trackName = "track" + std::to_string(configs.size());
+		fileName = trackName + ".xml"; // Append with track desc extension
+
+		// Write out the track
+		fManager->OutputTrack(trackName, configDir, raceManager->track->name, track->trk);
 	}
 }

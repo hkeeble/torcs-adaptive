@@ -8,6 +8,8 @@
 #define _P_TRACK_H_
 
 #include <fstream>
+#include <vector>
+
 #include "PTrackState.h"
 #include "PDefs.h"
 #include "CarData.h"
@@ -48,7 +50,13 @@ namespace procedural
 		tTrack* BuildTrack(const char* const fName);
 
 	public:
+
+		/* Initialize a procedural track */
 		PTrack(tdble totalLength, char* acname, char* xmlname, char* filepath, ssgLoaderOptions* loaderoptions);
+
+		/* Initializes a procedural track with a preloaded set of procedural segments */
+		PTrack(std::vector<PSeg> segs, std::string configPath, std::string acPath);
+
 		~PTrack();
 		PTrack(const PTrack& param);
 		PTrack& operator=(const PTrack& param);

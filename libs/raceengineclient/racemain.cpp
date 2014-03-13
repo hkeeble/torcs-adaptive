@@ -115,23 +115,11 @@ ReRaceEventInit(void)
 
 	RmLoadingScreenStart(ReInfo->_reName, "data/img/splash-qrloading.png");
 
-	// Initialize TORCS Adaptive manager, give pointer to Race Manager
 	taManager->Init(ReInfo);
 
 	// Initialize Track
 	if (!taManager->IsActive())
 		ReInitTrack();
-	else
-	{
-		// If a pregenerated track has not been chose, initialize a new procedural track
-		if (taManager->GetRaceType() != torcsAdaptive::TARaceType::Pregenerated)
-		{
-			RmLoadingScreenSetText("Initializing Procedural Track...");
-			taManager->InitTrack();
-		}
-		else // Otherwise, load a pregenerated track
-			taManager->LoadTrack();
-	}
 
 	// Initialize Graphics
 	if (

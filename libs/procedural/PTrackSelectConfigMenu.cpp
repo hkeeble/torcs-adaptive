@@ -122,10 +122,8 @@ namespace procedural
 	static void PAcceptConfig(void* params)
 	{
 		PMenuParams* p = (PMenuParams*)params;
-		p->configName = *selectedConfig;
+		p->loadState = PTrackLoadState(*selectedConfig, "tracks/procedural/" + *selectedConfig + "/");
 	
-
-
 		GfuiScreenRelease(handle);
 		PResetConfigSelect();
 

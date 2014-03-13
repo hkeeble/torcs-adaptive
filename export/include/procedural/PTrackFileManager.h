@@ -7,42 +7,45 @@
 #ifndef _P_TRACK_FILE_MANAGER_
 #define _P_TRACK_FILE_MANAGER_
 
+#include <fstream>
+#include <vector>
+
 #include "PTrackConfig.h"
 
 namespace procedural
 {
+	#define P_TRK_SECT_SEGS "Segments"
+	#define P_TRK_SECT_HDR "Header"
+
+	#define P_TRK_ATT_SEG_COUNT "Number of Segments"
+	#define P_TRK_ATT_DESC "Description"
+	#define P_TRK_ATT_NAME "Track Name"
+
+	/* A class that represents a file manager designed to write out track files for the procedural library. */
 	class PTrackFileManager
 	{
 	public:
 		PTrackFileManager() { }
 		~PTrackFileManager() { }
 		
-		/* Writes a track to the given track handle, with the given configuration. */
-		void WriteTrackTo(void* newTrackHandle, void* configHandle, tTrack* trk, std::string trkName);
-		
-		/* Reads a track from the given handle and returns the results. */
-		void ReadTrackFrom(void* trackHandle);
+		/* Writes a track to the given track file */
+		void WriteTrackTo(std::string filePath, std::string trkName, tTrack* track);
+
+		/* Reads track data from the given file, and constructs a vector of procedural segment objects */
+		std::vector<PSeg> ReadTrackFrom(std::string filePath);
+
 	private:
-		/* Writes all configuration data given to the given track handle. */
-		void WriteConfigDataTo(void* newTrackHandle, const PTrackConfig& config);
-		
 		/* Writes the given track's segment data to the given track handle. */
 		void WriteSegmentDataTo(void* newTrackHandle, tTrack* track);
 
-		/* Writes all Graphic data to the given handle from the given config */
-		void WriteGraphicConfigTo(void* newTrackHandle, const PTrackConfig& config);
-
-		/* Writes all main track configuration data to the given handle */
-		void WriteMainTrackConfigTo(void* newTrackHandle, const PTrackConfig& config);
-
-		/* Writes out all terrain generation configuration to the given handle */
-		void WriteTerrainGenerationConfigTo(void* newTrackHandle, const PTrackConfig& config);
-
-		/* Writes all header data from the given configuration to the given handle */
-		void WriteHeaderDataTo(void* newTrackHandle, const PTrackConfig& config);
-
-		/* Writes all data from the given segment into the segment list of the given handle */
+		/* Writes an individual segment into a given handle */
 		void WriteSegmentTo(void* newTrackHandle, tTrackSeg* seg);
+
+		/* Reads segments from a given track handle */
+		std::vector<PSeg> ReadSegmentDataFrom(void* trackHandle);
+
+		/* Reads a single segment with the given name */
+		PSeg ReadSegment(void* trackHandle, int id);
 	};
 }
 
