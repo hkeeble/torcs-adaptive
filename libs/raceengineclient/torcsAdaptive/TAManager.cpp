@@ -191,7 +191,7 @@ namespace torcsAdaptive
 	{
 		/* Plot the track for reading in gnuplot */
 		TrackDesc desc = TrackDesc(trackManager->GetTrack()->trk);
-		desc.plot((char*)(std::string((char*)trackManager->GetTrack()->GetFilePath()) + std::string("procTrackPlot.dat")).c_str());
+		desc.plot(const_cast<char*>((trackManager->GetTrack()->GetConfigPath() + "procTrackPlot.dat").c_str()));
 
 		/* Output the current track */
 		trackManager->OutputCurrentTrack();

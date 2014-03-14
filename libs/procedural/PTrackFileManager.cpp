@@ -27,15 +27,12 @@ namespace procedural
 
 	void PTrackFileManager::WriteSegmentDataTo(void* newTrackHandle, tTrack* track)
 	{
-		tTrackSeg* end = track->seg;
-		tTrackSeg* start = end->next;
-		tTrackSeg* curSeg = start;
+		tTrackSeg* curSeg = track->seg->next;
 
-		// Write out each segment
-		do {
+		for (int i = 0; i < track->nseg; i++) {
 			WriteSegmentTo(newTrackHandle, curSeg);
 			curSeg = curSeg->next;
-		} while (curSeg->next != start);
+		}
 	}
 
 	void PTrackFileManager::WriteSegmentTo(void* newTrackHandle, tTrackSeg* seg)
@@ -67,7 +64,7 @@ namespace procedural
 		std::vector<PSeg> segs = std::vector<PSeg>();
 
 		// Read segments
-		for (int i = 1; i < nseg + 1; i++)
+		for (int i = 0; i < nseg; i++)
 			segs.push_back(ReadSegment(trackHandle, i));
 
 		return segs;

@@ -48,6 +48,13 @@ namespace procedural
 
 		PTrackFileManager trkFileManager;
 
+		/*
+		 * Copies an AC file from one file to another, creates the destination file if neccesary, and overwrites if it already exits.
+		 * sourceFile The path and name of the source file.
+		 * destFile	  The path and name of the destination file.
+		 */
+		void CopyACFile(std::string sourceFile, std::string destFile);
+
 	public:
 		/* Get the singleton instance of the file manager class */
 		static PFileManager* Get();

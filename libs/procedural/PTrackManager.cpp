@@ -13,6 +13,7 @@ namespace procedural
 		raceManager = nullptr;
 		track = nullptr;
 		segFactory = nullptr;
+		trackType = PTrackType::PROCEDURAL;
 	}
 
 	PTrackManager::PTrackManager(tRmInfo* RaceManager) : MAX_DIST_FROM_END(3)
@@ -24,27 +25,23 @@ namespace procedural
 	void PTrackManager::InitTrack(PTrackLoadState loadState)
 	{
 		// Set neccesary paths
-		std::string acname, xmlname, filePath, modeldir, texturedir;
+		std::string modeldir("tracks/procedural/" + loadState.ConfigName() + "/");
+		std::string texturedir("data/textures");
 
-		xmlname = loadState.ConfigName() + ".xml";
-		modeldir = "tracks/procedural/" + loadState.ConfigName() + "/";
-		texturedir = "data\\textures";
-
+		pOut("Setting Track 3D Description Loader Options...\n");
+		ssgLoaderOptions* lopts = new ssgLoaderOptions();
+		lopts->setModelDir(modeldir.c_str());
+		lopts->setTextureDir(texturedir.c_str());
 
 		if (loadState.LoadType() == PLoadType::CONFIG) // Default TORCS Adaptive track initialization - initializes a configuration for a procedural track
 		{
 			pOut("Initialize procedural track configuration...\n");
 
-			std::string acname, xmlname, filePath, modeldir, texturedir;
-
 			pOut("Setting track file path and file names...\n");
-			acname = loadState.ConfigName() + ".ac";
-			filePath = "tracks/procedural/" + loadState.ConfigName() + "/";
-
-			pOut("Setting Track 3D Description Loader Options...\n");
-			ssgLoaderOptions* lopts = new ssgLoaderOptions();
-			lopts->setModelDir(modeldir.c_str());
-			lopts->setTextureDir(texturedir.c_str());
+			std::string acname(loadState.ConfigName() + ".ac");
+			std::string acpath("tracks/procedural/" + loadState.ConfigName() + "/");
+			std::string configpath(acpath);
+			std::string configname(loadState.ConfigFileName());
 
 			pOut("Track manager obtaining pointer to segment factory...\n");
 			segFactory = PSegFactory::GetInstance(); // Obtain pointer to segment factory
@@ -54,27 +51,36 @@ namespace procedural
 
 			// Initialize the procedural track.
 			pOut("Initializing procedural track structure...\n");
-			track = new PTrack(1000, const_cast<char*>(acname.c_str()), const_cast<char*>(xmlname.c_str()), const_cast<char*>(filePath.c_str()), lopts);
+			track = new PTrack(1000, configpath, acpath, configname, acname, lopts);
 
 			// Point the racemanager to the procedural track
 			pOut("Setting racemanager track to procedural track...\n");
 			raceManager->track = track->trk;
 
 			previousSegType = track->GetEnd()->type;
+
+			// Set track type
+			trackType = PTrackType::PROCEDURAL;
 		}
 		else if (loadState.LoadType() == PLoadType::TRACK) // Initialization if a pre-generated track is to be loaded
 		{
 			// Read in the segments
 			std::vector<PSeg> segs = PFileManager::Get()->ReadTrackSegments(loadState.TrackPath() + loadState.TrackFileName());
 
-			// Initialize the procedural track
-			track = new PTrack(segs, loadState.ConfigPath() + loadState.ConfigFileName(), loadState.ConfigPath() + "previousTracks/" + loadState.TrackName() + "/" + loadState.TrackName() + ".ac");
+			// Construct paths and names
+			std::string acname(loadState.TrackName() + ".ac");
+			std::string acpath("tracks/procedural/" + loadState.ConfigName() + "/previousTracks/" + loadState.TrackName() + "/");
+			std::string configpath("tracks/procedural/" + loadState.ConfigName() + "/");
+			std::string configname(loadState.ConfigFileName());
 
-			// Set neccesary paths
-
+			// Initialize the procedural track object
+			track = new PTrack(segs, configpath, acpath, configname, acname, lopts);
 
 			// Point the racemanager to the procedural track
 			raceManager->track = track->trk;
+
+			// Set track type
+			trackType = PTrackType::PREGENERATED;
 		}
 	}
 
@@ -152,19 +158,22 @@ namespace procedural
 		// Update data on the car
 		carData.Update();
 
-		// Manage new segment generation
-		if (track->trk->length < track->TotalLength())
+		if (trackType == PTrackType::PROCEDURAL)
 		{
-			if (carData.CurrentSeg()->id + MAX_DIST_FROM_END >= track->GetEnd()->id) // If a new segment needs to be generated
+			// Manage new segment generation
+			if (track->trk->length < track->TotalLength())
 			{
-				if (!adaptive)
-					AddSegment(segFactory->CreateRandomSeg(track->state.curSegIndex));
-				else
-					GenerateAdaptiveSegment(skillLevel);
+				if (carData.CurrentSeg()->id + MAX_DIST_FROM_END >= track->GetEnd()->id) // If a new segment needs to be generated
+				{
+					if (!adaptive)
+						AddSegment(segFactory->CreateRandomSeg(track->state.curSegIndex));
+					else
+						GenerateAdaptiveSegment(skillLevel);
 
-				// Update graphical description
-				if (raceManager->raceEngineInfo.displayMode == RM_DISP_MODE_NORMAL)
-					UpdateGraphics();
+					// Update graphical description
+					if (raceManager->raceEngineInfo.displayMode == RM_DISP_MODE_NORMAL)
+						UpdateGraphics();
+				}
 			}
 		}
 	}
@@ -190,12 +199,6 @@ namespace procedural
 	void PTrackManager::UpdateACFile()
 	{
 		track->UpdateACFile();
-	}
-
-	tdble PTrackManager::PercentDistanceToEnd(tdble segLength, tdble distToStart)
-	{
-		tdble percent = segLength / 100; // Equal to one percent of the segment
-		return 100 - (distToStart / percent); // Calculate percent distance from start, take from 100 to find percent distance to end
 	}
 
 	tdble PTrackManager::CurrentLength() const

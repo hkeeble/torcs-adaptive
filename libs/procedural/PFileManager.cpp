@@ -92,13 +92,30 @@ namespace procedural
 
 			pOut("Outputting track 3D Description...\n");
 
-			// Write out 3D description of entire track
-			GenerateTrack(track, track->params, const_cast<char*>(std::string(relativeCfgPath + "previousTracks/" + trackName + "/" + trackName + ".ac").c_str()), nullptr, 0, 0, 0);
+			// Copy the 3D description over.
+			CopyACFile(configPath + configName + ".ac", filePath + trackName + ".ac");
 
 			pOut("Track files output successfully!\n");
 		}
 		else
 			pOut("Error outputting track, could not create track directory!\n");
+	}
+
+	void PFileManager::CopyACFile(std::string sourceFile, std::string destFile)
+	{
+		std::fstream source;
+		std::fstream dest;
+
+		source.open(sourceFile, std::ios::in);
+		dest.open(destFile, std::ios::out);
+
+		if (source.is_open())
+		{
+			if (dest.is_open())
+			{
+
+			}
+		}
 	}
 
 	std::vector<PSeg> PFileManager::ReadTrackSegments(std::string filePath)

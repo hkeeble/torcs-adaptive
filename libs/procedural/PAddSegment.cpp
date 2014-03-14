@@ -22,6 +22,10 @@ namespace procedural
 	if (zmin >(z)) zmin = (z);	\
 	if (zmax < (z)) zmax = (z);
 
+	/**
+	 * Adds the given segment to the procedural track. Only works on internal structure.
+	 * This function generates no 3D description for the segment.
+	 */
 	void PTrack::AddSegment(const PSeg& seg)
 	{
 		int		        j;
