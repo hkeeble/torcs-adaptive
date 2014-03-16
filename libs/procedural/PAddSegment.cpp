@@ -49,7 +49,7 @@ namespace procedural
 		tdble	        tr, dtr, T1r, T2r;
 		tdble	        curzel, curzer, curArc, curLength, curzsl, curzsr;
 
-		// Get Pointer to current track cache
+		// Get Pointer to current track
 		tTrack* track = trk;
 
 		void* trHandle = track->params; // Obtain Track Handle

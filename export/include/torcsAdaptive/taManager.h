@@ -30,7 +30,7 @@ using namespace perfMeasurement;
 namespace torcsAdaptive
 {
 	// Currently defined track length
-	#define TA_TR_LENGTH 1000
+	#define TA_TR_LENGTH 100
 
 	// Race Manager Names
 	#define ADAPTIVE_RACE "Adaptive Race"
@@ -80,9 +80,6 @@ namespace torcsAdaptive
 		// The TORCS Adaptive HUD
 		TAHud hud;
 
-		/* The current load state */
-		PTrackLoadState loadState;
-
 		/* Output the current track */
 		void OutputTrack();
 
@@ -120,6 +117,9 @@ namespace torcsAdaptive
 		/* Get the current track */
 		PTrack* GetTrack() const;
 
+		/* Get the track manager */
+		PTrackManager* GetTrackManager() const;
+
 		/* Add a segment to the track. */
 		void AddSegment(const PSeg& segment);
 		
@@ -143,9 +143,6 @@ namespace torcsAdaptive
 
 		/* Draws TORCS-Adaptive specific content to the UI */
 		void DrawBoard();
-
-		/* Set the path to load a track from */
-		void SetLoadState(const PTrackLoadState& loadState);
 	};
 }
 #endif // _TORCS_ADAPTIVE_MANAGER_H_

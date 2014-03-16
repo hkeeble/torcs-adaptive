@@ -21,9 +21,6 @@ namespace torcsAdaptive
 		fileManager = PFileManager::Get();
 		
 		currentSkillLevel = 0.f;
-
-		// Initialize the load state
-		loadState = PTrackLoadState();
 	}
 
 	TAManager* TAManager::Get()
@@ -55,6 +52,9 @@ namespace torcsAdaptive
 
 	void TAManager::Init(tRmInfo* RaceManager)
 	{
+		// Retrieve load state
+		PTrackLoadState loadState = fileManager->GetTrackLoadState();
+
 		raceManager = RaceManager;
 		trackManager = new PTrackManager(raceManager);
 
@@ -101,15 +101,8 @@ namespace torcsAdaptive
 	}
 
 	void TAManager::InitTrack()
-	{
-		// If not config is set, then set to the first config in the directory
-		if (loadState.ConfigName() == NO_CONFIG_SET);
-		{
-			std::vector<std::string> configs = fileManager->DirectoriesInDirectory(std::string(fileManager->GetCurrentDir()) + "tracks\\procedural\\");
-			loadState.SetConfiguration(configs[2], "tracks/procedural/" + configs[2] + "/");
-		}
-		
-		trackManager->InitTrack(loadState);
+	{		
+		trackManager->InitTrack();
 	}
 
 	void TAManager::InitTrkManager(tCarElt* car)
@@ -162,6 +155,11 @@ namespace torcsAdaptive
 		return trackManager->GetTrack();
 	}
 
+	PTrackManager* TAManager::GetTrackManager() const
+	{
+		return trackManager;
+	}
+
 	bool TAManager::IsActive() const
 	{
 		if (raceType == TARaceType::None)
@@ -189,15 +187,8 @@ namespace torcsAdaptive
 
 	void TAManager::RaceEnd()
 	{
-		/* Plot the track for reading in gnuplot */
-		TrackDesc desc = TrackDesc(trackManager->GetTrack()->trk);
-		desc.plot(const_cast<char*>((trackManager->GetTrack()->GetConfigPath() + "procTrackPlot.dat").c_str()));
-
-		/* Output the current track */
-		trackManager->OutputCurrentTrack();
-
-		if (trackManager)
-			delete trackManager;
+		// Reset the load state at the end of a race
+		fileManager->SetTrackLoadState(PTrackLoadState());
 	}
 
 	void TAManager::InitCarPos()
@@ -243,10 +234,4 @@ namespace torcsAdaptive
 		else
 			hud.Render(NULL_SKILL_LEVEL);
 	}
-
-	void TAManager::SetLoadState(const PTrackLoadState& loadState)
-	{
-		this->loadState = loadState;
-	}
-
 }

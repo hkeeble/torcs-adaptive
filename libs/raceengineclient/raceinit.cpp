@@ -134,15 +134,8 @@ void ReShutdown(void)
 
 
 void
-ReStartNewRace(void * pmp)
+ReStartNewRace(void* /* dummy */)
 {
-	// If procedural race, use the data passed out of MenuParams to set the race configuration or load path
-	if (pmp)
-	{
-		PMenuParams* p = (PMenuParams*)pmp;
-		taManager->SetLoadState(p->loadState);
-	}
-
 	ReInitResults();
 	ReStateManage();
 }

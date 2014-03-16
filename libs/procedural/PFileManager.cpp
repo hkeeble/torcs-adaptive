@@ -10,7 +10,7 @@ namespace procedural
 {
 	PFileManager* PFileManager::instance = nullptr;
 
-	PFileManager::PFileManager() : trackManager(nullptr)
+	PFileManager::PFileManager()
 	{
 		/* Get the current directory (as this will not change) */
 
@@ -36,33 +36,10 @@ namespace procedural
 		trkFileManager = PTrackFileManager();
 	};
 
-	std::string PFileManager::ConstructSegmentOutput(tTrackSeg* seg)
+	PFileManager::~PFileManager()
 	{
-		std::string string = "";
-
-		string += std::to_string(seg->id); // Ouput ID
-		string += "\n";
-		string += std::to_string(seg->type); // Output Type
-		string += "\n";
-		string += std::to_string(seg->length); // Output Length
-		string += "\n";
-		string += std::to_string(seg->radius); // Output Radius
-		string += "\n";
-		string += std::to_string(seg->arc); // Output arc
-		string += "\n";
-
-		return string;
-	}
-
-	
-
-	int PFileManager::strToInt(std::string string)
-	{
-		std::stringstream ss = std::stringstream(string);
-		int ret = 0;
-		if (!(ss >> ret))
-			pOut("Error, string to int conversion failed!\n");
-		return ret;
+		if (CurrentDir)
+			delete CurrentDir;
 	}
 
 	PFileManager* PFileManager::Get()
@@ -93,7 +70,11 @@ namespace procedural
 			pOut("Outputting track 3D Description...\n");
 
 			// Copy the 3D description over.
-			CopyACFile(configPath + configName + ".ac", filePath + trackName + ".ac");
+			CopyACFile(configPath + configName + ".ac", relativeCfgPath + "previousTracks/" + trackName + "/" + trackName + ".ac");
+
+			// Write out track plot
+			TrackDesc desc = TrackDesc(track);
+			desc.plot(const_cast<char*>((relativeCfgPath + "previousTracks/" + trackName + "/" + trackName + "Plot.dat").c_str()));
 
 			pOut("Track files output successfully!\n");
 		}
@@ -103,19 +84,23 @@ namespace procedural
 
 	void PFileManager::CopyACFile(std::string sourceFile, std::string destFile)
 	{
-		std::fstream source;
-		std::fstream dest;
-
-		source.open(sourceFile, std::ios::in);
-		dest.open(destFile, std::ios::out);
+		std::fstream source(sourceFile, std::ios::in);
 
 		if (source.is_open())
 		{
+			std::fstream dest(destFile, std::ios::out);
 			if (dest.is_open())
 			{
-
+				dest << source.rdbuf();
+				dest.close();
 			}
+			else
+				pOut("Error! Failed to copy AC file, could not open file: " + destFile + "\n");
+
+			source.close();
 		}
+		else
+			pOut("Error! Failed to copy AC file, could not open file: " + sourceFile + "\n");
 	}
 
 	std::vector<PSeg> PFileManager::ReadTrackSegments(std::string filePath)
@@ -171,12 +156,27 @@ namespace procedural
 		do {
 			if (fi.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			{
-				if (fi.cFileName != "." && fi.cFileName != "..")
+				if (strcmp(fi.cFileName, ".") && strcmp(fi.cFileName, ".."))
 					files.push_back(fi.cFileName);
 			}
 		} while (FindNextFile(hFind, &fi));
 
 		return files;
+	}
+
+	void PFileManager::SetTrackLoadState(const PTrackLoadState& loadState)
+	{
+		trkFileManager.SetLoadState(loadState);
+	}
+
+	void PFileManager::SetTrackLoadStateLength(int length)
+	{
+		trkFileManager.SetLoadStateLength(length);
+	}
+
+	PTrackLoadState PFileManager::GetTrackLoadState()
+	{
+		return trkFileManager.GetLoadState();
 	}
 
 	char* PFileManager::GetCurrentDir()

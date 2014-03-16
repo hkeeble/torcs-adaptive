@@ -15,7 +15,7 @@
 #include "PTrackManager.h"
 #include "PTrackFileManager.h"
 #include "trackgen\trackgen.h"
-#include "track.h"
+#include "trackdesc.h"
 
 namespace procedural
 {
@@ -26,27 +26,18 @@ namespace procedural
 	class PFileManager
 	{
 	private:
+		// Private constructor - singleton object
 		PFileManager();
 
-		static PFileManager* instance;
+		// Private copy and copy assignment
+		PFileManager(const PFileManager& param) { };
+		PFileManager& operator=(const PFileManager& param) { }
+
+		static PFileManager* instance; /* Singleton instance of the file manager */
 		
-		/* Construct a string for a single segment ready for output. */
-		std::string ConstructSegmentOutput(tTrackSeg* seg);
+		char* CurrentDir; /* The executable directory, found upon instantiation of the singleton. */
 
-		/* Constructs a single segment from the given input string, and adds it to the track. */
-		void ConstructSegmentInput(const std::string& input);
-	
-		/* Converts a string to an integer */
-		int strToInt(std::string string);
-	
-		/* Pointer to the current track manager and other track objects */
-		PTrackManager* trackManager;
-		PTrack* procTrack;
-
-		// The current directory. This is found upon instantiation of the singleton
-		char* CurrentDir;
-
-		PTrackFileManager trkFileManager;
+		PTrackFileManager trkFileManager; /* A track file manager. Used to read and write tracks. Also stores track load state. */
 
 		/*
 		 * Copies an AC file from one file to another, creates the destination file if neccesary, and overwrites if it already exits.
@@ -56,20 +47,53 @@ namespace procedural
 		void CopyACFile(std::string sourceFile, std::string destFile);
 
 	public:
+		virtual ~PFileManager();
+
 		/* Get the singleton instance of the file manager class */
 		static PFileManager* Get();
 
-		/* Outputs the current track to a text file */
+		/*
+		 * Outputs the given track to a text file.
+		 * trackName  The name of the track to output. Used to construct file names.
+		 * configPath The path in which the track's configuration files can be found.
+		 * configName The name of the configuration used by the track.
+		 * track	  The TORCS track structure to output.
+		*/
 		void OutputTrack(std::string trackName, std::string configPath, std::string configName, tTrack* track);
 
-		/* Reads track segments from a file */
+		/* 
+		 * Reads track segments from a file. Returns a vector containing all segments read.
+		 * filePath The file to read segments from.
+		 */
 		std::vector<PSeg> ReadTrackSegments(std::string filePath);
 
-		/* Find the files with the given extension in the given directory, leave extension blank for all files */
+		/* 
+		 * Find the files with the given extension in the given directory.
+		 * dirPath The path of the directory to search.
+		 * fType   The file extension to search for. Leave blank to search for all files in the directory.
+		 */
 		std::vector<std::string> FilesInDirectory(std::string dirPath, std::string fType = FILE_SEARCH_UNFILTERED);
 
-		/* Searches the given directory for a list of all directories it contains */
+		/*
+		 * Searches the given directory for a list of all directories it contains.
+		 * dir The path of the directory to search for other directories.
+		 */
 		std::vector<std::string> DirectoriesInDirectory(std::string dir);
+
+		/* 
+		 * Set the track load state.
+		 * loadState The load state to use.
+		*/
+		void SetTrackLoadState(const PTrackLoadState& loadState);
+
+		/*
+		 * Sets the length of the current track load state.
+		 * length The length of the track that will be procedurally generated using the current load state.
+		 */
+		void SetTrackLoadStateLength(int length);
+
+		/* Get the current track load state. */
+		PTrackLoadState GetTrackLoadState();
 
 		/* Returns the path that the current executable resides within */
 		char* GetCurrentDir();

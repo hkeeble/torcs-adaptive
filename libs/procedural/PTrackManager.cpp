@@ -22,8 +22,19 @@ namespace procedural
 		raceManager = RaceManager; // Save pointer to race manager
 	}
 
-	void PTrackManager::InitTrack(PTrackLoadState loadState)
+	void PTrackManager::InitTrack()
 	{
+		// Retrieve the load state from the file manager
+		PTrackLoadState loadState = PFileManager::Get()->GetTrackLoadState();
+
+		// If no config is set, then set to the first config in the directory
+		if (!loadState.ConfigName().compare(NO_CONFIG_SET))
+		{
+			PFileManager* fManager = PFileManager::Get();
+			std::vector<std::string> configs = fManager->DirectoriesInDirectory(std::string(fManager->GetCurrentDir()) + "tracks\\procedural\\");
+			loadState.SetConfiguration(configs[0], "tracks/procedural/" + configs[0] + "/");
+		}
+
 		// Set neccesary paths
 		std::string modeldir("tracks/procedural/" + loadState.ConfigName() + "/");
 		std::string texturedir("data/textures");
@@ -51,7 +62,7 @@ namespace procedural
 
 			// Initialize the procedural track.
 			pOut("Initializing procedural track structure...\n");
-			track = new PTrack(1000, configpath, acpath, configname, acname, lopts);
+			track = new PTrack(loadState.Length(), configpath, acpath, configname, acname, lopts);
 
 			// Point the racemanager to the procedural track
 			pOut("Setting racemanager track to procedural track...\n");
@@ -78,6 +89,11 @@ namespace procedural
 
 			// Point the racemanager to the procedural track
 			raceManager->track = track->trk;
+
+			// Set the track's name
+			raceManager->track->name = new char[loadState.TrackName().length()];
+			strcpy((char*)raceManager->track->name, loadState.TrackName().c_str());
+			strcpy(raceManager->track->internalname, loadState.TrackName().c_str());
 
 			// Set track type
 			trackType = PTrackType::PREGENERATED;
@@ -226,35 +242,25 @@ namespace procedural
 		return (carData.CurrentSeg()->id == track->GetEnd()->id);
 	}
 
-	void PTrackManager::OutputCurrentTrack()
+	void PTrackManager::OutputCurrentTrack(std::string name)
 	{
 		// Obtain a pointer to the file manager
 		PFileManager* fManager = PFileManager::Get();
 
 		// Declare the strings to be used
 		std::string fileName;
-		std::string trackName;
 		std::string configDir;
-		std::string searchDir;
 
 		// Get executable's directory
 		char* executableDir = fManager->GetCurrentDir();
 
 		// Build track config directory path
-		configDir = std::string(executableDir) + "tracks\\procedural\\" + std::string(raceManager->track->name) + "\\";
-
-		// Build path to search for configurations
-		searchDir = executableDir;
-		searchDir.append("tracks\\procedural\\" + std::string(raceManager->track->name) + "\\previousTracks\\");
-
-		// Obtain all previous tracks
-		std::vector<std::string> configs = fManager->DirectoriesInDirectory(searchDir);
+		configDir = std::string(executableDir) + track->GetConfigPath();
 
 		// Create name of file from file count
-		trackName = "track" + std::to_string(configs.size());
-		fileName = trackName + ".xml"; // Append with track desc extension
+		fileName = name + ".xml"; // Append with track desc extension
 
 		// Write out the track
-		fManager->OutputTrack(trackName, configDir, raceManager->track->name, track->trk);
+		fManager->OutputTrack(name, configDir, raceManager->track->name, track->trk);
 	}
 }

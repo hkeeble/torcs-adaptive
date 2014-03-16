@@ -121,11 +121,12 @@ namespace procedural
 
 	static void PAcceptConfig(void* params)
 	{
-		PMenuParams* p = (PMenuParams*)params;
-		p->loadState = PTrackLoadState(*selectedConfig, "tracks/procedural/" + *selectedConfig + "/");
-	
+		fileManager->SetTrackLoadState(PTrackLoadState(*selectedConfig, "tracks/procedural/" + *selectedConfig + "/"));
+		
 		GfuiScreenRelease(handle);
 		PResetConfigSelect();
+
+		PMenuParams* p = static_cast<PMenuParams*>(params);
 
 		if (p) {
 			GfuiScreenActivate(p->nextScreen);

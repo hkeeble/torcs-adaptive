@@ -40,6 +40,8 @@
 
 #include "raceresults.h"
 
+#include "taManager.h"
+
 typedef struct
 {
 	char *carName;
@@ -393,7 +395,16 @@ ReDisplayResults(void)
 		if ((!strcmp(GfParmGetStr(params, ReInfo->_reRaceName, RM_ATTR_DISPRES, RM_VAL_YES), RM_VAL_YES)) ||
 			(ReInfo->_displayMode == RM_DISP_MODE_NORMAL))
 		{
-			RmShowResults(ReInfo->_reGameScreen, ReInfo);
+			if (torcsAdaptive::TAManager::Get()->IsProcedural())
+			{
+				PMenuParams* mP = new PMenuParams();
+				mP->nextScreen = ReInfo->_reGameScreen;
+				mP->prevScreen = ReInfo->_reGameScreen;
+				mP->trkMngr = torcsAdaptive::TAManager::Get()->GetTrackManager();
+				procedural::PCreateSaveMenu(static_cast<void*>(mP));
+			}
+			else
+				RmShowResults(ReInfo->_reGameScreen, ReInfo);
 		} else {
 			ReResShowCont();
 		}

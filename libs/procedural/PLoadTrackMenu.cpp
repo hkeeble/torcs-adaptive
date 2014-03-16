@@ -145,14 +145,15 @@ namespace procedural
 	static void PAcceptTrackSelectMenu(void* params)
 	{
 		// Set all parameters for later use
-		PMenuParams* p = (PMenuParams*)params;
-		p->loadState = PTrackLoadState(selectedTrack, std::string("tracks/procedural/" + selectedFolder + "/previousTracks/" + selectedTrack + "/"),
-			selectedFolder, "tracks/procedural/" + selectedFolder + "/");
+		PMenuParams* p = static_cast<PMenuParams*>(params);
+
+		fileManager->SetTrackLoadState(PTrackLoadState(selectedTrack, std::string("tracks/procedural/" + selectedFolder + "/previousTracks/" + selectedTrack + "/"),
+			selectedFolder, "tracks/procedural/" + selectedFolder + "/"));
 
 		GfuiScreenRelease(handle);
 		PResetLoadScreen();
 
-		ReStartNewRace(p);
+		ReStartNewRace(params);
 	}
 
 	static void PUpdateTrackList(void* /* dummy param */)

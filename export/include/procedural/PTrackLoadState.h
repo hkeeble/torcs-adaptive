@@ -15,8 +15,9 @@
 
 namespace procedural
 {
-#define NO_CONFIG_SET ""
-#define NO_TRACK_SET ""
+#define NO_CONFIG_SET " "
+#define NO_TRACK_SET " "
+#define DFLT_TRK_LEN 1000
 
 	/*
 	 * PLoadType - Enumeration to represent the type of loading process.
@@ -29,7 +30,8 @@ namespace procedural
 	};
 
 	/* Track Load State */
-	class PTrackLoadState {
+	class PTrackLoadState 
+	{
 	private:
 		// The current load type
 		PLoadType loadType;
@@ -39,10 +41,15 @@ namespace procedural
 		std::string trackPath;
 		std::string configPath;
 
+		// If the track is procedural, how long will it be?
+		int trkLength;
+
 		// Internal initialization function
 		void init()
 		{
 			loadType = PLoadType::CONFIG;
+
+			trkLength = DFLT_TRK_LEN;
 
 			trackName = NO_TRACK_SET;
 			trackPath = NO_TRACK_SET;
@@ -117,6 +124,12 @@ namespace procedural
 		
 		/* Returns the configuration file's name */
 		std::string ConfigFileName() { return configName + ".xml"; }
+
+		/* Sets the length of the configuration */
+		void SetLength(int length) { this->trkLength = length; }
+
+		/* Returns the currently configured length */
+		int Length() { if (trkLength == 0) trkLength = DFLT_TRK_LEN; return trkLength; }
 	};
 }
 

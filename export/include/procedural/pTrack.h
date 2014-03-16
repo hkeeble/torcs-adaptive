@@ -26,6 +26,9 @@ using std::string;
 
 namespace procedural
 {
+#define GR_NAME_TAG "name"
+#define GR_SEG_NAME "TKMN"
+
 	/* 
 	 * Represents the lifetime of a procedural track.
 	 * This class contains all of the functions and members neccesary to store and manage a procedural track.

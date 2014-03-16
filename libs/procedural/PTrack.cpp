@@ -69,9 +69,6 @@ namespace procedural
 			for (int i = 0; i < segs.size(); i++)
 				AddSegment(segs[i]);
 
-			// Generate a 3D description for the track
-			GenerateTrack(trk, trk->params, const_cast<char*>(GetACPathAndName().c_str()), nullptr, 0, 0, 0);
-
 			// Assign total length
 			totalLength = trk->length;
 
@@ -203,7 +200,14 @@ namespace procedural
 		{
 			std::size_t found = line.find("name");
 			if (found != std::string::npos) // If the line contains a name, edit to correspond to segment ID
-				line.at(line.length() - 2) = char(segmentID + '0');
+			{
+				int length = line.length();
+				std::string nameTag = GR_NAME_TAG;
+				std::string nameSeg = GR_SEG_NAME;
+				for (int i = 0; i < length - (nameTag.length() + nameSeg.length() + 2); i++)
+					line.pop_back();
+				line.append(std::to_string(segmentID) + "\"");
+			}
 			outfile << line + "\n"; // Output line to main file
 		}
 

@@ -81,6 +81,8 @@ namespace procedural
 
 		int type = GfParmGetNum(trackHandle, buf, TRK_ATT_TYPE, (char*)nullptr, 1);
 
+		tdble radius = 0.f, arc = 0.f;
+
 		// Create the procedural segment object
 		switch (type)
 		{
@@ -88,13 +90,30 @@ namespace procedural
 			return factory->CreateSegStr(id, GfParmGetNum(trackHandle, buf, TRK_ATT_LEN, (char*)nullptr, 0));
 			break;
 		case TR_LFT:
-			return factory->CreateSegCnr(id, PCornerType::CTLeft, GfParmGetNum(trackHandle, buf, TRK_ATT_RADIUS, (char*)nullptr, 0),
-				GfParmGetCurNum(trackHandle, buf, TRK_ATT_ARC, (char*)nullptr, 0));
+			radius = GfParmGetNum(trackHandle, buf, TRK_ATT_RADIUS, (char*)nullptr, 0);
+			arc = GfParmGetNum(trackHandle, buf, TRK_ATT_ARC, (char*)nullptr, 0);
+			return factory->CreateSegCnr(id, PCornerType::CTLeft, radius, arc);
 			break;
 		case TR_RGT:
-			return factory->CreateSegCnr(id, PCornerType::CTRight, GfParmGetNum(trackHandle, buf, TRK_ATT_RADIUS, (char*)nullptr, 0),
-				GfParmGetCurNum(trackHandle, buf, TRK_ATT_ARC, (char*)nullptr, 0));
+			radius = GfParmGetNum(trackHandle, buf, TRK_ATT_RADIUS, (char*)nullptr, 0);
+			arc = GfParmGetNum(trackHandle, buf, TRK_ATT_ARC, (char*)nullptr, 0);
+			return factory->CreateSegCnr(id, PCornerType::CTRight, radius, arc);
 			break;
 		}
+	}
+
+	void PTrackFileManager::SetLoadState(const PTrackLoadState& loadState)
+	{
+		trkLoadState = loadState;
+	}
+
+	const PTrackLoadState& PTrackFileManager::GetLoadState() const
+	{
+		return trkLoadState;
+	}
+
+	void PTrackFileManager::SetLoadStateLength(int length)
+	{
+		trkLoadState.SetLength(length);
 	}
 }

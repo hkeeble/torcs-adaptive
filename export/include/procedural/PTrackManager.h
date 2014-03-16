@@ -36,11 +36,11 @@ namespace procedural
 	class PTrackManager
 	{
 		private:
-			tRmInfo* raceManager;	 /* Pointer to the current race manager. */
-			PTrack* track;			 /* Pointer to the current procedural track being managed. */
-			PSegFactory* segFactory; /* Pointer to the segment factory. */
-			CarData carData;		 /* The current car data. */
-			int previousSegType;	 /* The type of previous segment generated. */
+			tRmInfo* raceManager;		 /* Pointer to the current race manager. */
+			PTrack* track;				 /* Pointer to the current procedural track being managed. */
+			PSegFactory* segFactory;	 /* Pointer to the segment factory. */
+			CarData carData;			 /* The current car data. */
+			int previousSegType;		 /* The type of previous segment generated. */
 
 			PTrackType trackType; /* The current type of track being managed. */
 
@@ -59,6 +59,13 @@ namespace procedural
 			const int MAX_DIST_FROM_END; // Maximum distance car can be from the end of the track before a new segment is generated
 
 		public:
+
+			/*
+			 * Default constructor initialization. Sets all pointers to null. Other initialization functions need to be called before
+			 * the manager is ready for use. The constructor overload should usually be used before these functions, in order to give
+			 * the manager a pointer to the race manager being used by the current instance of TORCS, as this pointer is used in a
+			 * number of functions within the class.
+			 */
 			PTrackManager();
 
 			/* 
@@ -78,10 +85,9 @@ namespace procedural
 			void Init(tCarElt* car);
 
 			/*
-			 * Initialize a procedural track given a configuration
-			 * loadState The current load state. Tells the trackmanager what type of track to load - a pregenerated one or a configuration, and also where to find all the neccesary files.
+			 * Initialize a procedural track.
 			*/
-			void InitTrack(PTrackLoadState loadState);
+			void InitTrack();
 
 			/*
 			 * Add a given segment to the track. This function does not handle creation of a 3D description file.
@@ -115,7 +121,7 @@ namespace procedural
 			bool CarOnLastSegment();
 
 			/* Outputs the current track */
-			void OutputCurrentTrack();
+			void OutputCurrentTrack(std::string name);
 	};
 }
 

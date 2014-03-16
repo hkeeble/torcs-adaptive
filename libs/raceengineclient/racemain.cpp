@@ -525,7 +525,6 @@ ReRaceEnd(void)
 	void *results = ReInfo->results;
 
 	ReRaceCleanup();
-	taManager->RaceEnd();
 
 	if (ReInfo->s->_raceType == RM_TYPE_QUALIF) {
 		curDrvIdx = (int)GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_DRIVER, NULL, 1);
@@ -562,6 +561,9 @@ RePostRace(void)
 
 	ReUpdateStandings();
 	GfParmSetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_RACE, NULL, 1);
+
+	taManager->RaceEnd(); // End of race for TA Manager
+
 	return RM_SYNC | RM_NEXT_STEP;
 }
 

@@ -21,6 +21,12 @@ namespace procedural
 	/* Creates and shows the menu for loading track configurations */
 	extern void PCreateTrackConfigSelectMenu(void* ts);
 
+	/* Creates and shows the menu for saving a track */
+	extern void PCreateSaveMenu(void* ts);
+
+	/* Creates and shows the menu for setting procedural track length */
+	extern void PCreateSetLengthMenu(void* ts);
+
 	// Useful screen parameters
 	extern const int wWidth;
 	extern const int wHeight;

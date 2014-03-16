@@ -39,7 +39,7 @@
 #include <robot.h>
 #include <robottools.h>
 #include <math.h>
-#include "linalg.h"
+#include "../taMath/taMath.h"
 
 #define TRACKRES 1.0
 #define RMAX 10000.0

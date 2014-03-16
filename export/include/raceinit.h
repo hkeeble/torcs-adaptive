@@ -30,7 +30,7 @@
 
 extern void ReInit(void);
 extern void ReShutdown(void);
-extern void ReStartNewRace(void * pmp);
+extern void ReStartNewRace(void*);
 extern void ReAddRacemanListButton(void *menuHandle);
 extern int  ReInitCars(void);
 extern int  ReInitTrack(void);

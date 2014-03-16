@@ -287,12 +287,16 @@ ReRacemanMenu(void)
 			&pmp, PCreateTrackSelectMenu);
 
 		GfuiMenuButtonCreate(racemanMenuHdle,
+			"Set Track Length", "Set length of the procedural track to generate.",
+			&pmp, PCreateSetLengthMenu);
+
+		GfuiMenuButtonCreate(racemanMenuHdle,
 			"Set Track Configuration", "Set the track configuration ready for procedural generation.",
 			&pmp, PCreateTrackConfigSelectMenu);
 
 		GfuiMenuButtonCreate(racemanMenuHdle,
 			"Configure Drivers", "Configure drivers in the race.",
-			NULL, reConfigureMenu);
+			nullptr, reConfigureMenu);
 	}
 	else
 	{
