@@ -5,6 +5,8 @@
 */
 #include "PTrackManager.h"
 #include "PFileManager.h"
+#include "taMath\taMath.h"
+#include <cmath>
 
 namespace procedural
 {
@@ -35,6 +37,12 @@ namespace procedural
 			loadState.SetConfiguration(configs[0], "tracks/procedural/" + configs[0] + "/");
 		}
 
+		pOut("Track manager obtaining pointer to segment factory...\n");
+		segFactory = PSegFactory::GetInstance(); // Obtain pointer to segment factory
+
+		pOut("Initializing segment factory...\n");
+		segFactory->SetChances(45.f, 65.f);
+
 		// Set neccesary paths
 		std::string modeldir("tracks/procedural/" + loadState.ConfigName() + "/");
 		std::string texturedir("data/textures");
@@ -53,12 +61,6 @@ namespace procedural
 			std::string acpath("tracks/procedural/" + loadState.ConfigName() + "/");
 			std::string configpath(acpath);
 			std::string configname(loadState.ConfigFileName());
-
-			pOut("Track manager obtaining pointer to segment factory...\n");
-			segFactory = PSegFactory::GetInstance(); // Obtain pointer to segment factory
-
-			pOut("Initializing segment factory...\n");
-			segFactory->SetChances(45.f, 65.f);
 
 			// Initialize the procedural track.
 			pOut("Initializing procedural track structure...\n");
@@ -98,6 +100,13 @@ namespace procedural
 			// Set track type
 			trackType = PTrackType::PREGENERATED;
 		}
+
+		// Create a random previous corner type to start with
+		int c = segFactory->CreateRandomCnr(0).type;
+		if (c == TR_LFT)
+			previousCornerType = PCornerType::CTLeft;
+		else
+			previousCornerType = PCornerType::CTRight;
 	}
 
 	PTrackManager::PTrackManager(const PTrackManager& param) : MAX_DIST_FROM_END(3)
@@ -161,7 +170,19 @@ namespace procedural
 				curSeg = &segFactory->CreateRandomSeg(track->state.curSegIndex);
 			else // otherwise, take into account skill level
 			{
-				curSeg = &segFactory->CreateRandomSeg(track->state.curSegIndex); // PLACEHOLDER
+				// Ensure corner is a different direction to the last
+				PCornerType cType = PCornerType::CTLeft;
+				if (previousCornerType == PCornerType::CTLeft)
+					cType = PCornerType::CTRight;
+
+				// Most difficult: smaller radius, larger arc.
+				PSegmentRanges ranges = segFactory->ranges;
+				tdble radius = lerp(ranges.Radius().Min(), ranges.Radius().Max(), 1.0f - skillLevel);
+				tdble arc = lerp(ranges.Arc().Min(), ranges.Arc().Max(), skillLevel);
+
+				curSeg = &segFactory->CreateSegCnr(track->state.curSegIndex, cType, radius, arc);
+
+				previousCornerType = cType;
 			}
 		}
 

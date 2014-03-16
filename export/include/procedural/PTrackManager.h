@@ -40,7 +40,9 @@ namespace procedural
 			PTrack* track;				 /* Pointer to the current procedural track being managed. */
 			PSegFactory* segFactory;	 /* Pointer to the segment factory. */
 			CarData carData;			 /* The current car data. */
-			int previousSegType;		 /* The type of previous segment generated. */
+			
+			int previousSegType;			/* The type of previous segment generated. */
+			PCornerType previousCornerType;	/* The previous corner type that was generated. */
 
 			PTrackType trackType; /* The current type of track being managed. */
 

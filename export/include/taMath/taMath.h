@@ -34,6 +34,10 @@ inline double sqr(double x)
 	return x*x;
 }
 
+inline double lerp(double x, double y, double coefficient)
+{
+	return x + coefficient * (y - x);
+}
 
 /* compute the radius given three points */
 inline double radius(double x1, double y1, double x2, double y2, double x3, double y3)
