@@ -13,6 +13,9 @@ Currently, TORCS-Adaptive features an easily extensible performance measurement 
 TORCS track or a TORCS-Adaptive procedural track. This means that it is easy to implement bespoke performance measurement behaviours into
 the existing source code. Currently, some simple racing line evaluation methods are being worked on.
 
+## Releases
+The current TORCS adaptive releases can be found on the releases page here at GitHub: https://github.com/hkeeble/torcs-adaptive/releases
+
 ## Links and other Information
 TORCS can be found at: http://torcs.sourceforge.net/
 
