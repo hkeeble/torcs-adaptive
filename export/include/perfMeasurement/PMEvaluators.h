@@ -100,9 +100,13 @@ namespace perfMeasurement
 			bool IsComplete() { return entrance.dataRecorded && corner.dataRecorded && exit.dataRecorded; }
 		} currentOutlook;
 
+		bool offTrack; // Whether or not the car has left the main track in this evaluation segment
+
+		const tdble offTrackPenalty;
+
 		virtual void Evaluate() override final;
 	public:
-		RaceLineEvaluation() : currentOutlook(CornerOutlook()) { }
+		RaceLineEvaluation() : currentOutlook(CornerOutlook()), offTrackPenalty(0.5), offTrack(false) { }
 		virtual void Update(tdble deltaTimeIncrement, tdble currentTime) override final;
 	};
 }

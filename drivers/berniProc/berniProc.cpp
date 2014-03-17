@@ -16,7 +16,7 @@ Desc: Modified version of the robot berniw for TORCS adaptive.
 
 
 #include "berniProc.h"
-#include <portability.h>
+#include "taMath\taMath.h"
 
 #ifdef DMALLOC
 #include "dmalloc.h"
@@ -121,11 +121,11 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 	char buffer[BUFSIZE];
 	char* trackname = track->internalname;
 
-	snprintf(buffer, BUFSIZE, "drivers/berniProc/%d/%s", index, trackname);
+	_snprintf(buffer, BUFSIZE, "drivers/berniProc/%d/%s", index, trackname);
 	*carParmHandle = GfParmReadFile(buffer, GFPARM_RMODE_STD);
 
 	if (*carParmHandle == nullptr) {
-		snprintf(buffer, BUFSIZE, "drivers/berniProc/%d/default.xml", index);
+		_snprintf(buffer, BUFSIZE, "drivers/berniProc/%d/default.xml", index);
 		*carParmHandle = GfParmReadFile(buffer, GFPARM_RMODE_STD);
 	}
 

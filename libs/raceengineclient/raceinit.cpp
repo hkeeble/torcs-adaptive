@@ -704,7 +704,7 @@ ReInitCars(void)
     ReInfo->_reSimItf.init(nCars, ReInfo->track);
 
 	if (taManager->IsActive())
-		taManager->InitCarPos();
+		taManager->InitCars();
 	else
 		initStartingGrid();
 

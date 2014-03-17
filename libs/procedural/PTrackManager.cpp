@@ -22,6 +22,7 @@ namespace procedural
 	{
 		pOut("Initializing procedural track manager...\n");
 		raceManager = RaceManager; // Save pointer to race manager
+
 	}
 
 	void PTrackManager::InitTrack()
@@ -142,11 +143,6 @@ namespace procedural
 			delete track;
 	}
 
-	void PTrackManager::Init(tCarElt* car)
-	{
-		carData = CarData(car);
-	}
-
 	void PTrackManager::AddSegment(const PSeg& segment)
 	{
 		pOut("Adding new Segment....\n");
@@ -192,15 +188,12 @@ namespace procedural
 
 	void PTrackManager::Update(bool adaptive, float skillLevel)
 	{
-		// Update data on the car
-		carData.Update();
-
 		if (trackType == PTrackType::PROCEDURAL)
 		{
 			// Manage new segment generation
 			if (track->trk->length < track->TotalLength())
 			{
-				if (carData.CurrentSeg()->id + MAX_DIST_FROM_END >= track->GetEnd()->id) // If a new segment needs to be generated
+				if (LeadingCar()->pub.trkPos.seg->id + MAX_DIST_FROM_END >= track->GetEnd()->id) // If a new segment needs to be generated
 				{
 					if (!adaptive)
 						AddSegment(segFactory->CreateRandomSeg(track->state.curSegIndex));
@@ -213,6 +206,26 @@ namespace procedural
 				}
 			}
 		}
+	}
+
+	tCarElt* PTrackManager::LeadingCar() const
+	{
+		tCarElt* leadingCar = carList;
+
+		for (int i = 0; i < nCars; i++)
+		{
+			tCarElt* currentCar = &carList[i];
+
+			if (currentCar->pub.trkPos.seg->id > leadingCar->pub.trkPos.seg->id)
+				leadingCar = currentCar;
+			else if (currentCar->pub.trkPos.seg->id == leadingCar->pub.trkPos.seg->id)
+			{
+				if (currentCar->pub.trkPos.toStart < leadingCar->pub.trkPos.toStart)
+					leadingCar = currentCar;
+			}
+		}
+
+		return leadingCar;
 	}
 
 	void PTrackManager::UpdateGraphics()
@@ -248,11 +261,6 @@ namespace procedural
 		return track->TotalLength();
 	}
 
-	CarData PTrackManager::GetCarData() const
-	{
-		return carData;
-	}
-
 	PTrack* PTrackManager::GetTrack() const
 	{
 		return track;
@@ -260,7 +268,15 @@ namespace procedural
 
 	bool PTrackManager::CarOnLastSegment()
 	{
-		return (carData.CurrentSeg()->id == track->GetEnd()->id);
+		for (int i = 0; i < nCars; i++)
+		{
+			tCarElt* curCar = &carList[i];
+
+			if (curCar->pub.trkPos.seg->id == track->GetEnd()->id)
+				return true;
+		}
+
+		return false;
 	}
 
 	void PTrackManager::OutputCurrentTrack(std::string name)
@@ -283,5 +299,86 @@ namespace procedural
 
 		// Write out the track
 		fManager->OutputTrack(name, configDir, raceManager->track->name, track->trk);
+	}
+
+	void PTrackManager::InitCars()
+	{
+		// Get pointer to car list
+		carList = raceManager->carList;
+
+		// Retrieve number of cars in race
+		nCars = raceManager->s->raceInfo.ncars;
+
+		// Start segment
+		tTrackSeg* startSeg = track->GetStart();
+
+		// Array of positions
+		tTrkLocPos* positions = new tTrkLocPos[nCars];
+		for (int i = 0; i < nCars; i++)
+			positions[i] = tTrkLocPos();
+
+		// Spacing between cars
+		tdble carXSpacing = (startSeg->width / 2) - 3; // Assuming 3 is around average car width
+		tdble carYSpacing = 20;
+
+		/* Starting grid positons are calculated regardless of pole position as follows:
+		    Y
+			|---------|
+			| P1  P2  |
+			| P3  P4  |
+			| P5  P6  |
+			| P7  P8  |
+			| P9  P10 | 
+			|---------| - X
+		*/
+
+		// Calculate position grid here
+		if (nCars > 1)
+		{
+			int row = 1;
+			for (int i = 0; i < nCars; i++) // Grid Y
+			{
+				tTrkLocPos* curPos = &positions[i];
+
+				curPos->seg = startSeg;
+				curPos->toStart = startSeg->length - (carYSpacing * row);
+
+				if (i % 2 > 0) // RIGHT POS
+					curPos->toMiddle = carXSpacing;
+				else if (i % 2 == 0) // LEFT POS
+				{
+					curPos->toMiddle = -carXSpacing;
+					row++;
+				}
+			}
+		}
+		else
+		{
+			positions[0].seg = startSeg;
+			positions[0].toStart = startSeg->length - carYSpacing;
+			positions[0].toMiddle = carXSpacing;
+		}
+
+		// Assign car positions
+		for (int i = 0; i < nCars; i++)
+		{
+			// Get the car
+			tCarElt* curCar = &carList[i];
+
+			// Assign the car the correct position
+			curCar->pub.trkPos = positions[i];
+
+			// Convert the local position to a global one, and assign to car's actual global position
+			RtTrackLocal2Global(&(curCar->_trkPos), &(curCar->_pos_X), &(curCar->_pos_Y), TR_TOMIDDLE);
+		}
+
+		// Set up cars in physics sim
+		for (int i = 0; i < nCars; i++)
+		{
+			tCarElt* curCar = &carList[i];
+			raceManager->_reSimItf.config(curCar, raceManager);
+		}
+
+		delete[] positions;
 	}
 }

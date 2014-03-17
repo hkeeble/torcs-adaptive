@@ -95,9 +95,6 @@ namespace torcsAdaptive
 		
 		/* Initializes track and graphics for a TORCS Adaptive race */
 		void Init(tRmInfo* RaceManager);
-
-		/* Initializes the procedural track manager */
-		void InitTrkManager(tCarElt* car);
 		
 		/* Initialize performance measurement. Pass in the car to monitor, and an evaluation behaviour to use. */
 		void InitPerfMeasurement(tCarElt* car, PMEvaluator* evaluator);
@@ -133,7 +130,7 @@ namespace torcsAdaptive
 		void RaceEnd();
 
 		/* Initializes the position of the car on a TORCS Adaptive track */
-		void InitCarPos();
+		void InitCars();
 
 		/* Tests whether or not the TAManager is active - if either Adaptive or Procedural Mode are active */
 		bool IsActive() const;

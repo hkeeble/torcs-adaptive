@@ -105,17 +105,6 @@ namespace torcsAdaptive
 		trackManager->InitTrack();
 	}
 
-	void TAManager::InitTrkManager(tCarElt* car)
-	{
-		if (!trackManager)
-			taOut("Failed to initialize track manager. Ensure InitTrack is called before InitTrkManager.\n");
-		else
-		{
-			trackManager->Init(car);
-			this->car = car;
-		}
-	}
-
 	void TAManager::InitPerfMeasurement(tCarElt* car, PMEvaluator* evaluator)
 	{
 		if (!perfMeasurement)
@@ -133,8 +122,8 @@ namespace torcsAdaptive
 	{
 		if (raceType == TARaceType::Adaptive)
 		{
-			trackManager->Update(true, currentSkillLevel);
 			currentSkillLevel = perfMeasurement->GetSkillEstimate();
+			trackManager->Update(true, currentSkillLevel);
 		}
 		else
 			trackManager->Update();
@@ -191,40 +180,9 @@ namespace torcsAdaptive
 		fileManager->SetTrackLoadState(PTrackLoadState());
 	}
 
-	void TAManager::InitCarPos()
+	void TAManager::InitCars()
 	{
-		tTrackSeg* startSeg = trackManager->GetTrack()->GetStart();
-
-		tCarElt* theCar = &raceManager->carList[0];
-
-		// Create a local position in the center of the first segment
-		theCar->_trkPos.seg = startSeg;
-		theCar->_trkPos.type = startSeg->type;
-
-		if (startSeg->type == TR_STR)
-		{
-			theCar->_trkPos.toStart = (startSeg->length / 2) - (theCar->info.dimension.z / 2);
-			theCar->_trkPos.toLeft = (startSeg->width / 2) - (theCar->info.dimension.x / 2);
-			theCar->_trkPos.toRight = theCar->_trkPos.toLeft;
-		}
-		else if (startSeg->type == TR_LFT || startSeg->type == TR_RGT)
-		{
-			theCar->_trkPos.toStart = ((startSeg->length / 2) - (theCar->info.dimension.z / 2)) / startSeg->radius;
-			theCar->_trkPos.toLeft = (startSeg->width / 2) - (theCar->info.dimension.x / 2);
-			theCar->_trkPos.toRight = theCar->_trkPos.toLeft;
-
-			// Rotate car by yaw according to corner direction and normalize between 0 and 2PI
-			theCar->_yaw = startSeg->angle[TR_ZS] + (startSeg->type == TR_LFT ? theCar->_trkPos.toStart : -theCar->_trkPos.toStart);
-			NORM0_2PI(theCar->_yaw);
-		}
-		else
-			taOut("Error assinging car initial position. Initial segment is of unrecognized type.\n");
-
-		// Convert the local position to a global one, and assign to car's actual global position
-		RtTrackLocal2Global(&(theCar->_trkPos), &(theCar->_pos_X), &(theCar->_pos_Y), TR_TORIGHT);
-
-		// Set up car in physics sim
-		raceManager->_reSimItf.config(theCar, raceManager);
+		trackManager->InitCars();
 	}
 
 	void TAManager::DrawBoard()

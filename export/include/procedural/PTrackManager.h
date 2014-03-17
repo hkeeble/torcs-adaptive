@@ -39,8 +39,9 @@ namespace procedural
 			tRmInfo* raceManager;		 /* Pointer to the current race manager. */
 			PTrack* track;				 /* Pointer to the current procedural track being managed. */
 			PSegFactory* segFactory;	 /* Pointer to the segment factory. */
-			CarData carData;			 /* The current car data. */
-			
+			tCarElt* carList;			 /* Pointer the car list. This is used in segment generation. */
+			int nCars;					 /* The number of cars in the current race that need to be monitored. */
+
 			int previousSegType;			/* The type of previous segment generated. */
 			PCornerType previousCornerType;	/* The previous corner type that was generated. */
 
@@ -81,12 +82,6 @@ namespace procedural
 			virtual ~PTrackManager();
 
 			/*
-			 * Initialize car data to be tracked for procedural generation.
-			 * car The car to be tracked. This is required as the position of this car needs to be known when generating new segments.
-			 */
-			void Init(tCarElt* car);
-
-			/*
 			 * Initialize a procedural track.
 			*/
 			void InitTrack();
@@ -104,6 +99,9 @@ namespace procedural
 			*/
 			void Update(bool adaptive = false, float skillLevel = -1.f);
 
+			/* Returns a pointer to the car currently in the lead of the race. */
+			tCarElt* LeadingCar() const;
+
 			/* Updates the graphical component of the track, updating the AC file if neccesary. */
 			void UpdateGraphics();
 
@@ -113,17 +111,17 @@ namespace procedural
 			/* Track's total length (desired length, not necessarily this long presently) */
 			tdble TotalLength() const;
 
-			/* Currently held car data */
-			CarData GetCarData() const;
-
 			/* Get the current track */
 			PTrack* GetTrack() const;
 
-			/* Checks if the car is currently on the last existing segment */
+			/* Checks if any of the cars in the race are on the last segment */
 			bool CarOnLastSegment();
 
 			/* Outputs the current track */
 			void OutputCurrentTrack(std::string name);
+
+			/* Initializes the cars for the procedural race */
+			void InitCars();
 	};
 }
 

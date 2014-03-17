@@ -294,17 +294,13 @@ reRaceRealStart(void)
 		GfuiScreenActivate(ReInfo->_reGameScreen);
 	}
 
+	// If the race is adaptive, initialize performance measurement
 	if (taManager->IsActive())
-		InitTA();
-
+	{
+		if (taManager->GetRaceType() == torcsAdaptive::TARaceType::Adaptive)
+			taManager->InitPerfMeasurement(&ReInfo->carList[0], new RaceLineEvaluation());
+	}
 	return RM_SYNC | RM_NEXT_STEP;
-}
-
-void InitTA()
-{
-	taManager->InitTrkManager(&ReInfo->carList[0]);
-	if (taManager->GetRaceType() == torcsAdaptive::TARaceType::Adaptive)
-		taManager->InitPerfMeasurement(&ReInfo->carList[0], new RaceLineEvaluation());
 }
 
 /***************************************************************/

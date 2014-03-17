@@ -26,9 +26,6 @@ namespace perfMeasurement
 		/* The current singleton instance of PMManager */
 		static PMManager* instance;
 
-		/* The current estimated skill level */
-		tdble skillEstimate;
-		
 		/* Pointer to object containing the currently in use evaluation behaviour */
 		PMEvaluator* Evaluator;
 
