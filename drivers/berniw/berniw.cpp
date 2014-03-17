@@ -31,7 +31,6 @@ static void drive(int index, tCarElt* car, tSituation *situation);
 static void newRace(int index, tCarElt* car, tSituation *situation);
 static int  InitFuncPt(int index, void *pt);
 static int  pitcmd(int index, tCarElt* car, tSituation *s);
-static void updateTrack(tTrack* track);
 static void shutdown(int index);
 
 
@@ -51,8 +50,8 @@ extern "C" int berniw(tModInfo *modInfo)
 	//char	buffer[BUFSIZE];
 
 	for (int i = 0; i < BOTS; i++) {
-		modInfo[i].name = strdup(botname[i]);	/* name of the module (short) */
-		modInfo[i].desc = strdup(botdesc[i]);	/* description of the module (can be long) */
+		modInfo[i].name = _strdup(botname[i]);	/* name of the module (short) */
+		modInfo[i].desc = _strdup(botdesc[i]);	/* description of the module (can be long) */
 		modInfo[i].fctInit = InitFuncPt;		/* init function */
 		modInfo[i].gfId    = ROB_IDENT;			/* supported framework version */
 		modInfo[i].index   = i+1;
@@ -71,7 +70,7 @@ static int InitFuncPt(int index, void *pt)
 	itf->rbDrive    = drive;		/* drive during race */
 	itf->rbShutdown	= shutdown;		/* called for cleanup per driver */
 	itf->rbPitCmd   = pitcmd;		/* pit command */
-	itf->rbUpdateTrack = updateTrack; /* Used to update bot's understanding of the track */
+	itf->rbUpdate   = nullptr; /* Used to update bot's understanding of the track */
 	itf->index      = index;
 	return 0;
 }
@@ -147,13 +146,6 @@ static void newRace(int index, tCarElt* car, tSituation *situation)
 	mycar[index-1] = new MyCar(myTrackDesc, car, situation);
 
 	currenttime = situation->currentTime;
-}
-
-static void updateTrack(tTrack* track)
-{
-	if (myTrackDesc)
-		delete myTrackDesc;
-	myTrackDesc = new TrackDesc(track);
 }
 
 /* controls the car */

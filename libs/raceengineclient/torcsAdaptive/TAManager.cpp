@@ -5,6 +5,7 @@ Desc: Defines a singleton class that manages TORCS-Adaptive specific races. See 
 */
 #include "TAManager.h"
 #include "procedural\trackdesc.h"
+#include "../../client/mainmenu.h"
 
 namespace torcsAdaptive
 {
@@ -15,6 +16,10 @@ namespace torcsAdaptive
 		raceType = TARaceType::None;
 		perfMeasurement = nullptr;
 		trackManager = nullptr;
+
+		// Obtain pointer to file manager
+		fileManager = PFileManager::Get();
+		
 		currentSkillLevel = 0.f;
 	}
 
@@ -47,15 +52,24 @@ namespace torcsAdaptive
 
 	void TAManager::Init(tRmInfo* RaceManager)
 	{
+		// Retrieve load state
+		PTrackLoadState loadState = fileManager->GetTrackLoadState();
+
 		raceManager = RaceManager;
+		trackManager = new PTrackManager(raceManager);
 
 		// Initialize Race Mode for TORCS Adaptive
-		if (strcmp(raceManager->raceEngineInfo.name, "Adaptive Race") == 0)
-			SetRaceType(TARaceType::Adaptive);
-		else if (strcmp(raceManager->raceEngineInfo.name, "Procedural Race") == 0)
-			SetRaceType(TARaceType::Procedural);
-		else
-			SetRaceType(TARaceType::None);
+		if (loadState.LoadType() == PLoadType::TRACK)
+			SetRaceType(TARaceType::Pregenerated);
+		else if (loadState.LoadType() == PLoadType::CONFIG)
+		{
+			if (strcmp(raceManager->raceEngineInfo.name, ADAPTIVE_RACE) == 0)
+				SetRaceType(TARaceType::Adaptive);
+			else if (strcmp(raceManager->raceEngineInfo.name, PROCEDURAL_RACE) == 0)
+				SetRaceType(TARaceType::Procedural);
+			else
+				SetRaceType(TARaceType::None);
+		}
 
 		// Initialize the HUD
 		hud.Init(raceType == TARaceType::Adaptive);
@@ -64,6 +78,9 @@ namespace torcsAdaptive
 			raceOnConsole = true;
 		else
 			raceOnConsole = false;
+
+		// Initialize the track
+		InitTrack();
 	}
 
 	void TAManager::InitGraphics()
@@ -83,23 +100,9 @@ namespace torcsAdaptive
 		}
 	}
 
-	void TAManager::InitTrack(std::string trackName)
-	{
-		if (!raceManager)
-			taOut("Failed to initialize procedural track in TAManager. Ensure Init is called before InitTrack.\n");
-		else
-			trackManager = new PTrackManager(trackName, TA_TR_LENGTH, raceManager);
-	}
-
-	void TAManager::InitTrkManager(tCarElt* car)
-	{
-		if (!trackManager)
-			taOut("Failed to initialize track manager. Ensure InitTrack is called before InitTrkManager.\n");
-		else
-		{
-			trackManager->Init(car);
-			this->car = car;
-		}
+	void TAManager::InitTrack()
+	{		
+		trackManager->InitTrack();
 	}
 
 	void TAManager::InitPerfMeasurement(tCarElt* car, PMEvaluator* evaluator)
@@ -119,8 +122,8 @@ namespace torcsAdaptive
 	{
 		if (raceType == TARaceType::Adaptive)
 		{
-			trackManager->Update(true, currentSkillLevel);
 			currentSkillLevel = perfMeasurement->GetSkillEstimate();
+			trackManager->Update(true, currentSkillLevel);
 		}
 		else
 			trackManager->Update();
@@ -141,12 +144,25 @@ namespace torcsAdaptive
 		return trackManager->GetTrack();
 	}
 
+	PTrackManager* TAManager::GetTrackManager() const
+	{
+		return trackManager;
+	}
+
 	bool TAManager::IsActive() const
 	{
 		if (raceType == TARaceType::None)
 			return false;
 		else
 			return true;
+	}
+
+	bool TAManager::IsProcedural() const
+	{
+		if (raceType == TARaceType::Adaptive || raceType == TARaceType::Procedural)
+			return true;
+		else
+			return false;
 	}
 
 	void TAManager::CheckIfFinished()
@@ -160,48 +176,13 @@ namespace torcsAdaptive
 
 	void TAManager::RaceEnd()
 	{
-		/* Plot the track for reading in gnuplot */
-		TrackDesc desc = TrackDesc(trackManager->GetTrack()->trk);
-		desc.plot((char*)(std::string((char*)trackManager->GetTrack()->GetFilePath()) + std::string("procTrackPlot.dat")).c_str());
-
-		if (trackManager)
-			delete trackManager;
+		// Reset the load state at the end of a race
+		fileManager->SetTrackLoadState(PTrackLoadState());
 	}
 
-	void TAManager::InitCarPos()
+	void TAManager::InitCars()
 	{
-		tTrackSeg* startSeg = trackManager->GetTrack()->GetStart();
-
-		tCarElt* theCar = &raceManager->carList[0];
-
-		// Create a local position in the center of the first segment
-		theCar->_trkPos.seg = startSeg;
-		theCar->_trkPos.type = startSeg->type;
-
-		if (startSeg->type == TR_STR)
-		{
-			theCar->_trkPos.toStart = (startSeg->length / 2) - (theCar->info.dimension.z / 2);
-			theCar->_trkPos.toLeft = (startSeg->width / 2) - (theCar->info.dimension.x / 2);
-			theCar->_trkPos.toRight = theCar->_trkPos.toLeft;
-		}
-		else if (startSeg->type == TR_LFT || startSeg->type == TR_RGT)
-		{
-			theCar->_trkPos.toStart = ((startSeg->length / 2) - (theCar->info.dimension.z / 2)) / startSeg->radius;
-			theCar->_trkPos.toLeft = (startSeg->width / 2) - (theCar->info.dimension.x / 2);
-			theCar->_trkPos.toRight = theCar->_trkPos.toLeft;
-
-			// Rotate car by yaw according to corner direction and normalize between 0 and 2PI
-			theCar->_yaw = startSeg->angle[TR_ZS] + (startSeg->type == TR_LFT ? theCar->_trkPos.toStart : -theCar->_trkPos.toStart);
-			NORM0_2PI(theCar->_yaw);
-		}
-		else
-			taOut("Error assinging car initial position. Initial segment is of unrecognized type.\n");
-
-		// Convert the local position to a global one, and assign to car's actual global position
-		RtTrackLocal2Global(&(theCar->_trkPos), &(theCar->_pos_X), &(theCar->_pos_Y), TR_TORIGHT);
-
-		// Set up car in physics sim
-		raceManager->_reSimItf.config(theCar, raceManager);
+		trackManager->InitCars();
 	}
 
 	void TAManager::DrawBoard()

@@ -7,8 +7,6 @@
 #ifndef _TORCS_ADAPTIVE_H_
 #define _TORCS_ADAPTIVE_H_
 
-void InitTA();
-
 extern torcsAdaptive::TAManager* taManager;
 
 #endif // _TORCS_ADAPTIVE_H_

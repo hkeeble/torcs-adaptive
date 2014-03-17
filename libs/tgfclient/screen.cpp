@@ -112,7 +112,7 @@ gfScreenInit(void)
 	// Get display, screen and root window handles.
 	const char *displayname = getenv("DISPLAY");
 	if (displayname == NULL) {
-		displayname = strdup(":0.0");
+		displayname = _strdup(":0.0");
 	}
 
 	Display *display = XOpenDisplay(displayname);
@@ -209,14 +209,14 @@ gfScreenInit(void)
 		GfOut("Failed to initialize resolutions for display '%s'", XDisplayName(displayname));
 		nbRes = 8;
 		Res = (char **) malloc(sizeof(char *)*nbRes);
-		Res[0] = strdup("640x480");
-		Res[1] = strdup("800x600");
-		Res[2] = strdup("1024x768");
-		Res[3] = strdup("1152x864");
-		Res[4] = strdup("1200x960");
-		Res[5] = strdup("1280x1024");
-		Res[6] = strdup("1600x1200");
-		Res[7] = strdup("320x200");
+		Res[0] = _strdup("640x480");
+		Res[1] = _strdup("800x600");
+		Res[2] = _strdup("1024x768");
+		Res[3] = _strdup("1152x864");
+		Res[4] = _strdup("1200x960");
+		Res[5] = _strdup("1280x1024");
+		Res[6] = _strdup("1600x1200");
+		Res[7] = _strdup("320x200");
 	}
 #endif // USE_RANDR_EXT
 }

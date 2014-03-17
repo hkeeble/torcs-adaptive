@@ -151,8 +151,8 @@ inferno2(tModInfo *modInfo)
 	int		i;
 	
 	for (i = 0; i < 10; i++) {
-		modInfo[i].name    = strdup(botname[i]);	/* name of the module (short) */
-		modInfo[i].desc    = strdup(botdesc[i]);	/* description of the module (can be long) */
+		modInfo[i].name    = _strdup(botname[i]);	/* name of the module (short) */
+		modInfo[i].desc    = _strdup(botdesc[i]);	/* description of the module (can be long) */
 		modInfo[i].fctInit = InitFuncPt;			/* init function */
 		modInfo[i].gfId    = ROB_IDENT;				/* supported framework version */
 		modInfo[i].index   = i + 1;

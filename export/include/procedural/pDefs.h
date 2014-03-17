@@ -14,15 +14,15 @@ namespace procedural
 	typedef ssgEntity EntityDesc;
 
 	// Maximum and minimum ranges
-	#define MIN_LENGTH 100
-	#define MAX_LENGTH 200
+	#define MIN_LENGTH 50
+	#define MAX_LENGTH 150
 
 	#define MAX_ARC 1.5f
-	#define MIN_ARC 0.5f
+	#define MIN_ARC 0.1f
 
 	#define MAX_RADIUS 90.f
 	#define MIN_RADIUS 25.f
-	
+
 #ifdef _DEBUG
 	#define pOut(out) std::cout << "procedural >>" + std::string(out)
 #else

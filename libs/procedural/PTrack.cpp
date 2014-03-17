@@ -6,44 +6,82 @@
 #include "PTrack.h"
 #include "PTrackState.h"
 #include "pDefs.h"
+#include "trackgen\trackgen.h"
 #include <fstream>
 
 namespace procedural
 {
 	// Track Info Definitions
-	PTrack::PTrack(tTrack* track, tdble totalLength, char* acname, char* xmlname,  char* filepath, ssgLoaderOptions* loaderoptions)
+	PTrack::PTrack(tdble totalLength, string configpath, string acpath, string configname, string acname, ssgLoaderOptions* loaderoptions)
 	{
-		// Initialize TORCS Track Structure and Segment Collection
-		this->trk = track;
-
 		// Initialize track state
 		state = PTrackState();
 		root = nullptr;
 		this->totalLength = totalLength;
 
-		// Assign file path
-		filePath = new char[strlen(filepath)];
-		strcpy(filePath, filepath);
-
-		// Assign paths and loader options for AC file handling
-		acName = new char[strlen(filepath)];
-		strcpy(acName, acname);
-
-		// Create temporary AC path and name
-		tempACName = new char[strlen(acname) + 3];
-		strcpy(tempACName, acname);
-		tempACName[strlen(acname) - 3] = 't';
-		tempACName[strlen(acName) - 2] = 'm';
-		tempACName[strlen(acName) - 1] = 'p';
-		strcat(tempACName, ".ac");
-
-		// Create XML path and name
-		this->xmlFile = new char[strlen(xmlname)];
-		strcpy(xmlFile, xmlname);
+		// Assign paths and file names
+		this->configPath = configpath;
+		this->configName = configname;
+		this->acPath = acpath;
+		this->acName = acname;
+		
+		// Create a temporary AC file name.
+		string tmp(acName);
+		int lngth = tmp.length();
+		tmp[lngth - 3] = 't';
+		tmp[lngth - 2] = 'm';
+		tmp[lngth - 1] = 'p';
+		tmp.append(".ac");
+		tempACName = tmp;
 
 		// Initialize loader state
 		ssgState = new PSSGState();
 		ssgState->SetLoaderOptions(new ssgLoaderOptions(*loaderoptions));
+
+		// Build the TORCS track structure
+		trk = BuildTrack(GetConfigPathAndName().c_str());
+
+		// Add initial segment
+		AddSegment(PSegFactory::GetInstance()->CreateRandomStr(0));
+
+		// Generate an initial 3D description
+		GenerateTrack(trk, trk->params, const_cast<char*>(GetACPathAndName().c_str()), nullptr, 0, 0, 0);
+	}
+
+	PTrack::PTrack(std::vector<PSeg> segs, string configpath, string acpath, string configname, string acname, ssgLoaderOptions* loaderoptions)
+	{
+		// Assign paths and file names
+		this->configPath = configpath;
+		this->configName = configname;
+		this->acPath = acpath;
+		this->acName = acname;
+		
+		// Build the track
+		trk = BuildTrack(GetConfigPathAndName().c_str());
+
+		if (trk)
+		{
+			// Initialize state and root
+			state = PTrackState();
+			root = nullptr;
+
+			// Add all segments to the track
+			for (int i = 0; i < segs.size(); i++)
+				AddSegment(segs[i]);
+
+			// Assign total length
+			totalLength = trk->length;
+
+			// Initialize SSG State (this should stay static for a pregenerated track)
+			ssgState = new PSSGState();
+			ssgState->SetLoaderOptions(new ssgLoaderOptions(*loaderoptions));
+
+			// Set start and end segments
+			SetStart(trk->seg->next);
+			SetEnd(trk->seg);
+		}
+		else
+			pOut("Error! Failed to build track structure from configuration file!\n");
 	}
 
 	PTrack::PTrack(const PTrack& param)
@@ -57,13 +95,6 @@ namespace procedural
 			return *this;
 		else
 		{
-			if (acName)
-				delete acName;
-			if (filePath)
-				delete filePath;
-			if (xmlFile)
-				delete xmlFile;
-
 			cpy(param);
 
 			return *this;
@@ -73,30 +104,10 @@ namespace procedural
 	void PTrack::cpy(const PTrack& param)
 	{
 		state = param.state;
-
-		if (param.filePath)
-		{
-			filePath = new char[strlen(param.filePath)];
-			strcpy(filePath, param.filePath);
-		}
-		else
-			filePath = nullptr;
-
-		if (param.acName)
-		{
-			acName = new char[strlen(param.acName)];
-			strcpy(acName, param.acName);
-		}
-		else
-			acName = nullptr;
-
-		if (param.xmlFile)
-		{
-			xmlFile = new char[strlen(param.xmlFile)];
-			strcpy(xmlFile, param.xmlFile);
-		}
-		else
-			xmlFile = nullptr;
+		acName = param.acName;
+		acPath = param.acPath;
+		configName = param.configName;
+		configPath = param.configPath;
 
 		if (param.root)
 			root = new tTrackSeg(*param.root);
@@ -134,58 +145,45 @@ namespace procedural
 			ssgState = nullptr;
 	}
 
-	PSSGState* PTrack::GetSSGState()
+	/* -- ACCESSOR DEFINITIONS  -- */
+
+	PSSGState* PTrack::GetSSGState()						 { return ssgState; }
+	EntityDesc* PTrack::GetTrackDesc() const				 { return ssgState->GetDesc(); }
+	const ssgLoaderOptions *const PTrack::GetLoaderOptions() { return ssgState->GetLoaderOptions(); }
+	
+	const string& PTrack::GetACName()			 { return acName; }
+	const string& PTrack::GetACPath()			 { return acPath; }
+	const string& PTrack::GetTempACName()		 { return tempACName; }
+	const string& PTrack::GetTempACPath()		 { return acPath; }
+	const string& PTrack::GetConfigName()	     { return configName; }
+	const string& PTrack::GetConfigPath()		 { return configPath; }
+	const string PTrack::GetTempACPathAndName()  { return acPath + tempACName; }
+	const string PTrack::GetACPathAndName()		 { return acPath + acName; }
+	const string PTrack::GetConfigPathAndName()	 { return configPath + configName; }
+
+	void PTrack::UpdateACFile()
 	{
-		return ssgState;
+		tTrack* trackTmp = BuildTrack(GetConfigPathAndName().c_str());
+
+		// Initialize a single segment as the last segment in the given track
+		trackTmp->seg = new tTrackSeg(*GetEnd());
+
+		// Break links to actual track
+		trackTmp->seg->prev = trackTmp->seg;
+		trackTmp->seg->next = trackTmp->seg;
+
+		// Manually set some parameters used by track generator
+		trackTmp->nseg = 1;
+		trackTmp->length = trackTmp->seg->length;
+
+		// Generate 3D description in temporary file
+		GenerateTrack(trackTmp, trackTmp->params, const_cast<char*>(GetTempACPathAndName().c_str()), nullptr, 0, 0, 0);
+
+		// Update track's AC file
+		AppendACFile(trackTmp->seg->id);
 	}
 
-	EntityDesc* PTrack::GetTrackDesc() const
-	{
-		return ssgState->GetDesc();
-	}
-
-	const ssgLoaderOptions *const PTrack::GetLoaderOptions()
-	{
-		return ssgState->GetLoaderOptions();
-	}
-
-	const char *const PTrack::GetACName()
-	{
-		return acName;
-	}
-
-	const char *const PTrack::GetACPathAndName()
-	{
-		return StrCon(filePath, acName);
-	}
-
-	const char *const PTrack::GetTempACName()
-	{
-		return tempACName;
-	}
-
-
-	const char *const PTrack::GetTempACPathAndName()
-	{
-		return StrCon(filePath, tempACName);
-	}
-
-	const char *const PTrack::GetXMLName()
-	{
-		return xmlFile;
-	}
-
-	const char *const PTrack::GetXMLPathAndName()
-	{
-		return StrCon(filePath, xmlFile);
-	}
-
-	const char *const PTrack::GetFilePath()
-	{
-		return filePath;
-	}
-
-	void PTrack::UpdateACFile(int segmentID)
+	void PTrack::AppendACFile(int segmentID)
 	{
 		std::fstream infile(GetTempACPathAndName()); // Get file stream from temporary AC file
 		std::ofstream outfile;
@@ -202,7 +200,14 @@ namespace procedural
 		{
 			std::size_t found = line.find("name");
 			if (found != std::string::npos) // If the line contains a name, edit to correspond to segment ID
-				line.at(line.length() - 2) = char(segmentID + '0');
+			{
+				int length = line.length();
+				std::string nameTag = GR_NAME_TAG;
+				std::string nameSeg = GR_SEG_NAME;
+				for (int i = 0; i < length - (nameTag.length() + nameSeg.length() + 2); i++)
+					line.pop_back();
+				line.append(std::to_string(segmentID) + "\"");
+			}
 			outfile << line + "\n"; // Output line to main file
 		}
 
@@ -267,6 +272,26 @@ namespace procedural
 	tdble PTrack::TotalLength() const
 	{
 		return totalLength;
+	}
+
+	tTrack* PTrack::BuildTrack(const char *const fName)
+	{
+		tTrack* track = (tTrack*)calloc(1, sizeof(tTrack));
+		void* trackHandle;
+		tRoadCam* theCamList = (tRoadCam*)NULL;
+
+		track->params = trackHandle = GfParmReadFile(fName, GFPARM_RMODE_STD | GFPARM_RMODE_CREAT | GFPARM_RMODE_PRIVATE);
+
+		track->filename = _strdup(fName);
+
+		GetTrackHeader(trackHandle, track);
+
+		ReadTrack3(track, trackHandle, &theCamList, 0);
+
+		// Initialize Sides
+		InitSides(track->params, track);
+
+		return track;
 	}
 
 #ifdef _DEBUG

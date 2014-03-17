@@ -81,7 +81,7 @@
 				OutputFile=".\Debug/bt.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="../../../export/libd;../../windows/lib"
+				AdditionalLibraryDirectories="../../../export/libd,../../windows/lib"
 				GenerateManifest="false"
 				EnableUAC="false"
 				IgnoreDefaultLibraryNames="LIBCMT"
@@ -117,7 +117,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)..\runtimed\drivers\bt"
+				CommandLine="copy $(TargetDir)*.dll $(SolutionDir)runtimed\drivers\bt"
 			/>
 		</Configuration>
 		<Configuration

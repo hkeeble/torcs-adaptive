@@ -34,7 +34,7 @@ namespace perfMeasurement
 			std::vector<PMData> data;
 			int nOfDataSets;
 			
-			const int maxDataSets = 5;
+			const int maxDataSets;
 		public:
 			PMDataCollection();
 			PMDataCollection(const PMDataCollection& param);

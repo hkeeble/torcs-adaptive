@@ -225,8 +225,8 @@ human(tModInfo *modInfo)
 				break;
 			}
 
-			modInfo->name    = strdup(driver);	/* name of the module (short) */
-			modInfo->desc    = strdup("Joystick controlable driver");	/* description of the module (can be long) */
+			modInfo->name    = _strdup(driver);	/* name of the module (short) */
+			modInfo->desc    = _strdup("Joystick controlable driver");	/* description of the module (can be long) */
 			modInfo->fctInit = InitFuncPt;	/* init function */
 			modInfo->gfId    = ROB_IDENT;	/* supported framework version */
 			modInfo->index   = i+1;

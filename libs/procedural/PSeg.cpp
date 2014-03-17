@@ -10,7 +10,7 @@ namespace procedural
 	PSeg::PSeg()
 	{
 		id = type = 0;
-		length = radius = radiusr = radiusl = arc = 0.f;
+		length = radius = arc = 0.f;
 
 		raceInfo = 0x00000000; // Normal Segment
 		type2 = 1; // Main Track Segment
@@ -24,7 +24,7 @@ namespace procedural
 
 	PSegFactory* PSegFactory::instance = NULL;
 
-	PSegFactory::PSegFactory()
+	PSegFactory::PSegFactory() : ranges(PSegmentRanges(PRange(MIN_ARC, MAX_ARC), PRange(MIN_RADIUS, MAX_RADIUS), PRange(MIN_LENGTH, MAX_LENGTH)))
 	{
 		cornerChance = straightChance = 50.f;
 		srand(time(0));
@@ -52,21 +52,19 @@ namespace procedural
 		newSeg.id = id;
 		newSeg.length = length;
 
-		return newSeg;
+		return newSeg; // Return a segment that has been ratified
 	}
 
-	PSeg PSegFactory::CreateSegCnr(int id, PCornerType cType, float radius, float radiusr, float radiusl, float arc)
+	PSeg PSegFactory::CreateSegCnr(int id, PCornerType cType, float radius, float arc)
 	{
 		PSeg newSeg = PSeg();
 
 		newSeg.id = id;
 		newSeg.type = cType;
 		newSeg.radius = radius;
-		newSeg.radiusr = radiusr;
-		newSeg.radiusl = radiusl;
 		newSeg.arc = arc;
 
-		return newSeg;
+		return newSeg;  // Return a segment that has been ratified
 	}
 
 	PSeg PSegFactory::CreateRandomSeg(int id)
@@ -81,27 +79,34 @@ namespace procedural
 
 	PSeg PSegFactory::CreateRandomStr(int id)
 	{
-		return CreateSegStr(id, RandBetween(ranges.Length().Min(), ranges.Length().Max()));
+		float length	= RandBetween(ranges.Length().Min(), ranges.Length().Max());
+
+		return CreateSegStr(id, length);
 	}
 
 	PSeg PSegFactory::CreateRandomCnr(int id)
 	{
-		float radius = RandBetween(ranges.Radius().Min(), ranges.Radius().Max());
-		float arc = RandBetween(ranges.Arc().Min(), ranges.Arc().Max());
-		PCornerType cType;
+		// Generate segment parameters
+		float radius = RandBetween(ranges.Radius().Min(),	ranges.Radius().Max());
+		float arc	 = RandBetween(ranges.Arc().Min(),		ranges.Arc().Max());
 
+		PCornerType cType;
+		
+		// Decide upon corner type
 		if (previousCornerType == CTLeft)
 			cType = CTRight;
 		else
 			cType = CTLeft;
 
 		previousCornerType = cType;
-		return CreateSegCnr(id, cType, radius, 0.f, 0.f, arc);
+
+		// Return the new segment
+		return CreateSegCnr(id, cType, radius, arc);
 	}
 
 	void PSegFactory::SetChances(float corner, float straight)
 	{
-		if (corner + straight == 100)
+		if (corner + straight == 100) // Chanes must equal 100, or they are defaulted to 50/50
 		{
 			cornerChance = corner;
 			straightChance = straight;
@@ -116,7 +121,7 @@ namespace procedural
 	float PSegFactory::RandBetween(float min, float max)
 	{
 		if (min < max)
-			return min + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (max - min)));
+			return min + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (max - min))); // Static cast of rand() produces a floating point value
 		else
 			pOut("PSegFactory: Min cannot be less thatn Max!\n");
 	}

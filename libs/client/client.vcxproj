@@ -16,13 +16,13 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -87,7 +87,7 @@
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>txml.lib;libpng15_vs2008_32.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;tgf.lib;robottools.lib;ssggraphlib.lib;ssg_vs2008_32.lib;ssgAux_vs2008_32.lib;sl_vs2008_32.lib;OpenAL32.lib;Alut.lib;libogg.lib;libvorbis.lib;libvorbisfile.lib;zlib1_vs2008_32.lib;js_vs2008_32.lib;Advapi32.lib;perfMeasurement.lib;trackGeneration.lib;procedural.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>txml.lib;libpng15_vs2008_32.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;tgf.lib;robottools.lib;ssggraphlib.lib;ssg_vs2008_32.lib;ssgAux_vs2008_32.lib;sl_vs2008_32.lib;OpenAL32.lib;Alut.lib;libogg.lib;libvorbis.lib;libvorbisfile.lib;zlib1_vs2008_32.lib;js_vs2008_32.lib;Advapi32.lib;perfMeasurement.lib;procedural.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Debug/client.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(SolutionDir)/export/libd;../../windows/lib;$(SolutionDir)libs\perfMeasurement\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -242,6 +242,9 @@ copy $(TargetDir)*.lib $(SolutionDir)\export\lib
       <Project>{87c850ad-e339-4687-83da-2f76aa0cd5db}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\procedural\procedural.vcxproj">
+      <Project>{30cd6a7a-7e7d-4c1e-869e-86e163b276d8}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\robottools\robottools.vcxproj">
       <Project>{eacc0870-5315-41f9-ae61-b93c77334eae}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
@@ -249,9 +252,6 @@ copy $(TargetDir)*.lib $(SolutionDir)\export\lib
     <ProjectReference Include="..\tgf\tgf.vcxproj">
       <Project>{acb16b61-2f7d-4e87-ad15-c95f16431137}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\trackGeneration\trackGeneration.vcxproj">
-      <Project>{3bb04266-e436-4bb0-93ef-f544da92503b}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

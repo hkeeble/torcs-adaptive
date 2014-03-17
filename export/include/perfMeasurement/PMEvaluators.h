@@ -58,13 +58,13 @@ namespace perfMeasurement
 			bool clear;
 
 			// The number of optimal points
-			const int NUMB_OF_OPTIMAL_POINTS = 3;
+			const int NUMB_OF_OPTIMAL_POINTS;
 
 			/* Used to calculate the optimal points the optimal arc must pass through */
 			PMPoint2D* CalculateOptimalPoints(tdble carWidth, tdble carDepth);
 		public:
 			CornerOutlook() : 
-				entrance(Segment()), corner(Segment()), exit(Segment()), optimalRadius(0.f), actualRadius(0.f), clear(true) { };
+				entrance(Segment()), corner(Segment()), exit(Segment()), optimalRadius(0.f), actualRadius(0.f), clear(true), NUMB_OF_OPTIMAL_POINTS(3) {};
 			~CornerOutlook();
 
 			/* Represents a single segment in the current outlook */
@@ -100,9 +100,13 @@ namespace perfMeasurement
 			bool IsComplete() { return entrance.dataRecorded && corner.dataRecorded && exit.dataRecorded; }
 		} currentOutlook;
 
+		bool offTrack; // Whether or not the car has left the main track in this evaluation segment
+
+		const tdble offTrackPenalty;
+
 		virtual void Evaluate() override final;
 	public:
-		RaceLineEvaluation() : currentOutlook(CornerOutlook()) { }
+		RaceLineEvaluation() : currentOutlook(CornerOutlook()), offTrackPenalty(0.5), offTrack(false) { }
 		virtual void Update(tdble deltaTimeIncrement, tdble currentTime) override final;
 	};
 }

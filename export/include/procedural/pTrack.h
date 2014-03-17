@@ -8,94 +8,139 @@
 #define _P_TRACK_H_
 
 #include <fstream>
+#include <vector>
+#include <string>
+
 #include "PTrackState.h"
 #include "PDefs.h"
 #include "CarData.h"
 #include "PSSGState.h"
 #include "track.h"
+#include "trackbuild.h"
 #include "../../../windows/include/plib/ssg.h"
 
 // Forward declarations (inclusion of track would result in circular inclusion)
 struct trackSeg;
 
+using std::string;
+
 namespace procedural
 {
-	/* Represents the lifetime of a procedural track */
+#define GR_NAME_TAG "name"
+#define GR_SEG_NAME "TKMN"
+
+	/* 
+	 * Represents the lifetime of a procedural track.
+	 * This class contains all of the functions and members neccesary to store and manage a procedural track.
+	*/
 	class PTrack
 	{
 	private:
-		PSSGState* ssgState;
-		char* filePath;
-		char* xmlFile;
-		char* acName;
-		char* tempACName;
-		trackSeg *start, *end;
+		string configPath;		/* The filepath within which all of the track's configuration files are contained. */
+		string acPath;			/* The filepath within which the track's AC file is located. */
+		string configName;		/* The name of the track's XML configuration file. */
+		string acName;			/* The name of the track's AC file. */
+		string tempACName;		/* Name of the temporary AC file used to store new segments. */
 
-		// Total intended track length
-		tdble totalLength;
+		PSSGState* ssgState;		/* The current state of the scene graph, used to append when adding new segments. */
+
+		trackSeg *start, *end;		/* Pointers to the current start and end segments of the track. */
+
+		tdble totalLength;			/* Total length of the track. When this is reached, no more segments will be generated. */
 
 		/* Internal copying function */
 		void cpy(const PTrack& param);
 
-		/* Concatenates two char and returns the result. */
+		/* Concatenates two char and returns the result. Used for many of the string accessor functions. */
 		const char *const StrCon(const char *const a, const char *const b);
+
+		/*
+		 * Appends to the track's AC file with data stored in it's temporary AC file.
+		 * segmentID The ID of the segment to be appended.
+		 */
+		void AppendACFile(int segmentID);
+
+		/* 
+		 * Builds a TORCS track strcuture, function dependent upon track library
+		 * fName The filename to use to build the track.
+		*/
+		tTrack* BuildTrack(const char* const fName);
 
 	public:
 
-		/* Number of segments stored in memory either side of occupied segment */
-		const int SEG_MEMORY_SIZE = 3;
+		/*
+		* Initializes a procedural track with a configuration. All given paths are relative to the executable.
+		* totalLength	The total length the track will be. Once the track reaches this length no more segments will be generated.
+		* configpath	The path in which the configuration XML file can be found.
+		* acpath		The path in which the AC file can be found.
+		* configname	The name of the configuration XML file.
+		* loaderoptions The loader options used by the track when appending to the graphical structure.
+		*/
+		PTrack(tdble totalLength, string configpath, string acpath, string configname, string acname, ssgLoaderOptions* loaderoptions);
 
-		PTrack(tTrack* track, tdble totalLength, char* acname, char* xmlname, char* filepath, ssgLoaderOptions* loaderoptions);
+		/* 
+		 * Initializes a procedural track with a preloaded set of procedural segments. All given paths are relative to the executable.
+		 * segs			The collection of segments that construct the track.
+		 * configpath	The path in which the configuration XML file can be found.
+		 * acpath		The path within which the AC file can be found.
+		 * configname	The name of the configuration file being used.
+		 * acname		The name of the AC file to be used.
+		*/
+		PTrack(std::vector<PSeg> segs, string configpath, string acpath, string configname, string acname, ssgLoaderOptions* loaderoptions);
+
 		~PTrack();
 		PTrack(const PTrack& param);
 		PTrack& operator=(const PTrack& param);
 
-		/* Current track state */
-		PTrackState state;
+		PTrackState state; /* The current track state */
 		
-		/* Root of track (the last added segment) */
-		trackSeg* root;
+		trackSeg* root; /* Root of the track (the last added segment) */
 		
-		/* The TORCS track structure */
-		tTrack* trk;
+		tTrack* trk; /* The TORCS track structure */
 
-		/* Remove a segment at the start */
-		void RemoveSegAtStart();
-
-		/* Remove a segment at the end */
-		void RemoveSegAtEnd();
-
-		/* Get segment with the specified ID */
+		/* 
+		 * Retrieve a pointer to a segment. 
+		 * id The ID of the segment to retrieve.
+		*/
 		tTrackSeg* GetSeg(int id);
 
-		/* Get the total INTENDED track length - not the current total length */
+		/* Retrieves the total intended length of the track. */
 		tdble TotalLength() const;
 
-		/* Appends the track's AC file with data stored in temporary AC file */
-		void UpdateACFile(int segmentID);
+		/* Updates the track's AC file. */
+		void UpdateACFile();
 
-		/* Get Accessors */
-		const ssgLoaderOptions *const GetLoaderOptions();
-		const char			   *const GetFilePath();
-		const char			   *const GetACName();
-		const char			   *const GetACPathAndName();
-		const char			   *const GetTempACName();
-		const char			   *const GetTempACPathAndName();
-		const char			   *const GetXMLName();
-		const char			   *const GetXMLPathAndName();
-		PSSGState*					  GetSSGState();
-		EntityDesc*					  GetTrackDesc() const;
-		trackSeg*					  GetStart() const;
-		trackSeg*					  GetEnd() const;
+		/* 
+		 * Adds a segment to the track structure. This function does not generate a 3D description for the new segment.
+		 * seg The segment to append to the track.
+		 */
+		void AddSegment(const PSeg& seg);
 
-		/* Set Accessors */
-		void SetStart(trackSeg* start);
-		void SetEnd(trackSeg* end);
+		const ssgLoaderOptions *const GetLoaderOptions();	  /* Retrieve the loader options. */
+
+		const string& GetACName();			  /* Reteieve the name of the track's AC file. */
+		const string& GetACPath();			  /* Retrieve the path of the track's AC file. */
+		const string& GetTempACName();		  /* Retrieve the track's temporary AC file name. */
+		const string& GetTempACPath();		  /* Retrieve the path of the track's temporary AC file. */
+		const string& GetConfigName();		  /* Retrieve the track's XML configuration file name. */
+		const string& GetConfigPath();		  /* Retrieve the path of the track's configuration file. */
+		const string GetTempACPathAndName();  /* Retrieve the track's temporary AC path appended with the temporary AC file name. */
+		const string GetACPathAndName();	  /* Retrieve the path of the track's AC file appended with the AC file's name. */
+		const string GetConfigPathAndName();  /* Retrieve the track's XML configuration file path appended with the XML configuration's file name. */
+
+		PSSGState*	  GetSSGState();		  /* Retrieve the track's current SSG state. */
+		EntityDesc*	  GetTrackDesc() const;   /* Retrieve the track's current 3D description. */
+		trackSeg*	  GetStart() const;		  /* Retrieve a pointer to the start segment. */
+		trackSeg*	  GetEnd() const;		  /* Retrieve a pointer to the current end segment. */
+
+
+		void SetStart(trackSeg* start); /* Set the start segment of the track. */
+		void SetEnd(trackSeg* end); /* Set the end pointer of the track. */
 
 		/* Debugging Functions */
 #ifdef _DEBUG
-		void PrintSegsInOrder();
-		void PrintSegsBackwards();
+		void PrintSegsInOrder();   /* Prints the segments in order. */
+		void PrintSegsBackwards(); /* Prints the segments backwards. */
 #endif // _DEBUG
 	};
 }

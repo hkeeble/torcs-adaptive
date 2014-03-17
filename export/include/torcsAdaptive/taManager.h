@@ -6,8 +6,13 @@
 #ifndef _TORCS_ADAPTIVE_MANAGER_H_
 #define _TORCS_ADAPTIVE_MANAGER_H_
 
+#include <windows.h>
+#include <sstream>
+
 #include "perfMeasurement\PMManager.h"
 #include "procedural\pTrackManager.h"
+#include "procedural\PFileManager.h"
+#include "procedural\PMenu.h"
 #include "procedural\PRange.h"
 #include "TAHud.h"
 
@@ -25,18 +30,24 @@ using namespace perfMeasurement;
 namespace torcsAdaptive
 {
 	// Currently defined track length
-	#define TA_TR_LENGTH 5000
+	#define TA_TR_LENGTH 100
+
+	// Race Manager Names
+	#define ADAPTIVE_RACE "Adaptive Race"
+	#define PROCEDURAL_RACE "Procedural Race"
 
 	/* Type of TORCS-Adaptive Race currently active.
 		0 - None: Assigned as default, therefore only set if TAManager::Init() has not been called, adaptive/procedural race not active.
 		1 - Adaptive: Adaptive race with performance measurement.
 		2 - Procedural: Procedural Race without performance measurement.
+		3 - Pregenerated: A race with a previously procedurally generated track is loaded.
 	*/
 	enum class TARaceType
 	{
 		None,
 		Adaptive,
-		Procedural
+		Procedural,
+		Pregenerated
 	};
 
 	class TAManager
@@ -48,18 +59,30 @@ namespace torcsAdaptive
 		/* Singleton instance  */
 		static TAManager* instance;
 
+		// The current player's skill level
 		float currentSkillLevel;
+
+		// The current race type
 		TARaceType raceType;
+
+		// Pointers to main management objects
 		PMManager* perfMeasurement;
 		PTrackManager* trackManager;
+		PFileManager* fileManager;
 		tRmInfo* raceManager;
+
+		// Pointer to the car
 		tCarElt* car;
 
-		bool raceOnConsole; // Is current race on console?
+		// Is current race on console?
+		bool raceOnConsole;
 
 		// The TORCS Adaptive HUD
 		TAHud hud;
-	
+
+		/* Output the current track */
+		void OutputTrack();
+
 	public:
 		static TAManager* Get();
 		virtual ~TAManager();
@@ -72,9 +95,6 @@ namespace torcsAdaptive
 		
 		/* Initializes track and graphics for a TORCS Adaptive race */
 		void Init(tRmInfo* RaceManager);
-
-		/* Initializes the procedural track manager */
-		void InitTrkManager(tCarElt* car);
 		
 		/* Initialize performance measurement. Pass in the car to monitor, and an evaluation behaviour to use. */
 		void InitPerfMeasurement(tCarElt* car, PMEvaluator* evaluator);
@@ -83,7 +103,7 @@ namespace torcsAdaptive
 		void InitGraphics();
 
 		/* Initialize track, must call Init before this */
-		void InitTrack(std::string trackName);
+		void InitTrack();
 
 		/* Set the current race type */
 		void SetRaceType(const TARaceType& RaceType);
@@ -93,6 +113,9 @@ namespace torcsAdaptive
 
 		/* Get the current track */
 		PTrack* GetTrack() const;
+
+		/* Get the track manager */
+		PTrackManager* GetTrackManager() const;
 
 		/* Add a segment to the track. */
 		void AddSegment(const PSeg& segment);
@@ -107,10 +130,13 @@ namespace torcsAdaptive
 		void RaceEnd();
 
 		/* Initializes the position of the car on a TORCS Adaptive track */
-		void InitCarPos();
+		void InitCars();
 
 		/* Tests whether or not the TAManager is active - if either Adaptive or Procedural Mode are active */
 		bool IsActive() const;
+
+		/* Tests whether or not the TAManager is in a procedural race mode - that is, if a pregenerated track is not loaded */
+		bool IsProcedural() const;
 
 		/* Draws TORCS-Adaptive specific content to the UI */
 		void DrawBoard();

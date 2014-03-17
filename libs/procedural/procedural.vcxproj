@@ -11,17 +11,34 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="PAddSegment.cpp" />
+    <ClCompile Include="PLoadTrackMenu.cpp" />
+    <ClCompile Include="PFileManager.cpp" />
+    <ClCompile Include="PSaveTrackMenu.cpp" />
+    <ClCompile Include="PSetTrackLengthMenu.cpp" />
     <ClCompile Include="PSSGState.cpp" />
     <ClCompile Include="PRange.cpp" />
     <ClCompile Include="PSeg.cpp" />
     <ClCompile Include="PTrack.cpp" />
+    <ClCompile Include="PTrackConfig.cpp" />
+    <ClCompile Include="PTrackFileManager.cpp" />
     <ClCompile Include="PTrackManager.cpp" />
+    <ClCompile Include="PTrackSelectConfigMenu.cpp" />
     <ClCompile Include="PTrackState.cpp" />
     <ClCompile Include="trackdesc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Diagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\trackBuild\trackBuild.vcxproj">
+      <Project>{2c06511b-bf01-4377-9587-abecdf3a4fff}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\trackGeneration\trackGeneration.vcxproj">
+      <Project>{3bb04266-e436-4bb0-93ef-f544da92503b}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{30CD6A7A-7E7D-4C1E-869E-86E163B276D8}</ProjectGuid>
@@ -33,13 +50,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -68,7 +85,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\export\include;$(SolutionDir)\windows\include\plib;$(SolutionDir)\export\include\procedural;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\export\include;$(SolutionDir)\windows\include\plib;$(SolutionDir)\export\include\procedural;$(SolutionDir)\windows\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
@@ -80,6 +97,12 @@
     <PostBuildEvent>
       <Command>copy $(ProjectDir)$(Configuration)\*.lib $(SolutionDir)\export\libd\</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>trackGeneration.lib; trackBuild.lib;</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)\export\libd\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -90,7 +113,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\export\include;$(SolutionDir)\windows\include\plib;$(SolutionDir)\export\include\procedural;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\export\include;$(SolutionDir)\windows\include\plib;$(SolutionDir)\export\include\procedural;$(SolutionDir)\windows\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
@@ -104,6 +127,12 @@
     <PostBuildEvent>
       <Command>copy $(ProjectDir)$(Configuration)\*.lib $(SolutionDir)export\lib\</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>trackGeneration.lib; trackBuild.lib;</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)\export\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

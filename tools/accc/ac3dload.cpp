@@ -439,7 +439,7 @@ int terrainSplitOb (ob_t **object)
 		memcpy(tob->norm, snorm,n*sizeof(point_t));
 
 		if ((*object)->data) {
-			tob->data=strdup((*object)->data);
+			tob->data=_strdup((*object)->data);
 		} else {
 			tob->data=0;
 		}
@@ -450,12 +450,12 @@ int terrainSplitOb (ob_t **object)
 		}
 		tob->name=(char *) malloc(strlen((*object)->name)+10);
 		if ((*object)->texture) {
-			tob->texture=strdup((*object)->texture);
+			tob->texture=_strdup((*object)->texture);
 		} else {
 			tob->texture = 0;
 		}
 		if ((*object)->type) {
-			tob->type=strdup((*object)->type);
+			tob->type=_strdup((*object)->type);
 		} else {
 			tob->type = 0;
 		}
@@ -668,7 +668,7 @@ int splitOb (ob_t **object)
 		tob->textarray=(double *) malloc(sizeof(tcoord_t)* numtri*2);
 		tob->attrSurf=(*object)->attrSurf;
 		if ((*object)->data) {
-			tob->data=strdup((*object)->data);
+			tob->data=_strdup((*object)->data);
 		} else {
 			tob->data=NULL;
 		}
@@ -684,7 +684,7 @@ int splitOb (ob_t **object)
 		}
 		tob->name=(char *) malloc(strlen((*object)->name)+10);
 		if ((*object)->texture) {
-			tob->texture=strdup((*object)->texture);
+			tob->texture=_strdup((*object)->texture);
 		} else {
 			tob->texture=0;
 		}
@@ -892,7 +892,7 @@ int doData(char *Line, ob_t *object, mat_t *material)
 		fprintf(stderr,"unknown Loc format %s \n", Line);
 		return (-1);
 	}
-	object->next->data=strdup(p);
+	object->next->data=_strdup(p);
 	return (0);
 }
 
@@ -915,9 +915,9 @@ int doTexture(char *Line, ob_t *object, mat_t *material)
 	p=strstr(name,"\"");
 	if (p!=NULL) {
 		p++;
-		object->next->texture=strdup(p);
+		object->next->texture=_strdup(p);
 	} else
-		object->next->texture=strdup(name);
+		object->next->texture=_strdup(name);
 	p=strstr(object->next->texture,"\"");
 	if (p!=NULL)
 		*p='\0';
@@ -1084,8 +1084,8 @@ int loadAC( char *inputFilename, char *outputFilename, int saveIn)
 	current_material=root_material=(mat_t *)malloc(sizeof(mat_t));
 	memset(current_ob,'\0',sizeof(ob_t));
 	memset(current_material,'\0',sizeof(mat_t));
-	root_ob->name=strdup("root");
-	root_material->name=strdup("root");
+	root_ob->name=_strdup("root");
+	root_material->name=_strdup("root");
 	fprintf(stderr,"starting loading ...\n");
 
 	while (fgets(Line,sizeof(Line), file)) {
@@ -1161,8 +1161,8 @@ int loadACo( char *inputFilename, char *outputFilename, int saveIn)
 	current_material=root_material=(mat_t *)malloc(sizeof(mat_t));
 	memset(current_ob,'\0',sizeof(ob_t));
 	memset(current_material,'\0',sizeof(mat_t));
-	root_ob->name=strdup("root");
-	root_material->name=strdup("root");
+	root_ob->name=_strdup("root");
+	root_material->name=_strdup("root");
 	fprintf(stderr,"starting loading ...\n");
 	while (fgets(Line,sizeof(Line), file)) {
 		int i=0;
@@ -3281,7 +3281,7 @@ void normalMap( ob_t *object)
 			tmpob->textarray[i*2]= (tmpob->vertex[i].x-x_min)/(x_max-x_min) ;
 			tmpob->textarray[i*2+1]= (tmpob->vertex[i].y-y_min)/(y_max-y_min);
 		}
-		tmpob->texture=strdup(shadowtexture);
+		tmpob->texture=_strdup(shadowtexture);
 		tmpob=tmpob->next;
 	}
 
@@ -3610,9 +3610,9 @@ ob_t *mergeObject (ob_t *ob1,ob_t *ob2, char *nameS)
 	tobS->textarray3=(double *) malloc(sizeof(tcoord_t)* numtri*2*3);
 	tobS->attrSurf=ob1->attrSurf;
 	tobS->name=(char *) malloc(strlen(nameS)+1);
-	tobS->texture=strdup(nameS);
-	tobS->type= ob1->type ? strdup(ob1->type) : NULL;
-	tobS->data= ob1->data ? strdup(ob1->data) : NULL;
+	tobS->texture=_strdup(nameS);
+	tobS->type= ob1->type ? _strdup(ob1->type) : NULL;
+	tobS->data= ob1->data ? _strdup(ob1->data) : NULL;
 
 
 

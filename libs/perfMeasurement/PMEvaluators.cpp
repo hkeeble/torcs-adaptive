@@ -191,6 +191,9 @@ namespace perfMeasurement
 	{
 		car.Update();
 
+		if (car.LocalPosition().toMiddle > (car.LocalPosition().seg->width / 2))
+			offTrack = true;
+
 		// When neccesary, generate a new outlook
 		if (currentOutlook.IsClear() == true)
 		{
@@ -225,6 +228,9 @@ namespace perfMeasurement
 
 		// Calculate actual radius as a percentage of optimal radius
 		currentEstimate = currentOutlook.actualRadius / currentOutlook.optimalRadius;
+
+		if (offTrack)
+			currentEstimate = abs(currentEstimate - offTrackPenalty);
 
 		currentOutlook.Clear();
 		delete[] actualPoints;

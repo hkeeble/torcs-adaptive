@@ -114,10 +114,7 @@ void ReShutdown(void)
 {
 	/* Free previous situation */
 	if (ReInfo) {
-		if (taManager->IsActive())
-			ReInfo->_reTrackItf.PTrackShutDown(taManager->GetTrack());
-		else
-			ReInfo->_reTrackItf.trkShutdown();
+		ReInfo->_reTrackItf.trkShutdown();
 
 		GfModUnloadList(&reEventModList);
 
@@ -137,7 +134,7 @@ void ReShutdown(void)
 
 
 void
-ReStartNewRace(void * /* dummy */)
+ReStartNewRace(void* /* dummy */)
 {
 	ReInitResults();
 	ReStateManage();
@@ -707,7 +704,7 @@ ReInitCars(void)
     ReInfo->_reSimItf.init(nCars, ReInfo->track);
 
 	if (taManager->IsActive())
-		taManager->InitCarPos();
+		taManager->InitCars();
 	else
 		initStartingGrid();
 

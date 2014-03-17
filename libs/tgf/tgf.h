@@ -161,7 +161,7 @@ typedef struct
 #define calloc _tgf_win_calloc
 #define realloc _tgf_win_realloc
 #define free _tgf_win_free
-#define strdup _tgf_win_strdup
+#define _strdup _tgf_win_strdup
 #define _strdup _tgf_win_strdup
 extern void * _tgf_win_malloc(size_t size);
 extern void * _tgf_win_calloc(size_t num, size_t size);

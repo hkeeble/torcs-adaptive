@@ -143,7 +143,7 @@ ReSetRaceMsg(const char *msg)
 	if (curMsg) free(curMsg);
 	
 	if (msg) {
-		curMsg = strdup(msg);
+		curMsg = _strdup(msg);
 		GfuiLabelSetText(reScreenHandle, reMsgId, curMsg);
 	} else {
 		curMsg = 0;
@@ -159,7 +159,7 @@ ReSetRaceBigMsg(const char *msg)
 	if (curMsg) free(curMsg);
 
 	if (msg) {
-		curMsg = strdup(msg);
+		curMsg = _strdup(msg);
 		GfuiLabelSetText(reScreenHandle, reBigMsgId, curMsg);
 	} else {
 		curMsg = 0;
@@ -375,7 +375,7 @@ ReResScreenAddText(char *text)
 	}
 	reCurLine--;
     }
-    reResMsg[reCurLine] = strdup(text);
+    reResMsg[reCurLine] = _strdup(text);
     GfuiLabelSetText(reResScreenHdle, reResMsgId[reCurLine], reResMsg[reCurLine]);
     reCurLine++;
 }
@@ -385,7 +385,7 @@ ReResScreenSetText(const char *text, int line, int clr)
 {
 	if (line < LINES) {
 		FREEZ(reResMsg[line]);
-		reResMsg[line] = strdup(text);
+		reResMsg[line] = _strdup(text);
 		if ((clr >= 0) && (clr < 2)) {
 			reResMsgClr[line] = clr;
 		} else {

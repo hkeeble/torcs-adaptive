@@ -18,7 +18,6 @@
  ***************************************************************************/
 
 #include "driver.h"
-#include "robottools.h"
 
 const float Driver::MAX_UNSTUCK_ANGLE = 15.0f/180.0f*PI;	// [radians] If the angle of the car on the track is smaller, we assume we are not stuck.
 const float Driver::UNSTUCK_TIME_LIMIT = 2.0f;				// [s] We try to get unstuck after this time.
@@ -171,8 +170,6 @@ void Driver::newRace(tCarElt* car, tSituation *s)
 // Drive during race.
 void Driver::drive(tSituation *s)
 {
-	RtTelemInit(0, 5);
-
 	memset(&car->ctrl, 0, sizeof(tCarCtrl));
 
 	update(s);

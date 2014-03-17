@@ -540,11 +540,6 @@ namespace procedural
 	class PTrack;
 }
 
-typedef procedural::PTrack*			(*tfPTrackInit)			(tdble, char*, char*, char*, ssgLoaderOptions*, bool);
-typedef void						(*tfPAddSegment)		(procedural::PSeg, procedural::PTrack*);
-typedef void						(*tfPUpdateACFile)		(procedural::PTrack*);
-typedef void						(*tfPTrackShutDown)		(procedural::PTrack*);
-
 typedef struct {
 	
     tfTrackBuild		trkBuild;		/* build track structure for simu */
@@ -557,12 +552,6 @@ typedef struct {
     tfTrackSurfaceNormal	trkSurfaceNormal;
     tfTrackShutdown		trkShutdown;
 
-	/* Torcs-Adaptive Interface */
-	tfPTrackInit			PTrackInit;
-	tfPAddSegment			PAddSegment;
-	tfPTrackShutDown		PTrackShutDown;
-	tfPUpdateACFile			PUpdateACFile;
-	
 } tTrackItf;
 
 /* For Type 3 tracks (now obsolete) */

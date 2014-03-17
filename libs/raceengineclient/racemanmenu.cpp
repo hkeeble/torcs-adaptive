@@ -38,6 +38,8 @@
 
 #include "racemanmenu.h"
 
+#include "taManager.h"
+
 static float red[4]  = {1.0, 0.0, 0.0, 1.0};
 
 static void *racemanMenuHdle = NULL;
@@ -46,6 +48,8 @@ static tRmTrackSelect ts;
 static tRmDrvSelect ds;
 static tRmRaceParam rp;
 static tRmFileSelect fs;
+
+static PMenuParams pmp;
 
 static void reConfigRunState(void);
 
@@ -183,7 +187,7 @@ reConfigRunState(void)
 		}
 		RmRaceParamMenu(&rp);
 	}
-	
+
 	curConf++;
 	GfParmSetNum(params, RM_SECT_CONF, RM_ATTR_CUR_CONF, NULL, curConf);
 	
@@ -267,14 +271,43 @@ ReRacemanMenu(void)
 		GfuiTitleCreate(racemanMenuHdle, str, strlen(str));
 	}
 
+	/* Procedural race menu */
+	if (!strcmp(ReInfo->raceEngineInfo.name, "Procedural Race"))
+	{
+		pmp = PMenuParams();
+		pmp.nextScreen = racemanMenuHdle;
+		pmp.prevScreen = racemanMenuHdle;
 
-	GfuiMenuButtonCreate(racemanMenuHdle,
+		GfuiMenuButtonCreate(racemanMenuHdle,
+			"New Track", "Start a race with a procedurally generated track.",
+			&pmp, ReStartNewRace);
+
+		GfuiMenuButtonCreate(racemanMenuHdle,
+			"Load Track", "Reload a previously generated track.",
+			&pmp, PCreateTrackSelectMenu);
+
+		GfuiMenuButtonCreate(racemanMenuHdle,
+			"Set Track Length", "Set length of the procedural track to generate.",
+			&pmp, PCreateSetLengthMenu);
+
+		GfuiMenuButtonCreate(racemanMenuHdle,
+			"Set Track Configuration", "Set the track configuration ready for procedural generation.",
+			&pmp, PCreateTrackConfigSelectMenu);
+
+		GfuiMenuButtonCreate(racemanMenuHdle,
+			"Configure Drivers", "Configure drivers in the race.",
+			nullptr, reConfigureMenu);
+	}
+	else
+	{
+		GfuiMenuButtonCreate(racemanMenuHdle,
 			"New Race", "Start a New Race",
 			NULL, ReStartNewRace);
 
-	GfuiMenuButtonCreate(racemanMenuHdle, 
+		GfuiMenuButtonCreate(racemanMenuHdle,
 			"Configure Race", "Configure The Race",
 			NULL, reConfigureMenu);
+	}
 
 /*     GfuiMenuButtonCreate(racemanMenuHdle, */
 /* 			 "Configure Players", "Players configuration menu", */

@@ -10,3 +10,6 @@ CVS/
 
 # Class Diagrams
 *.cd
+
+# Visual Studio Specific Files
+*.sdf

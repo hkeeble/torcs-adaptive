@@ -26,6 +26,8 @@
 #ifndef _RACEMANMENU_H_
 #define _RACEMANMENU_H_
 
+#include "taManager.h"
+
 extern int ReRacemanMenu(void);
 extern int ReNewTrackMenu(void);
 

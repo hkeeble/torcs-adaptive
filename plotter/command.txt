@@ -1,0 +1,8 @@
+print "GNUPLOT >"
+print "\t- Plotting track..."
+plot 'tracks\procedural\testTrack1\procTrackPlot.dat'
+print "\t- Track plotted!"
+print "\t- Please be sure to follow the instruction below"
+print "\t  before closing the plot window."
+pause -1 "\t- Hit return to continue!"
+exit

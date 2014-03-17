@@ -1,3 +1,4 @@
+
 /***************************************************************************
 
     file        : racemain.cpp
@@ -114,17 +115,11 @@ ReRaceEventInit(void)
 
 	RmLoadingScreenStart(ReInfo->_reName, "data/img/splash-qrloading.png");
 
-	// Initialize TORCS Adaptive manager, give pointer to Race Manager
 	taManager->Init(ReInfo);
 
 	// Initialize Track
 	if (!taManager->IsActive())
 		ReInitTrack();
-	else
-	{
-		RmLoadingScreenSetText("Initializing Procedural Track...");
-		taManager->InitTrack("taTrack1");
-	}
 
 	// Initialize Graphics
 	if (
@@ -299,17 +294,13 @@ reRaceRealStart(void)
 		GfuiScreenActivate(ReInfo->_reGameScreen);
 	}
 
+	// If the race is adaptive, initialize performance measurement
 	if (taManager->IsActive())
-		InitTA();
-
+	{
+		if (taManager->GetRaceType() == torcsAdaptive::TARaceType::Adaptive)
+			taManager->InitPerfMeasurement(&ReInfo->carList[0], new RaceLineEvaluation());
+	}
 	return RM_SYNC | RM_NEXT_STEP;
-}
-
-void InitTA()
-{
-	taManager->InitTrkManager(&ReInfo->carList[0]);
-	if (taManager->GetRaceType() == torcsAdaptive::TARaceType::Adaptive)
-		taManager->InitPerfMeasurement(&ReInfo->carList[0], new RaceLineEvaluation());
 }
 
 /***************************************************************/
@@ -530,7 +521,6 @@ ReRaceEnd(void)
 	void *results = ReInfo->results;
 
 	ReRaceCleanup();
-	taManager->RaceEnd();
 
 	if (ReInfo->s->_raceType == RM_TYPE_QUALIF) {
 		curDrvIdx = (int)GfParmGetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_DRIVER, NULL, 1);
@@ -567,6 +557,9 @@ RePostRace(void)
 
 	ReUpdateStandings();
 	GfParmSetNum(results, RE_SECT_CURRENT, RE_ATTR_CUR_RACE, NULL, 1);
+
+	taManager->RaceEnd(); // End of race for TA Manager
+
 	return RM_SYNC | RM_NEXT_STEP;
 }
 
