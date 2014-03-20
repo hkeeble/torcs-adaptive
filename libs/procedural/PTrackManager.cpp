@@ -10,7 +10,7 @@
 
 namespace procedural
 {
-	PTrackManager::PTrackManager() : MAX_DIST_FROM_END(5)
+	PTrackManager::PTrackManager()
 	{
 		raceManager = nullptr;
 		track = nullptr;
@@ -18,7 +18,7 @@ namespace procedural
 		trackType = PTrackType::PROCEDURAL;
 	}
 
-	PTrackManager::PTrackManager(tRmInfo* RaceManager) : MAX_DIST_FROM_END(3)
+	PTrackManager::PTrackManager(tRmInfo* RaceManager)
 	{
 		pOut("Initializing procedural track manager...\n");
 		raceManager = RaceManager; // Save pointer to race manager
@@ -110,7 +110,7 @@ namespace procedural
 			previousCornerType = PCornerType::CTRight;
 	}
 
-	PTrackManager::PTrackManager(const PTrackManager& param) : MAX_DIST_FROM_END(3)
+	PTrackManager::PTrackManager(const PTrackManager& param)
 	{
 		cpy(param);
 	}
@@ -193,7 +193,7 @@ namespace procedural
 			// Manage new segment generation
 			if (track->trk->length < track->TotalLength())
 			{
-				if (LeadingCar()->pub.trkPos.seg->id + MAX_DIST_FROM_END >= track->GetEnd()->id) // If a new segment needs to be generated
+				if (LeadingCar()->pub.trkPos.seg->id + MAX_SEGS_FROM_END >= track->GetEnd()->id) // If a new segment needs to be generated
 				{
 					if (!adaptive)
 						AddSegment(segFactory->CreateRandomSeg(track->state.curSegIndex));

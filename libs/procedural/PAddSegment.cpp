@@ -168,7 +168,7 @@ namespace procedural
 
 		// Assign Surface
 		curSeg->surface = new tTrackSurface();
-		curSeg->surface = AddTrackSurface(trHandle, track, "asphalt-lines");
+		curSeg->surface = AddTrackSurface(trHandle, track, GfParmGetStr(trk->params, TRK_SECT_MAIN, TRK_ATT_SURF, "asphalt-lines"));
 
 		curSeg->envIndex = TrackState.envIndex;
 

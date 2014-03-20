@@ -37,6 +37,9 @@ namespace procBot
 	class PCarDesc;
 	class POtherCarDesc;
 
+	// #define PATH_K1999
+	#define PATH_BERNIW
+	
 	/* holds a point of datafile from clothoid */
 	typedef struct {
 		double x;
@@ -140,23 +143,27 @@ namespace procBot
 			/* Initialize the pathfinder */
 			void Init(tSituation* situation);
 
-			/* Updates the static plan with new path segments */
-			void updatePlan();
-
 			void initPitStopPath(void);
 			void getPitPoint(int j, int k, double slope, double dist, v3d* r);
 			int collision(int trackSegId, tCarElt* mycar, tSituation *s, PCarDesc* myc, POtherCarDesc* ocar);
 			int overtake(int trackSegId, tSituation *s, PCarDesc* myc, POtherCarDesc* ocar);
+			double curvature(double xp, double yp, double x, double y, double xn, double yn);
+			void adjustRadius(int s, int p, int e, double c, double carwidth);
+			void stepInterpolate(int iMin, int iMax, int Step);
+			void interpolate(int Step);
+			void smooth(int Step);
 
 			int correctPath(int id, tCarElt* car, PCarDesc* myc);
 
 			/* Original pathfinding functions from berniw robot */
+#ifdef PATH_BERNIW
 			bool loadClothoidParams(tParam* p);
 			double intsinsqr(double alpha);
 			double intcossqr(double alpha);
 			double clothparam(double alpha);
 			double clothsigma(double beta, double y);
 			double clothlength(double beta, double y);
+#endif PATH_BERNIW
 
 			int findStartSegId(int id);
 			int findEndSegId(int id);

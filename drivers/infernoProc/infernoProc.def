@@ -1,0 +1,10 @@
+;
+; infernoProc.def
+;
+
+LIBRARY
+
+SECTIONS .data READ WRITE
+
+EXPORTS
+	infernoProc

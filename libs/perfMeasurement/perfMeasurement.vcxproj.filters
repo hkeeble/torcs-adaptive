@@ -24,10 +24,13 @@
     <ClCompile Include="PMData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PMEvaluators.cpp">
+    <ClCompile Include="RaceLineEvaluation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PMMath.cpp">
+    <ClCompile Include="CornerOutlook.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TopSpeedDeviation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -33,6 +33,7 @@ static void drive(int index, tCarElt* car, tSituation *situation);
 static void newRace(int index, tCarElt* car, tSituation *situation);
 static int  InitFuncPt(int index, void *pt);
 static int  pitcmd(int index, tCarElt* car, tSituation *s);
+static void update(int index, tSituation *situation);
 static void shutdown(int index);
 float getClutch(lliawCar* myc, tCarElt* car);
 
@@ -69,6 +70,7 @@ static int InitFuncPt(int index, void *pt)
 	itf->rbNewRace  = newRace;		// Init new race.
 	itf->rbDrive    = drive;		// Drive during race.
 	itf->rbShutdown	= shutdown;		// Called for cleanup per driver.
+	itf->rbUpdate	= update;
 	itf->rbPitCmd   = pitcmd;		// Pit command.
 	itf->index      = index;
 	return 0;
@@ -135,16 +137,16 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
     }
 
 	// Load and set parameters.
-	float fuel = GfParmGetNum(*carParmHandle, BERNIW_SECT_PRIV, BERNIW_ATT_FUELPERLAP,
-		(char*)NULL, track->length*lliawCar::MAX_FUEL_PER_METER);
-	//printf("fuelperlap: %f\n", fuel);
-
-	float fuelmargin = (situation->_raceType == RM_TYPE_RACE) ? 1.0 : 0.0;
-
-	fuel *= (situation->_totLaps + fuelmargin);
-	GfParmSetNum(*carParmHandle, SECT_CAR, PRM_FUEL, (char*)NULL, MIN(fuel, 100.0));
+	float fuel = 10000000000;
 }
 
+
+/* Used to update the car's understanding of the track and pathfinder before the call to the drive function, in a procedural track */
+static void update(int index, tSituation *situation)
+{
+	myTrackDesc->Update(); // Update the track description
+	mycar[index - 1]->getPathfinderPtr()->Update(situation); // Update the pathfinder based upon the new track
+}
 
 // Initialize driver for the race, called for every selected driver.
 static void newRace(int index, tCarElt* car, tSituation *situation)
@@ -221,46 +223,11 @@ static void drive(int index, tCarElt* car, tSituation *situation)
 	// Uncommenting the following line causes pitstop on every lap.
 	//if (!mpf->getPitStop()) mpf->setPitStop(true, myc->getCurrentSegId());
 
-	// Compute fuel consumption.
-	if (myc->getCurrentSegId() >= 0 && myc->getCurrentSegId() < 5 && !myc->fuelchecked) {
-		if (car->race.laps > 0) {
-			myc->fuelperlap = MAX(myc->fuelperlap, (myc->lastfuel+myc->lastpitfuel-car->priv.fuel));
-		}
-		myc->lastfuel = car->priv.fuel;
-		myc->lastpitfuel = 0.0;
-		myc->fuelchecked = true;
-	} else if (myc->getCurrentSegId() > 5) {
-		myc->fuelchecked = false;
-	}
-
-	// Decide if we need a pit stop.
-	if (!mpf->getPitStop() && (car->_remainingLaps-car->_lapsBehindLeader) > 0 && (car->_dammage > myc->MAXDAMMAGE ||
-		(car->priv.fuel < (myc->fuelperlap*(1.0+myc->FUEL_SAFETY_MARGIN)) &&
-		 car->priv.fuel < (car->_remainingLaps-car->_lapsBehindLeader)*myc->fuelperlap)))
-	{
-		mpf->setPitStop(true, myc->getCurrentSegId());
-	}
-
-	if (mpf->getPitStop()) {
-		car->_raceCmd = RM_CMD_PIT_ASKED;
-	}
-
 	// Steer toward the next target point.
 	targetAngle = atan2(mpf->getPathSeg(myc->destsegid)->getLoc()->y - car->_pos_Y, mpf->getPathSeg(myc->destsegid)->getLoc()->x - car->_pos_X);
 	targetAngle -= car->_yaw;
 	NORM_PI_PI(targetAngle);
     steer = targetAngle / car->_steerLock;
-
-	// Steer P (proportional) controller. We add a steer correction proportional to the distance error
-	// to the path.
-	// Steer angle has usual meaning, therefore + is to left (CCW) and - to right (CW).
-	// derror sign is + to right and - to left.
-	if (!mpf->getPitStop()) {
-		steer = steer + MIN(myc->STEER_P_CONTROLLER_MAX, myc->derror*myc->STEER_P_CONTROLLER_GAIN)*myc->getErrorSgn();
-		if (fabs(steer) > 1.0) {
-			steer/=fabs(steer);
-		}
-	}
 
 	// Try to control angular velocity with a D (differential) controller.
 	double omega = myc->getSpeed()/mpf->getPathSeg(myc->getCurrentSegId())->getRadius();

@@ -76,6 +76,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lliawProc", "drivers\lliawP
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "trackBuild", "libs\trackBuild\trackBuild.vcxproj", "{2C06511B-BF01-4377-9587-ABECDF3A4FFF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "infernoProc", "drivers\infernoProc\infernoProc.vcxproj", "{FA012A85-166D-418E-9939-149CCC7B7A7B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -366,6 +368,14 @@ Global
 		{2C06511B-BF01-4377-9587-ABECDF3A4FFF}.Release|Win32.ActiveCfg = Release|Win32
 		{2C06511B-BF01-4377-9587-ABECDF3A4FFF}.Release|Win32.Build.0 = Release|Win32
 		{2C06511B-BF01-4377-9587-ABECDF3A4FFF}.Release|x64.ActiveCfg = Release|Win32
+		{FA012A85-166D-418E-9939-149CCC7B7A7B}.Debug|ARM.ActiveCfg = Debug|Win32
+		{FA012A85-166D-418E-9939-149CCC7B7A7B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FA012A85-166D-418E-9939-149CCC7B7A7B}.Debug|Win32.Build.0 = Debug|Win32
+		{FA012A85-166D-418E-9939-149CCC7B7A7B}.Debug|x64.ActiveCfg = Debug|Win32
+		{FA012A85-166D-418E-9939-149CCC7B7A7B}.Release|ARM.ActiveCfg = Release|Win32
+		{FA012A85-166D-418E-9939-149CCC7B7A7B}.Release|Win32.ActiveCfg = Release|Win32
+		{FA012A85-166D-418E-9939-149CCC7B7A7B}.Release|Win32.Build.0 = Release|Win32
+		{FA012A85-166D-418E-9939-149CCC7B7A7B}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

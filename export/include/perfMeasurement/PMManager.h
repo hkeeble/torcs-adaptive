@@ -8,7 +8,8 @@
 #define _PM_MANAGER_H_
 
 #include "PMData.h"
-#include "PMEvaluators.h"
+#include "PMEvaluator.h"
+#include "RaceLineEvaluation.h"
 #include "PMDefs.h"
 #include "car.h"
 
@@ -33,13 +34,21 @@ namespace perfMeasurement
 		static PMManager* Get();
 		~PMManager();
 		
-		/* Initialization function. Pass in a pointer to the car the manager is intended to monitor. Also pass in an unintialized evaluation object to make use of. */
+		/* 
+		 * Initialization function.
+		 * car		 The car to monitor.
+		 * evaluator An uninitialized evaluator to use.
+		 */
 		void Init(tCarElt* car, PMEvaluator* evaluator);
 
 		/* Get the car currently being monitored */
 		tCarElt* GetCar();
 		
-		/* Update the performance measurement data */
+		/*
+		 * Update the current evaluator.
+		 * deltaTimeIncrement The time since the last invocation of this function.
+		 * currentTime		  The current time stamp to use when recording data.
+		 */
 		void Update(tdble deltaTimeIncrement, tdble currentTime);
 		
 		/* Clear the current collection of performance measurement data */

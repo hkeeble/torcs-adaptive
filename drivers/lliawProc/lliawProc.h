@@ -60,7 +60,7 @@ class lliawCar : public PCarDesc
 {
 public:
 	lliawCar(PTrackDesc* track, tCarElt* car, tSituation *situation) : PCarDesc(track, car, situation) { };
-	virtual ~lliawCar() { PCarDesc::~PCarDesc(); };
+	virtual ~lliawCar() { };
 
 	/* Additional statics */
 	static const float FUEL_SAFETY_MARGIN;

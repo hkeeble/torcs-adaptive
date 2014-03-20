@@ -58,6 +58,7 @@ namespace procedural
 		 * configPath The path in which the track's configuration files can be found.
 		 * configName The name of the configuration used by the track.
 		 * track	  The TORCS track structure to output.
+		 * category   The type of race that the track was generated within.
 		*/
 		void OutputTrack(std::string trackName, std::string configPath, std::string configName, tTrack* track);
 

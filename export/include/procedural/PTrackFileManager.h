@@ -21,6 +21,7 @@ namespace procedural
 	#define P_TRK_ATT_SEG_COUNT "Number of Segments"
 	#define P_TRK_ATT_DESC "Description"
 	#define P_TRK_ATT_NAME "Track Name"
+	#define P_TRK_ATT_CAT "Category"
 
 	/*
 	 * A class that represents a file manager designed to write out track files for the procedural library. This class also holds onto a state for loading tracks.
@@ -38,6 +39,7 @@ namespace procedural
 		 * filePath The path to write the track to.
 		 * trkName  The name of the track being written.
 		 * track	The track to write out.
+		 * category The category of race in which the track was generated.
 		 */
 		void WriteTrackTo(std::string filePath, std::string trkName, tTrack* track);
 

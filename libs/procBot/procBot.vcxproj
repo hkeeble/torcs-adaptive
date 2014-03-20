@@ -15,6 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="berniwPathfinding.cpp" />
+    <ClCompile Include="k1999Pathfinding.cpp" />
     <ClCompile Include="PathSeg.cpp" />
     <ClCompile Include="PathSegCollection.cpp" />
     <ClCompile Include="PCarDesc.cpp" />

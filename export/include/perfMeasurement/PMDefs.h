@@ -20,6 +20,14 @@ namespace perfMeasurement
 	#else
 		#define pmOut(out)
 	#endif // _DEBUG
+
+	struct PMPoint2D
+	{
+		PMPoint2D() { };
+
+		tdble x;
+		tdble y;
+	};
 }
 
 #endif // _PM_DEFS_H_

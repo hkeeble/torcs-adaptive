@@ -160,7 +160,7 @@ void Driver::newRace(tCarElt* car, tSituation *s)
 	radius = new float[track->nseg];
 	computeRadius(radius);
 
-	learn = new SegLearn(track, s, INDEX);
+	// learn = new SegLearn(track, s, INDEX);
 
 	// create the pit object.
 	pit = new Pit(s, this);
@@ -652,7 +652,7 @@ void Driver::update(tSituation *s)
 	}
 	pit->update();
 	alone = isAlone();
-	learn->update(s, track, car, alone, myoffset, car->_trkPos.seg->width/WIDTHDIV-BORDER_OVERTAKE_MARGIN, radius);
+	// learn->update(s, track, car, alone, myoffset, car->_trkPos.seg->width/WIDTHDIV-BORDER_OVERTAKE_MARGIN, radius);
 }
 
 

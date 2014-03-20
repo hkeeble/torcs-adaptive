@@ -298,6 +298,24 @@ ReRacemanMenu(void)
 			"Configure Drivers", "Configure drivers in the race.",
 			nullptr, reConfigureMenu);
 	}
+	else if (!strcmp(ReInfo->raceEngineInfo.name, "Adaptive Race"))
+	{
+		pmp = PMenuParams();
+		pmp.nextScreen = racemanMenuHdle;
+		pmp.prevScreen = racemanMenuHdle;
+
+		GfuiMenuButtonCreate(racemanMenuHdle,
+			"New Track", "Start a race with a procedurally generated track, adaptive to player skill level.",
+			&pmp, ReStartNewRace);
+
+		GfuiMenuButtonCreate(racemanMenuHdle,
+			"Set Track Length", "Set length of the procedural track to generate.",
+			&pmp, PCreateSetLengthMenu);
+
+		GfuiMenuButtonCreate(racemanMenuHdle,
+			"Set Track Configuration", "Set the track configuration ready for procedural generation.",
+			&pmp, PCreateTrackConfigSelectMenu);
+	}
 	else
 	{
 		GfuiMenuButtonCreate(racemanMenuHdle,

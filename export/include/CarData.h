@@ -63,7 +63,7 @@ private:
 };
 
 
-/* Represents the car data for use in procedural generation */
+/* Represents the car data for use in procedural generation and performance measurement */
 class CarData
 {
 private:

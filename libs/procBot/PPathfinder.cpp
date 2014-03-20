@@ -1,3 +1,10 @@
+/*
+	File: PPathfinder.cpp
+	Original Author:  Bernhard Wymann
+	Modified by: Henri Keeble
+	Desc: Declarations for a pathfinder that works for procedural tracks, updates planning as new segments are added.
+*/
+
 #include "PPathfinder.h"
 
 namespace procBot
@@ -236,14 +243,6 @@ namespace procBot
 	}
 
 	/*
-		Updates the current static plan with new segments
-	*/
-	void PPathfinder::updatePlan()
-	{
-
-	}
-
-	/*
 		Plans a static route ignoring current situation
 	*/
 	void PPathfinder::staticPlan(PCarDesc* myc)
@@ -257,31 +256,7 @@ namespace procBot
 		for (i = previousPSCount; i < ps.Count(); i++)
 			ps(i)->setLoc(track->getSegmentPtr(i)->getMiddle());
 
-#ifdef USE_CLOTHOIDS
-		/* read parameter files and compute path */
-		if (loadClothoidParams(cp)) {
-			int i = 0, k = 0;
-			while (k < ps.Count()) {
-				int j = k % ps.Count();
-				switch (track->getSegmentPtr(j)->getType()) {
-				case TR_STR:
-					i = initStraight(j, myc->CARWIDTH / 2.0 + myc->MARGIN);
-					break;
-				case TR_LFT:
-					i = initLeft(j, myc->CARWIDTH / 2.0 + myc->MARGIN);
-					break;
-				case TR_RGT:
-					i = initRight(j, myc->CARWIDTH / 2.0 + myc->MARGIN);
-					break;
-				default:
-					printf("error in plan(MyCar* myc): segment is of unknown type.\n");
-					break;
-				}
-				k = k + (i - k + ps.Count()) % ps.Count();
-			}
-		}
-#endif // USE_CLOTHOIDS
-
+#ifdef PATH_BERNIW
 		optimize3(previousPSCount, ps.Count(), 1.0);
 		optimize3(previousPSCount + 2, ps.Count(), 1.0);
 		optimize3(previousPSCount + 1, ps.Count(), 1.0);
@@ -297,6 +272,15 @@ namespace procBot
 				}
 			}
 		}
+#endif // PATH_BERNIW
+
+#ifdef PATH_K1999
+		/* compute path */
+		for (int step = 128; (step /= 2) > 0;) {
+			for (int i = 100 * int(sqrt((double)step)); --i >= 0;) smooth(step);
+			interpolate(step);
+		}
+#endif	// PATH_K1999
 
 		/* init pit ond optimal path */
 		for (i = previousPSCount; i < ps.Count(); i++) {

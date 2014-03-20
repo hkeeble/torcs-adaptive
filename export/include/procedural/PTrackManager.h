@@ -19,6 +19,9 @@
 
 namespace procedural
 {
+	// Segments cars can be from the end of the track before a new segment is generated
+	#define MAX_SEGS_FROM_END 3
+
 	/*
 	 * Represents a procedural track type.
 	 * PROCEDURAL	The track is procedural, and thus will generate new segments where neccesary.
@@ -58,8 +61,6 @@ namespace procedural
 
 			/* Update the current track's AC file */
 			void UpdateACFile();
-
-			const int MAX_DIST_FROM_END; // Maximum distance car can be from the end of the track before a new segment is generated
 
 		public:
 
