@@ -63,7 +63,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\windows\lib;$(SolutionDir)\export\libd;</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)\*.lib $(SolutionDir)\export\libd\</Command>
+      <Command>copy "$(TargetDir)\*.lib" "$(SolutionDir)\export\libd\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -89,7 +89,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\windows\lib;$(SolutionDir)\export\lib;</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)\*.lib $(SolutionDir)\export\lib\</Command>
+      <Command>copy "$(TargetDir)\*.lib" "$(SolutionDir)\export\lib\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

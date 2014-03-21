@@ -46,7 +46,7 @@ namespace procedural
 
 		trackSeg *start, *end;		/* Pointers to the current start and end segments of the track. */
 
-		tdble totalLength;			/* Total length of the track. When this is reached, no more segments will be generated. */
+		tdble totalLength;			/* Total length of the track. When the car reaches this distance, the race will finish. */
 
 		/* Internal copying function */
 		void cpy(const PTrack& param);

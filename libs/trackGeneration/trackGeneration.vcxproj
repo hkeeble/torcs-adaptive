@@ -74,7 +74,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(ProjectDir)\$(Configuration)\*.lib $(SolutionDir)\export\libd\</Command>
+      <Command>copy "$(ProjectDir)\$(Configuration)\*.lib" "$(SolutionDir)\export\libd\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -98,7 +98,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(ProjectDir)\$(Configuration)\*.lib $(SolutionDir)\export\lib\</Command>
+      <Command>copy "$(ProjectDir)\$(Configuration)\*.lib" "$(SolutionDir)\export\lib\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

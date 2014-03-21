@@ -111,7 +111,7 @@
       <OutputFile>.\Debug/berniw.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtimed\drivers\berniw</Command>
+      <Command>copy "$(TargetDir)*.dll" "$(SolutionDir)..\runtimed\drivers\berniw"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -166,7 +166,7 @@
       <OutputFile>.\Release/berniw.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtime\drivers\berniw</Command>
+      <Command>copy "$(TargetDir)*.dll" "$(SolutionDir)..\runtime\drivers\berniw"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

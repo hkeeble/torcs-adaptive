@@ -62,8 +62,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "trackGeneration", "libs\tra
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "procedural", "libs\procedural\procedural.vcxproj", "{30CD6A7A-7E7D-4C1E-869E-86E163B276D8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "botProc", "drivers\botProc\berniwProc.vcxproj", "{29DC4A3F-EEE0-4580-B89C-A589BF547AC6}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "taMath", "libs\taMath\taMath.vcxproj", "{6CA3F701-6DEA-48D9-B99D-5836B14001BF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bt", "drivers\bt\bt.vcxproj", "{A0513CBB-8FE9-44F7-BBF3-7814EFB5132C}"
@@ -312,14 +310,6 @@ Global
 		{30CD6A7A-7E7D-4C1E-869E-86E163B276D8}.Release|Win32.ActiveCfg = Release|Win32
 		{30CD6A7A-7E7D-4C1E-869E-86E163B276D8}.Release|Win32.Build.0 = Release|Win32
 		{30CD6A7A-7E7D-4C1E-869E-86E163B276D8}.Release|x64.ActiveCfg = Release|Win32
-		{29DC4A3F-EEE0-4580-B89C-A589BF547AC6}.Debug|ARM.ActiveCfg = Debug|Win32
-		{29DC4A3F-EEE0-4580-B89C-A589BF547AC6}.Debug|Win32.ActiveCfg = Debug|Win32
-		{29DC4A3F-EEE0-4580-B89C-A589BF547AC6}.Debug|Win32.Build.0 = Debug|Win32
-		{29DC4A3F-EEE0-4580-B89C-A589BF547AC6}.Debug|x64.ActiveCfg = Debug|Win32
-		{29DC4A3F-EEE0-4580-B89C-A589BF547AC6}.Release|ARM.ActiveCfg = Release|Win32
-		{29DC4A3F-EEE0-4580-B89C-A589BF547AC6}.Release|Win32.ActiveCfg = Release|Win32
-		{29DC4A3F-EEE0-4580-B89C-A589BF547AC6}.Release|Win32.Build.0 = Release|Win32
-		{29DC4A3F-EEE0-4580-B89C-A589BF547AC6}.Release|x64.ActiveCfg = Release|Win32
 		{6CA3F701-6DEA-48D9-B99D-5836B14001BF}.Debug|ARM.ActiveCfg = Debug|Win32
 		{6CA3F701-6DEA-48D9-B99D-5836B14001BF}.Debug|Win32.ActiveCfg = Debug|Win32
 		{6CA3F701-6DEA-48D9-B99D-5836B14001BF}.Debug|Win32.Build.0 = Debug|Win32

@@ -101,7 +101,7 @@
       <OutputFile>.\Debug/accc.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)accc.exe $(SolutionDir)..\runtimed</Command>
+      <Command>copy "$(TargetDir)accc.exe" "$(SolutionDir)..\runtimed"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -147,7 +147,7 @@
       <OutputFile>.\Release/accc.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)accc.exe $(SolutionDir)runtime</Command>
+      <Command>copy "$(TargetDir)accc.exe" "$(SolutionDir)runtime"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

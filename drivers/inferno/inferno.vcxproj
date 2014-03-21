@@ -110,7 +110,7 @@
       <OutputFile>.\Debug/inferno.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtimed\drivers\inferno</Command>
+      <Command>copy "$(TargetDir)*.dll" "$(SolutionDir)..\runtimed\drivers\inferno"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -165,7 +165,7 @@
       <OutputFile>.\Release/inferno.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtime\drivers\inferno</Command>
+      <Command>copy "$(TargetDir)*.dll" "$(SolutionDir)..\runtime\drivers\inferno"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -65,7 +65,7 @@
       <AdditionalDependencies>tgf.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(ProjectDir)\$(Configuration)\*.lib $(SolutionDir)\export\libd</Command>
+      <Command>copy "$(ProjectDir)\$(Configuration)\*.lib" "$(SolutionDir)\export\libd"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -89,7 +89,7 @@
       <AdditionalDependencies>tgf.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(ProjectDir)\$(Configuration)\*.lib $(SolutionDir)\export\lib\</Command>
+      <Command>copy "$(ProjectDir)\$(Configuration)\*.lib" "$(SolutionDir)\export\lib\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

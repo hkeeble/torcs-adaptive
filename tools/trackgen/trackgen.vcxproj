@@ -106,7 +106,7 @@
       <OutputFile>.\Release/trackgen.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)trackgen.exe $(SolutionDir)..\runtime</Command>
+      <Command>copy "$(TargetDir)trackgen.exe" "$(SolutionDir)..\runtime"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -157,7 +157,7 @@
       <OutputFile>.\Debug/trackgen.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)trackgen.exe $(SolutionDir)..\runtimed</Command>
+      <Command>copy "$(TargetDir)trackgen.exe" "$(SolutionDir)..\runtimed"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -190,20 +190,17 @@ namespace procedural
 	{
 		if (trackType == PTrackType::PROCEDURAL)
 		{
-			// Manage new segment generation
-			if (track->trk->length < track->TotalLength())
+			// If the current leading car is a given distance from the end, generate a new segment
+			if (LeadingCar()->pub.trkPos.seg->id + MAX_SEGS_FROM_END >= track->GetEnd()->id) // If a new segment needs to be generated
 			{
-				if (LeadingCar()->pub.trkPos.seg->id + MAX_SEGS_FROM_END >= track->GetEnd()->id) // If a new segment needs to be generated
-				{
-					if (!adaptive)
-						AddSegment(segFactory->CreateRandomSeg(track->state.curSegIndex));
-					else
-						GenerateAdaptiveSegment(skillLevel);
+				if (!adaptive)
+					AddSegment(segFactory->CreateRandomSeg(track->state.curSegIndex));
+				else
+					GenerateAdaptiveSegment(skillLevel);
 
-					// Update graphical description
-					if (raceManager->raceEngineInfo.displayMode == RM_DISP_MODE_NORMAL)
-						UpdateGraphics();
-				}
+				// Update graphical description
+				if (raceManager->raceEngineInfo.displayMode == RM_DISP_MODE_NORMAL)
+					UpdateGraphics();
 			}
 		}
 	}
@@ -266,13 +263,17 @@ namespace procedural
 		return track;
 	}
 
-	bool PTrackManager::CarOnLastSegment()
+	bool PTrackManager::IsCarFinished()
 	{
 		for (int i = 0; i < nCars; i++)
 		{
 			tCarElt* curCar = &carList[i];
 
-			if (curCar->pub.trkPos.seg->id == track->GetEnd()->id)
+			// Calculate the distance covered by this car
+			tdble distCovered = curCar->pub.trkPos.seg->lgfromstart;
+			distCovered += curCar->pub.trkPos.toStart;
+
+			if (distCovered >= TotalLength())
 				return true;
 		}
 

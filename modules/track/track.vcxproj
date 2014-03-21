@@ -112,7 +112,7 @@
       <OutputFile>.\Debug/track.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtimed\modules\track</Command>
+      <Command>copy "$(TargetDir)*.dll" "$(SolutionDir)..\runtimed\modules\track"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -166,7 +166,7 @@
       <OutputFile>.\Release/track.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtime\modules\track</Command>
+      <Command>copy "$(TargetDir)*.dll" "$(SolutionDir)..\runtime\modules\track"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

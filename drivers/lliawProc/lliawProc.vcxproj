@@ -109,7 +109,7 @@
       <OutputFile>.\Release/lliawProc.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtime\drivers\lliawProc</Command>
+      <Command>copy "$(TargetDir)*.dll" "$(SolutionDir)..\runtime\drivers\lliawProc"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -165,7 +165,7 @@
       <OutputFile>.\Debug/lliawProc.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtimed\drivers\lliawProc\</Command>
+      <Command>copy "$(TargetDir)*.dll" "$(SolutionDir)..\runtimed\drivers\lliawProc\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -20,7 +20,7 @@
 namespace procedural
 {
 	// Segments cars can be from the end of the track before a new segment is generated
-	#define MAX_SEGS_FROM_END 3
+	#define MAX_SEGS_FROM_END 4
 
 	/*
 	 * Represents a procedural track type.
@@ -115,8 +115,8 @@ namespace procedural
 			/* Get the current track */
 			PTrack* GetTrack() const;
 
-			/* Checks if any of the cars in the race are on the last segment */
-			bool CarOnLastSegment();
+			/* Checks if any of the cars in the race have reached the maximum race distance */
+			bool IsCarFinished();
 
 			/* Outputs the current track */
 			void OutputCurrentTrack(std::string name);

@@ -106,7 +106,7 @@
       <OutputFile>.\Release/tgf.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtime</Command>
+      <Command>copy "$(TargetDir)*.dll" "$(SolutionDir)..\runtime"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -162,8 +162,8 @@
       <OutputFile>.\Debug/tgf.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.dll $(SolutionDir)..\runtimed
-copy $(TargetDir)*.lib $(SolutionDir)\export\libd
+      <Command>copy "$(TargetDir)*.dll" "$(SolutionDir)..\runtimed"
+copy "$(TargetDir)*.lib" "$(SolutionDir)\export\libd"
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

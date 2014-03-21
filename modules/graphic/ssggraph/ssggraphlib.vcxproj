@@ -81,7 +81,7 @@
       <OutputFile>.\Release/ssggraphlib.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.lib $(SolutionDir)\export\lib</Command>
+      <Command>copy "$(TargetDir)*.lib" "$(SolutionDir)\export\lib"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -113,7 +113,7 @@
       <OutputFile>.\Debug/ssggraphlib.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy $(TargetDir)*.lib $(SolutionDir)\export\libd</Command>
+      <Command>copy "$(TargetDir)*.lib" "$(SolutionDir)\export\libd"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

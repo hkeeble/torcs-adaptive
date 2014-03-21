@@ -13,3 +13,7 @@ CVS/
 
 # Visual Studio Specific Files
 *.sdf
+
+# Export Libraries
+export/lib/*.lib
+export/libd/*.lib
