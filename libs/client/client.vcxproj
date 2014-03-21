@@ -108,7 +108,7 @@
       <OutputFile>.\Debug/client.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy "$(TargetDir)*.dll" "$(SolutionDir)..\runtimed"
+      <Command>copy "$(TargetDir)*.dll" "$(SolutionDir)..\runtimed";
 copy "$(TargetDir)*.lib" "$(SolutionDir)\export\libd"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -162,7 +162,7 @@ copy "$(TargetDir)*.lib" "$(SolutionDir)\export\libd"</Command>
       <OutputFile>.\Release/client.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy "$(TargetDir)*.dll" "$(SolutionDir)..\runtime"
+      <Command>copy "$(TargetDir)*.dll" "$(SolutionDir)..\runtime";
 copy "$(TargetDir)*.lib" "$(SolutionDir)\export\lib"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

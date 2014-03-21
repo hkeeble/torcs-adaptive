@@ -109,8 +109,8 @@
       <OutputFile>.\Debug/txml.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy "$(TargetDir)*.dll" "$(SolutionDir)..\runtimed"
-copy "$(TargetDir)*.lib" "$(SolutionDir)\export\libd"
+      <Command>copy "$(TargetDir)*.dll" "$(SolutionDir)..\runtimed";
+copy "$(TargetDir)*.lib" "$(SolutionDir)\export\libd";
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
