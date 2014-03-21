@@ -114,6 +114,10 @@ copy "dll\alut.dll" "$(SolutionDir)..\runtime";
 copy "$(SolutionDir)\plotProcTrack.bat" "$(SolutionDir)..\runtime";
 copy "$(SolutionDir)\plotter\command.txt" "$(SolutionDir)..\runtime\plotter\";</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>IF NOT EXIST "$(SolutionDir)\export\libd\" mkdir "$(SolutionDir)\export\libd\";
+IF NOT EXIST "$(SolutionDir)\..\runtimed\" mkdir "$(SolutionDir)\..\runtimed\";</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Midl>
@@ -174,6 +178,10 @@ copy "dll\alut.dll" "$(SolutionDir)..\runtimed";
 copy "$(SolutionDir)\plotProcTrack.bat" "$(SolutionDir)..\runtimed";
 copy "$(SolutionDir)\plotter\command.txt" "$(SolutionDir)..\runtimed\plotter\";</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>IF NOT EXIST "$(SolutionDir)\export\libd\" mkdir "$(SolutionDir)\export\libd\";
+IF NOT EXIST "$(SolutionDir)\..\runtimed\" mkdir "$(SolutionDir)\..\runtimed\";</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
