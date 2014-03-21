@@ -2,6 +2,10 @@
 Release/
 Debug/
 
+# Runtimes
+runtime/
+runtimed/
+
 # Binaries
 *.exe
 
@@ -15,5 +19,5 @@ CVS/
 *.sdf
 
 # Export Libraries
-export/lib/*.lib
-export/libd/*.lib
+src/export/lib/*.lib
+src/export/libd/*.lib

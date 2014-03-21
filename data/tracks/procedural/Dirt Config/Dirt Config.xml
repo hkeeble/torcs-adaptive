@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE params SYSTEM "..\..\src\libs\tgf\params.dtd" [
+<!-- general definitions for tracks -->
+<!ENTITY default-surfaces SYSTEM "../../../data/tracks/surfaces.xml">
+]>
+
+<params name="Dirt Config" type="trackdef" mode="mw">
+
+  <section name="Surfaces">
+    <section name="List">
+      &default-surfaces;
+    </section>
+</section>
+  <section name="Header">
+    <attstr name="name"        val="Dirt Config"/>
+    <attstr name="category"    val="procedural"/>
+    <attnum name="version"     val="1"/>
+    <attstr name="author"      val="Henri Keeble"/>
+    <attstr name="description" val="A simple procedural Track configuration. This file contains basic information to set the track up,
+									but contains no actual track segments as these are generated at runtime within TORCS."/>
+  </section>
+
+  <section name="Graphic">
+      <attstr name="3d description" val="testTrack1.ac"/>
+  
+    <attstr name="background image" val="background.png"/>
+    <attnum name="background color R" val="0.59375"/>
+    <attnum name="background color G" val="0.75"/>
+    <attnum name="background color B" val="0.96875"/>
+
+    <attnum name="ambient color R" val="0.1"/>
+    <attnum name="ambient color G" val="0.1"/>
+    <attnum name="ambient color B" val="0.05"/>
+
+    <attnum name="diffuse color R" val="1"/>
+    <attnum name="diffuse color G" val="1"/>
+    <attnum name="diffuse color B" val="1"/>
+
+    <attnum name="specular color R" val="0.1"/>
+    <attnum name="specular color G" val="0.1"/>
+    <attnum name="specular color B" val="0.1"/>
+
+    <attnum name="light position x" val="-0"/>
+    <attnum name="light position y" val="1000"/>
+    <attnum name="light position z" val="300"/>
+
+	<section name="Terrain Generation">
+      <attnum name="track step" unit="m" val="1"/>
+      <attnum name="border margin" unit="m" val="100"/>
+      <attnum name="border step" unit="m" val="30"/>
+      <attnum name="border height" unit="m" val="0"/>
+	  <attstr name="surface" val="grass6"/>
+      <attstr name="orientation" val="counter-clockwise"/>
+      <attstr name="relief file" val="taTrack1-relief.ac"/>
+    </section>
+	
+  </section>
+
+  <section name="Main Track">
+
+    <attstr name="surface" in="asphalt,grass,sand" val="dirt"/>
+    <attnum name="width" unit="m" val="15.0"/>
+    <attnum name="steps length" val="5" unit="m"/>
+
+    <attstr name="rside surface"  val="grass"/>
+    <attnum name="rside width"    val="3.0"/>
+    <attstr name="rside type" in="tangent,level" val="level"/>
+
+    <attstr name="lside surface"  val="grass"/>
+    <attnum name="lside width"    val="3.0"/>
+    <attstr name="lside type" in="tangent,level" val="level"/>
+
+    <attnum name="profil steps length" val="8" unit="m"/>
+
+    <section name="segments">
+	</section>
+  </section>
+
+</params>
+

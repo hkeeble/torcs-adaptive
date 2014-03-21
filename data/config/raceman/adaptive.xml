@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE params SYSTEM "params.dtd">
+
+
+<params name="Adaptive Race">
+  <section name="Header">
+    <attstr name="name" val="Adaptive Race"/>
+    <attstr name="description" val="Adaptive Race"/>
+    <attnum name="priority" val="110"/>
+    <attstr name="menu image" val="data/img/splash-qr.png"/>
+  </section>
+
+  <section name="Tracks">
+    <attnum name="maximum number" val="1"/>
+    <section name="1">
+      <attstr name="name" val="forza"/>
+      <attstr name="category" val="road"/>
+    </section>
+
+  </section>
+
+  <section name="Races">
+    <section name="1">
+      <attstr name="name" val="Adaptive Race"/>
+    </section>
+
+  </section>
+
+  <section name="Adaptive Race">
+    <attnum name="distance" val="0"/>
+    <attstr name="type" val="race"/>
+    <attstr name="starting order" val="drivers list"/>
+    <attstr name="restart" val="yes"/>
+    <attnum name="laps" val="3"/>
+    <section name="Starting Grid">
+      <attnum name="rows" val="2"/>
+      <attnum name="distance to start" val="25"/>
+      <attnum name="distance between columns" val="20"/>
+      <attnum name="offset within a column" val="10"/>
+      <attnum name="initial speed" val="0"/>
+      <attnum name="initial height" val="0.2"/>
+    </section>
+
+  </section>
+
+  <section name="Drivers">
+    <attnum name="maximum number" val="1"/>
+    <attnum name="focused idx" val="1"/>
+    <attstr name="focused module" val="human"/>
+    <section name="1">
+      <attnum name="idx" val="1"/>
+      <attstr name="module" val="human"/>
+    </section>
+
+  </section>
+
+  <section name="Configuration">
+    <attnum name="current configuration" val="2"/>
+    <section name="1">
+      <attstr name="type" val="drivers select"/>
+    </section>
+
+  </section>
+
+  <section name="Drivers Start List">
+    <section name="1">
+      <attstr name="module" val="berniProc"/>
+      <attnum name="idx" val="1"/>
+    </section>
+
+  </section>
+
+</params>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    file                 : a-speedway.xml
+    created              : Sun Mar 19 00:13:46 CET 2000
+    copyright            : (C) 2000 by Eric Espie                         
+    email                : torcs@free.fr   
+    version              : $Id: a-speedway.xml,v 1.9.2.1 2008/08/19 21:06:00 berniw Exp $                                  
+-->
+
+<!--    This program is free software; you can redistribute it and/or modify  -->
+<!--    it under the terms of the GNU General Public License as published by  -->
+<!--    the Free Software Foundation; either version 2 of the License, or     -->
+<!--    (at your option) any later version.                                   -->
+
+<!DOCTYPE params SYSTEM "../../../src/libs/tgf/params.dtd" [
+<!-- general definitions for tracks -->
+<!ENTITY default-surfaces SYSTEM "../../../data/tracks/surfaces.xml">
+]>
+
+<params name="testy" type="trackdef" mode="mw">
+
+  <section name="Surfaces">
+    <section name="List">
+      &default-surfaces;
+    </section>
+  </section>
+
+  <section name="Header">
+    <attstr name="name"        val="testy"/>
+    <attstr name="category"    val="oval"/>
+    <attnum name="version"     val="3"/>
+    <attstr name="author"      val="E. Espie"/>
+    <attstr name="description" val="Rectangle shaped Speedway"/>
+  </section>
+
+  <section name="Graphic">
+    <attstr name="3d description" val="testy-trk.ac"/>
+
+    <attstr name="background image" val="background.png"/>
+    <attnum name="background color R" val="0.59375"/>
+    <attnum name="background color G" val="0.75"/>
+    <attnum name="background color B" val="0.96875"/>
+
+    <attnum name="ambient color R" val="0.1"/>
+    <attnum name="ambient color G" val="0.1"/>
+    <attnum name="ambient color B" val="0.05"/>
+
+    <attnum name="diffuse color R" val="1"/>
+    <attnum name="diffuse color G" val="1"/>
+    <attnum name="diffuse color B" val="1"/>
+
+    <attnum name="specular color R" val="0.1"/>
+    <attnum name="specular color G" val="0.1"/>
+    <attnum name="specular color B" val="0.1"/>
+
+
+    <attnum name="light position x" val="-0"/>
+    <attnum name="light position y" val="1000"/>
+    <attnum name="light position z" val="300"/>
+	
+	<section name="Terrain Generation">
+      <attnum name="track step" unit="m" val="1"/>
+      <attnum name="border margin" unit="m" val="100"/>
+      <attnum name="border step" unit="m" val="30"/>
+      <attnum name="border height" unit="m" val="0"/>
+      <attstr name="orientation" val="counter-clockwise"/>
+      <attstr name="relief file" val="a-speedway-relief.ac"/>
+    </section>
+  </section>
+
+
+  <section name="Main Track">
+
+    <attstr name="surface" in="asphalt,grass,sand" val="asphalt-lines"/>
+    <attnum name="width" unit="m" val="25.0"/>
+    <attnum name="steps length" val="1" unit="m"/>
+
+    <section name="segments">
+
+      <section name="start lane">
+	<attnum name="z start" val="0" unit="m"/>
+        <attstr name="type" val="str"/>
+	<attnum name="lg" unit="m" val="50"/>
+ 	<attnum name="z end" val="0" unit="m"/>
+	<attnum name="profil start tangent" val="0" unit="%"/>
+	<attnum name="profil end tangent" val="0" unit="%"/>
+      </section>
+
+	<section name="finish lane">
+	<attnum name="z start" val="0" unit="m"/>
+        <attstr name="type" val="str"/>
+	<attnum name="lg" unit="m" val="50"/>
+ 	<attnum name="z end" val="0" unit="m"/>
+	<attnum name="profil start tangent" val="0" unit="%"/>
+	<attnum name="profil end tangent" val="0" unit="%"/>
+      </section>
+    </section>
+	
+  </section>
+
+
+  <section name="Cameras">
+
+  </section>
+
+</params>
+
