@@ -104,6 +104,15 @@ namespace procedural
 		return CreateSegCnr(id, cType, radius, arc);
 	}
 
+	void PSegFactory::UpdateRanges(float currentCumulativeAngle, float maxAngle, float minAngle)
+	{
+		// Obtain the corner angles available
+		PRange angle((minAngle - currentCumulativeAngle)*(PI/180), (maxAngle - currentCumulativeAngle)*(PI/180));
+
+		// Set the maximum and minimum arc's, radius ranges are left unchanged
+		ranges.SetArc(PRange(ranges.Radius().Min() * angle.Min(), ranges.Radius().Max() * angle.Max()));
+	}
+
 	void PSegFactory::SetChances(float corner, float straight)
 	{
 		if (corner + straight == 100) // Chanes must equal 100, or they are defaulted to 50/50

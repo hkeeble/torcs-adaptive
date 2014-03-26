@@ -16,13 +16,13 @@ namespace procedural
 		track = nullptr;
 		segFactory = nullptr;
 		trackType = PTrackType::PROCEDURAL;
+		cumulativeAngle = 0;
 	}
 
 	PTrackManager::PTrackManager(tRmInfo* RaceManager)
 	{
 		pOut("Initializing procedural track manager...\n");
 		raceManager = RaceManager; // Save pointer to race manager
-
 	}
 
 	void PTrackManager::InitTrack()
@@ -75,6 +75,9 @@ namespace procedural
 
 			// Set track type
 			trackType = PTrackType::PROCEDURAL;
+
+			// Initialize the cumulative angle
+			cumulativeAngle = 0;
 		}
 		else if (loadState.LoadType() == PLoadType::TRACK) // Initialization if a pre-generated track is to be loaded
 		{
@@ -151,6 +154,20 @@ namespace procedural
 		pOut("\tAdding segment to track.\n");
 		track->AddSegment(segment);
 		pOut("New segment added.\n");
+
+		// Calculate new cumulative angle
+		if (segment.type != TR_STR)
+		{
+			tTrackSeg* seg = track->GetEnd();
+			vec2d midStart = vec2d((seg->vertex[TR_SR].x + seg->vertex[TR_SL].x) / 2, (seg->vertex[TR_SR].y + seg->vertex[TR_SL].y) / 2);
+			vec2d midEnd = vec2d((seg->vertex[TR_ER].x + seg->vertex[TR_EL].x) / 2, (seg->vertex[TR_ER].y + seg->vertex[TR_EL].y) / 2);
+
+			tdble deltaX = midEnd.x - midStart.x;
+			tdble deltaY = midEnd.y - midStart.y;
+
+			cumulativeAngle += atan2(deltaY, deltaX) * (180 / PI);
+			segFactory->UpdateRanges(cumulativeAngle, 180, -180);
+		}
 	}
 
 	void PTrackManager::GenerateAdaptiveSegment(float skillLevel)

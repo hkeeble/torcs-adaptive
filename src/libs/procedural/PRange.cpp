@@ -54,4 +54,19 @@ namespace procedural
 	{
 		return length;
 	}
+
+	void PSegmentRanges::SetArc(const PRange& range)
+	{
+		arc = range;
+	}
+
+	void PSegmentRanges::SetRadius(const PRange& range)
+	{
+		radius = range;
+	}
+
+	void PSegmentRanges::SetLength(const PRange& range)
+	{
+		length = range;
+	}
 }

@@ -62,6 +62,9 @@ namespace procedural
 			/* Update the current track's AC file */
 			void UpdateACFile();
 
+			/* Cumulative track angle, used to limit track corner angles */
+			tdble cumulativeAngle;
+
 		public:
 
 			/*

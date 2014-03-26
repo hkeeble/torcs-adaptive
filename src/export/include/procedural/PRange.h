@@ -30,6 +30,10 @@ namespace procedural
 		PRange Arc() 	 const;
 		PRange Radius()  const;
 		PRange Length()  const;
+
+		void SetArc(const PRange& range);
+		void SetRadius(const PRange& range);
+		void SetLength(const PRange& range);
 	};
 }
 

@@ -10,6 +10,7 @@
 #include <string>
 #include <iostream>
 #include <ctime>
+#include "tgf.h"
 #include "PRange.h"
 #include "PDefs.h"
 
@@ -65,9 +66,21 @@ namespace procedural
 		static PSegFactory* GetInstance();
 
 		/* The arbitrary ranges between which segment parameters may reside */
-		const PSegmentRanges ranges;
+		PSegmentRanges ranges;
 		
-		/* Sets the percentage chances or corners and straights being generated */
+		/*
+		 * Updates the safe ranges for arc and radius segements.
+		 * currentCumulativeAngle The current cumulative angle.
+		 * maxAngle				  The maximum angle that should be allowed (with a cumulative angle of 0)
+		 * minAngle				  The minimum angle that should be allowed (with a cumulative angle of 0)
+		 */
+		void UpdateRanges(float currentCumulativeAngle, float maxAngle, float minAngle);
+
+		/*
+		 * Sets the percentage chances or corners and straights being generated. Values should sum to 100.
+		 * corner	Percentage chance of a corner being generated.
+		 * straight Percentage chance of a straight being generated.
+		 */
 		void SetChances(float corner, float straight);
 
 		/* Generates a random segment based upon chances and ranges set */
