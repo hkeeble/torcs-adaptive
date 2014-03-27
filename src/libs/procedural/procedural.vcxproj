@@ -27,7 +27,7 @@
     <ClCompile Include="trackdesc.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\export\include\procedural\dgconfig" />
+    <None Include="..\..\export\include\procedural\DoxyFile" />
     <None Include="ClassDiagram.cd" />
     <None Include="ClassDiagram1.cd" />
     <None Include="Diagram.cd" />

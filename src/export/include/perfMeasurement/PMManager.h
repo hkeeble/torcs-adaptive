@@ -1,7 +1,7 @@
 /*
-	File: PMManager.h
-	Author: Henri Keeble
-	Desc: Declaration for performance measurement management class.
+ *	@file PMManager.h
+ *	@author Henri Keeble
+ *	@brief Declaration for performance measurement management class.
 */
 
 #ifndef _PM_MANAGER_H_
@@ -15,46 +15,43 @@
 
 namespace perfMeasurement
 {
-	/* Class used as interface to performance measurement in a game session. */
+	/*! Class used as interface to performance measurement in a game session. */
 	class PMManager
 	{
 	private:
-		/* Private construction - uncopyable singleton */
 		PMManager() { };
 		PMManager(const PMManager& param) { };
 		PMManager& operator=(const PMManager& param) { };
 
-		/* The current singleton instance of PMManager */
-		static PMManager* instance;
-
-		/* Pointer to object containing the currently in use evaluation behaviour */
-		PMEvaluator* Evaluator;
+		static PMManager* instance;	 /*!< The current singleton instance of PMManager */
+		
+		PMEvaluator* Evaluator; /*!< Pointer to object containing the currently in use evaluation behaviour */
 
 	public:
 		static PMManager* Get();
 		~PMManager();
 		
-		/* 
-		 * Initialization function.
-		 * car		 The car to monitor.
-		 * evaluator An uninitialized evaluator to use.
+		//! Initialization function.
+		 /*!
+			\param car		 The car to monitor.
+			\param evaluator An uninitialized evaluator to use.
 		 */
 		void Init(tCarElt* car, PMEvaluator* evaluator);
 
 		/* Get the car currently being monitored */
 		tCarElt* GetCar();
 		
-		/*
-		 * Update the current evaluator.
-		 * deltaTimeIncrement The time since the last invocation of this function.
-		 * currentTime		  The current time stamp to use when recording data.
+		//!Update the current evaluator.
+		 /*!
+			\param deltaTimeIncrement The time since the last invocation of this function.
+			\param currentTime		  The current time stamp to use when recording data.
 		 */
 		void Update(tdble deltaTimeIncrement, tdble currentTime);
 		
-		/* Clear the current collection of performance measurement data */
+		/** Clear the current collection of performance measurement data */
 		void Clear();
 		
-		/* Retrieve the current estimate skill level */
+		/** Retrieve the current estimate skill level */
 		tdble GetSkillEstimate();
 	};
 }

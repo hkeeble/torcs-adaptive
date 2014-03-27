@@ -1,7 +1,7 @@
 /*
-	File: PMDefs.h
-	Author: Henri Keeble
-	Desc: Definitions for some commonly used macros in the PM library.
+ *	@file PMDefs.h
+ *	@author Henri Keeble
+ *	@brief Definitions for some commonly used macros in the PM library.
 */
 
 #ifndef _PM_DEFS_H_
@@ -21,6 +21,7 @@ namespace perfMeasurement
 		#define pmOut(out)
 	#endif // _DEBUG
 
+	/*! Represents a 2D Point. */
 	struct PMPoint2D
 	{
 		PMPoint2D() { };
