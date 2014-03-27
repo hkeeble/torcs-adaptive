@@ -1,4 +1,4 @@
-/*
+/**
  *	@file 	TopSpeedDeviation.h
  *	@author Henri Keeble
  *	@brief 	Declares an evaluation class for monitoring deviation from top speed.

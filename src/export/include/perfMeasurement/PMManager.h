@@ -1,4 +1,4 @@
-/*
+/**
  *	@file PMManager.h
  *	@author Henri Keeble
  *	@brief Declaration for performance measurement management class.

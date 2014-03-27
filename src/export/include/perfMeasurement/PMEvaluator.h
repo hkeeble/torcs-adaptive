@@ -1,5 +1,6 @@
-/*
- *	@file 	PMEvaluationFunctions.h
+/**
+ *	@file PMEvaluator.h
+ *
  *	@author Henri Keeble
  *	@desc 	Declarations for a base class for all evaluators.
 */

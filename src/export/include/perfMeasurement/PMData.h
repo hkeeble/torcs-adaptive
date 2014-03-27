@@ -1,4 +1,4 @@
-/*
+/**
  *	@file   PMData.h
  *	@author Henri Keeble
  *	@brief  Declarations for a class that holds performance measurement data.

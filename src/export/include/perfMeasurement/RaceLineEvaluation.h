@@ -1,4 +1,4 @@
-/*
+/**
  *	@file RaceLineEvaluation.h
  *	@author Henri Keeble
  *	@brief Declares an evaluator class designed to evaluate the racing line of the target car.

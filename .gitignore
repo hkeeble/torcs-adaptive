@@ -21,6 +21,3 @@ CVS/
 # Export Libraries
 src/export/lib/*.lib
 src/export/libd/*.lib
-
-# Documentation Branches
-procedural-doc/

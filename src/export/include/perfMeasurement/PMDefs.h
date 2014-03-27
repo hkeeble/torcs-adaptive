@@ -1,4 +1,4 @@
-/*
+/**
  *	@file PMDefs.h
  *	@author Henri Keeble
  *	@brief Definitions for some commonly used macros in the PM library.
