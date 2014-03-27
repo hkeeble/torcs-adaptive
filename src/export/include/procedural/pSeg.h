@@ -69,12 +69,11 @@ namespace procedural
 		PSegmentRanges ranges;
 		
 		/*
-		 * Updates the safe ranges for arc and radius segements.
-		 * currentCumulativeAngle The current cumulative angle.
-		 * maxAngle				  The maximum angle that should be allowed (with a cumulative angle of 0)
-		 * minAngle				  The minimum angle that should be allowed (with a cumulative angle of 0)
+		 * Updates the safe ranges for corner arcs, call this after each time a corner segment is added.
+		 * angle The previous corner angle in radians.
+		 * cType The previous corner type that was added, so that ranges can be adjusted accordingly.
 		 */
-		void UpdateRanges(float currentCumulativeAngle, float maxAngle, float minAngle);
+		void UpdateRanges(tdble angle, PCornerType cType);
 
 		/*
 		 * Sets the percentage chances or corners and straights being generated. Values should sum to 100.

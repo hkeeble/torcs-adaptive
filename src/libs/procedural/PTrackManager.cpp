@@ -155,18 +155,16 @@ namespace procedural
 		track->AddSegment(segment);
 		pOut("New segment added.\n");
 
-		// Calculate new cumulative angle
+		// Calculate new segment ranges
 		if (segment.type != TR_STR)
 		{
-			tTrackSeg* seg = track->GetEnd();
-			vec2d midStart = vec2d((seg->vertex[TR_SR].x + seg->vertex[TR_SL].x) / 2, (seg->vertex[TR_SR].y + seg->vertex[TR_SL].y) / 2);
-			vec2d midEnd = vec2d((seg->vertex[TR_ER].x + seg->vertex[TR_EL].x) / 2, (seg->vertex[TR_ER].y + seg->vertex[TR_EL].y) / 2);
+			PCornerType t;
+			if (segment.type == TR_LFT)
+				t = PCornerType::CTLeft;
+			else
+				t = PCornerType::CTRight;
 
-			tdble deltaX = midEnd.x - midStart.x;
-			tdble deltaY = midEnd.y - midStart.y;
-
-			cumulativeAngle += atan2(deltaY, deltaX) * (180 / PI);
-			segFactory->UpdateRanges(cumulativeAngle, 180, -180);
+			segFactory->UpdateRanges(track->GetEnd()->arc, t);
 		}
 	}
 
@@ -191,7 +189,13 @@ namespace procedural
 				// Most difficult: smaller radius, larger arc.
 				PSegmentRanges ranges = segFactory->ranges;
 				tdble radius = lerp(ranges.Radius().Min(), ranges.Radius().Max(), 1.0f - skillLevel);
-				tdble arc = lerp(ranges.Arc().Min(), ranges.Arc().Max(), skillLevel);
+
+				tdble arc = 0.f;
+				
+				if (cType == PCornerType::CTRight)
+					lerp(ranges.RightArc().Min(), ranges.RightArc().Max(), skillLevel);
+				else
+					lerp(ranges.LeftArc().Min(), ranges.LeftArc().Max(), skillLevel);
 
 				curSeg = &segFactory->CreateSegCnr(track->state.curSegIndex, cType, radius, arc);
 
@@ -205,6 +209,9 @@ namespace procedural
 
 	void PTrackManager::Update(bool adaptive, float skillLevel)
 	{
+		// Prevent cars driving off the back of the track
+		CorrectCars();
+
 		if (trackType == PTrackType::PROCEDURAL)
 		{
 			// If the current leading car is a given distance from the end, generate a new segment
@@ -286,15 +293,42 @@ namespace procedural
 		{
 			tCarElt* curCar = &carList[i];
 
-			// Calculate the distance covered by this car
-			tdble distCovered = curCar->pub.trkPos.seg->lgfromstart;
-			distCovered += curCar->pub.trkPos.toStart;
+			if (trackType == PTrackType::PROCEDURAL)
+			{
+				// Calculate the distance covered by this car
+				tdble distCovered = curCar->pub.trkPos.seg->lgfromstart;
+				distCovered += curCar->pub.trkPos.toStart;
 
-			if (distCovered >= TotalLength())
-				return true;
+				if (distCovered >= TotalLength())
+					return true;
+			}
+			else
+			{
+				if (curCar->pub.trkPos.seg->id == track->GetEnd()->id)
+					return true;
+			}
 		}
 
 		return false;
+	}
+
+	void PTrackManager::CorrectCars()
+	{
+		for (int i = 0; i < nCars; i++)
+		{
+			tCarElt* curCar = &carList[i];
+
+			// If current car on first segment, prevent from leaving segment
+			if (curCar->pub.trkPos.seg->id == 0)
+			{
+				if (curCar->pub.trkPos.toStart < 10)
+				{
+					curCar->pub.trkPos.toStart = 10;
+					RtTrackLocal2Global(&(curCar->_trkPos), &(curCar->_pos_X), &(curCar->_pos_Y), TR_TORIGHT);
+					raceManager->_reSimItf.config(curCar, raceManager);
+				}
+			}
+		}
 	}
 
 	void PTrackManager::OutputCurrentTrack(std::string name)

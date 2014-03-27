@@ -6,6 +6,8 @@
 #ifndef _P_RANGE_H_
 #define _P_RANGE_H_
 
+#include "tgf.h"
+
 namespace procedural
 {
 	struct PRange
@@ -22,16 +24,18 @@ namespace procedural
 	class PSegmentRanges
 	{
 	private:
-		PRange arc, radius, length;
+		PRange larc, rarc, radius, length;
 	public:
-		PSegmentRanges(PRange arc, PRange radius, PRange length);
+		PSegmentRanges(PRange angle, PRange radius, PRange length);
 		~PSegmentRanges();
 		
-		PRange Arc() 	 const;
-		PRange Radius()  const;
-		PRange Length()  const;
+		PRange LeftArc()  const;
+		PRange RightArc() const;
+		PRange Radius()   const;
+		PRange Length()   const;
 
-		void SetArc(const PRange& range);
+		void SetLeftArc(const PRange& range);
+		void SetRightArc(const PRange& range);
 		void SetRadius(const PRange& range);
 		void SetLength(const PRange& range);
 	};

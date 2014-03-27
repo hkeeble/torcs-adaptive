@@ -30,9 +30,10 @@ namespace procedural
 
 	PSegmentRanges::PSegmentRanges(PRange arc, PRange radius, PRange length)
 	{
-		this->arc = arc;
 		this->radius = radius;
 		this->length = length;
+		this->larc = arc;
+		this->rarc = arc;
 	}
 
 	PSegmentRanges::~PSegmentRanges()
@@ -40,9 +41,14 @@ namespace procedural
 
 	}
 
-	PRange PSegmentRanges::Arc() const
+	PRange PSegmentRanges::LeftArc() const
 	{
-		return arc;
+		return larc;
+	}
+
+	PRange PSegmentRanges::RightArc() const
+	{
+		return rarc;
 	}
 
 	PRange PSegmentRanges::Radius() const
@@ -55,9 +61,14 @@ namespace procedural
 		return length;
 	}
 
-	void PSegmentRanges::SetArc(const PRange& range)
+	void PSegmentRanges::SetLeftArc(const PRange& range)
 	{
-		arc = range;
+		larc = range;
+	}
+
+	void PSegmentRanges::SetRightArc(const PRange& range)
+	{
+		rarc = range;
 	}
 
 	void PSegmentRanges::SetRadius(const PRange& range)

@@ -86,31 +86,47 @@ namespace procedural
 
 	PSeg PSegFactory::CreateRandomCnr(int id)
 	{
-		// Generate segment parameters
-		float radius = RandBetween(ranges.Radius().Min(),	ranges.Radius().Max());
-		float arc	 = RandBetween(ranges.Arc().Min(),		ranges.Arc().Max());
-
-		PCornerType cType;
-		
 		// Decide upon corner type
+		PCornerType cType;
 		if (previousCornerType == CTLeft)
 			cType = CTRight;
 		else
 			cType = CTLeft;
-
 		previousCornerType = cType;
+
+		// Generate segment parameters
+		float radius = RandBetween(ranges.Radius().Min(), ranges.Radius().Max());
+
+		// Choose the arc range to use
+		float arc = 0.f;
+		if (cType == CTRight)
+			arc = RandBetween(ranges.RightArc().Min(), ranges.RightArc().Max());
+		else
+			arc = RandBetween(ranges.LeftArc().Min(), ranges.LeftArc().Max());
 
 		// Return the new segment
 		return CreateSegCnr(id, cType, radius, arc);
 	}
 
-	void PSegFactory::UpdateRanges(float currentCumulativeAngle, float maxAngle, float minAngle)
+	void PSegFactory::UpdateRanges(tdble angle, PCornerType cType)
 	{
-		// Obtain the corner angles available
-		PRange angle((minAngle - currentCumulativeAngle)*(PI/180), (maxAngle - currentCumulativeAngle)*(PI/180));
+		PRange larc;
+		PRange rarc;
 
-		// Set the maximum and minimum arc's, radius ranges are left unchanged
-		ranges.SetArc(PRange(ranges.Radius().Min() * angle.Min(), ranges.Radius().Max() * angle.Max()));
+		// Calculate new arcs based on corner type
+		if (cType == PCornerType::CTLeft)
+		{
+			larc = PRange(ranges.LeftArc().Min(), ranges.LeftArc().Max() - angle);
+			rarc = PRange(ranges.RightArc().Min(), ranges.RightArc().Max() + angle);
+		}
+		else
+		{
+			rarc = PRange(ranges.RightArc().Min(), ranges.RightArc().Max() - angle);
+			larc = PRange(ranges.LeftArc().Min(), ranges.LeftArc().Max() + angle);
+		}
+
+		ranges.SetLeftArc(larc);
+		ranges.SetRightArc(rarc);
 	}
 
 	void PSegFactory::SetChances(float corner, float straight)

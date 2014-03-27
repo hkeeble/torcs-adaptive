@@ -121,6 +121,9 @@ namespace procedural
 			/* Checks if any of the cars in the race have reached the maximum race distance */
 			bool IsCarFinished();
 
+			/* This functions is used in order to prevent cars leaving the back of the track (a cleaner solution for this needs to be found) */
+			void CorrectCars();
+
 			/* Outputs the current track */
 			void OutputCurrentTrack(std::string name);
 
