@@ -30,8 +30,6 @@
 #include <track.h>
 #include <simu.h>
 
-#include "procedural\PLoadTrackScreen.h"
-
 typedef struct
 {
     void        *param;		/* Race manager parameters where to set the selected track */

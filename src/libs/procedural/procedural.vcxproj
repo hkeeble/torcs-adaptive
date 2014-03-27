@@ -89,8 +89,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)$(Configuration)\*.lib" "$(SolutionDir)\export\libd\"
-doxygen $(SolutionDir)\export\include\procedural\dgconfig</Command>
+      <Command>copy "$(ProjectDir)$(Configuration)\*.lib" "$(SolutionDir)\export\libd\"</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>trackGeneration.lib; trackBuild.lib;</AdditionalDependencies>
@@ -120,8 +119,7 @@ doxygen $(SolutionDir)\export\include\procedural\dgconfig</Command>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)$(Configuration)\*.lib" "$(SolutionDir)export\lib\"
-doxygen $(SolutionDir)\export\include\procedural\dgconfig</Command>
+      <Command>copy "$(ProjectDir)$(Configuration)\*.lib" "$(SolutionDir)export\lib\"</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>trackGeneration.lib; trackBuild.lib;</AdditionalDependencies>
