@@ -58,10 +58,4 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Diagram.cd" />
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
-    <None Include="..\..\export\include\procedural\DoxyFile" />
-  </ItemGroup>
 </Project>

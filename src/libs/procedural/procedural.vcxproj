@@ -27,12 +27,6 @@
     <ClCompile Include="trackdesc.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\export\include\procedural\DoxyFile" />
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
-    <None Include="Diagram.cd" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\trackBuild\trackBuild.vcxproj">
       <Project>{2c06511b-bf01-4377-9587-abecdf3a4fff}</Project>
     </ProjectReference>
