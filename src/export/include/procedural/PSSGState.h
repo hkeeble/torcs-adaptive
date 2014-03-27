@@ -1,8 +1,8 @@
-/*
-	File: PSSGState.h
-	Author: Henri Keeble
-	Desc: Declares a class to represent the current SSG state. Used to append to an
-		  ssgEntity as opposed to loading an entirely new one.
+/**
+ *	@file PSSGState.h
+ *	@author Henri Keeble
+ *	@brief Declares a class to represent the current SSG state. Used to append to an
+		   ssgEntity as opposed to loading an entirely new one.
 */
 #ifndef _P_SSG_STATE_
 #define _P_SSG_STATE_
@@ -25,6 +25,10 @@ namespace procedural
 		float  shi;
 	};
 
+	/*!
+	 * A procedural SSG (Simple Scene Graph) state. This class holds the state of a track's scene graph within the SSG API from PLIB. This is such that the SSG can be appended
+	 * to as opposed to overwritten, in order to improve performance when appended segments to the track.
+	*/
 	class PSSGState
 	{
 	private:
@@ -34,22 +38,32 @@ namespace procedural
 		PSSGState(const PSSGState& param) { };
 		PSSGState& operator=(const PSSGState& param) { };
 
-		// PSSGState is not responsible for handling deletion of the ssgEntity or ssgLoaderOptions, it simply monitors them
-		ssgEntity* desc;
-		ssgLoaderOptions* lopts;
+		ssgEntity* desc; 		 /*!< The current track description. */
+		ssgLoaderOptions* lopts; /*!< The loader options for the track. */
 
 	public:
 		PSSGState();
 		~PSSGState();
 
-		/* Get and set operators */
+		/** Get the current description. */
 		ssgEntity* GetDesc() const;
+		
+		/** Update the current description. */
 		void UpdateDesc();
 
+		/** Get the current loader options. */
 		ssgLoaderOptions* GetLoaderOptions() const;
+		
+		//! Set the current loader options.
+		/*!
+			\param loaderOptions The SSG Loader Options to set in the SSG state.
+		*/
 		void SetLoaderOptions(ssgLoaderOptions* loaderOptions);
 
+		/** Clears all tables in the SSG state. */
 		void ClearTables();
+		
+		/** Initializes all tables in the SSG state */
 		void InitTables(int nVerts);
 
 		// Data held for continuity between calls to append

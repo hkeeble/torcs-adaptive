@@ -45,9 +45,6 @@
     <ClCompile Include="PTrackSelectConfigMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PTrackConfig.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PTrackFileManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -65,5 +62,6 @@
     <None Include="Diagram.cd" />
     <None Include="ClassDiagram.cd" />
     <None Include="ClassDiagram1.cd" />
+    <None Include="..\..\export\include\procedural\dgconfig" />
   </ItemGroup>
 </Project>

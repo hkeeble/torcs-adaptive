@@ -20,7 +20,6 @@
     <ClCompile Include="PRange.cpp" />
     <ClCompile Include="PSeg.cpp" />
     <ClCompile Include="PTrack.cpp" />
-    <ClCompile Include="PTrackConfig.cpp" />
     <ClCompile Include="PTrackFileManager.cpp" />
     <ClCompile Include="PTrackManager.cpp" />
     <ClCompile Include="PTrackSelectConfigMenu.cpp" />
@@ -28,6 +27,7 @@
     <ClCompile Include="trackdesc.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\export\include\procedural\dgconfig" />
     <None Include="ClassDiagram.cd" />
     <None Include="ClassDiagram1.cd" />
     <None Include="Diagram.cd" />
@@ -95,7 +95,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)$(Configuration)\*.lib" "$(SolutionDir)\export\libd\"</Command>
+      <Command>copy "$(ProjectDir)$(Configuration)\*.lib" "$(SolutionDir)\export\libd\"
+doxygen $(SolutionDir)\export\include\procedural\dgconfig</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>trackGeneration.lib; trackBuild.lib;</AdditionalDependencies>
@@ -125,7 +126,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)$(Configuration)\*.lib" "$(SolutionDir)export\lib\"</Command>
+      <Command>copy "$(ProjectDir)$(Configuration)\*.lib" "$(SolutionDir)export\lib\"
+doxygen $(SolutionDir)\export\include\procedural\dgconfig</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>trackGeneration.lib; trackBuild.lib;</AdditionalDependencies>

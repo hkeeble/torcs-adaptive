@@ -1,0 +1,263 @@
+\hypertarget{classprocedural_1_1_p_track_manager}{\section{procedural\-:\-:P\-Track\-Manager Class Reference}
+\label{classprocedural_1_1_p_track_manager}\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}}
+}
+
+
+{\ttfamily \#include $<$P\-Track\-Manager.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classprocedural_1_1_p_track_manager_acda1ee549cb04c8780c85646ce56aa21}{P\-Track\-Manager} (t\-Rm\-Info $\ast$Race\-Manager)
+\begin{DoxyCompactList}\small\item\em Initializes a new procedural track manager. \end{DoxyCompactList}\item 
+\hypertarget{classprocedural_1_1_p_track_manager_a93188ed3f651ec15d422a2b2233fff08}{{\bfseries P\-Track\-Manager} (const \hyperlink{classprocedural_1_1_p_track_manager}{P\-Track\-Manager} \&param)}\label{classprocedural_1_1_p_track_manager_a93188ed3f651ec15d422a2b2233fff08}
+
+\item 
+\hypertarget{classprocedural_1_1_p_track_manager_a5f3d1bfe2089c91227f55f70ed374801}{\hyperlink{classprocedural_1_1_p_track_manager}{P\-Track\-Manager} \& {\bfseries operator=} (const \hyperlink{classprocedural_1_1_p_track_manager}{P\-Track\-Manager} \&param)}\label{classprocedural_1_1_p_track_manager_a5f3d1bfe2089c91227f55f70ed374801}
+
+\item 
+void \hyperlink{classprocedural_1_1_p_track_manager_a21c7db9c9eeeb40adcb29d89f2f2e9fb}{Init\-Track} ()
+\item 
+void \hyperlink{classprocedural_1_1_p_track_manager_af443377857c9424582eabc08301b2af0}{Add\-Segment} (const \hyperlink{classprocedural_1_1_p_seg}{P\-Seg} \&segment)
+\item 
+void \hyperlink{classprocedural_1_1_p_track_manager_ad82d0ef8efa699fd0acf5e08e078c8da}{Update} (bool adaptive=false, float skill\-Level=-\/1.f)
+\begin{DoxyCompactList}\small\item\em Update a procedural track, updating the car data held and the track itself. This function will add new segments if neccesary. \end{DoxyCompactList}\item 
+t\-Car\-Elt $\ast$ \hyperlink{classprocedural_1_1_p_track_manager_a3aa72d8823de1dd9af44f31c94a16898}{Leading\-Car} () const 
+\item 
+void \hyperlink{classprocedural_1_1_p_track_manager_ae728e6aba00caeeec5a0013566ef9129}{Update\-Graphics} ()
+\item 
+tdble \hyperlink{classprocedural_1_1_p_track_manager_a7bc5869bc19d2fff4699b4f331bf61b4}{Current\-Length} () const 
+\item 
+tdble \hyperlink{classprocedural_1_1_p_track_manager_a769222d6fb869ce5d14448e00cdc9241}{Total\-Length} () const 
+\item 
+\hyperlink{classprocedural_1_1_p_track}{P\-Track} $\ast$ \hyperlink{classprocedural_1_1_p_track_manager_af01a9b853d5646d9b495762943d6e640}{Get\-Track} () const 
+\item 
+bool \hyperlink{classprocedural_1_1_p_track_manager_a3b4359f4e80b04e63fe10e3d1a6ee9d1}{Is\-Car\-Finished} ()
+\item 
+void \hyperlink{classprocedural_1_1_p_track_manager_aeb09f18890c5830e96fb1c260f7d1e7d}{Correct\-Cars} ()
+\item 
+void \hyperlink{classprocedural_1_1_p_track_manager_a7d1a3786b049a00e5af185631ddc9c03}{Output\-Current\-Track} (std\-::string name)
+\begin{DoxyCompactList}\small\item\em Outputs the current track. \end{DoxyCompactList}\item 
+void \hyperlink{classprocedural_1_1_p_track_manager_a91736c25670f10ccb20e450c801fc01c}{Init\-Cars} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classprocedural_1_1_p_track_manager_ace9702e18795f58d75ad99cbbbe4305a}{Generate\-Adaptive\-Segment} (tdble skill\-Level)
+\begin{DoxyCompactList}\small\item\em Generates a new segment for the track based upon a skill level. \end{DoxyCompactList}\item 
+\hypertarget{classprocedural_1_1_p_track_manager_a5c1140cfabb2ceac85cd4eea4f548f3e}{void {\bfseries cpy} (const \hyperlink{classprocedural_1_1_p_track_manager}{P\-Track\-Manager} \&param)}\label{classprocedural_1_1_p_track_manager_a5c1140cfabb2ceac85cd4eea4f548f3e}
+
+\item 
+void \hyperlink{classprocedural_1_1_p_track_manager_ab1b1c85eec723f1cda23cbbbfbaad5a6}{Update\-A\-C\-File} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+t\-Rm\-Info $\ast$ \hyperlink{classprocedural_1_1_p_track_manager_a94e0584899b041265487236a8369969b}{race\-Manager}
+\item 
+\hyperlink{classprocedural_1_1_p_track}{P\-Track} $\ast$ \hyperlink{classprocedural_1_1_p_track_manager_ad648fdfaf8fc5bc7ede73760e473f325}{track}
+\item 
+\hyperlink{classprocedural_1_1_p_seg_factory}{P\-Seg\-Factory} $\ast$ \hyperlink{classprocedural_1_1_p_track_manager_a9382031b01b92a1b06de89f41c71bcf4}{seg\-Factory}
+\item 
+t\-Car\-Elt $\ast$ \hyperlink{classprocedural_1_1_p_track_manager_a48932e59eced9eb62718ce8115780498}{car\-List}
+\item 
+int \hyperlink{classprocedural_1_1_p_track_manager_aa41cb2a5feacb95941e3769c16f303c9}{n\-Cars}
+\item 
+int \hyperlink{classprocedural_1_1_p_track_manager_a9a2da179be6f3c15feb8cbda22f1b8c0}{previous\-Seg\-Type}
+\item 
+\hyperlink{namespaceprocedural_ac5486560c59bdf79345a041628149e91}{P\-Corner\-Type} \hyperlink{classprocedural_1_1_p_track_manager_a1e986c033a12a2b2cd602f28b1c27113}{previous\-Corner\-Type}
+\item 
+\hyperlink{namespaceprocedural_a4435205085ac754385168920ab245cd7}{P\-Track\-Type} \hyperlink{classprocedural_1_1_p_track_manager_a30f77747073f21bc648bd04cc3f4b5dd}{track\-Type}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class manages the lifetime of a procedural track, and abstracts it's functionality away from client code. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classprocedural_1_1_p_track_manager_acda1ee549cb04c8780c85646ce56aa21}{\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}!P\-Track\-Manager@{P\-Track\-Manager}}
+\index{P\-Track\-Manager@{P\-Track\-Manager}!procedural::PTrackManager@{procedural\-::\-P\-Track\-Manager}}
+\subsubsection[{P\-Track\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}procedural\-::\-P\-Track\-Manager\-::\-P\-Track\-Manager (
+\begin{DoxyParamCaption}
+\item[{t\-Rm\-Info $\ast$}]{Race\-Manager}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_manager_acda1ee549cb04c8780c85646ce56aa21}
+
+
+Initializes a new procedural track manager. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Race\-Manager} & Pointer to the current race manager object being used by T\-O\-R\-C\-S. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classprocedural_1_1_p_track_manager_af443377857c9424582eabc08301b2af0}{\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}!Add\-Segment@{Add\-Segment}}
+\index{Add\-Segment@{Add\-Segment}!procedural::PTrackManager@{procedural\-::\-P\-Track\-Manager}}
+\subsubsection[{Add\-Segment}]{\setlength{\rightskip}{0pt plus 5cm}void procedural\-::\-P\-Track\-Manager\-::\-Add\-Segment (
+\begin{DoxyParamCaption}
+\item[{const {\bf P\-Seg} \&}]{segment}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_manager_af443377857c9424582eabc08301b2af0}
+Add a given segment to the track. This function does not handle creation of a 3\-D description file. segment The segment to append to the track.
+
+
+\begin{DoxyParams}{Parameters}
+{\em segment} & The segment to add to the track. This can be generated using the \hyperlink{classprocedural_1_1_p_seg_factory}{P\-Seg\-Factory}. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classprocedural_1_1_p_track_manager_aeb09f18890c5830e96fb1c260f7d1e7d}{\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}!Correct\-Cars@{Correct\-Cars}}
+\index{Correct\-Cars@{Correct\-Cars}!procedural::PTrackManager@{procedural\-::\-P\-Track\-Manager}}
+\subsubsection[{Correct\-Cars}]{\setlength{\rightskip}{0pt plus 5cm}void procedural\-::\-P\-Track\-Manager\-::\-Correct\-Cars (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_manager_aeb09f18890c5830e96fb1c260f7d1e7d}
+This functions is used in order to prevent cars leaving the back of the track (a cleaner solution for this needs to be found) \hypertarget{classprocedural_1_1_p_track_manager_a7bc5869bc19d2fff4699b4f331bf61b4}{\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}!Current\-Length@{Current\-Length}}
+\index{Current\-Length@{Current\-Length}!procedural::PTrackManager@{procedural\-::\-P\-Track\-Manager}}
+\subsubsection[{Current\-Length}]{\setlength{\rightskip}{0pt plus 5cm}tdble procedural\-::\-P\-Track\-Manager\-::\-Current\-Length (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classprocedural_1_1_p_track_manager_a7bc5869bc19d2fff4699b4f331bf61b4}
+Track's current total length \hypertarget{classprocedural_1_1_p_track_manager_ace9702e18795f58d75ad99cbbbe4305a}{\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}!Generate\-Adaptive\-Segment@{Generate\-Adaptive\-Segment}}
+\index{Generate\-Adaptive\-Segment@{Generate\-Adaptive\-Segment}!procedural::PTrackManager@{procedural\-::\-P\-Track\-Manager}}
+\subsubsection[{Generate\-Adaptive\-Segment}]{\setlength{\rightskip}{0pt plus 5cm}void procedural\-::\-P\-Track\-Manager\-::\-Generate\-Adaptive\-Segment (
+\begin{DoxyParamCaption}
+\item[{tdble}]{skill\-Level}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_manager_ace9702e18795f58d75ad99cbbbe4305a}
+
+
+Generates a new segment for the track based upon a skill level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em skill\-Level} & The player's currently estimated skill level. Must be between 0.\-0 and 1.\-0, inclusive. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classprocedural_1_1_p_track_manager_af01a9b853d5646d9b495762943d6e640}{\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}!Get\-Track@{Get\-Track}}
+\index{Get\-Track@{Get\-Track}!procedural::PTrackManager@{procedural\-::\-P\-Track\-Manager}}
+\subsubsection[{Get\-Track}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-Track}$\ast$ procedural\-::\-P\-Track\-Manager\-::\-Get\-Track (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classprocedural_1_1_p_track_manager_af01a9b853d5646d9b495762943d6e640}
+Get the current track \hypertarget{classprocedural_1_1_p_track_manager_a91736c25670f10ccb20e450c801fc01c}{\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}!Init\-Cars@{Init\-Cars}}
+\index{Init\-Cars@{Init\-Cars}!procedural::PTrackManager@{procedural\-::\-P\-Track\-Manager}}
+\subsubsection[{Init\-Cars}]{\setlength{\rightskip}{0pt plus 5cm}void procedural\-::\-P\-Track\-Manager\-::\-Init\-Cars (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_manager_a91736c25670f10ccb20e450c801fc01c}
+Initializes the cars for the procedural race \hypertarget{classprocedural_1_1_p_track_manager_a21c7db9c9eeeb40adcb29d89f2f2e9fb}{\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}!Init\-Track@{Init\-Track}}
+\index{Init\-Track@{Init\-Track}!procedural::PTrackManager@{procedural\-::\-P\-Track\-Manager}}
+\subsubsection[{Init\-Track}]{\setlength{\rightskip}{0pt plus 5cm}void procedural\-::\-P\-Track\-Manager\-::\-Init\-Track (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_manager_a21c7db9c9eeeb40adcb29d89f2f2e9fb}
+Initialize a procedural track. This initialization uses all data currently set in the P\-File\-Manager load state. \hypertarget{classprocedural_1_1_p_track_manager_a3b4359f4e80b04e63fe10e3d1a6ee9d1}{\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}!Is\-Car\-Finished@{Is\-Car\-Finished}}
+\index{Is\-Car\-Finished@{Is\-Car\-Finished}!procedural::PTrackManager@{procedural\-::\-P\-Track\-Manager}}
+\subsubsection[{Is\-Car\-Finished}]{\setlength{\rightskip}{0pt plus 5cm}bool procedural\-::\-P\-Track\-Manager\-::\-Is\-Car\-Finished (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_manager_a3b4359f4e80b04e63fe10e3d1a6ee9d1}
+Checks if any of the cars in the race have reached the maximum race distance \hypertarget{classprocedural_1_1_p_track_manager_a3aa72d8823de1dd9af44f31c94a16898}{\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}!Leading\-Car@{Leading\-Car}}
+\index{Leading\-Car@{Leading\-Car}!procedural::PTrackManager@{procedural\-::\-P\-Track\-Manager}}
+\subsubsection[{Leading\-Car}]{\setlength{\rightskip}{0pt plus 5cm}t\-Car\-Elt$\ast$ procedural\-::\-P\-Track\-Manager\-::\-Leading\-Car (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classprocedural_1_1_p_track_manager_a3aa72d8823de1dd9af44f31c94a16898}
+Returns a pointer to the car currently in the lead of the race. \hypertarget{classprocedural_1_1_p_track_manager_a7d1a3786b049a00e5af185631ddc9c03}{\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}!Output\-Current\-Track@{Output\-Current\-Track}}
+\index{Output\-Current\-Track@{Output\-Current\-Track}!procedural::PTrackManager@{procedural\-::\-P\-Track\-Manager}}
+\subsubsection[{Output\-Current\-Track}]{\setlength{\rightskip}{0pt plus 5cm}void procedural\-::\-P\-Track\-Manager\-::\-Output\-Current\-Track (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{name}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_manager_a7d1a3786b049a00e5af185631ddc9c03}
+
+
+Outputs the current track. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & The name to output the track under. This will dictate the construction of all the file names output. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classprocedural_1_1_p_track_manager_a769222d6fb869ce5d14448e00cdc9241}{\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}!Total\-Length@{Total\-Length}}
+\index{Total\-Length@{Total\-Length}!procedural::PTrackManager@{procedural\-::\-P\-Track\-Manager}}
+\subsubsection[{Total\-Length}]{\setlength{\rightskip}{0pt plus 5cm}tdble procedural\-::\-P\-Track\-Manager\-::\-Total\-Length (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classprocedural_1_1_p_track_manager_a769222d6fb869ce5d14448e00cdc9241}
+Track's total length (desired length, not necessarily this long presently) \hypertarget{classprocedural_1_1_p_track_manager_ad82d0ef8efa699fd0acf5e08e078c8da}{\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}!Update@{Update}}
+\index{Update@{Update}!procedural::PTrackManager@{procedural\-::\-P\-Track\-Manager}}
+\subsubsection[{Update}]{\setlength{\rightskip}{0pt plus 5cm}void procedural\-::\-P\-Track\-Manager\-::\-Update (
+\begin{DoxyParamCaption}
+\item[{bool}]{adaptive = {\ttfamily false}, }
+\item[{float}]{skill\-Level = {\ttfamily -\/1.f}}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_manager_ad82d0ef8efa699fd0acf5e08e078c8da}
+
+
+Update a procedural track, updating the car data held and the track itself. This function will add new segments if neccesary. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em adaptive} & Whether or not track is adaptive and making use of a skill level when adding segments. Defaults to false. \\
+\hline
+{\em skill\-Level} & The skill level currently recorded for the player. Interpolates between values, should be between 1.\-0 and 0.\-0. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classprocedural_1_1_p_track_manager_ab1b1c85eec723f1cda23cbbbfbaad5a6}{\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}!Update\-A\-C\-File@{Update\-A\-C\-File}}
+\index{Update\-A\-C\-File@{Update\-A\-C\-File}!procedural::PTrackManager@{procedural\-::\-P\-Track\-Manager}}
+\subsubsection[{Update\-A\-C\-File}]{\setlength{\rightskip}{0pt plus 5cm}void procedural\-::\-P\-Track\-Manager\-::\-Update\-A\-C\-File (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_manager_ab1b1c85eec723f1cda23cbbbfbaad5a6}
+Update the current track's A\-C file \hypertarget{classprocedural_1_1_p_track_manager_ae728e6aba00caeeec5a0013566ef9129}{\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}!Update\-Graphics@{Update\-Graphics}}
+\index{Update\-Graphics@{Update\-Graphics}!procedural::PTrackManager@{procedural\-::\-P\-Track\-Manager}}
+\subsubsection[{Update\-Graphics}]{\setlength{\rightskip}{0pt plus 5cm}void procedural\-::\-P\-Track\-Manager\-::\-Update\-Graphics (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_manager_ae728e6aba00caeeec5a0013566ef9129}
+Updates the graphical component of the track, updating the A\-C file if neccesary. 
+
+\subsection{Member Data Documentation}
+\hypertarget{classprocedural_1_1_p_track_manager_a48932e59eced9eb62718ce8115780498}{\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}!car\-List@{car\-List}}
+\index{car\-List@{car\-List}!procedural::PTrackManager@{procedural\-::\-P\-Track\-Manager}}
+\subsubsection[{car\-List}]{\setlength{\rightskip}{0pt plus 5cm}t\-Car\-Elt$\ast$ procedural\-::\-P\-Track\-Manager\-::car\-List\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_manager_a48932e59eced9eb62718ce8115780498}
+Pointer the car list. This is used in segment generation. \hypertarget{classprocedural_1_1_p_track_manager_aa41cb2a5feacb95941e3769c16f303c9}{\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}!n\-Cars@{n\-Cars}}
+\index{n\-Cars@{n\-Cars}!procedural::PTrackManager@{procedural\-::\-P\-Track\-Manager}}
+\subsubsection[{n\-Cars}]{\setlength{\rightskip}{0pt plus 5cm}int procedural\-::\-P\-Track\-Manager\-::n\-Cars\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_manager_aa41cb2a5feacb95941e3769c16f303c9}
+The number of cars in the current race that need to be monitored. \hypertarget{classprocedural_1_1_p_track_manager_a1e986c033a12a2b2cd602f28b1c27113}{\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}!previous\-Corner\-Type@{previous\-Corner\-Type}}
+\index{previous\-Corner\-Type@{previous\-Corner\-Type}!procedural::PTrackManager@{procedural\-::\-P\-Track\-Manager}}
+\subsubsection[{previous\-Corner\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-Corner\-Type} procedural\-::\-P\-Track\-Manager\-::previous\-Corner\-Type\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_manager_a1e986c033a12a2b2cd602f28b1c27113}
+The previous corner type that was generated. \hypertarget{classprocedural_1_1_p_track_manager_a9a2da179be6f3c15feb8cbda22f1b8c0}{\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}!previous\-Seg\-Type@{previous\-Seg\-Type}}
+\index{previous\-Seg\-Type@{previous\-Seg\-Type}!procedural::PTrackManager@{procedural\-::\-P\-Track\-Manager}}
+\subsubsection[{previous\-Seg\-Type}]{\setlength{\rightskip}{0pt plus 5cm}int procedural\-::\-P\-Track\-Manager\-::previous\-Seg\-Type\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_manager_a9a2da179be6f3c15feb8cbda22f1b8c0}
+The type of previous segment generated. \hypertarget{classprocedural_1_1_p_track_manager_a94e0584899b041265487236a8369969b}{\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}!race\-Manager@{race\-Manager}}
+\index{race\-Manager@{race\-Manager}!procedural::PTrackManager@{procedural\-::\-P\-Track\-Manager}}
+\subsubsection[{race\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}t\-Rm\-Info$\ast$ procedural\-::\-P\-Track\-Manager\-::race\-Manager\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_manager_a94e0584899b041265487236a8369969b}
+Pointer to the current race manager. \hypertarget{classprocedural_1_1_p_track_manager_a9382031b01b92a1b06de89f41c71bcf4}{\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}!seg\-Factory@{seg\-Factory}}
+\index{seg\-Factory@{seg\-Factory}!procedural::PTrackManager@{procedural\-::\-P\-Track\-Manager}}
+\subsubsection[{seg\-Factory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-Seg\-Factory}$\ast$ procedural\-::\-P\-Track\-Manager\-::seg\-Factory\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_manager_a9382031b01b92a1b06de89f41c71bcf4}
+Pointer to the segment factory. \hypertarget{classprocedural_1_1_p_track_manager_ad648fdfaf8fc5bc7ede73760e473f325}{\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}!track@{track}}
+\index{track@{track}!procedural::PTrackManager@{procedural\-::\-P\-Track\-Manager}}
+\subsubsection[{track}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-Track}$\ast$ procedural\-::\-P\-Track\-Manager\-::track\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_manager_ad648fdfaf8fc5bc7ede73760e473f325}
+Pointer to the current procedural track being managed. \hypertarget{classprocedural_1_1_p_track_manager_a30f77747073f21bc648bd04cc3f4b5dd}{\index{procedural\-::\-P\-Track\-Manager@{procedural\-::\-P\-Track\-Manager}!track\-Type@{track\-Type}}
+\index{track\-Type@{track\-Type}!procedural::PTrackManager@{procedural\-::\-P\-Track\-Manager}}
+\subsubsection[{track\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-Track\-Type} procedural\-::\-P\-Track\-Manager\-::track\-Type\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_manager_a30f77747073f21bc648bd04cc3f4b5dd}
+The current type of track being managed. 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_p_track_manager_8h}{P\-Track\-Manager.\-h}\end{DoxyCompactItemize}

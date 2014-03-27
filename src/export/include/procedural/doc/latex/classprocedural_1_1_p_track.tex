@@ -1,0 +1,409 @@
+\hypertarget{classprocedural_1_1_p_track}{\section{procedural\-:\-:P\-Track Class Reference}
+\label{classprocedural_1_1_p_track}\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}}
+}
+
+
+{\ttfamily \#include $<$P\-Track.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classprocedural_1_1_p_track_a7c25a262dd422645317347d1c05a051f}{P\-Track} (tdble \hyperlink{classprocedural_1_1_p_track_a5b2eda49220f8825f55624faf62aa106}{total\-Length}, string configpath, string acpath, string configname, string acname, ssg\-Loader\-Options $\ast$loaderoptions)
+\begin{DoxyCompactList}\small\item\em Initializes a procedural track with a configuration. All given paths are relative to the executable. \end{DoxyCompactList}\item 
+\hyperlink{classprocedural_1_1_p_track_a5a1565c1d99e110cbeddfcf60b168044}{P\-Track} (std\-::vector$<$ \hyperlink{classprocedural_1_1_p_seg}{P\-Seg} $>$ segs, string configpath, string acpath, string configname, string acname, ssg\-Loader\-Options $\ast$loaderoptions)
+\begin{DoxyCompactList}\small\item\em Initializes a procedural track with a preloaded set of procedural segments. All given paths are relative to the executable. \end{DoxyCompactList}\item 
+\hypertarget{classprocedural_1_1_p_track_a1e19ffc2655507cd25dfbe10a5c06b32}{{\bfseries P\-Track} (const \hyperlink{classprocedural_1_1_p_track}{P\-Track} \&param)}\label{classprocedural_1_1_p_track_a1e19ffc2655507cd25dfbe10a5c06b32}
+
+\item 
+\hypertarget{classprocedural_1_1_p_track_a157a828e2a8214db96009d2cd826d45a}{\hyperlink{classprocedural_1_1_p_track}{P\-Track} \& {\bfseries operator=} (const \hyperlink{classprocedural_1_1_p_track}{P\-Track} \&param)}\label{classprocedural_1_1_p_track_a157a828e2a8214db96009d2cd826d45a}
+
+\item 
+t\-Track\-Seg $\ast$ \hyperlink{classprocedural_1_1_p_track_a719e653e1635d5cacfd9a07af0ae8e93}{Get\-Seg} (int id)
+\begin{DoxyCompactList}\small\item\em Retrieve a pointer to a segment. \end{DoxyCompactList}\item 
+tdble \hyperlink{classprocedural_1_1_p_track_a3c3fe0043980947c50f70b50fbb15e66}{Total\-Length} () const 
+\item 
+void \hyperlink{classprocedural_1_1_p_track_a588ce353de30074f2e8d046c210f440b}{Update\-A\-C\-File} ()
+\item 
+void \hyperlink{classprocedural_1_1_p_track_aa3a889ace632d1776e95aad1197faa64}{Add\-Segment} (const \hyperlink{classprocedural_1_1_p_seg}{P\-Seg} \&seg)
+\begin{DoxyCompactList}\small\item\em Adds a segment to the track structure. This function does not generate a 3\-D description for the new segment. \end{DoxyCompactList}\item 
+const ssg\-Loader\-Options $\ast$const \hyperlink{classprocedural_1_1_p_track_a4227f3afd5fb92c627dff2e97425d7ba}{Get\-Loader\-Options} ()
+\item 
+const string \& \hyperlink{classprocedural_1_1_p_track_a0d7034cc742106489dd38e7cf76fa974}{Get\-A\-C\-Name} ()
+\item 
+const string \& \hyperlink{classprocedural_1_1_p_track_a5b7370bf6ef72e88c55556e98e9d3d99}{Get\-A\-C\-Path} ()
+\item 
+const string \& \hyperlink{classprocedural_1_1_p_track_a167b31e32fe4c19fb35a04596416f5ca}{Get\-Temp\-A\-C\-Name} ()
+\item 
+const string \& \hyperlink{classprocedural_1_1_p_track_a3b2ff7813589aad36bbcff2a7374ac0d}{Get\-Temp\-A\-C\-Path} ()
+\item 
+const string \& \hyperlink{classprocedural_1_1_p_track_ab423a5b741fae83631cb818a88d0a4c4}{Get\-Config\-Name} ()
+\item 
+const string \& \hyperlink{classprocedural_1_1_p_track_ac0c98404d985e4586d60d44f1c5657a6}{Get\-Config\-Path} ()
+\item 
+const string \hyperlink{classprocedural_1_1_p_track_a295308260593ff8009a54ed12b20d756}{Get\-Temp\-A\-C\-Path\-And\-Name} ()
+\item 
+const string \hyperlink{classprocedural_1_1_p_track_a88577f90aca2980f5696f245bc0b16fa}{Get\-A\-C\-Path\-And\-Name} ()
+\item 
+const string \hyperlink{classprocedural_1_1_p_track_ac941debabef3877e1783bdd1d8e73103}{Get\-Config\-Path\-And\-Name} ()
+\item 
+\hyperlink{classprocedural_1_1_p_s_s_g_state}{P\-S\-S\-G\-State} $\ast$ \hyperlink{classprocedural_1_1_p_track_ac5216fd2958e7f530acd9fd67edec2c7}{Get\-S\-S\-G\-State} ()
+\item 
+\hyperlink{namespaceprocedural_ae4301ddb088c564b7e7b36903ecd6e23}{Entity\-Desc} $\ast$ \hyperlink{classprocedural_1_1_p_track_a4d3919f2ee4f9e4296a645a6d60fd16d}{Get\-Track\-Desc} () const 
+\item 
+track\-Seg $\ast$ \hyperlink{classprocedural_1_1_p_track_af15ce7f1926fd20caccf2e12f51a33bf}{Get\-Start} () const 
+\item 
+track\-Seg $\ast$ \hyperlink{classprocedural_1_1_p_track_abf00dcf59b99b7894fd36ec86e46a819}{Get\-End} () const 
+\item 
+void \hyperlink{classprocedural_1_1_p_track_ae136809d63983f1ec3835806fd55049c}{Set\-Start} (track\-Seg $\ast$start)
+\item 
+void \hyperlink{classprocedural_1_1_p_track_a56ea590d110ab46fbe7d3ae95d6198cb}{Set\-End} (track\-Seg $\ast$\hyperlink{classprocedural_1_1_p_track_ac9001885365980b067a13749419416e6}{end})
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structprocedural_1_1_p_track_state}{P\-Track\-State} \hyperlink{classprocedural_1_1_p_track_a1ad479bf26237af933ae14a838b61046}{state}
+\item 
+track\-Seg $\ast$ \hyperlink{classprocedural_1_1_p_track_a29673df8a7e92648d375d64462334159}{root}
+\item 
+t\-Track $\ast$ \hyperlink{classprocedural_1_1_p_track_a7ff84df3ba51a2f6896160ead70e91f7}{trk}
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classprocedural_1_1_p_track_af6c28642d717a75fcc43bfead98ad843}{void {\bfseries cpy} (const \hyperlink{classprocedural_1_1_p_track}{P\-Track} \&param)}\label{classprocedural_1_1_p_track_af6c28642d717a75fcc43bfead98ad843}
+
+\item 
+const char $\ast$const \hyperlink{classprocedural_1_1_p_track_a359e7b04e99952af6c0905f05d760a84}{Str\-Con} (const char $\ast$const a, const char $\ast$const b)
+\item 
+void \hyperlink{classprocedural_1_1_p_track_a312fb6c1a1a46ac7ce486f5c0e7b3834}{Append\-A\-C\-File} (int segment\-I\-D)
+\begin{DoxyCompactList}\small\item\em Appends to the track's A\-C file with data stored in it's temporary A\-C file. \end{DoxyCompactList}\item 
+t\-Track $\ast$ \hyperlink{classprocedural_1_1_p_track_af65527645c346e45ffbe261757cf09dc}{Build\-Track} (const char $\ast$const f\-Name)
+\begin{DoxyCompactList}\small\item\em Builds a T\-O\-R\-C\-S track strcuture, function dependent upon track library. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{classprocedural_1_1_p_track_a1b5bfa2efcabace6e87dd8e8c482639a}{config\-Path}
+\item 
+string \hyperlink{classprocedural_1_1_p_track_ae9e88a321deabda8a92688e364e23513}{ac\-Path}
+\item 
+string \hyperlink{classprocedural_1_1_p_track_a9ea72d121db71e2a284375a381ddb310}{config\-Name}
+\item 
+string \hyperlink{classprocedural_1_1_p_track_a7fc4bf8b022038141cf4f50755bcb14d}{ac\-Name}
+\item 
+string \hyperlink{classprocedural_1_1_p_track_a94cc721755160a6ba8ff51471507616c}{temp\-A\-C\-Name}
+\item 
+\hyperlink{classprocedural_1_1_p_s_s_g_state}{P\-S\-S\-G\-State} $\ast$ \hyperlink{classprocedural_1_1_p_track_ab3612b80647c9900fc41b26a89d486a1}{ssg\-State}
+\item 
+\hypertarget{classprocedural_1_1_p_track_a86251d6319ae2a2fc3817d67e617f1e7}{track\-Seg $\ast$ {\bfseries start}}\label{classprocedural_1_1_p_track_a86251d6319ae2a2fc3817d67e617f1e7}
+
+\item 
+track\-Seg $\ast$ \hyperlink{classprocedural_1_1_p_track_ac9001885365980b067a13749419416e6}{end}
+\item 
+tdble \hyperlink{classprocedural_1_1_p_track_a5b2eda49220f8825f55624faf62aa106}{total\-Length}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Represents the lifetime of a procedural track. This class contains all of the functions and members necessary to store and manage a procedural track. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classprocedural_1_1_p_track_a7c25a262dd422645317347d1c05a051f}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!P\-Track@{P\-Track}}
+\index{P\-Track@{P\-Track}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{P\-Track}]{\setlength{\rightskip}{0pt plus 5cm}procedural\-::\-P\-Track\-::\-P\-Track (
+\begin{DoxyParamCaption}
+\item[{tdble}]{total\-Length, }
+\item[{string}]{configpath, }
+\item[{string}]{acpath, }
+\item[{string}]{configname, }
+\item[{string}]{acname, }
+\item[{ssg\-Loader\-Options $\ast$}]{loaderoptions}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_a7c25a262dd422645317347d1c05a051f}
+
+
+Initializes a procedural track with a configuration. All given paths are relative to the executable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em total\-Length} & The total length the track will be. Once the track reaches this length no more segments will be generated. \\
+\hline
+{\em configpath} & The path in which the configuration X\-M\-L file can be found. \\
+\hline
+{\em acpath} & The path in which the A\-C file can be found. \\
+\hline
+{\em configname} & The name of the configuration X\-M\-L file. \\
+\hline
+{\em loaderoptions} & The loader options used by the track when appending to the graphical structure. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classprocedural_1_1_p_track_a5a1565c1d99e110cbeddfcf60b168044}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!P\-Track@{P\-Track}}
+\index{P\-Track@{P\-Track}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{P\-Track}]{\setlength{\rightskip}{0pt plus 5cm}procedural\-::\-P\-Track\-::\-P\-Track (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ {\bf P\-Seg} $>$}]{segs, }
+\item[{string}]{configpath, }
+\item[{string}]{acpath, }
+\item[{string}]{configname, }
+\item[{string}]{acname, }
+\item[{ssg\-Loader\-Options $\ast$}]{loaderoptions}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_a5a1565c1d99e110cbeddfcf60b168044}
+
+
+Initializes a procedural track with a preloaded set of procedural segments. All given paths are relative to the executable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em segs} & The collection of segments that construct the track. \\
+\hline
+{\em configpath} & The path in which the configuration X\-M\-L file can be found. \\
+\hline
+{\em acpath} & The path within which the A\-C file can be found. \\
+\hline
+{\em configname} & The name of the configuration file being used. \\
+\hline
+{\em acname} & The name of the A\-C file to be used. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classprocedural_1_1_p_track_aa3a889ace632d1776e95aad1197faa64}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!Add\-Segment@{Add\-Segment}}
+\index{Add\-Segment@{Add\-Segment}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{Add\-Segment}]{\setlength{\rightskip}{0pt plus 5cm}void procedural\-::\-P\-Track\-::\-Add\-Segment (
+\begin{DoxyParamCaption}
+\item[{const {\bf P\-Seg} \&}]{seg}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_aa3a889ace632d1776e95aad1197faa64}
+
+
+Adds a segment to the track structure. This function does not generate a 3\-D description for the new segment. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em seg} & The segment to append to the track. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classprocedural_1_1_p_track_a312fb6c1a1a46ac7ce486f5c0e7b3834}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!Append\-A\-C\-File@{Append\-A\-C\-File}}
+\index{Append\-A\-C\-File@{Append\-A\-C\-File}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{Append\-A\-C\-File}]{\setlength{\rightskip}{0pt plus 5cm}void procedural\-::\-P\-Track\-::\-Append\-A\-C\-File (
+\begin{DoxyParamCaption}
+\item[{int}]{segment\-I\-D}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_a312fb6c1a1a46ac7ce486f5c0e7b3834}
+
+
+Appends to the track's A\-C file with data stored in it's temporary A\-C file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em segment\-I\-D} & The I\-D of the segment to be appended. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classprocedural_1_1_p_track_af65527645c346e45ffbe261757cf09dc}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!Build\-Track@{Build\-Track}}
+\index{Build\-Track@{Build\-Track}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{Build\-Track}]{\setlength{\rightskip}{0pt plus 5cm}t\-Track$\ast$ procedural\-::\-P\-Track\-::\-Build\-Track (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$const}]{f\-Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_af65527645c346e45ffbe261757cf09dc}
+
+
+Builds a T\-O\-R\-C\-S track strcuture, function dependent upon track library. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em f\-Name} & The filename to use to build the track. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classprocedural_1_1_p_track_a0d7034cc742106489dd38e7cf76fa974}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!Get\-A\-C\-Name@{Get\-A\-C\-Name}}
+\index{Get\-A\-C\-Name@{Get\-A\-C\-Name}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{Get\-A\-C\-Name}]{\setlength{\rightskip}{0pt plus 5cm}const string\& procedural\-::\-P\-Track\-::\-Get\-A\-C\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_a0d7034cc742106489dd38e7cf76fa974}
+Retrieve the name of the track's A\-C file. \hypertarget{classprocedural_1_1_p_track_a5b7370bf6ef72e88c55556e98e9d3d99}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!Get\-A\-C\-Path@{Get\-A\-C\-Path}}
+\index{Get\-A\-C\-Path@{Get\-A\-C\-Path}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{Get\-A\-C\-Path}]{\setlength{\rightskip}{0pt plus 5cm}const string\& procedural\-::\-P\-Track\-::\-Get\-A\-C\-Path (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_a5b7370bf6ef72e88c55556e98e9d3d99}
+Retrieve the path of the track's A\-C file. \hypertarget{classprocedural_1_1_p_track_a88577f90aca2980f5696f245bc0b16fa}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!Get\-A\-C\-Path\-And\-Name@{Get\-A\-C\-Path\-And\-Name}}
+\index{Get\-A\-C\-Path\-And\-Name@{Get\-A\-C\-Path\-And\-Name}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{Get\-A\-C\-Path\-And\-Name}]{\setlength{\rightskip}{0pt plus 5cm}const string procedural\-::\-P\-Track\-::\-Get\-A\-C\-Path\-And\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_a88577f90aca2980f5696f245bc0b16fa}
+Retrieve the path of the track's A\-C file appended with the A\-C file's name. \hypertarget{classprocedural_1_1_p_track_ab423a5b741fae83631cb818a88d0a4c4}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!Get\-Config\-Name@{Get\-Config\-Name}}
+\index{Get\-Config\-Name@{Get\-Config\-Name}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{Get\-Config\-Name}]{\setlength{\rightskip}{0pt plus 5cm}const string\& procedural\-::\-P\-Track\-::\-Get\-Config\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_ab423a5b741fae83631cb818a88d0a4c4}
+Retrieve the track's X\-M\-L configuration file name. \hypertarget{classprocedural_1_1_p_track_ac0c98404d985e4586d60d44f1c5657a6}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!Get\-Config\-Path@{Get\-Config\-Path}}
+\index{Get\-Config\-Path@{Get\-Config\-Path}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{Get\-Config\-Path}]{\setlength{\rightskip}{0pt plus 5cm}const string\& procedural\-::\-P\-Track\-::\-Get\-Config\-Path (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_ac0c98404d985e4586d60d44f1c5657a6}
+Retrieve the path of the track's configuration file. \hypertarget{classprocedural_1_1_p_track_ac941debabef3877e1783bdd1d8e73103}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!Get\-Config\-Path\-And\-Name@{Get\-Config\-Path\-And\-Name}}
+\index{Get\-Config\-Path\-And\-Name@{Get\-Config\-Path\-And\-Name}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{Get\-Config\-Path\-And\-Name}]{\setlength{\rightskip}{0pt plus 5cm}const string procedural\-::\-P\-Track\-::\-Get\-Config\-Path\-And\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_ac941debabef3877e1783bdd1d8e73103}
+Retrieve the track's X\-M\-L configuration file path appended with the X\-M\-L configuration's file name. \hypertarget{classprocedural_1_1_p_track_abf00dcf59b99b7894fd36ec86e46a819}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!Get\-End@{Get\-End}}
+\index{Get\-End@{Get\-End}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{Get\-End}]{\setlength{\rightskip}{0pt plus 5cm}track\-Seg$\ast$ procedural\-::\-P\-Track\-::\-Get\-End (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classprocedural_1_1_p_track_abf00dcf59b99b7894fd36ec86e46a819}
+Retrieve a pointer to the current end segment. \hypertarget{classprocedural_1_1_p_track_a4227f3afd5fb92c627dff2e97425d7ba}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!Get\-Loader\-Options@{Get\-Loader\-Options}}
+\index{Get\-Loader\-Options@{Get\-Loader\-Options}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{Get\-Loader\-Options}]{\setlength{\rightskip}{0pt plus 5cm}const ssg\-Loader\-Options$\ast$ const procedural\-::\-P\-Track\-::\-Get\-Loader\-Options (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_a4227f3afd5fb92c627dff2e97425d7ba}
+Retrieve the loader options. \hypertarget{classprocedural_1_1_p_track_a719e653e1635d5cacfd9a07af0ae8e93}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!Get\-Seg@{Get\-Seg}}
+\index{Get\-Seg@{Get\-Seg}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{Get\-Seg}]{\setlength{\rightskip}{0pt plus 5cm}t\-Track\-Seg$\ast$ procedural\-::\-P\-Track\-::\-Get\-Seg (
+\begin{DoxyParamCaption}
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_a719e653e1635d5cacfd9a07af0ae8e93}
+
+
+Retrieve a pointer to a segment. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & The I\-D of the segment to retrieve. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classprocedural_1_1_p_track_ac5216fd2958e7f530acd9fd67edec2c7}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!Get\-S\-S\-G\-State@{Get\-S\-S\-G\-State}}
+\index{Get\-S\-S\-G\-State@{Get\-S\-S\-G\-State}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{Get\-S\-S\-G\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-S\-S\-G\-State}$\ast$ procedural\-::\-P\-Track\-::\-Get\-S\-S\-G\-State (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_ac5216fd2958e7f530acd9fd67edec2c7}
+Retrieve the track's current S\-S\-G state. \hypertarget{classprocedural_1_1_p_track_af15ce7f1926fd20caccf2e12f51a33bf}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!Get\-Start@{Get\-Start}}
+\index{Get\-Start@{Get\-Start}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{Get\-Start}]{\setlength{\rightskip}{0pt plus 5cm}track\-Seg$\ast$ procedural\-::\-P\-Track\-::\-Get\-Start (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classprocedural_1_1_p_track_af15ce7f1926fd20caccf2e12f51a33bf}
+Retrieve a pointer to the start segment. \hypertarget{classprocedural_1_1_p_track_a167b31e32fe4c19fb35a04596416f5ca}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!Get\-Temp\-A\-C\-Name@{Get\-Temp\-A\-C\-Name}}
+\index{Get\-Temp\-A\-C\-Name@{Get\-Temp\-A\-C\-Name}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{Get\-Temp\-A\-C\-Name}]{\setlength{\rightskip}{0pt plus 5cm}const string\& procedural\-::\-P\-Track\-::\-Get\-Temp\-A\-C\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_a167b31e32fe4c19fb35a04596416f5ca}
+Retrieve the track's temporary A\-C file name. \hypertarget{classprocedural_1_1_p_track_a3b2ff7813589aad36bbcff2a7374ac0d}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!Get\-Temp\-A\-C\-Path@{Get\-Temp\-A\-C\-Path}}
+\index{Get\-Temp\-A\-C\-Path@{Get\-Temp\-A\-C\-Path}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{Get\-Temp\-A\-C\-Path}]{\setlength{\rightskip}{0pt plus 5cm}const string\& procedural\-::\-P\-Track\-::\-Get\-Temp\-A\-C\-Path (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_a3b2ff7813589aad36bbcff2a7374ac0d}
+Retrieve the path of the track's temporary A\-C file. \hypertarget{classprocedural_1_1_p_track_a295308260593ff8009a54ed12b20d756}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!Get\-Temp\-A\-C\-Path\-And\-Name@{Get\-Temp\-A\-C\-Path\-And\-Name}}
+\index{Get\-Temp\-A\-C\-Path\-And\-Name@{Get\-Temp\-A\-C\-Path\-And\-Name}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{Get\-Temp\-A\-C\-Path\-And\-Name}]{\setlength{\rightskip}{0pt plus 5cm}const string procedural\-::\-P\-Track\-::\-Get\-Temp\-A\-C\-Path\-And\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_a295308260593ff8009a54ed12b20d756}
+Retrieve the track's temporary A\-C path appended with the temporary A\-C file name. \hypertarget{classprocedural_1_1_p_track_a4d3919f2ee4f9e4296a645a6d60fd16d}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!Get\-Track\-Desc@{Get\-Track\-Desc}}
+\index{Get\-Track\-Desc@{Get\-Track\-Desc}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{Get\-Track\-Desc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Entity\-Desc}$\ast$ procedural\-::\-P\-Track\-::\-Get\-Track\-Desc (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classprocedural_1_1_p_track_a4d3919f2ee4f9e4296a645a6d60fd16d}
+Retrieve the track's current 3\-D description. \hypertarget{classprocedural_1_1_p_track_a56ea590d110ab46fbe7d3ae95d6198cb}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!Set\-End@{Set\-End}}
+\index{Set\-End@{Set\-End}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{Set\-End}]{\setlength{\rightskip}{0pt plus 5cm}void procedural\-::\-P\-Track\-::\-Set\-End (
+\begin{DoxyParamCaption}
+\item[{track\-Seg $\ast$}]{end}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_a56ea590d110ab46fbe7d3ae95d6198cb}
+Set the end pointer of the track. \hypertarget{classprocedural_1_1_p_track_ae136809d63983f1ec3835806fd55049c}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!Set\-Start@{Set\-Start}}
+\index{Set\-Start@{Set\-Start}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{Set\-Start}]{\setlength{\rightskip}{0pt plus 5cm}void procedural\-::\-P\-Track\-::\-Set\-Start (
+\begin{DoxyParamCaption}
+\item[{track\-Seg $\ast$}]{start}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_ae136809d63983f1ec3835806fd55049c}
+Set the start segment of the track. \hypertarget{classprocedural_1_1_p_track_a359e7b04e99952af6c0905f05d760a84}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!Str\-Con@{Str\-Con}}
+\index{Str\-Con@{Str\-Con}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{Str\-Con}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ const procedural\-::\-P\-Track\-::\-Str\-Con (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$const}]{a, }
+\item[{const char $\ast$const}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_a359e7b04e99952af6c0905f05d760a84}
+Concatenates two char and returns the result. Used for many of the accessors. \hypertarget{classprocedural_1_1_p_track_a3c3fe0043980947c50f70b50fbb15e66}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!Total\-Length@{Total\-Length}}
+\index{Total\-Length@{Total\-Length}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{Total\-Length}]{\setlength{\rightskip}{0pt plus 5cm}tdble procedural\-::\-P\-Track\-::\-Total\-Length (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classprocedural_1_1_p_track_a3c3fe0043980947c50f70b50fbb15e66}
+Retrieves the total intended length of the track. \hypertarget{classprocedural_1_1_p_track_a588ce353de30074f2e8d046c210f440b}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!Update\-A\-C\-File@{Update\-A\-C\-File}}
+\index{Update\-A\-C\-File@{Update\-A\-C\-File}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{Update\-A\-C\-File}]{\setlength{\rightskip}{0pt plus 5cm}void procedural\-::\-P\-Track\-::\-Update\-A\-C\-File (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_a588ce353de30074f2e8d046c210f440b}
+Updates the track's A\-C file. 
+
+\subsection{Member Data Documentation}
+\hypertarget{classprocedural_1_1_p_track_a7fc4bf8b022038141cf4f50755bcb14d}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!ac\-Name@{ac\-Name}}
+\index{ac\-Name@{ac\-Name}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{ac\-Name}]{\setlength{\rightskip}{0pt plus 5cm}string procedural\-::\-P\-Track\-::ac\-Name\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_a7fc4bf8b022038141cf4f50755bcb14d}
+The name of the track's A\-C file. \hypertarget{classprocedural_1_1_p_track_ae9e88a321deabda8a92688e364e23513}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!ac\-Path@{ac\-Path}}
+\index{ac\-Path@{ac\-Path}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{ac\-Path}]{\setlength{\rightskip}{0pt plus 5cm}string procedural\-::\-P\-Track\-::ac\-Path\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_ae9e88a321deabda8a92688e364e23513}
+The filepath within which the track's A\-C file is located. \hypertarget{classprocedural_1_1_p_track_a9ea72d121db71e2a284375a381ddb310}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!config\-Name@{config\-Name}}
+\index{config\-Name@{config\-Name}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{config\-Name}]{\setlength{\rightskip}{0pt plus 5cm}string procedural\-::\-P\-Track\-::config\-Name\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_a9ea72d121db71e2a284375a381ddb310}
+The name of the track's X\-M\-L configuration file. \hypertarget{classprocedural_1_1_p_track_a1b5bfa2efcabace6e87dd8e8c482639a}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!config\-Path@{config\-Path}}
+\index{config\-Path@{config\-Path}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{config\-Path}]{\setlength{\rightskip}{0pt plus 5cm}string procedural\-::\-P\-Track\-::config\-Path\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_a1b5bfa2efcabace6e87dd8e8c482639a}
+The filepath within which all of the track's configuration files are contained. \hypertarget{classprocedural_1_1_p_track_ac9001885365980b067a13749419416e6}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!end@{end}}
+\index{end@{end}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{end}]{\setlength{\rightskip}{0pt plus 5cm}track\-Seg $\ast$ procedural\-::\-P\-Track\-::end\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_ac9001885365980b067a13749419416e6}
+Pointers to the current start and end segments of the track. \hypertarget{classprocedural_1_1_p_track_a29673df8a7e92648d375d64462334159}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!root@{root}}
+\index{root@{root}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{root}]{\setlength{\rightskip}{0pt plus 5cm}track\-Seg$\ast$ procedural\-::\-P\-Track\-::root}}\label{classprocedural_1_1_p_track_a29673df8a7e92648d375d64462334159}
+Root of the track (the last added segment) \hypertarget{classprocedural_1_1_p_track_ab3612b80647c9900fc41b26a89d486a1}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!ssg\-State@{ssg\-State}}
+\index{ssg\-State@{ssg\-State}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{ssg\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-S\-S\-G\-State}$\ast$ procedural\-::\-P\-Track\-::ssg\-State\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_ab3612b80647c9900fc41b26a89d486a1}
+The current state of the scene graph, used to append when adding new segments. \hypertarget{classprocedural_1_1_p_track_a1ad479bf26237af933ae14a838b61046}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!state@{state}}
+\index{state@{state}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{state}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-Track\-State} procedural\-::\-P\-Track\-::state}}\label{classprocedural_1_1_p_track_a1ad479bf26237af933ae14a838b61046}
+The current track state \hypertarget{classprocedural_1_1_p_track_a94cc721755160a6ba8ff51471507616c}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!temp\-A\-C\-Name@{temp\-A\-C\-Name}}
+\index{temp\-A\-C\-Name@{temp\-A\-C\-Name}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{temp\-A\-C\-Name}]{\setlength{\rightskip}{0pt plus 5cm}string procedural\-::\-P\-Track\-::temp\-A\-C\-Name\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_a94cc721755160a6ba8ff51471507616c}
+Name of the temporary A\-C file used to store new segments. \hypertarget{classprocedural_1_1_p_track_a5b2eda49220f8825f55624faf62aa106}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!total\-Length@{total\-Length}}
+\index{total\-Length@{total\-Length}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{total\-Length}]{\setlength{\rightskip}{0pt plus 5cm}tdble procedural\-::\-P\-Track\-::total\-Length\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_a5b2eda49220f8825f55624faf62aa106}
+Total length of the track. When the car reaches this distance, the race will finish. \hypertarget{classprocedural_1_1_p_track_a7ff84df3ba51a2f6896160ead70e91f7}{\index{procedural\-::\-P\-Track@{procedural\-::\-P\-Track}!trk@{trk}}
+\index{trk@{trk}!procedural::PTrack@{procedural\-::\-P\-Track}}
+\subsubsection[{trk}]{\setlength{\rightskip}{0pt plus 5cm}t\-Track$\ast$ procedural\-::\-P\-Track\-::trk}}\label{classprocedural_1_1_p_track_a7ff84df3ba51a2f6896160ead70e91f7}
+The T\-O\-R\-C\-S track structure 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_p_track_8h}{P\-Track.\-h}\end{DoxyCompactItemize}

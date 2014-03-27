@@ -16,7 +16,6 @@ namespace procedural
 		track = nullptr;
 		segFactory = nullptr;
 		trackType = PTrackType::PROCEDURAL;
-		cumulativeAngle = 0;
 	}
 
 	PTrackManager::PTrackManager(tRmInfo* RaceManager)
@@ -75,9 +74,6 @@ namespace procedural
 
 			// Set track type
 			trackType = PTrackType::PROCEDURAL;
-
-			// Initialize the cumulative angle
-			cumulativeAngle = 0;
 		}
 		else if (loadState.LoadType() == PLoadType::TRACK) // Initialization if a pre-generated track is to be loaded
 		{

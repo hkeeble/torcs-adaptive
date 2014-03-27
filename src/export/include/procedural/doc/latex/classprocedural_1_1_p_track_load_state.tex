@@ -1,0 +1,222 @@
+\hypertarget{classprocedural_1_1_p_track_load_state}{\section{procedural\-:\-:P\-Track\-Load\-State Class Reference}
+\label{classprocedural_1_1_p_track_load_state}\index{procedural\-::\-P\-Track\-Load\-State@{procedural\-::\-P\-Track\-Load\-State}}
+}
+
+
+{\ttfamily \#include $<$P\-Track\-Load\-State.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classprocedural_1_1_p_track_load_state_aef2ee02a89fd49250bae83447dfc4f65}{\hyperlink{classprocedural_1_1_p_track_load_state_aef2ee02a89fd49250bae83447dfc4f65}{P\-Track\-Load\-State} ()}\label{classprocedural_1_1_p_track_load_state_aef2ee02a89fd49250bae83447dfc4f65}
+
+\begin{DoxyCompactList}\small\item\em Default constructor, sets all values to defaults. \end{DoxyCompactList}\item 
+\hyperlink{classprocedural_1_1_p_track_load_state_af14045186634c4e66692d939668b0df6}{P\-Track\-Load\-State} (std\-::string \hyperlink{classprocedural_1_1_p_track_load_state_ac7b267e5f292841da9e1f94d4e2cedaf}{track\-Name}, std\-::string \hyperlink{classprocedural_1_1_p_track_load_state_abacf1626fc5ee56db60f52a336a8c3a0}{track\-Path}, std\-::string \hyperlink{classprocedural_1_1_p_track_load_state_afd80455d3c2f9c84e2c76771d1c25e72}{config\-Name}, std\-::string \hyperlink{classprocedural_1_1_p_track_load_state_aeae302c70abe6dd787b73a08e078fe7c}{config\-Path})
+\begin{DoxyCompactList}\small\item\em Initializes track load data with the intention of loading a pregenerated track. \end{DoxyCompactList}\item 
+\hyperlink{classprocedural_1_1_p_track_load_state_a8c5d70fd7f2159f054094e52d2cbacc2}{P\-Track\-Load\-State} (std\-::string \hyperlink{classprocedural_1_1_p_track_load_state_afd80455d3c2f9c84e2c76771d1c25e72}{config\-Name}, std\-::string \hyperlink{classprocedural_1_1_p_track_load_state_aeae302c70abe6dd787b73a08e078fe7c}{config\-Path})
+\begin{DoxyCompactList}\small\item\em Initializes track load data with the intention of loading a track configuration. \end{DoxyCompactList}\item 
+void \hyperlink{classprocedural_1_1_p_track_load_state_a64817b6cdae63ad1d79633aca31ff2d9}{Set\-Configuration} (std\-::string \hyperlink{classprocedural_1_1_p_track_load_state_afd80455d3c2f9c84e2c76771d1c25e72}{config\-Name}, std\-::string \hyperlink{classprocedural_1_1_p_track_load_state_aeae302c70abe6dd787b73a08e078fe7c}{config\-Path})
+\begin{DoxyCompactList}\small\item\em Sets the current configuration without instantiating a new state object, thus retains track file paths. Does not change load type. \end{DoxyCompactList}\item 
+\hypertarget{classprocedural_1_1_p_track_load_state_a28651692336566aa5f2c621471b0cfa5}{\hyperlink{namespaceprocedural_a1a0de85ffebb5ee366eb8374b42edac7}{P\-Load\-Type} {\bfseries Load\-Type} ()}\label{classprocedural_1_1_p_track_load_state_a28651692336566aa5f2c621471b0cfa5}
+
+\item 
+std\-::string \hyperlink{classprocedural_1_1_p_track_load_state_a3705216d68ad30fef19a70a9d6bacefd}{Track\-Name} ()
+\item 
+std\-::string \hyperlink{classprocedural_1_1_p_track_load_state_a25e2b48f521cb7f2cf9b1548284f372e}{Track\-Path} ()
+\item 
+std\-::string \hyperlink{classprocedural_1_1_p_track_load_state_a21754746f81b678d785be4b58a416de0}{Config\-Name} ()
+\item 
+std\-::string \hyperlink{classprocedural_1_1_p_track_load_state_a1312122a2a0f851714fa1a3acf5cc324}{Config\-Path} ()
+\item 
+std\-::string \hyperlink{classprocedural_1_1_p_track_load_state_a646c33fd9d9d89b4760caa157980956d}{Track\-File\-Name} ()
+\item 
+std\-::string \hyperlink{classprocedural_1_1_p_track_load_state_a3bbb769a794f0f15b15888d28e2a8179}{Config\-File\-Name} ()
+\item 
+void \hyperlink{classprocedural_1_1_p_track_load_state_aa909d47596085c90af8e00fe9c706e14}{Set\-Length} (int length)
+\begin{DoxyCompactList}\small\item\em Sets the length of the configuration. Used when loading procedural tracks. \end{DoxyCompactList}\item 
+int \hyperlink{classprocedural_1_1_p_track_load_state_afcab5b48515ffb1ff7c1d05b0adecddb}{Length} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classprocedural_1_1_p_track_load_state_ad57d310e90e9014e11e5c375305aa3e7}{void \hyperlink{classprocedural_1_1_p_track_load_state_ad57d310e90e9014e11e5c375305aa3e7}{init} ()}\label{classprocedural_1_1_p_track_load_state_ad57d310e90e9014e11e5c375305aa3e7}
+
+\begin{DoxyCompactList}\small\item\em Internal initialization function. Sets all values to their defaults. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{namespaceprocedural_a1a0de85ffebb5ee366eb8374b42edac7}{P\-Load\-Type} \hyperlink{classprocedural_1_1_p_track_load_state_a7255f8b899cd930482de4f915cae8625}{load\-Type}
+\item 
+std\-::string \hyperlink{classprocedural_1_1_p_track_load_state_ac7b267e5f292841da9e1f94d4e2cedaf}{track\-Name}
+\item 
+std\-::string \hyperlink{classprocedural_1_1_p_track_load_state_afd80455d3c2f9c84e2c76771d1c25e72}{config\-Name}
+\item 
+std\-::string \hyperlink{classprocedural_1_1_p_track_load_state_abacf1626fc5ee56db60f52a336a8c3a0}{track\-Path}
+\item 
+std\-::string \hyperlink{classprocedural_1_1_p_track_load_state_aeae302c70abe6dd787b73a08e078fe7c}{config\-Path}
+\item 
+int \hyperlink{classprocedural_1_1_p_track_load_state_a23de09366ebeabe4191c11fb1b0f60a1}{trk\-Length}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Represents the current load state. A load state is used when initializing a new procedural track. The state contains information such as the configuration to be used, or the file path of a pre-\/generated track. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classprocedural_1_1_p_track_load_state_af14045186634c4e66692d939668b0df6}{\index{procedural\-::\-P\-Track\-Load\-State@{procedural\-::\-P\-Track\-Load\-State}!P\-Track\-Load\-State@{P\-Track\-Load\-State}}
+\index{P\-Track\-Load\-State@{P\-Track\-Load\-State}!procedural::PTrackLoadState@{procedural\-::\-P\-Track\-Load\-State}}
+\subsubsection[{P\-Track\-Load\-State}]{\setlength{\rightskip}{0pt plus 5cm}procedural\-::\-P\-Track\-Load\-State\-::\-P\-Track\-Load\-State (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{track\-Name, }
+\item[{std\-::string}]{track\-Path, }
+\item[{std\-::string}]{config\-Name, }
+\item[{std\-::string}]{config\-Path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classprocedural_1_1_p_track_load_state_af14045186634c4e66692d939668b0df6}
+
+
+Initializes track load data with the intention of loading a pregenerated track. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em track\-Name} & The name of the track to load. \\
+\hline
+{\em track\-Path} & The path of the track's segment file. \\
+\hline
+{\em config\-Name} & The name of the configuration to load. \\
+\hline
+{\em config\-Path} & The file path of the configuration file. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classprocedural_1_1_p_track_load_state_a8c5d70fd7f2159f054094e52d2cbacc2}{\index{procedural\-::\-P\-Track\-Load\-State@{procedural\-::\-P\-Track\-Load\-State}!P\-Track\-Load\-State@{P\-Track\-Load\-State}}
+\index{P\-Track\-Load\-State@{P\-Track\-Load\-State}!procedural::PTrackLoadState@{procedural\-::\-P\-Track\-Load\-State}}
+\subsubsection[{P\-Track\-Load\-State}]{\setlength{\rightskip}{0pt plus 5cm}procedural\-::\-P\-Track\-Load\-State\-::\-P\-Track\-Load\-State (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{config\-Name, }
+\item[{std\-::string}]{config\-Path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classprocedural_1_1_p_track_load_state_a8c5d70fd7f2159f054094e52d2cbacc2}
+
+
+Initializes track load data with the intention of loading a track configuration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em config\-Name} & The name of the configuration to load. \\
+\hline
+{\em config\-Path} & The path where the configuration file can be found. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classprocedural_1_1_p_track_load_state_a3bbb769a794f0f15b15888d28e2a8179}{\index{procedural\-::\-P\-Track\-Load\-State@{procedural\-::\-P\-Track\-Load\-State}!Config\-File\-Name@{Config\-File\-Name}}
+\index{Config\-File\-Name@{Config\-File\-Name}!procedural::PTrackLoadState@{procedural\-::\-P\-Track\-Load\-State}}
+\subsubsection[{Config\-File\-Name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string procedural\-::\-P\-Track\-Load\-State\-::\-Config\-File\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classprocedural_1_1_p_track_load_state_a3bbb769a794f0f15b15888d28e2a8179}
+Returns the configuration file's name \hypertarget{classprocedural_1_1_p_track_load_state_a21754746f81b678d785be4b58a416de0}{\index{procedural\-::\-P\-Track\-Load\-State@{procedural\-::\-P\-Track\-Load\-State}!Config\-Name@{Config\-Name}}
+\index{Config\-Name@{Config\-Name}!procedural::PTrackLoadState@{procedural\-::\-P\-Track\-Load\-State}}
+\subsubsection[{Config\-Name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string procedural\-::\-P\-Track\-Load\-State\-::\-Config\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classprocedural_1_1_p_track_load_state_a21754746f81b678d785be4b58a416de0}
+Returns the name of the config to load \hypertarget{classprocedural_1_1_p_track_load_state_a1312122a2a0f851714fa1a3acf5cc324}{\index{procedural\-::\-P\-Track\-Load\-State@{procedural\-::\-P\-Track\-Load\-State}!Config\-Path@{Config\-Path}}
+\index{Config\-Path@{Config\-Path}!procedural::PTrackLoadState@{procedural\-::\-P\-Track\-Load\-State}}
+\subsubsection[{Config\-Path}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string procedural\-::\-P\-Track\-Load\-State\-::\-Config\-Path (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classprocedural_1_1_p_track_load_state_a1312122a2a0f851714fa1a3acf5cc324}
+Returns the path that contains the config file \hypertarget{classprocedural_1_1_p_track_load_state_afcab5b48515ffb1ff7c1d05b0adecddb}{\index{procedural\-::\-P\-Track\-Load\-State@{procedural\-::\-P\-Track\-Load\-State}!Length@{Length}}
+\index{Length@{Length}!procedural::PTrackLoadState@{procedural\-::\-P\-Track\-Load\-State}}
+\subsubsection[{Length}]{\setlength{\rightskip}{0pt plus 5cm}int procedural\-::\-P\-Track\-Load\-State\-::\-Length (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classprocedural_1_1_p_track_load_state_afcab5b48515ffb1ff7c1d05b0adecddb}
+Returns the currently configured length \hypertarget{classprocedural_1_1_p_track_load_state_a64817b6cdae63ad1d79633aca31ff2d9}{\index{procedural\-::\-P\-Track\-Load\-State@{procedural\-::\-P\-Track\-Load\-State}!Set\-Configuration@{Set\-Configuration}}
+\index{Set\-Configuration@{Set\-Configuration}!procedural::PTrackLoadState@{procedural\-::\-P\-Track\-Load\-State}}
+\subsubsection[{Set\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}void procedural\-::\-P\-Track\-Load\-State\-::\-Set\-Configuration (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{config\-Name, }
+\item[{std\-::string}]{config\-Path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classprocedural_1_1_p_track_load_state_a64817b6cdae63ad1d79633aca31ff2d9}
+
+
+Sets the current configuration without instantiating a new state object, thus retains track file paths. Does not change load type. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em config\-Name} & The name of the configuration to load. \\
+\hline
+{\em config\-Path} & The path where the configuration file can be found. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classprocedural_1_1_p_track_load_state_aa909d47596085c90af8e00fe9c706e14}{\index{procedural\-::\-P\-Track\-Load\-State@{procedural\-::\-P\-Track\-Load\-State}!Set\-Length@{Set\-Length}}
+\index{Set\-Length@{Set\-Length}!procedural::PTrackLoadState@{procedural\-::\-P\-Track\-Load\-State}}
+\subsubsection[{Set\-Length}]{\setlength{\rightskip}{0pt plus 5cm}void procedural\-::\-P\-Track\-Load\-State\-::\-Set\-Length (
+\begin{DoxyParamCaption}
+\item[{int}]{length}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classprocedural_1_1_p_track_load_state_aa909d47596085c90af8e00fe9c706e14}
+
+
+Sets the length of the configuration. Used when loading procedural tracks. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em length} & The maximum length of the track that will be loaded. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classprocedural_1_1_p_track_load_state_a646c33fd9d9d89b4760caa157980956d}{\index{procedural\-::\-P\-Track\-Load\-State@{procedural\-::\-P\-Track\-Load\-State}!Track\-File\-Name@{Track\-File\-Name}}
+\index{Track\-File\-Name@{Track\-File\-Name}!procedural::PTrackLoadState@{procedural\-::\-P\-Track\-Load\-State}}
+\subsubsection[{Track\-File\-Name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string procedural\-::\-P\-Track\-Load\-State\-::\-Track\-File\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classprocedural_1_1_p_track_load_state_a646c33fd9d9d89b4760caa157980956d}
+Returns the track's segment file name \hypertarget{classprocedural_1_1_p_track_load_state_a3705216d68ad30fef19a70a9d6bacefd}{\index{procedural\-::\-P\-Track\-Load\-State@{procedural\-::\-P\-Track\-Load\-State}!Track\-Name@{Track\-Name}}
+\index{Track\-Name@{Track\-Name}!procedural::PTrackLoadState@{procedural\-::\-P\-Track\-Load\-State}}
+\subsubsection[{Track\-Name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string procedural\-::\-P\-Track\-Load\-State\-::\-Track\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classprocedural_1_1_p_track_load_state_a3705216d68ad30fef19a70a9d6bacefd}
+Returns the name of the track to load \hypertarget{classprocedural_1_1_p_track_load_state_a25e2b48f521cb7f2cf9b1548284f372e}{\index{procedural\-::\-P\-Track\-Load\-State@{procedural\-::\-P\-Track\-Load\-State}!Track\-Path@{Track\-Path}}
+\index{Track\-Path@{Track\-Path}!procedural::PTrackLoadState@{procedural\-::\-P\-Track\-Load\-State}}
+\subsubsection[{Track\-Path}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string procedural\-::\-P\-Track\-Load\-State\-::\-Track\-Path (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classprocedural_1_1_p_track_load_state_a25e2b48f521cb7f2cf9b1548284f372e}
+Returns the path that contains the track's segment file 
+
+\subsection{Member Data Documentation}
+\hypertarget{classprocedural_1_1_p_track_load_state_afd80455d3c2f9c84e2c76771d1c25e72}{\index{procedural\-::\-P\-Track\-Load\-State@{procedural\-::\-P\-Track\-Load\-State}!config\-Name@{config\-Name}}
+\index{config\-Name@{config\-Name}!procedural::PTrackLoadState@{procedural\-::\-P\-Track\-Load\-State}}
+\subsubsection[{config\-Name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string procedural\-::\-P\-Track\-Load\-State\-::config\-Name\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_load_state_afd80455d3c2f9c84e2c76771d1c25e72}
+The name of the track configuration to load. \hypertarget{classprocedural_1_1_p_track_load_state_aeae302c70abe6dd787b73a08e078fe7c}{\index{procedural\-::\-P\-Track\-Load\-State@{procedural\-::\-P\-Track\-Load\-State}!config\-Path@{config\-Path}}
+\index{config\-Path@{config\-Path}!procedural::PTrackLoadState@{procedural\-::\-P\-Track\-Load\-State}}
+\subsubsection[{config\-Path}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string procedural\-::\-P\-Track\-Load\-State\-::config\-Path\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_load_state_aeae302c70abe6dd787b73a08e078fe7c}
+The path of the configuration files to load. \hypertarget{classprocedural_1_1_p_track_load_state_a7255f8b899cd930482de4f915cae8625}{\index{procedural\-::\-P\-Track\-Load\-State@{procedural\-::\-P\-Track\-Load\-State}!load\-Type@{load\-Type}}
+\index{load\-Type@{load\-Type}!procedural::PTrackLoadState@{procedural\-::\-P\-Track\-Load\-State}}
+\subsubsection[{load\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-Load\-Type} procedural\-::\-P\-Track\-Load\-State\-::load\-Type\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_load_state_a7255f8b899cd930482de4f915cae8625}
+The current load type being used. \hypertarget{classprocedural_1_1_p_track_load_state_ac7b267e5f292841da9e1f94d4e2cedaf}{\index{procedural\-::\-P\-Track\-Load\-State@{procedural\-::\-P\-Track\-Load\-State}!track\-Name@{track\-Name}}
+\index{track\-Name@{track\-Name}!procedural::PTrackLoadState@{procedural\-::\-P\-Track\-Load\-State}}
+\subsubsection[{track\-Name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string procedural\-::\-P\-Track\-Load\-State\-::track\-Name\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_load_state_ac7b267e5f292841da9e1f94d4e2cedaf}
+The name of the track to load. \hypertarget{classprocedural_1_1_p_track_load_state_abacf1626fc5ee56db60f52a336a8c3a0}{\index{procedural\-::\-P\-Track\-Load\-State@{procedural\-::\-P\-Track\-Load\-State}!track\-Path@{track\-Path}}
+\index{track\-Path@{track\-Path}!procedural::PTrackLoadState@{procedural\-::\-P\-Track\-Load\-State}}
+\subsubsection[{track\-Path}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string procedural\-::\-P\-Track\-Load\-State\-::track\-Path\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_load_state_abacf1626fc5ee56db60f52a336a8c3a0}
+The path of the track files. \hypertarget{classprocedural_1_1_p_track_load_state_a23de09366ebeabe4191c11fb1b0f60a1}{\index{procedural\-::\-P\-Track\-Load\-State@{procedural\-::\-P\-Track\-Load\-State}!trk\-Length@{trk\-Length}}
+\index{trk\-Length@{trk\-Length}!procedural::PTrackLoadState@{procedural\-::\-P\-Track\-Load\-State}}
+\subsubsection[{trk\-Length}]{\setlength{\rightskip}{0pt plus 5cm}int procedural\-::\-P\-Track\-Load\-State\-::trk\-Length\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_load_state_a23de09366ebeabe4191c11fb1b0f60a1}
+Represents the length of the track to load. Used for procedural tracks to track maximum length. 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_p_track_load_state_8h}{P\-Track\-Load\-State.\-h}\end{DoxyCompactItemize}

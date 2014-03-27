@@ -1,0 +1,181 @@
+\hypertarget{classprocedural_1_1_p_seg_factory}{\section{procedural\-:\-:P\-Seg\-Factory Class Reference}
+\label{classprocedural_1_1_p_seg_factory}\index{procedural\-::\-P\-Seg\-Factory@{procedural\-::\-P\-Seg\-Factory}}
+}
+
+
+{\ttfamily \#include $<$P\-Seg.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classprocedural_1_1_p_seg_factory_a5d5632c1b3713eccc14e1e1c8983492f}{Update\-Ranges} (tdble angle, \hyperlink{namespaceprocedural_ac5486560c59bdf79345a041628149e91}{P\-Corner\-Type} c\-Type)
+\begin{DoxyCompactList}\small\item\em Updates the safe ranges for corner arcs, call this after each time a corner segment is added. \end{DoxyCompactList}\item 
+void \hyperlink{classprocedural_1_1_p_seg_factory_acfcd1caeae5fdad541a44f18ad1918a3}{Set\-Chances} (float corner, float straight)
+\begin{DoxyCompactList}\small\item\em Sets the percentage chances or corners and straights being generated. Values should sum to 100. \end{DoxyCompactList}\item 
+\hyperlink{classprocedural_1_1_p_seg}{P\-Seg} \hyperlink{classprocedural_1_1_p_seg_factory_ac53d611538a7b868597f76db25eb1610}{Create\-Random\-Seg} (int id)
+\item 
+\hyperlink{classprocedural_1_1_p_seg}{P\-Seg} \hyperlink{classprocedural_1_1_p_seg_factory_a4a2f5312bf6f943879b59fcf054c1ad4}{Create\-Random\-Str} (int id)
+\item 
+\hyperlink{classprocedural_1_1_p_seg}{P\-Seg} \hyperlink{classprocedural_1_1_p_seg_factory_ae2efb7535a7c0bc6b22bdb2e714c2ede}{Create\-Random\-Cnr} (int id)
+\item 
+\hyperlink{classprocedural_1_1_p_seg}{P\-Seg} \hyperlink{classprocedural_1_1_p_seg_factory_a9d87f165b49d4e1d3df730c6b382ad56}{Create\-Seg\-Str} (int id, float length)
+\item 
+\hyperlink{classprocedural_1_1_p_seg}{P\-Seg} \hyperlink{classprocedural_1_1_p_seg_factory_a45539332ff407b769af010fd4f38c8fe}{Create\-Seg\-Cnr} (int id, \hyperlink{namespaceprocedural_ac5486560c59bdf79345a041628149e91}{P\-Corner\-Type} c\-Type, float radius, float arc)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classprocedural_1_1_p_seg_factory}{P\-Seg\-Factory} $\ast$ \hyperlink{classprocedural_1_1_p_seg_factory_a8077e428ca776929d5c81d8b5def7813}{Get\-Instance} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classprocedural_1_1_p_segment_ranges}{P\-Segment\-Ranges} \hyperlink{classprocedural_1_1_p_seg_factory_a34fbc09f9aca697f61dbc8a7d1d8a2cd}{ranges}
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{classprocedural_1_1_p_seg_factory_a0a2ee118df418a9c4c1ce8002c8aecc6}{Rand\-Between} (float min, float max)
+\item 
+\hyperlink{namespaceprocedural_a50f6e9669ba957b95f24713757bd0f20}{P\-Seg\-Type} \hyperlink{classprocedural_1_1_p_seg_factory_a1d0086989b39a113b46432640a8a79a4}{Random\-Seg\-Type} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{classprocedural_1_1_p_seg_factory_a02557cf9cc05ee759b23a95e45126dd4}{corner\-Chance}
+\item 
+float \hyperlink{classprocedural_1_1_p_seg_factory_a6cc50e9c858c733ced48b220cc75fbed}{straight\-Chance}
+\item 
+\hyperlink{namespaceprocedural_ac5486560c59bdf79345a041628149e91}{P\-Corner\-Type} \hyperlink{classprocedural_1_1_p_seg_factory_afc00d8f9ae8554244639fb15db0f11d3}{previous\-Corner\-Type}
+\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classprocedural_1_1_p_seg_factory_a97975b083b84bc01fa7e7616724890e3}{static \hyperlink{classprocedural_1_1_p_seg_factory}{P\-Seg\-Factory} $\ast$ {\bfseries instance}}\label{classprocedural_1_1_p_seg_factory_a97975b083b84bc01fa7e7616724890e3}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Factory class for all segments. This factory is a singleton. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classprocedural_1_1_p_seg_factory_ae2efb7535a7c0bc6b22bdb2e714c2ede}{\index{procedural\-::\-P\-Seg\-Factory@{procedural\-::\-P\-Seg\-Factory}!Create\-Random\-Cnr@{Create\-Random\-Cnr}}
+\index{Create\-Random\-Cnr@{Create\-Random\-Cnr}!procedural::PSegFactory@{procedural\-::\-P\-Seg\-Factory}}
+\subsubsection[{Create\-Random\-Cnr}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-Seg} procedural\-::\-P\-Seg\-Factory\-::\-Create\-Random\-Cnr (
+\begin{DoxyParamCaption}
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_seg_factory_ae2efb7535a7c0bc6b22bdb2e714c2ede}
+Generates a random corner segment. \hypertarget{classprocedural_1_1_p_seg_factory_ac53d611538a7b868597f76db25eb1610}{\index{procedural\-::\-P\-Seg\-Factory@{procedural\-::\-P\-Seg\-Factory}!Create\-Random\-Seg@{Create\-Random\-Seg}}
+\index{Create\-Random\-Seg@{Create\-Random\-Seg}!procedural::PSegFactory@{procedural\-::\-P\-Seg\-Factory}}
+\subsubsection[{Create\-Random\-Seg}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-Seg} procedural\-::\-P\-Seg\-Factory\-::\-Create\-Random\-Seg (
+\begin{DoxyParamCaption}
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_seg_factory_ac53d611538a7b868597f76db25eb1610}
+Generates a random segment based upon chances and ranges set. \hypertarget{classprocedural_1_1_p_seg_factory_a4a2f5312bf6f943879b59fcf054c1ad4}{\index{procedural\-::\-P\-Seg\-Factory@{procedural\-::\-P\-Seg\-Factory}!Create\-Random\-Str@{Create\-Random\-Str}}
+\index{Create\-Random\-Str@{Create\-Random\-Str}!procedural::PSegFactory@{procedural\-::\-P\-Seg\-Factory}}
+\subsubsection[{Create\-Random\-Str}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-Seg} procedural\-::\-P\-Seg\-Factory\-::\-Create\-Random\-Str (
+\begin{DoxyParamCaption}
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_seg_factory_a4a2f5312bf6f943879b59fcf054c1ad4}
+Generates a random straight segment. \hypertarget{classprocedural_1_1_p_seg_factory_a45539332ff407b769af010fd4f38c8fe}{\index{procedural\-::\-P\-Seg\-Factory@{procedural\-::\-P\-Seg\-Factory}!Create\-Seg\-Cnr@{Create\-Seg\-Cnr}}
+\index{Create\-Seg\-Cnr@{Create\-Seg\-Cnr}!procedural::PSegFactory@{procedural\-::\-P\-Seg\-Factory}}
+\subsubsection[{Create\-Seg\-Cnr}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-Seg} procedural\-::\-P\-Seg\-Factory\-::\-Create\-Seg\-Cnr (
+\begin{DoxyParamCaption}
+\item[{int}]{id, }
+\item[{{\bf P\-Corner\-Type}}]{c\-Type, }
+\item[{float}]{radius, }
+\item[{float}]{arc}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_seg_factory_a45539332ff407b769af010fd4f38c8fe}
+Creates a corner segment. \hypertarget{classprocedural_1_1_p_seg_factory_a9d87f165b49d4e1d3df730c6b382ad56}{\index{procedural\-::\-P\-Seg\-Factory@{procedural\-::\-P\-Seg\-Factory}!Create\-Seg\-Str@{Create\-Seg\-Str}}
+\index{Create\-Seg\-Str@{Create\-Seg\-Str}!procedural::PSegFactory@{procedural\-::\-P\-Seg\-Factory}}
+\subsubsection[{Create\-Seg\-Str}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-Seg} procedural\-::\-P\-Seg\-Factory\-::\-Create\-Seg\-Str (
+\begin{DoxyParamCaption}
+\item[{int}]{id, }
+\item[{float}]{length}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_seg_factory_a9d87f165b49d4e1d3df730c6b382ad56}
+Creates a straight segment. \hypertarget{classprocedural_1_1_p_seg_factory_a8077e428ca776929d5c81d8b5def7813}{\index{procedural\-::\-P\-Seg\-Factory@{procedural\-::\-P\-Seg\-Factory}!Get\-Instance@{Get\-Instance}}
+\index{Get\-Instance@{Get\-Instance}!procedural::PSegFactory@{procedural\-::\-P\-Seg\-Factory}}
+\subsubsection[{Get\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf P\-Seg\-Factory}$\ast$ procedural\-::\-P\-Seg\-Factory\-::\-Get\-Instance (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classprocedural_1_1_p_seg_factory_a8077e428ca776929d5c81d8b5def7813}
+Get the instance of the segment factory. If a factory has not been created, create one and return a pointer to it. \hypertarget{classprocedural_1_1_p_seg_factory_a0a2ee118df418a9c4c1ce8002c8aecc6}{\index{procedural\-::\-P\-Seg\-Factory@{procedural\-::\-P\-Seg\-Factory}!Rand\-Between@{Rand\-Between}}
+\index{Rand\-Between@{Rand\-Between}!procedural::PSegFactory@{procedural\-::\-P\-Seg\-Factory}}
+\subsubsection[{Rand\-Between}]{\setlength{\rightskip}{0pt plus 5cm}float procedural\-::\-P\-Seg\-Factory\-::\-Rand\-Between (
+\begin{DoxyParamCaption}
+\item[{float}]{min, }
+\item[{float}]{max}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_seg_factory_a0a2ee118df418a9c4c1ce8002c8aecc6}
+Generate random floating point value between min and max. \hypertarget{classprocedural_1_1_p_seg_factory_a1d0086989b39a113b46432640a8a79a4}{\index{procedural\-::\-P\-Seg\-Factory@{procedural\-::\-P\-Seg\-Factory}!Random\-Seg\-Type@{Random\-Seg\-Type}}
+\index{Random\-Seg\-Type@{Random\-Seg\-Type}!procedural::PSegFactory@{procedural\-::\-P\-Seg\-Factory}}
+\subsubsection[{Random\-Seg\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-Seg\-Type} procedural\-::\-P\-Seg\-Factory\-::\-Random\-Seg\-Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_seg_factory_a1d0086989b39a113b46432640a8a79a4}
+Generate a random segment type based on the chances currently set \hypertarget{classprocedural_1_1_p_seg_factory_acfcd1caeae5fdad541a44f18ad1918a3}{\index{procedural\-::\-P\-Seg\-Factory@{procedural\-::\-P\-Seg\-Factory}!Set\-Chances@{Set\-Chances}}
+\index{Set\-Chances@{Set\-Chances}!procedural::PSegFactory@{procedural\-::\-P\-Seg\-Factory}}
+\subsubsection[{Set\-Chances}]{\setlength{\rightskip}{0pt plus 5cm}void procedural\-::\-P\-Seg\-Factory\-::\-Set\-Chances (
+\begin{DoxyParamCaption}
+\item[{float}]{corner, }
+\item[{float}]{straight}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_seg_factory_acfcd1caeae5fdad541a44f18ad1918a3}
+
+
+Sets the percentage chances or corners and straights being generated. Values should sum to 100. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em corner} & Percentage chance of a corner being generated. \\
+\hline
+{\em straight} & Percentage chance of a straight being generated. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classprocedural_1_1_p_seg_factory_a5d5632c1b3713eccc14e1e1c8983492f}{\index{procedural\-::\-P\-Seg\-Factory@{procedural\-::\-P\-Seg\-Factory}!Update\-Ranges@{Update\-Ranges}}
+\index{Update\-Ranges@{Update\-Ranges}!procedural::PSegFactory@{procedural\-::\-P\-Seg\-Factory}}
+\subsubsection[{Update\-Ranges}]{\setlength{\rightskip}{0pt plus 5cm}void procedural\-::\-P\-Seg\-Factory\-::\-Update\-Ranges (
+\begin{DoxyParamCaption}
+\item[{tdble}]{angle, }
+\item[{{\bf P\-Corner\-Type}}]{c\-Type}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_seg_factory_a5d5632c1b3713eccc14e1e1c8983492f}
+
+
+Updates the safe ranges for corner arcs, call this after each time a corner segment is added. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em angle} & The previous corner angle in radians. \\
+\hline
+{\em c\-Type} & The previous corner type that was added, so that ranges can be adjusted accordingly. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classprocedural_1_1_p_seg_factory_a02557cf9cc05ee759b23a95e45126dd4}{\index{procedural\-::\-P\-Seg\-Factory@{procedural\-::\-P\-Seg\-Factory}!corner\-Chance@{corner\-Chance}}
+\index{corner\-Chance@{corner\-Chance}!procedural::PSegFactory@{procedural\-::\-P\-Seg\-Factory}}
+\subsubsection[{corner\-Chance}]{\setlength{\rightskip}{0pt plus 5cm}float procedural\-::\-P\-Seg\-Factory\-::corner\-Chance\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_seg_factory_a02557cf9cc05ee759b23a95e45126dd4}
+Percentage chance of a corner being generated. Set externally with $<$\-Set\-Chances$>$\char`\"{}(\char`\"{}$<$float corner, float straight$>$\char`\"{})\char`\"{} \hypertarget{classprocedural_1_1_p_seg_factory_afc00d8f9ae8554244639fb15db0f11d3}{\index{procedural\-::\-P\-Seg\-Factory@{procedural\-::\-P\-Seg\-Factory}!previous\-Corner\-Type@{previous\-Corner\-Type}}
+\index{previous\-Corner\-Type@{previous\-Corner\-Type}!procedural::PSegFactory@{procedural\-::\-P\-Seg\-Factory}}
+\subsubsection[{previous\-Corner\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-Corner\-Type} procedural\-::\-P\-Seg\-Factory\-::previous\-Corner\-Type\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_seg_factory_afc00d8f9ae8554244639fb15db0f11d3}
+The previously used corner type \hypertarget{classprocedural_1_1_p_seg_factory_a34fbc09f9aca697f61dbc8a7d1d8a2cd}{\index{procedural\-::\-P\-Seg\-Factory@{procedural\-::\-P\-Seg\-Factory}!ranges@{ranges}}
+\index{ranges@{ranges}!procedural::PSegFactory@{procedural\-::\-P\-Seg\-Factory}}
+\subsubsection[{ranges}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-Segment\-Ranges} procedural\-::\-P\-Seg\-Factory\-::ranges}}\label{classprocedural_1_1_p_seg_factory_a34fbc09f9aca697f61dbc8a7d1d8a2cd}
+The ranges between which segment parameters may currently reside. \hypertarget{classprocedural_1_1_p_seg_factory_a6cc50e9c858c733ced48b220cc75fbed}{\index{procedural\-::\-P\-Seg\-Factory@{procedural\-::\-P\-Seg\-Factory}!straight\-Chance@{straight\-Chance}}
+\index{straight\-Chance@{straight\-Chance}!procedural::PSegFactory@{procedural\-::\-P\-Seg\-Factory}}
+\subsubsection[{straight\-Chance}]{\setlength{\rightskip}{0pt plus 5cm}float procedural\-::\-P\-Seg\-Factory\-::straight\-Chance\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_seg_factory_a6cc50e9c858c733ced48b220cc75fbed}
+Percentage change of a straight being generated. Set externally with $<$\-Set\-Chances$>$\char`\"{}(\char`\"{}$<$float corner, float straight$>$\char`\"{})\char`\"{} 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_p_seg_8h}{P\-Seg.\-h}\end{DoxyCompactItemize}

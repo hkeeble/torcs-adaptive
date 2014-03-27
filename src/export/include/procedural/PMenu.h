@@ -1,7 +1,7 @@
-/*
-	File: PMenu.h
-	Author: Henri Keeble
-	Desc: Contains functions for procedural library menus.
+/**
+ *	@file 	PMenu.h
+ *	@author Henri Keeble
+ *	@brief 	Contains functions for procedural library menus.
 */
 
 #ifndef _P_MENU_H_
@@ -15,16 +15,28 @@
 
 namespace procedural
 {
-	/* Creates and shows the procedural track selection menu */
+	//! Creates and shows the procedural track selection menu.
+	/*!
+		\param ts The parameters to pass into the menu.
+	*/
 	extern void PCreateTrackSelectMenu(void* ts);
 
-	/* Creates and shows the menu for loading track configurations */
+	//! Creates and shows the menu for loading track configurations.
+	/*!
+		\param ts The parameters to pass into the menu.
+	*/
 	extern void PCreateTrackConfigSelectMenu(void* ts);
 
-	/* Creates and shows the menu for saving a track */
+	//! Creates and shows the menu for saving a track.
+	/*!
+		\param ts The parameters to pass into the menu.
+	*/
 	extern void PCreateSaveMenu(void* ts);
 
-	/* Creates and shows the menu for setting procedural track length */
+	//! Creates and shows the menu for setting procedural track length.
+	/*!
+		\param ts The parameters to pass into the menu.
+	*/
 	extern void PCreateSetLengthMenu(void* ts);
 
 	// Useful screen parameters

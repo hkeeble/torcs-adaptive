@@ -1,7 +1,7 @@
-/*
-	File: PRange.h
-	Author: Henri Keeble
-	Desc: Contains declarations for a class and collection of specified maximum and minimum ranges for track parameters.
+/**
+	@file PRange.h
+	@author Henri Keeble
+	@brief Contains declarations for a class and collection of specified maximum and minimum ranges for track parameters.
 */
 #ifndef _P_RANGE_H_
 #define _P_RANGE_H_
@@ -10,6 +10,7 @@
 
 namespace procedural
 {
+	//! Represents a range between a minimum and maximum floating point value.
 	struct PRange
 	{
 	private:
@@ -21,23 +22,25 @@ namespace procedural
 		float Max() const;
 	};
 	
+	//! A class containing all the ranges for segment parameter generation.
 	class PSegmentRanges
 	{
 	private:
 		PRange larc, rarc, radius, length;
 	public:
+		//! Create a new set of ranges with the given parameters. 
 		PSegmentRanges(PRange angle, PRange radius, PRange length);
 		~PSegmentRanges();
 		
-		PRange LeftArc()  const;
-		PRange RightArc() const;
-		PRange Radius()   const;
-		PRange Length()   const;
+		PRange LeftArc()  const; /*!< Get the current left arc range. */
+		PRange RightArc() const; /*!< Get the current right arc range. */
+		PRange Radius()   const; /*!< Get the current radius range. */
+		PRange Length()   const; /*!< Get the current length range. */
 
-		void SetLeftArc(const PRange& range);
-		void SetRightArc(const PRange& range);
-		void SetRadius(const PRange& range);
-		void SetLength(const PRange& range);
+		void SetLeftArc(const PRange& range); /*!< Set the current left arc range. */
+		void SetRightArc(const PRange& range); /*!< Set the current right arc range. */
+		void SetRadius(const PRange& range); /*!< Set the current radius range. */
+		void SetLength(const PRange& range); /*!< Set the current length range. */
 	};
 }
 

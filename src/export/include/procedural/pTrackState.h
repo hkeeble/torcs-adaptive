@@ -1,7 +1,7 @@
-/*
-	File: PTrackState.h
-	Author: Henri Keeble
-	Desc: A class to represent the current state of a track, and to keep track of essential values needed to generate segments between different calls to AddSegment.
+/**
+ *	@file PTrackState.h
+ *	@author Henri Keeble
+ *	@brief Declares a class to represent the current state of a track, and to keep track of essential values needed to generate segments between different calls to AddSegment.
 */
 
 #ifndef _P_TRACK_STATE_H_
@@ -11,7 +11,7 @@
 
 namespace procedural
 {
-	/* Used to store the current state of the track for torcs-adaptive */
+	/*! Used to store the current state of the track for the procedural library. */
 	struct PTrackState
 	{
 		PTrackState();

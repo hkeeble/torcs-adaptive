@@ -1,0 +1,203 @@
+\hypertarget{classprocedural_1_1_p_track_file_manager}{\section{procedural\-:\-:P\-Track\-File\-Manager Class Reference}
+\label{classprocedural_1_1_p_track_file_manager}\index{procedural\-::\-P\-Track\-File\-Manager@{procedural\-::\-P\-Track\-File\-Manager}}
+}
+
+
+{\ttfamily \#include $<$P\-Track\-File\-Manager.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classprocedural_1_1_p_track_file_manager_ae2f2f4487884fe23d36474d60dd7a506}{Write\-Track\-To} (std\-::string file\-Path, std\-::string trk\-Name, t\-Track $\ast$track)
+\begin{DoxyCompactList}\small\item\em Writes a track to the given track file. \end{DoxyCompactList}\item 
+std\-::vector$<$ \hyperlink{classprocedural_1_1_p_seg}{P\-Seg} $>$ \hyperlink{classprocedural_1_1_p_track_file_manager_a9bd3c31fc9a8ea0276d0d5f47dff104f}{Read\-Track\-From} (std\-::string file\-Path)
+\begin{DoxyCompactList}\small\item\em Reads track data from the given file, and constructs a vector of procedural segment objects. \end{DoxyCompactList}\item 
+void \hyperlink{classprocedural_1_1_p_track_file_manager_acddbcfe9df4c62579dfee164cb3099f3}{Set\-Load\-State} (const \hyperlink{classprocedural_1_1_p_track_load_state}{P\-Track\-Load\-State} \&load\-State)
+\begin{DoxyCompactList}\small\item\em Sets the current load state for tracks using this file manager. \end{DoxyCompactList}\item 
+const \hyperlink{classprocedural_1_1_p_track_load_state}{P\-Track\-Load\-State} \& \hyperlink{classprocedural_1_1_p_track_file_manager_a8b50973554585324d2e9fccb42d0e506}{Get\-Load\-State} () const 
+\item 
+void \hyperlink{classprocedural_1_1_p_track_file_manager_a253c64bb76a9ac6a51613d0dc4ba2d12}{Set\-Load\-State\-Length} (int length)
+\begin{DoxyCompactList}\small\item\em Sets the length of the current track load state. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classprocedural_1_1_p_track_file_manager_a2eec20eb32af5b4e865f4a57a8df908e}{Write\-Segment\-Data\-To} (void $\ast$new\-Track\-Handle, t\-Track $\ast$track)
+\begin{DoxyCompactList}\small\item\em Writes the given track's segment data to the given track handle. \end{DoxyCompactList}\item 
+void \hyperlink{classprocedural_1_1_p_track_file_manager_a8947ff1a42bdd9bf611948b327167d3e}{Write\-Segment\-To} (void $\ast$new\-Track\-Handle, t\-Track\-Seg $\ast$seg)
+\begin{DoxyCompactList}\small\item\em Writes an individual segment into a given handle. \end{DoxyCompactList}\item 
+std\-::vector$<$ \hyperlink{classprocedural_1_1_p_seg}{P\-Seg} $>$ \hyperlink{classprocedural_1_1_p_track_file_manager_aaf01f0cf5ccc0933774d93da59597af7}{Read\-Segment\-Data\-From} (void $\ast$track\-Handle)
+\begin{DoxyCompactList}\small\item\em Reads segments from a given track handle. Returns a collection of procedural segments. \end{DoxyCompactList}\item 
+\hyperlink{classprocedural_1_1_p_seg}{P\-Seg} \hyperlink{classprocedural_1_1_p_track_file_manager_ab9972ce81237a96ce015179a9fd7a0ba}{Read\-Segment} (void $\ast$track\-Handle, int id)
+\begin{DoxyCompactList}\small\item\em Reads a single segment. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classprocedural_1_1_p_track_load_state}{P\-Track\-Load\-State} \hyperlink{classprocedural_1_1_p_track_file_manager_a9ced08aad81bc7f886e653d4ace038b9}{trk\-Load\-State}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A class that represents a file manager designed to write out track files for the procedural library. This class also holds onto a state for loading tracks, inside a \hyperlink{classprocedural_1_1_p_track_load_state}{P\-Track\-Load\-State} object. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classprocedural_1_1_p_track_file_manager_a8b50973554585324d2e9fccb42d0e506}{\index{procedural\-::\-P\-Track\-File\-Manager@{procedural\-::\-P\-Track\-File\-Manager}!Get\-Load\-State@{Get\-Load\-State}}
+\index{Get\-Load\-State@{Get\-Load\-State}!procedural::PTrackFileManager@{procedural\-::\-P\-Track\-File\-Manager}}
+\subsubsection[{Get\-Load\-State}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf P\-Track\-Load\-State}\& procedural\-::\-P\-Track\-File\-Manager\-::\-Get\-Load\-State (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classprocedural_1_1_p_track_file_manager_a8b50973554585324d2e9fccb42d0e506}
+Retrieves the current track load state stored by this track file manager. \hypertarget{classprocedural_1_1_p_track_file_manager_ab9972ce81237a96ce015179a9fd7a0ba}{\index{procedural\-::\-P\-Track\-File\-Manager@{procedural\-::\-P\-Track\-File\-Manager}!Read\-Segment@{Read\-Segment}}
+\index{Read\-Segment@{Read\-Segment}!procedural::PTrackFileManager@{procedural\-::\-P\-Track\-File\-Manager}}
+\subsubsection[{Read\-Segment}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-Seg} procedural\-::\-P\-Track\-File\-Manager\-::\-Read\-Segment (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{track\-Handle, }
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_file_manager_ab9972ce81237a96ce015179a9fd7a0ba}
+
+
+Reads a single segment. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em track\-Handle} & The handle to read a segment from. \\
+\hline
+{\em id} & The I\-D of the segment to read. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classprocedural_1_1_p_track_file_manager_aaf01f0cf5ccc0933774d93da59597af7}{\index{procedural\-::\-P\-Track\-File\-Manager@{procedural\-::\-P\-Track\-File\-Manager}!Read\-Segment\-Data\-From@{Read\-Segment\-Data\-From}}
+\index{Read\-Segment\-Data\-From@{Read\-Segment\-Data\-From}!procedural::PTrackFileManager@{procedural\-::\-P\-Track\-File\-Manager}}
+\subsubsection[{Read\-Segment\-Data\-From}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<${\bf P\-Seg}$>$ procedural\-::\-P\-Track\-File\-Manager\-::\-Read\-Segment\-Data\-From (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{track\-Handle}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_file_manager_aaf01f0cf5ccc0933774d93da59597af7}
+
+
+Reads segments from a given track handle. Returns a collection of procedural segments. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em track\-Handle} & The handle to read segment data from. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classprocedural_1_1_p_track_file_manager_a9bd3c31fc9a8ea0276d0d5f47dff104f}{\index{procedural\-::\-P\-Track\-File\-Manager@{procedural\-::\-P\-Track\-File\-Manager}!Read\-Track\-From@{Read\-Track\-From}}
+\index{Read\-Track\-From@{Read\-Track\-From}!procedural::PTrackFileManager@{procedural\-::\-P\-Track\-File\-Manager}}
+\subsubsection[{Read\-Track\-From}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<${\bf P\-Seg}$>$ procedural\-::\-P\-Track\-File\-Manager\-::\-Read\-Track\-From (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{file\-Path}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_file_manager_a9bd3c31fc9a8ea0276d0d5f47dff104f}
+
+
+Reads track data from the given file, and constructs a vector of procedural segment objects. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\-Path} & The path of the X\-M\-L segment file to read. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classprocedural_1_1_p_track_file_manager_acddbcfe9df4c62579dfee164cb3099f3}{\index{procedural\-::\-P\-Track\-File\-Manager@{procedural\-::\-P\-Track\-File\-Manager}!Set\-Load\-State@{Set\-Load\-State}}
+\index{Set\-Load\-State@{Set\-Load\-State}!procedural::PTrackFileManager@{procedural\-::\-P\-Track\-File\-Manager}}
+\subsubsection[{Set\-Load\-State}]{\setlength{\rightskip}{0pt plus 5cm}void procedural\-::\-P\-Track\-File\-Manager\-::\-Set\-Load\-State (
+\begin{DoxyParamCaption}
+\item[{const {\bf P\-Track\-Load\-State} \&}]{load\-State}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_file_manager_acddbcfe9df4c62579dfee164cb3099f3}
+
+
+Sets the current load state for tracks using this file manager. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em load\-State} & The load state to use. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classprocedural_1_1_p_track_file_manager_a253c64bb76a9ac6a51613d0dc4ba2d12}{\index{procedural\-::\-P\-Track\-File\-Manager@{procedural\-::\-P\-Track\-File\-Manager}!Set\-Load\-State\-Length@{Set\-Load\-State\-Length}}
+\index{Set\-Load\-State\-Length@{Set\-Load\-State\-Length}!procedural::PTrackFileManager@{procedural\-::\-P\-Track\-File\-Manager}}
+\subsubsection[{Set\-Load\-State\-Length}]{\setlength{\rightskip}{0pt plus 5cm}void procedural\-::\-P\-Track\-File\-Manager\-::\-Set\-Load\-State\-Length (
+\begin{DoxyParamCaption}
+\item[{int}]{length}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_file_manager_a253c64bb76a9ac6a51613d0dc4ba2d12}
+
+
+Sets the length of the current track load state. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em length} & The length of the track that will be procedurally generated using the current load state. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classprocedural_1_1_p_track_file_manager_a2eec20eb32af5b4e865f4a57a8df908e}{\index{procedural\-::\-P\-Track\-File\-Manager@{procedural\-::\-P\-Track\-File\-Manager}!Write\-Segment\-Data\-To@{Write\-Segment\-Data\-To}}
+\index{Write\-Segment\-Data\-To@{Write\-Segment\-Data\-To}!procedural::PTrackFileManager@{procedural\-::\-P\-Track\-File\-Manager}}
+\subsubsection[{Write\-Segment\-Data\-To}]{\setlength{\rightskip}{0pt plus 5cm}void procedural\-::\-P\-Track\-File\-Manager\-::\-Write\-Segment\-Data\-To (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{new\-Track\-Handle, }
+\item[{t\-Track $\ast$}]{track}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_file_manager_a2eec20eb32af5b4e865f4a57a8df908e}
+
+
+Writes the given track's segment data to the given track handle. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\-Track\-Handle} & The parameter handle of the new track. All data is written to this handle. \\
+\hline
+{\em track} & The track to write out segment data for. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classprocedural_1_1_p_track_file_manager_a8947ff1a42bdd9bf611948b327167d3e}{\index{procedural\-::\-P\-Track\-File\-Manager@{procedural\-::\-P\-Track\-File\-Manager}!Write\-Segment\-To@{Write\-Segment\-To}}
+\index{Write\-Segment\-To@{Write\-Segment\-To}!procedural::PTrackFileManager@{procedural\-::\-P\-Track\-File\-Manager}}
+\subsubsection[{Write\-Segment\-To}]{\setlength{\rightskip}{0pt plus 5cm}void procedural\-::\-P\-Track\-File\-Manager\-::\-Write\-Segment\-To (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{new\-Track\-Handle, }
+\item[{t\-Track\-Seg $\ast$}]{seg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_file_manager_a8947ff1a42bdd9bf611948b327167d3e}
+
+
+Writes an individual segment into a given handle. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\-Track\-Handle} & The handle to write the segment out to. \\
+\hline
+{\em seg} & The segment to write into the handle. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classprocedural_1_1_p_track_file_manager_ae2f2f4487884fe23d36474d60dd7a506}{\index{procedural\-::\-P\-Track\-File\-Manager@{procedural\-::\-P\-Track\-File\-Manager}!Write\-Track\-To@{Write\-Track\-To}}
+\index{Write\-Track\-To@{Write\-Track\-To}!procedural::PTrackFileManager@{procedural\-::\-P\-Track\-File\-Manager}}
+\subsubsection[{Write\-Track\-To}]{\setlength{\rightskip}{0pt plus 5cm}void procedural\-::\-P\-Track\-File\-Manager\-::\-Write\-Track\-To (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{file\-Path, }
+\item[{std\-::string}]{trk\-Name, }
+\item[{t\-Track $\ast$}]{track}
+\end{DoxyParamCaption}
+)}}\label{classprocedural_1_1_p_track_file_manager_ae2f2f4487884fe23d36474d60dd7a506}
+
+
+Writes a track to the given track file. 
+
+file\-Path The path to write the track to. 
+\begin{DoxyParams}{Parameters}
+{\em trk\-Name} & The name of the track being written. \\
+\hline
+{\em track} & The track to write out. \\
+\hline
+{\em category} & The category of race in which the track was generated. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classprocedural_1_1_p_track_file_manager_a9ced08aad81bc7f886e653d4ace038b9}{\index{procedural\-::\-P\-Track\-File\-Manager@{procedural\-::\-P\-Track\-File\-Manager}!trk\-Load\-State@{trk\-Load\-State}}
+\index{trk\-Load\-State@{trk\-Load\-State}!procedural::PTrackFileManager@{procedural\-::\-P\-Track\-File\-Manager}}
+\subsubsection[{trk\-Load\-State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-Track\-Load\-State} procedural\-::\-P\-Track\-File\-Manager\-::trk\-Load\-State\hspace{0.3cm}{\ttfamily [private]}}}\label{classprocedural_1_1_p_track_file_manager_a9ced08aad81bc7f886e653d4ace038b9}
+The current track load state. 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_p_track_file_manager_8h}{P\-Track\-File\-Manager.\-h}\end{DoxyCompactItemize}

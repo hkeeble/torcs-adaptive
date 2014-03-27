@@ -1,7 +1,7 @@
-/*
-	File: pDefs.h
-	Author: Henri Keeble
-	Desc: Some preprocessor defines and other definitions common to many procedural translation units
+/**
+ *  @file PDefs.h
+ *	@author Henri Keeble
+ *	@brief Some preprocessor defines and other definitions common to many procedural translation units.
 */
 
 #ifndef _P_DEFS_
@@ -11,6 +11,7 @@
 
 namespace procedural
 {
+	///! Alias for SSG entity.
 	typedef ssgEntity EntityDesc;
 
 	// Maximum and minimum ranges
@@ -29,10 +30,11 @@ namespace procedural
 	#define pOut(out)
 #endif // _DEBUG
 
+	//! Represents segment type within the procedural library.
 	enum PSegType
 	{
-		Straight = 0,
-		Corner = 1
+		Straight = 0, /*!< A straight segment. */
+		Corner = 1 	  /*!< A corner segment. */
 	};
 }
 #endif _P_DEFS_
