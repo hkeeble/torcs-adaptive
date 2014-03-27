@@ -24,6 +24,16 @@ you'll also need a copy of the MSVC11.0 compiler installed, as this is what TORC
 Once you've downloaded a copy of the source, run setup.bat to set up a runtime environment and copy all necessary data files
 for either a release or debug build. Afterwards, open up Visual Studio and you will be able to build.
 
+## Documentation
+TORCS Adaptive uses DoxyGen to generate documentation for the procedural and performance measurement libraries. This documentation is maintained
+within this git repository, and thus you will receive a copy of it with the source. In order to view it, open doc/index.html. To set up
+integration with Visual Studio, go to Tools > External Tools... and select View Documentation. Change the command to point to the executable of your
+favourite browser. Then go to Tools > View Documentation to open the documentation.
+
+In order to generate new versions of the documentation yourself, you'll first need to download [DoxyGen] (http://www.stack.nl/~dimitri/doxygen/). Afterwards,
+open up the Visual Studio solution and go to Tools > External Tools... and select Generate Documentation. Change the command to point to the executable of
+DoxyGen. Then, select Tools > Generate Documentation to generate a new version of the documentation.
+
 ## Releases
 * [v0.5 Pre-Release](https://github.com/hkeeble/torcs-adaptive/releases/tag/v0.5): This pre-release shows most of the TORCS Adaptive features having been implemented.
 
