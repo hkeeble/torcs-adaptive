@@ -26,7 +26,7 @@ namespace procedural
 	 * Adds the given segment to the procedural track. Only works on internal structure.
 	 * This function generates no 3D description for the segment.
 	 */
-	void PTrack::AddSegment(const PSeg& seg)
+	void PTrack::AddSegment(const PSeg& seg, bool isFinish)
 	{
 		int		        j;
 		tTrackSeg	    *curSeg;
@@ -152,7 +152,7 @@ namespace procedural
 
 		// Name Segment
 		std::string str = "ID" + std::to_string(seg.id);
-		curSeg->name = new const char[strlen(str.c_str())];
+		curSeg->name = new char[strlen(str.c_str())];
 		strcpy((char*)curSeg->name, str.c_str());
 
 		// Assign Types
@@ -168,7 +168,10 @@ namespace procedural
 
 		// Assign Surface
 		curSeg->surface = new tTrackSurface();
-		curSeg->surface = AddTrackSurface(trHandle, track, GfParmGetStr(trk->params, TRK_SECT_MAIN, TRK_ATT_SURF, "asphalt-lines"));
+		if (isFinish)
+			curSeg->surface = AddTrackSurface(trHandle, track, "finish-line");
+		else
+			curSeg->surface = AddTrackSurface(trHandle, track, GfParmGetStr(trk->params, TRK_SECT_MAIN, TRK_ATT_SURF, "asphalt-lines"));
 
 		curSeg->envIndex = TrackState.envIndex;
 

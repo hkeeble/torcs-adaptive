@@ -41,16 +41,14 @@ namespace procedural
 	class PTrackManager
 	{
 		private:
-			tRmInfo* raceManager;		 /*!< Pointer to the current race manager. */
-			PTrack* track;				 /*!< Pointer to the current procedural track being managed. */
-			PSegFactory* segFactory;	 /*!< Pointer to the segment factory. */
-			tCarElt* carList;			 /*!< Pointer the car list. This is used in segment generation. */
-			int nCars;					 /*!< The number of cars in the current race that need to be monitored. */
-
-			int previousSegType;			/*!< The type of previous segment generated. */
-			PCornerType previousCornerType;	/*!< The previous corner type that was generated. */
-
-			PTrackType trackType; /*!< The current type of track being managed. */
+			tRmInfo* raceManager;			/*!< Pointer to the current race manager.												*/
+			PTrack* track;					/*!< Pointer to the current procedural track being managed.								*/
+			PSegFactory* segFactory;		/*!< Pointer to the segment factory.													*/
+			tCarElt* carList;				/*!< Pointer the car list. This is used in segment generation.							*/
+			int nCars;						/*!< The number of cars in the current race that need to be monitored.					*/
+			int previousSegType;			/*!< The type of previous segment generated.											*/
+			PCornerType previousCornerType;	/*!< The previous corner type that was generated.										*/
+			PTrackType trackType;			/*!< The current type of track being managed.											*/
 
 			//! Generates a new segment for the track based upon a skill level.
 			/*! 
@@ -123,6 +121,9 @@ namespace procedural
 
 			/** This functions is used in order to prevent cars leaving the back of the track (a cleaner solution for this needs to be found) */
 			void CorrectCars();
+
+			/** Checks if a finish line needs to be added to the track, and does so if necessary. */
+			void CheckForFinishLine();
 
 			//! Outputs the current track
 			/*!

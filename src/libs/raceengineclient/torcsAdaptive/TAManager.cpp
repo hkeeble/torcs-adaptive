@@ -19,8 +19,10 @@ namespace torcsAdaptive
 
 		// Obtain pointer to file manager
 		fileManager = PFileManager::Get();
-		
+
 		currentSkillLevel = 0.f;
+
+		carOffTrackDisp = false;
 	}
 
 	TAManager* TAManager::Get()
@@ -101,7 +103,7 @@ namespace torcsAdaptive
 	}
 
 	void TAManager::InitTrack()
-	{		
+	{
 		trackManager->InitTrack();
 	}
 
@@ -118,15 +120,42 @@ namespace torcsAdaptive
 		trackManager->AddSegment(segment);
 	}
 
-	void TAManager::UpdateTrack()
+	void TAManager::Update(tdble deltatime)
 	{
 		if (raceType == TARaceType::Adaptive)
 		{
 			currentSkillLevel = perfMeasurement->GetSkillEstimate();
 			trackManager->Update(true, currentSkillLevel);
+
+			// Update the HUD
+			UpdateHUD(raceManager->s->deltaTime);
+			if (GetRaceType() == TARaceType::Adaptive)
+			{
+				if (perfMeasurement->GetCar()->pub.trkPos.toMiddle > (perfMeasurement->GetCar()->pub.trkPos.seg->width / 2))
+				{
+					if (carOffTrackDisp == false)
+					{
+						AddHUDMessage("Driver " + std::string(PMManager::Get()->GetCar()->info.name) + " left the track.", 10);
+						AddHUDMessage("Performance evaluation invalidated.", 10);
+						carOffTrackDisp = true;
+					}
+				}
+				else
+					carOffTrackDisp = false;
+			}
 		}
 		else
 			trackManager->Update();
+	}
+
+	void TAManager::UpdateHUD(tdble deltatime)
+	{
+		hud.Update(deltatime);
+	}
+
+	void TAManager::AddHUDMessage(std::string msg, tdble seconds)
+	{
+		hud.RenderTextFor(msg, seconds);
 	}
 
 	void TAManager::SetRaceType(const TARaceType& RaceType)
@@ -178,6 +207,9 @@ namespace torcsAdaptive
 	{
 		// Reset the load state at the end of a race
 		fileManager->SetTrackLoadState(PTrackLoadState());
+
+		// Clear HUD
+		hud.Clear();
 	}
 
 	void TAManager::InitCars()

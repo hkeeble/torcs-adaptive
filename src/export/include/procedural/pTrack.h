@@ -36,17 +36,15 @@ namespace procedural
 	class PTrack
 	{
 	private:
-		string configPath;		/*!< The filepath within which all of the track's configuration files are contained. */
-		string acPath;			/*!< The filepath within which the track's AC file is located. */
-		string configName;		/*!< The name of the track's XML configuration file. */
-		string acName;			/*!< The name of the track's AC file. */
-		string tempACName;		/*!< Name of the temporary AC file used to store new segments. */
-
-		PSSGState* ssgState;		/*!< The current state of the scene graph, used to append when adding new segments. */
-
-		trackSeg *start, *end;		/*!< Pointers to the current start and end segments of the track. */
-
-		tdble totalLength;			/*!< Total length of the track. When the car reaches this distance, the race will finish. */
+		string configPath;		/*!< The filepath within which all of the track's configuration files are contained.	   */
+		string acPath;			/*!< The filepath within which the track's AC file is located.							   */
+		string configName;		/*!< The name of the track's XML configuration file.									   */
+		string acName;			/*!< The name of the track's AC file.													   */
+		string tempACName;		/*!< Name of the temporary AC file used to store new segments.							   */
+		PSSGState* ssgState;	/*!< The current state of the scene graph, used to append when adding new segments.		   */
+		trackSeg *start, *end;	/*!< Pointers to the current start and end segments of the track.						   */
+		tdble totalLength;		/*!< Total length of the track. When the car reaches this distance, the race will finish.  */
+		bool hasFinishLine;		/*!< Whether or not a segment with a finish line surface has been added to the track.      */
 
 		/* Internal copying function */
 		void cpy(const PTrack& param);
@@ -81,12 +79,13 @@ namespace procedural
 		//! Initializes a procedural track with a preloaded set of procedural segments. All given paths are relative to the executable.
 		 /*! 
 			\param segs			The collection of segments that construct the track.
+			\param totalLength	The total length of the track.
 			\param configpath	The path in which the configuration XML file can be found.
 			\param acpath		The path within which the AC file can be found.
 			\param configname	The name of the configuration file being used.
 			\param acname		The name of the AC file to be used.
 		*/
-		PTrack(std::vector<PSeg> segs, string configpath, string acpath, string configname, string acname, ssgLoaderOptions* loaderoptions);
+		PTrack(std::vector<PSeg> segs, tdble totalLength, string configpath, string acpath, string configname, string acname, ssgLoaderOptions* loaderoptions);
 
 		~PTrack();
 		PTrack(const PTrack& param);
@@ -112,9 +111,13 @@ namespace procedural
 
 		//!Adds a segment to the track structure. This function does not generate a 3D description for the new segment.
 		 /*!
-			\param seg The segment to append to the track.
+			\param seg		The segment to append to the track.
+			\param isFinish The segment is the last segment in the track, and requires a finish line surface. Defaults to false.
 		 */
-		void AddSegment(const PSeg& seg);
+		void AddSegment(const PSeg& seg, bool isFinish = false);
+
+		//! Adds a finish line to the track. A segment with a finish line surface. This function will only work once, a track may only have one finish line.
+		void AddFinishLine();
 
 		/** Retrieve the loader options. */
 		const ssgLoaderOptions *const GetLoaderOptions();	  

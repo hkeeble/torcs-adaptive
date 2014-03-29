@@ -182,7 +182,7 @@ getFullName (const char *sectionName, const char *paramName)
 	char *fullName;
 	unsigned long len = strlen (sectionName) + strlen (paramName) + 2;
 	
-	fullName = (char *) malloc(strlen (sectionName) + strlen (paramName) + 2);
+	fullName = (char*)malloc(strlen(sectionName) + strlen(paramName) + 2);
 	if (!fullName) {
 		GfError ("getFullName: malloc (%lu) failed", len);
 		return NULL;
@@ -287,7 +287,7 @@ removeParam (struct parmHeader *conf, struct section *section, struct param *par
 	}
 
 	freez (param->name);
-    freez (param->fullName);
+	freez (param->fullName);
     freez (param->value);
 	freez (param->unit);
     freez (param);
@@ -406,7 +406,7 @@ getParent (struct parmHeader *conf, const char *sectionName)
 	}
 
 end:
-	free (tmpName);
+	free(tmpName);
 	return section;
 }
 

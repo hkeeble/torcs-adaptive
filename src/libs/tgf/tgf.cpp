@@ -110,12 +110,10 @@ void _tgf_win_free(void * memblock)
 		assert( 0 );
 	}
 
-	/* What does this do? Fails to assert for client and berniProc in TORCS adaptive... */
 	if (*((int*)p + 1) != 123456789) {
 		assert( 0 );
 	}
 
-	/* Same for this... */
 	if(*((int*)(p + *(int*)p ) - 1) != 987654321) {
 		assert( 0 );
 	}

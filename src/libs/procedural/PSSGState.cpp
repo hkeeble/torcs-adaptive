@@ -51,7 +51,7 @@ namespace procedural
 		if (current_material)
 			delete current_material;
 		if (current_colour)
-			delete current_colour;
+			delete [] current_colour;
 		if (current_branch)
 			delete current_branch;
 		if (current_tfname)

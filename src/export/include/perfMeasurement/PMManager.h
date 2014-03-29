@@ -38,9 +38,9 @@ namespace perfMeasurement
 		 */
 		void Init(tCarElt* car, PMEvaluator* evaluator);
 
-		/* Get the car currently being monitored */
+		/** Get the car currently being monitored */
 		tCarElt* GetCar();
-		
+
 		//!Update the current evaluator.
 		 /*!
 			\param deltaTimeIncrement The time since the last invocation of this function.

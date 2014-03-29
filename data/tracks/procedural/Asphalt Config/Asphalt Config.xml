@@ -64,11 +64,11 @@
     <attnum name="width" unit="m" val="15.0"/>
     <attnum name="steps length" val="1" unit="m"/>
 
-    <attstr name="rside surface"  val="concrete"/>
+    <attstr name="rside surface"  val="grass"/>
     <attnum name="rside width"    val="3.0"/>
     <attstr name="rside type" in="tangent,level" val="level"/>
 
-    <attstr name="lside surface"  val="concrete"/>
+    <attstr name="lside surface"  val="grass"/>
     <attnum name="lside width"    val="3.0"/>
     <attstr name="lside type" in="tangent,level" val="level"/>
 

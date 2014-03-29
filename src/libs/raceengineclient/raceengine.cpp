@@ -725,7 +725,7 @@ ReUpdate(void)
 				// Cannot keep up with time warp, reset time to avoid lag when running slower again
 				ReInfo->_reCurTime = GfTimeClock();
 			}
-			
+
 			GfuiDisplay();
 			ReInfo->_reGraphicItf.refresh(ReInfo->s);
 			if (taManager->IsActive())
@@ -773,7 +773,7 @@ ReUpdate(void)
 
 	// Update the track if torcs-adaptive race mode
 	if (taManager->Type() != TARaceType::None)
-		taManager->UpdateTrack();
+		taManager->Update(ReInfo->s->deltaTime);
 
 	return mode;
 }

@@ -26,10 +26,30 @@ namespace torcsAdaptive
 
 		GfuiPrintString(rTypeName.c_str(), textColor.Get(), mFont, wWidth / 2, wHeight - GfuiFontHeight(mFont), GFUI_ALIGN_HC_VC);
 
+		// Render temporary text
+		for (int i = 0; i < tempText.size(); i++)
+			GfuiPrintString(tempText[i].Text.c_str(), textColor.Get(), lFont, wWidth / 2, wHeight - (GfuiFontHeight(mFont)*(i+4)), GFUI_ALIGN_HC_VC);
+
 		if (isAdaptive)
 		{
 			std::string out = "Skill Estimate: " + (skillLevel == NULL_SKILL_LEVEL ? "Gathering data..." : std::to_string(skillLevel));
 			GfuiPrintString(out.c_str(), textColor.Get(), mFont, wWidth / 2, wHeight - GfuiFontHeight(mFont) * 2 - 5, GFUI_ALIGN_HC_VC);
 		}
+	}
+
+	void TAHud::Update(tdble deltatime)
+	{
+		// Update timers on temporary text
+		for (int i = 0; i < tempText.size(); i++)
+		{
+			tempText[i].SecondsShown += deltatime;
+			if (tempText[i].SecondsShown >= tempText[i].SecondsToShow)
+				tempText.erase(tempText.begin() + i);
+		}
+	}
+
+	void TAHud::RenderTextFor(std::string text, int seconds)
+	{
+		tempText.push_back(TempTextField(seconds, text));
 	}
 }

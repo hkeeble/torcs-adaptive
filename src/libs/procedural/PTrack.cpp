@@ -14,6 +14,9 @@ namespace procedural
 	// Track Info Definitions
 	PTrack::PTrack(tdble totalLength, string configpath, string acpath, string configname, string acname, ssgLoaderOptions* loaderoptions)
 	{
+		// Track has no finish line
+		hasFinishLine = false;
+
 		// Initialize track state
 		state = PTrackState();
 		root = nullptr;
@@ -48,8 +51,11 @@ namespace procedural
 		GenerateTrack(trk, trk->params, const_cast<char*>(GetACPathAndName().c_str()), nullptr, 0, 0, 0);
 	}
 
-	PTrack::PTrack(std::vector<PSeg> segs, string configpath, string acpath, string configname, string acname, ssgLoaderOptions* loaderoptions)
+	PTrack::PTrack(std::vector<PSeg> segs, tdble totalLength, string configpath, string acpath, string configname, string acname, ssgLoaderOptions* loaderoptions)
 	{
+		// Track has no finish line
+		hasFinishLine = false;
+
 		// Assign paths and file names
 		this->configPath = configpath;
 		this->configName = configname;
@@ -64,10 +70,15 @@ namespace procedural
 			// Initialize state and root
 			state = PTrackState();
 			root = nullptr;
+			this->totalLength = totalLength;
 
 			// Add all segments to the track
 			for (int i = 0; i < segs.size(); i++)
+			{
 				AddSegment(segs[i]);
+				if (trk->length >= totalLength)
+					AddFinishLine();
+			}
 
 			// Assign total length
 			totalLength = trk->length;
@@ -82,6 +93,8 @@ namespace procedural
 		}
 		else
 			pOut("Error! Failed to build track structure from configuration file!\n");
+
+
 	}
 
 	PTrack::PTrack(const PTrack& param)
@@ -108,6 +121,7 @@ namespace procedural
 		acPath = param.acPath;
 		configName = param.configName;
 		configPath = param.configPath;
+		hasFinishLine = param.hasFinishLine;
 
 		if (param.root)
 			root = new tTrackSeg(*param.root);
@@ -292,6 +306,15 @@ namespace procedural
 		InitSides(track->params, track);
 
 		return track;
+	}
+
+	void PTrack::AddFinishLine()
+	{
+		if (!hasFinishLine)
+		{
+			AddSegment(PSegFactory::GetInstance()->CreateSegStr(state.curSegIndex, 10), true);
+			hasFinishLine = true;
+		}
 	}
 
 #ifdef _DEBUG

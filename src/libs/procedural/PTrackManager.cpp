@@ -86,8 +86,15 @@ namespace procedural
 			std::string configpath("tracks/procedural/" + loadState.ConfigName() + "/");
 			std::string configname(loadState.ConfigFileName());
 
+			// Obtain track length
+			void* handle = GfParmReadFile((loadState.TrackPath() + loadState.TrackFileName()).c_str(), GFPARM_RMODE_STD);
+			tdble trkLength = GfParmGetNum(handle, P_TRK_SECT_HDR, P_TRK_ATT_LENGTH, (char*)nullptr, 1000);
+
 			// Initialize the procedural track object
-			track = new PTrack(segs, configpath, acpath, configname, acname, lopts);
+			track = new PTrack(segs, 1000, configpath, acpath, configname, acname, lopts);
+
+			// Add a finish line
+			track->AddFinishLine();
 
 			// Point the racemanager to the procedural track
 			raceManager->track = track->trk;
@@ -133,7 +140,12 @@ namespace procedural
 	{
 		track = new PTrack(*param.GetTrack());
 		raceManager = param.raceManager;
+		segFactory = param.segFactory;
 		previousSegType = param.previousSegType;
+		previousCornerType = param.previousCornerType;
+		trackType = param.trackType;
+		carList = param.carList;
+		nCars = param.nCars;
 	}
 
 	PTrackManager::~PTrackManager()
@@ -182,23 +194,32 @@ namespace procedural
 				if (previousCornerType == PCornerType::CTLeft)
 					cType = PCornerType::CTRight;
 
-				// Most difficult: smaller radius, larger arc.
-				PSegmentRanges ranges = segFactory->ranges;
-				tdble radius = lerp(ranges.Radius().Min(), ranges.Radius().Max(), 1.0f - skillLevel);
+				if (skillLevel != 0)
+				{
+					// Most difficult: smaller radius, larger arc.
+					PSegmentRanges ranges = segFactory->ranges;
+					
+					// Ensure that weighting is never 0.0f, if skill level estimate is 1 use 0.1f, as this is the lowest possible weighting
+					tdble radius = lerp(ranges.Radius().Min(), ranges.Radius().Max(), skillLevel < 1.0f ? 1.0f - skillLevel : 0.1f);
+					
+					// Generate arc weighted with skill level, based upon corner type
+					tdble arc = 0.f;
+					if (cType == PCornerType::CTRight)
+						arc = lerp(ranges.RightArc().Min(), ranges.RightArc().Max(), skillLevel);
+					else
+						arc = lerp(ranges.LeftArc().Min(), ranges.LeftArc().Max(), skillLevel);
 
-				tdble arc = 0.f;
-				
-				if (cType == PCornerType::CTRight)
-					lerp(ranges.RightArc().Min(), ranges.RightArc().Max(), skillLevel);
+					// Create the segment with the segment factory
+					curSeg = &segFactory->CreateSegCnr(track->state.curSegIndex, cType, radius, arc);
+				}
 				else
-					lerp(ranges.LeftArc().Min(), ranges.LeftArc().Max(), skillLevel);
-
-				curSeg = &segFactory->CreateSegCnr(track->state.curSegIndex, cType, radius, arc);
+					curSeg = &segFactory->CreateRandomStr(track->state.curSegIndex);
 
 				previousCornerType = cType;
 			}
 		}
 
+		// Add segment
 		AddSegment(*curSeg);
 		previousSegType = curSeg->type;
 	}
@@ -213,12 +234,33 @@ namespace procedural
 			// If the current leading car is a given distance from the end, generate a new segment
 			if (LeadingCar()->pub.trkPos.seg->id + MAX_SEGS_FROM_END >= track->GetEnd()->id) // If a new segment needs to be generated
 			{
-				if (!adaptive)
+				if (!adaptive || track->GetEnd()->id < MAX_SEGS_FROM_END) // Generate random segment if not adaptive, and for first few segments of adaptive track
 					AddSegment(segFactory->CreateRandomSeg(track->state.curSegIndex));
-				else
+				else // Otherwise, generate segment taking into account skill level
 					GenerateAdaptiveSegment(skillLevel);
 
 				// Update graphical description
+				if (raceManager->raceEngineInfo.displayMode == RM_DISP_MODE_NORMAL)
+					UpdateGraphics();
+
+				// Check if a finish line needs to be added
+				CheckForFinishLine();
+			}
+		}
+	}
+
+	void PTrackManager::CheckForFinishLine()
+	{
+		// Check if a finish line needs to be added
+		if (track->trk->length >= TotalLength())
+		{
+			int segBefore = track->trk->nseg;
+			track->AddFinishLine();
+			int segAfter = track->trk->nseg;
+
+			// Append graphics if a finish line was added
+			if (segAfter > segBefore)
+			{
 				if (raceManager->raceEngineInfo.displayMode == RM_DISP_MODE_NORMAL)
 					UpdateGraphics();
 			}
@@ -229,10 +271,11 @@ namespace procedural
 	{
 		tCarElt* leadingCar = carList;
 
-		for (int i = 0; i < nCars; i++)
+		for (int i = 0; i < nCars; i++) // Loop through all cars
 		{
 			tCarElt* currentCar = &carList[i];
 
+			// Find the leading car
 			if (currentCar->pub.trkPos.seg->id > leadingCar->pub.trkPos.seg->id)
 				leadingCar = currentCar;
 			else if (currentCar->pub.trkPos.seg->id == leadingCar->pub.trkPos.seg->id)
@@ -289,20 +332,11 @@ namespace procedural
 		{
 			tCarElt* curCar = &carList[i];
 
-			if (trackType == PTrackType::PROCEDURAL)
-			{
-				// Calculate the distance covered by this car
-				tdble distCovered = curCar->pub.trkPos.seg->lgfromstart;
-				distCovered += curCar->pub.trkPos.toStart;
+			// Calculate the distance covered by this car
+			tdble distCovered = curCar->pub.trkPos.seg->lgfromstart;
 
-				if (distCovered >= TotalLength())
-					return true;
-			}
-			else
-			{
-				if (curCar->pub.trkPos.seg->id == track->GetEnd()->id)
-					return true;
-			}
+			if (distCovered >= TotalLength())
+				return true;
 		}
 
 		return false;
@@ -346,7 +380,7 @@ namespace procedural
 		fileName = name + ".xml"; // Append with track desc extension
 
 		// Write out the track
-		fManager->OutputTrack(name, configDir, raceManager->track->name, track->trk);
+		fManager->OutputTrack(name, configDir, raceManager->track->name, track);
 	}
 
 	void PTrackManager::InitCars()

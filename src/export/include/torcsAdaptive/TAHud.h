@@ -9,6 +9,7 @@
 
 #include "tgfclient.h"
 #include <string>
+#include <vector>
 
 namespace torcsAdaptive
 {
@@ -79,12 +80,27 @@ namespace torcsAdaptive
 		}
 	};
 	
+	/* Used to represent temporary text in the HUD */
+	struct TempTextField
+	{
+		TempTextField(const tdble& secondsToShow, const std::string& text)
+		{
+			SecondsToShow = secondsToShow;
+			this->Text = text;
+			SecondsShown = 0;
+		}
+
+		tdble SecondsToShow;
+		tdble SecondsShown;
+		std::string Text;
+	};
+
 	/* Used to encapsulte the HUD used by TORCS Adaptive */
 	class TAHud
 	{
 	public:
 		TAHud() : lFont(GFUI_FONT_BIG), mFont(GFUI_FONT_MEDIUM), sFont(GFUI_FONT_SMALL), wWidth(800), wHeight(600), isAdaptive(false),
-			textColor(Color(1.f, 0.f, 0.f, 1.f)) { }
+			textColor(Color(1.f, 0.f, 0.f, 1.f)), tempText(std::vector<TempTextField>()) { }
 		~TAHud() { };
 		
 		/* Initialize the HUD */
@@ -93,6 +109,15 @@ namespace torcsAdaptive
 		/* Render the HUD */
 		void Render(tdble skillLevel);
 		
+		/* Update the HUD */
+		void Update(tdble deltatime);
+
+		/* Renders the given text for a set interval */
+		void RenderTextFor(std::string text, int seconds);
+
+		/* Clears all temporary text from the HUD */
+		void Clear() { tempText.clear(); }
+
 	private:
 		/* Constant values */
 		Color textColor;
@@ -102,6 +127,9 @@ namespace torcsAdaptive
 		const int wWidth;
 		const int wHeight;
 		
+		// Collection of temporarily rendered text
+		std::vector<TempTextField> tempText;
+
 		// Is this an adaptive race?
 		bool isAdaptive;
 		std::string rTypeName;

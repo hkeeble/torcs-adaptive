@@ -60,7 +60,7 @@ namespace procedural
 			\param track	  The TORCS track structure to output.
 			\param category   The type of race that the track was generated within.
 		*/
-		void OutputTrack(std::string trackName, std::string configPath, std::string configName, tTrack* track);
+		void OutputTrack(std::string trackName, std::string configPath, std::string configName, PTrack* track);
 
 		/* 
 		 * Reads track segments from a file. Returns a vector containing all segments read.

@@ -62,6 +62,8 @@ namespace torcsAdaptive
 		// The current player's skill level
 		float currentSkillLevel;
 
+		bool carOffTrackDisp; /*!< Whether or not the message showing that the monitored car is off the track is currently displayed. */
+
 		// The current race type
 		TARaceType raceType;
 
@@ -70,9 +72,6 @@ namespace torcsAdaptive
 		PTrackManager* trackManager;
 		PFileManager* fileManager;
 		tRmInfo* raceManager;
-
-		// Pointer to the car
-		tCarElt* car;
 
 		// Is current race on console?
 		bool raceOnConsole;
@@ -121,7 +120,13 @@ namespace torcsAdaptive
 		void AddSegment(const PSeg& segment);
 		
 		/* Update a procedural track, managing it's cache and adding segments if neccesary. */
-		void UpdateTrack();
+		void Update(tdble deltatime);
+
+		/* Update the HUD */
+		void UpdateHUD(tdble deltatime);
+
+		/* Add new temporary message to the HUD */
+		void AddHUDMessage(std::string msg, tdble seconds);
 
 		/* Check if race is finished, car has traversed entire distance of track. */
 		void CheckIfFinished();

@@ -10,6 +10,7 @@
 #include <fstream>
 #include <vector>
 
+#include "pTrack.h"
 #include "track.h"
 #include "PTrackLoadState.h"
 
@@ -21,6 +22,7 @@ namespace procedural
 	#define P_TRK_ATT_SEG_COUNT "Number of Segments"
 	#define P_TRK_ATT_DESC "Description"
 	#define P_TRK_ATT_NAME "Track Name"
+	#define P_TRK_ATT_LENGTH "Length"
 	#define P_TRK_ATT_CAT "Category"
 
 	/*!
@@ -38,7 +40,7 @@ namespace procedural
 			\param track	The track to write out.
 			\param category The category of race in which the track was generated.
 		 */
-		void WriteTrackTo(std::string filePath, std::string trkName, tTrack* track);
+		void WriteTrackTo(std::string filePath, std::string trkName, PTrack* track);
 
 		//! Reads track data from the given file, and constructs a vector of procedural segment objects.
 		 /*!

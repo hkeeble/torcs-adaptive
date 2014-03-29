@@ -200,16 +200,10 @@
     <ClInclude Include="..\raceengineclient\torcsAdaptive\torcsAdaptive.h">
       <Filter>Header Files\torcsAdaptive</Filter>
     </ClInclude>
-    <ClInclude Include="..\raceengineclient\torcsAdaptive\TAHud.h">
-      <Filter>Header Files\torcsAdaptive</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="client.def">
       <Filter>Source Files</Filter>
     </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

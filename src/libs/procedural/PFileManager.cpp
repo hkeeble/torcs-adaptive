@@ -49,7 +49,7 @@ namespace procedural
 		return instance;
 	}
 
-	void PFileManager::OutputTrack(std::string trackName, std::string configPath, std::string configName, tTrack* track)
+	void PFileManager::OutputTrack(std::string trackName, std::string configPath, std::string configName, PTrack* track)
 	{
 		pOut("Outputting track file...\n");
 
@@ -73,7 +73,7 @@ namespace procedural
 			CopyACFile(configPath + configName + ".ac", relativeCfgPath + "previousTracks/" + trackName + "/" + trackName + ".ac");
 
 			// Write out track plot
-			TrackDesc desc = TrackDesc(track);
+			TrackDesc desc = TrackDesc(track->trk);
 			desc.plot(const_cast<char*>((relativeCfgPath + "previousTracks/" + trackName + "/" + trackName + "Plot.dat").c_str()));
 
 			pOut("Track files output successfully!\n");

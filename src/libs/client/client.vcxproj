@@ -226,7 +226,6 @@ copy "$(TargetDir)*.lib" "$(SolutionDir)\export\lib"</Command>
     <ClCompile Include="..\racescreens\trackselect.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\raceengineclient\torcsAdaptive\TAHud.h" />
     <ClInclude Include="..\raceengineclient\torcsAdaptive\torcsAdaptive.h" />
     <ClInclude Include="client.h" />
     <ClInclude Include="driverconfig.h" />
@@ -251,9 +250,6 @@ copy "$(TargetDir)*.lib" "$(SolutionDir)\export\lib"</Command>
       <Project>{acb16b61-2f7d-4e87-ad15-c95f16431137}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
