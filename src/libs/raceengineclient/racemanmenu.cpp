@@ -315,6 +315,10 @@ ReRacemanMenu(void)
 		GfuiMenuButtonCreate(racemanMenuHdle,
 			"Set Track Configuration", "Set the track configuration ready for procedural generation.",
 			&pmp, PCreateTrackConfigSelectMenu);
+
+		GfuiMenuButtonCreate(racemanMenuHdle,
+			"Configure Drivers", "Configure drivers in the race.",
+			nullptr, reConfigureMenu);
 	}
 	else
 	{

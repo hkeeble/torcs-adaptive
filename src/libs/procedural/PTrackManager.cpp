@@ -91,7 +91,7 @@ namespace procedural
 			tdble trkLength = GfParmGetNum(handle, P_TRK_SECT_HDR, P_TRK_ATT_LENGTH, (char*)nullptr, 1000);
 
 			// Initialize the procedural track object
-			track = new PTrack(segs, 1000, configpath, acpath, configname, acname, lopts);
+			track = new PTrack(segs, trkLength, configpath, acpath, configname, acname, lopts);
 
 			// Add a finish line
 			track->AddFinishLine();

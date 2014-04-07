@@ -86,9 +86,6 @@ namespace torcsAdaptive
 		static TAManager* Get();
 		virtual ~TAManager();
 
-		/* Return the TORCS-Adaptive Race Type */
-		const TARaceType& Type() const;
-		
 		/* Return the performance measurement object. */
 		PMManager* PerformanceMeasurement() const;
 		

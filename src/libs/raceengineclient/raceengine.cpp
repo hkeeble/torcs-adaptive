@@ -772,7 +772,7 @@ ReUpdate(void)
 	STOP_PROFILE("ReUpdate");
 
 	// Update the track if torcs-adaptive race mode
-	if (taManager->Type() != TARaceType::None)
+	if (taManager->GetRaceType() != TARaceType::None)
 		taManager->Update(ReInfo->s->deltaTime);
 
 	return mode;

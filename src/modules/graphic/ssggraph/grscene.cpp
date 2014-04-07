@@ -231,7 +231,7 @@ grLoadScene(tTrack *track)
 
 	// Don't initialize 3d desc if adaptive track
 	using namespace torcsAdaptive;
-	if(TAManager::Get()->Type() == TARaceType::None)
+	if(TAManager::Get()->GetRaceType() == TARaceType::None)
 	{
 		acname = GfParmGetStr(hndl, TRK_SECT_GRAPH, TRK_ATT_3DDESC, "track.ac");
 		if (strlen(acname) == 0)

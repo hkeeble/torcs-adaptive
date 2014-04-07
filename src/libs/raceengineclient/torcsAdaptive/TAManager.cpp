@@ -42,11 +42,6 @@ namespace torcsAdaptive
 			delete instance;
 	}
 
-	const TARaceType& TAManager::Type() const
-	{
-		return raceType;
-	}
-
 	PMManager* TAManager::PerformanceMeasurement() const
 	{
 		return perfMeasurement;
