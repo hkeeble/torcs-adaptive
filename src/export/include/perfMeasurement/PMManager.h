@@ -7,6 +7,9 @@
 #ifndef _PM_MANAGER_H_
 #define _PM_MANAGER_H_
 
+#include <fstream>
+#include <vector>
+
 #include "PMData.h"
 #include "PMEvaluator.h"
 #include "RaceLineEvaluation.h"
@@ -53,6 +56,12 @@ namespace perfMeasurement
 		
 		/** Retrieve the current estimate skill level */
 		tdble GetSkillEstimate();
+
+		/** Retrieve the current average skill estimate from the evaluator. */
+		tdble GetAverageEstimate();
+
+		/** Output the performance measurement data for the current race. */
+		void OutputData(std::string filepath);
 	};
 }
 #endif // _PM_MANAGER_H_

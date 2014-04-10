@@ -8,6 +8,8 @@
 #ifndef _PM_EVALUATOR_H_
 #define _PM_EVALUATOR_H_
 
+#include <vector>
+
 #include "PMData.h"
 #include "PMDefs.h"
 #include "taMath\taMath.h"
@@ -32,6 +34,7 @@ namespace perfMeasurement
 	protected:
 		CarData car;				 /*!< The car data currently held. This should be updated on each call to Update. */
 		std::vector<PMData> dataSet; /*!< The current data set */
+		std::vector<tdble> estimates;/*!< Set of all the skill estimates for this race. */
 		tdble currentEstimate;		 /*!< The current estimate for skill level */
 		tdble totalEstimate;		 /*!< The total skill level estimate (appended to each time an evaluation is made) */
 		tdble avgEstimate;			 /*!< The average estimate (totalEstimate/nEstimates) */
@@ -41,7 +44,8 @@ namespace perfMeasurement
 	public:
 	
 		/** Initializes a new evaluator, initializing the skill estimate to a null skill level. */
-		PMEvaluator() : currentEstimate(NULL_SKILL_LEVEL) { }
+		PMEvaluator() : currentEstimate(NULL_SKILL_LEVEL), totalEstimate(0), avgEstimate(0), nEstimates(0), dataSet(std::vector<PMData>()),
+			estimates(std::vector<tdble>()) { }
 		
 		/** Pure virtual update function. Override for bespoke update functionality, is also responsible for calling the Evaluate function. */
 		virtual void Update(tdble deltaTimeIncrement, tdble currentTime) = 0;
@@ -63,6 +67,9 @@ namespace perfMeasurement
 		
 		/** Retrieve the current average skill level estimate from the evaluator. */
 		tdble GetAverageEstimate() const { return avgEstimate; }
+
+		/** Retrieve a collection of all the estimates in sequential order for the current race. */
+		const std::vector<tdble> GetEstimates() const { return estimates; }
 	};
 }
 

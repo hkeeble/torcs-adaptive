@@ -112,8 +112,8 @@ namespace procedural
 	{
 		// Declare variables
 		std::vector<std::string> files = std::vector<std::string>();
-		FList* filesList;
-		FList* curFile;
+		tFList* filesList;
+		tFList* curFile;
 
 		// Construct a directory list
 		if (fType != FILE_SEARCH_UNFILTERED)
@@ -123,14 +123,17 @@ namespace procedural
 		curFile = filesList;
 
 		// Read the directory list into a vector
-		do {
-			if (std::string(curFile->name).find(fType, 0) != std::string::npos)
-				files.push_back(curFile->name);
-			curFile = curFile->next;
-		} while (curFile != filesList);
+		if (filesList != nullptr)
+		{
+			do {
+				if (std::string(curFile->name).find(fType, 0) != std::string::npos)
+					files.push_back(curFile->name);
+				curFile = curFile->next;
+			} while (curFile != filesList);
 
-		// Fre the directory list
-		GfDirFreeList(filesList, nullptr, true, true);
+			// Fre the directory list
+			GfDirFreeList(filesList, nullptr, true, true);
+		}
 
 		// Return list of files
 		return files;

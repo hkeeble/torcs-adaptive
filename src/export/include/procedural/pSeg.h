@@ -27,11 +27,7 @@ namespace procedural
 
 		int	id;		/*!< ID of the track segment. */
 		int type;	/*!< Type of the track segment, left, right or straight. */
-		int type2;
-		int style;
-		int raceInfo;
 
-		// Data
 		float length; /*!< Length of the segment in meters. */
 		float radius; /*!< Radius of the segment in meters. */
 		float arc; 	  /*!< Arc of the segment in radians. */

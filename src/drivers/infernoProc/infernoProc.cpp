@@ -440,6 +440,8 @@ static void drive(int index, tCarElt* car, tSituation *situation)
 
 	if (myc->tr_mode == 0) car->_steerCmd = steer;
 	car->_clutchCmd = getClutch(myc, car);
+
+	std::cout << brake << std::endl;
 }
 
 

@@ -205,6 +205,13 @@ namespace torcsAdaptive
 
 		// Clear HUD
 		hud.Clear();
+
+		// If the track was adaptive, output the performance report
+		std::vector<std::string> files = fileManager->FilesInDirectory("performanceData", ".txt");
+		int nFiles = files.size();
+		std::string fname = "perfData" + std::to_string(nFiles) + ".txt";
+		if (raceType == TARaceType::Adaptive)
+			perfMeasurement->OutputData(std::string(fileManager->GetCurrentDir()) + "performanceData/" + fname);
 	}
 
 	void TAManager::InitCars()

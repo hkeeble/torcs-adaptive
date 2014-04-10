@@ -48,9 +48,37 @@ namespace perfMeasurement
 		return Evaluator->GetCurrentEstimate();
 	}
 
+	tdble PMManager::GetAverageEstimate()
+	{
+		return Evaluator->GetAverageEstimate();
+	}
+
 	void PMManager::Init(tCarElt* car, PMEvaluator* evaluator)
 	{
 		Evaluator = evaluator;
 		Evaluator->Init(car);
+	}
+
+	void PMManager::OutputData(std::string filepath)
+	{
+		std::ofstream file;
+		file.open(filepath);
+
+		file << " ----- PERFORMANCE EVALUATION REPORT ----- " << "\n\n";
+
+		// Output driver name
+		file << "-- INFORMATION --\n";
+		file << "Driver: " << Evaluator->GetCar()->info.name << "\n";
+		file << "Car: " << Evaluator->GetCar()->info.carName << "\n";
+		file << "Average Skill Estimate: " << Evaluator->GetAverageEstimate() << "\n";
+		file << "Total number of Estimates: " << Evaluator->GetEstimates().size() << "\n\n";
+
+		// Output all estimates in sequential order
+		file << "-- RAW ESTIMATE DATA --\n";
+		const std::vector<tdble> estimates = Evaluator->GetEstimates();
+		for (auto &i : estimates)
+			file << i << "\n";
+
+		file.close();
 	}
 }

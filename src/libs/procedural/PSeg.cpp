@@ -11,10 +11,6 @@ namespace procedural
 	{
 		id = type = 0;
 		length = radius = arc = 0.f;
-
-		raceInfo = 0x00000000; // Normal Segment
-		type2 = 1; // Main Track Segment
-		style = 2; // Plan (TR_PLAN)
 	}
 
 	PSeg::~PSeg()

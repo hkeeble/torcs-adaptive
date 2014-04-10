@@ -8,6 +8,8 @@
 #include "PPathfinder.h"
 #include "spline.h"
 
+#ifdef PATH_BERNIW
+
 namespace procBot
 {
 	/*
@@ -299,3 +301,4 @@ namespace procBot
 		return next;
 	}
 }
+#endif PATH_BERNIW

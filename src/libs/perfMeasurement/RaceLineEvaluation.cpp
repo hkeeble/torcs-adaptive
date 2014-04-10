@@ -85,5 +85,8 @@ namespace perfMeasurement
 		nEstimates++;
 		totalEstimate += currentEstimate;
 		avgEstimate = totalEstimate / nEstimates;
+
+		// Add to estimates collection
+		estimates.push_back(currentEstimate);
 	}
 }

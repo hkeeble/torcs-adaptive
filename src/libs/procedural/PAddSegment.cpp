@@ -157,7 +157,7 @@ namespace procedural
 
 		// Assign Types
 		curSeg->type = seg.type;
-		curSeg->type2 = seg.type2;
+		curSeg->type2 = 1;
 
 		// Assign ID
 		curSeg->id = TrackState.curSegIndex;
