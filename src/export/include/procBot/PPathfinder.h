@@ -37,8 +37,8 @@ namespace procBot
 	class PCarDesc;
 	class POtherCarDesc;
 
-	#define PATH_K1999
-	// #define PATH_BERNIW
+	// #define PATH_K1999
+	#define PATH_BERNIW
 
 	/* holds a point of datafile from clothoid */
 	typedef struct {
