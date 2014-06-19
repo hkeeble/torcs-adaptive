@@ -104,7 +104,7 @@ TrackDesc::TrackDesc(const tTrack* track)
 	int currentts = 0;
 	double lastseglen = 0.0;
 	double curseglen = 0.0;
-	seg = (tTrackSeg*) first;
+	seg = (tTrackSeg*) first->next;
 
 	do {
 		if (seg->type == TR_STR) {
@@ -169,7 +169,7 @@ TrackDesc::TrackDesc(const tTrack* track)
 		}
 
 		seg = seg->next;
-	} while (( seg != first) && seg);
+	} while (( seg != first->next) && seg);
 
 	if (currentts != nTrackSegments) printf("error: TrackDesc::TrackDesc currentts %d != nTrackSegments %d.\n", currentts, nTrackSegments);
 
@@ -233,18 +233,23 @@ TrackDesc::~TrackDesc()
 void TrackDesc::plot(char* filename)
 {
 	FILE *fd = fopen(filename, "w");
-	v3d *l, *m, *r;
+	v3d *l, *r;
 
 	/* plot track */
+
+	/* Left Side */
 	for (int i = 0; i < getnTrackSegments(); i++) {
 		TrackSegment* p = getSegmentPtr(i);
+		p->getLength();
 		l = p->getLeftBorder();
-		fprintf(fd, "%f\t%f\n", l->x, l->y );
-		m = p->getMiddle();
-		fprintf(fd, "%f\t%f\n", m->x, m->y );
+		fprintf(fd, "%f,%f\n", l->x, l->y);
+	}
+
+	/* Right Side */
+	for (int i = getnTrackSegments()-1; i >= 0; i--) {
+		TrackSegment* p = getSegmentPtr(i);
 		r = p->getRightBorder();
-		fprintf(fd, "%f\t%f\n", r->x, r->y );
-		fprintf(fd, "\n\n");
+		fprintf(fd, "%f,%f\n", r->x, r->y);
 	}
 
 	fclose(fd);

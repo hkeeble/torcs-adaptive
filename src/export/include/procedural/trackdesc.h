@@ -86,6 +86,8 @@ class TrackSegment
 		inline double distToMiddleSqr3D(double x, double y, double z) { return sqr(x-m.x) + sqr(y-m.y) + sqr(z-m.z); }
 		inline double distToMiddle3D(v3d* p) { return sqrt(sqr(p->x-m.x) + sqr(p->y-m.y) + sqr(p->z-m.z)); }
 
+		tTrackSeg* getTorcsSegment() { return pTrackSeg; }
+
 	private:
 		tTrackSeg* pTrackSeg;	/* id of the corresponding segment */
 		int type;				/* physical type (eg. straight, left or right) */

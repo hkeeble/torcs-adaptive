@@ -197,12 +197,13 @@ namespace procBot
 		/* plot track */
 		for (int i = 0; i < segmentCount(); i++) {
 			PTrackSegment* p = getSegmentPtr(i);
+			
 			l = p->getLeftBorder();
-			fprintf(fd, "%f\t%f\n", l->x, l->y);
+			fprintf(fd, "%f,%f\n", l->x, l->y);
 			m = p->getMiddle();
-			fprintf(fd, "%f\t%f\n", m->x, m->y);
+			fprintf(fd, "%f,%f\n", m->x, m->y);
 			r = p->getRightBorder();
-			fprintf(fd, "%f\t%f\n", r->x, r->y);
+			fprintf(fd, "%f,%f\n", r->x, r->y);
 		}
 
 		fclose(fd);
