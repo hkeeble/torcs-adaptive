@@ -84,6 +84,9 @@ namespace perfMeasurement
 
 			/** Calculates the average speed the car has up until this point */
 			tdble AverageSpeed();
+
+			/** Plots the optimal path for this outlook to the given file */
+			void PlotOptimalPath(FILE fd);
 		} currentOutlook; /*!< The currently stored outlook. */
 
 		bool offTrack; /*!< Whether or not the car has left the main track in this evaluation segment. */

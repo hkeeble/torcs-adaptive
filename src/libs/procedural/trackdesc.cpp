@@ -235,7 +235,7 @@ void TrackDesc::plot(char* filename)
 	FILE *fd = fopen(filename, "w");
 	v3d *l, *r;
 
-	/* plot track */
+	/* plot track - this is done left side start to finish, right side finish to start */
 
 	/* Left Side */
 	for (int i = 0; i < getnTrackSegments(); i++) {
