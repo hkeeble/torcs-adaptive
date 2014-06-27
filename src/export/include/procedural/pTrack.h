@@ -128,9 +128,12 @@ namespace procedural
 		const string& GetTempACPath();		  /*!< Retrieve the path of the track's temporary AC file. */
 		const string& GetConfigName();		  /*!< Retrieve the track's XML configuration file name. */
 		const string& GetConfigPath();		  /*!< Retrieve the path of the track's configuration file. */
+		const string& GetPlotName();		  /*!< Retrieve the name of the plot file. */
+		const string& GetPlotPath();		  /*!< Retrieve the path of the plot file. */
 		const string GetTempACPathAndName();  /*!< Retrieve the track's temporary AC path appended with the temporary AC file name. */
 		const string GetACPathAndName();	  /*!< Retrieve the path of the track's AC file appended with the AC file's name. */
 		const string GetConfigPathAndName();  /*!< Retrieve the track's XML configuration file path appended with the XML configuration's file name. */
+		const string GetPlotPathAndName();	  /*!< Retrieve the track's plot file path and file name. */
 
 		PSSGState*	  GetSSGState();		  /*!< Retrieve the track's current SSG state. */
 		EntityDesc*	  GetTrackDesc() const;   /*!< Retrieve the track's current 3D description. */

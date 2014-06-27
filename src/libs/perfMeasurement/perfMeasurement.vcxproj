@@ -94,8 +94,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CornerOutlook.cpp" />
+    <ClCompile Include="K1999RaceLine.cpp" />
+    <ClCompile Include="Pathfinder.cpp" />
     <ClCompile Include="PMData.cpp" />
     <ClCompile Include="PMManager.cpp" />
+    <ClCompile Include="CurvatureApproximation.cpp" />
     <ClCompile Include="RaceLineEvaluation.cpp" />
     <ClCompile Include="TopSpeedDeviation.cpp" />
     <ClCompile Include="Util.cpp" />

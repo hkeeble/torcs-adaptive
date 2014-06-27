@@ -1,6 +1,6 @@
 #include "PTrackDesc.h"
 
-namespace procBot
+namespace procPathfinder
 {
 	PTrackDesc::PTrackDesc(const tTrack* track)
 	{

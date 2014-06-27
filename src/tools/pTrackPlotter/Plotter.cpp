@@ -23,11 +23,11 @@ void Plotter::Run(int argc, char **argv)
 {
 	if (argc == 1)
 	{
-		std::cout << "Error, no arguments passed. Usage: pTrackPlotter [data file]" << std::endl;
+		std::cout << "Error, no arguments passed. Usage: pTrackPlotter [config] [track name]" << std::endl;
 		exit(0);
 	}
 	else
-		plot = TrackPlot(std::string(argv[1]));
+		plot = TrackPlot(std::string(argv[1]), std::string(argv[2]));
 
 	InitGLUT(argc, argv);
 	InitGL();

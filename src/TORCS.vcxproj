@@ -76,10 +76,6 @@
       <Project>{99b5a947-a0e0-48d1-879d-3e533d48e7c5}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="drivers\berniw\berniw.vcxproj">
-      <Project>{781b5b1e-48e0-4c0e-8a4a-5466bfc9637c}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
     <ProjectReference Include="drivers\damned\damned.vcxproj">
       <Project>{85d049c2-bedd-4d57-8c44-0f40d0061a52}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

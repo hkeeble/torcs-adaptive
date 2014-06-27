@@ -7,7 +7,7 @@
 
 #include "PTrackSegment.h"
 
-namespace procBot
+namespace procPathfinder
 {
 	PTrackSegment::PTrackSegment()
 	{

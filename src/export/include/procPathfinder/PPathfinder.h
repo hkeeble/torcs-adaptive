@@ -81,28 +81,23 @@ namespace procBot
 			void dynamicPlan(int trackSegId, tCarElt* car, tSituation* situation, PCarDesc* myc, POtherCarDesc* ocar);
 			void staticPlan(PCarDesc* myc);
 
-			/* Used to update the PPPathfinder when neccesary */
+			/*!< Used to update the PPPathfinder when neccesary. */
 			void Update(tSituation* situation);
 
-			void initPit(tCarElt* car);
-			inline bool isPitAvailable() { return pit; }
-			inline int getPitSegId() { return pitSegId; }
-			void setPitStop(bool p, int id);
-			inline bool getPitStop() { return pitStop; }
-			int segmentsToPit(int id);
-			void plotPitStopPath(char* filename);
+			/*!< Plots the current path to the optimal file. */
 			void plotPath(char* filename);
 
 			inline double sqr(double a) { return a*a; };
 			inline double dist(v3d* a, v3d* b) { return sqrt(sqr(a->x-b->x) + sqr(a->y-b->y) + sqr(a->z-b->z)); }
 			inline double dist2D(v3d* a, v3d* b) { return sqrt(sqr(a->x-b->x) + sqr(a->y-b->y)); }
-			inline PathSeg* getPathSeg(int pathSegId) { return ps(pathSegId); }
-			int getCurrentSegment(tCarElt* car);
-			int getCurrentSegment(tCarElt* car, int range);
-			inline int getnPathSeg() { return ps.Count(); }
 			inline double getPitSpeedSqrLimit() { return pitspeedsqrlimit; }
+			inline PathSeg* getPathSeg(int pathSegId) { return ps(pathSegId); }
+			inline int getnPathSeg() { return ps.Count(); }
+
 			double distToPath(int trackSegId, v3d* p);
 
+			int getCurrentSegment(tCarElt* car);
+			int getCurrentSegment(tCarElt* car, int range);			
 		private:
 			static const double COLLDIST;	/* up to this distance do we consider other cars as dangerous */
 			static const double TPRES;		/* resolution of the steps */
@@ -113,7 +108,7 @@ namespace procBot
 			PTrackDesc* track;		 /* pointer to track data */
 			PCarDesc* carDesc;		 /* pointer to procedural car description */
 			PStateManager stateMngr; /* State manager for the pathfinder */
-			tCarElt* car;			 /* pointer to torcs car structure */
+			tCarElt* car;			 /* Pointer to torcs car structure */
 
 			int previousPSCount; /* Previous path segment count on last call to static plan */
 

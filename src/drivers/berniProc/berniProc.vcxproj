@@ -58,7 +58,7 @@
       <SDLCheck>false</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;BERNIPROC_EXPORTS;DEBUG;DEBUG_OUT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../windows/include;../../..;$(SolutionDir)\config\;$(ProjectDir)\include\;$(SolutionDir)/export/include/procBot/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../windows/include;../../..;$(SolutionDir)\config\;$(ProjectDir)\include\;$(SolutionDir)/export/include/procPathfinder/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AssemblerListingLocation>./Debug/</AssemblerListingLocation>
       <ObjectFileName>./Debug/</ObjectFileName>
@@ -68,7 +68,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\export\libd\;$(SolutionDir)\windows\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>tgf.lib;robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;procBot.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>tgf.lib;robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;procPathfinder.lib</AdditionalDependencies>
       <OutputFile>.\Debug/berniProc.dll</OutputFile>
       <MapFileName>.\Debug/berniProc.map</MapFileName>
       <IgnoreSpecificDefaultLibraries>LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -92,7 +92,7 @@
       </SDLCheck>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;BERNIW_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../windows/include;../../..;$(SolutionDir)\config\;$(ProjectDir)\include\;$(SolutionDir)/export/include/procBot/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../windows/include;../../..;$(SolutionDir)\config\;$(ProjectDir)\include\;$(SolutionDir)/export/include/procPathfinder/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <StringPooling>true</StringPooling>
     </ClCompile>
@@ -101,7 +101,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)\export\lib\;$(SolutionDir)\windows\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>tgf.lib;robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;procBot.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>tgf.lib;robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;procPathfinder.lib</AdditionalDependencies>
       <ModuleDefinitionFile>.\berniProc.def</ModuleDefinitionFile>
     </Link>
     <PostBuildEvent>

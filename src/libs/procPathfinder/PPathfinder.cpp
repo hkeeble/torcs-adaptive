@@ -7,7 +7,7 @@
 
 #include "PPathfinder.h"
 
-namespace procBot
+namespace procPathfinder
 {
 	const double PPathfinder::COLLDIST = 200.0;
 	const double PPathfinder::TPRES = PI / (NTPARAMS - 1);	/* resolution of the steps */
@@ -49,187 +49,13 @@ namespace procBot
 			pit = true;
 		}
 
-		s1 = e3 = 0;
-		if (isPitAvailable()) {
-			initPit(car);
-			s1 = track->getPitEntryStartId();
-			s1 = (int)GfParmGetNum(car->_carHandle, "berniProc private", "pitentry", (char*)NULL, (float)s1);
-			e3 = track->getPitExitEndId();
-			e3 = (int)GfParmGetNum(car->_carHandle, "berniProc private", "pitexit", (char*)NULL, (float)e3);
-			pitspeedsqrlimit = t->pits.speedLimit - 0.5;
-			pitspeedsqrlimit *= pitspeedsqrlimit;
-			/* get memory for the pit points */
-			pitcord = new v3d[countSegments(s1, e3)];
-		}
 	}
 
 	PPathfinder::~PPathfinder()
 	{
-		if (isPitAvailable()) delete[] pitcord;
 		delete[] o;
 		delete[] overlaptimer;
 	}
-
-	/* compute where the pit is, etc */
-	void PPathfinder::initPit(tCarElt* car)
-	{
-		tTrack* t = track->GetTorcsTrack();
-
-		if (t->pits.driversPits != NULL && car != NULL) {
-			if (isPitAvailable()) {
-				tTrackSeg* pitSeg = t->pits.driversPits->pos.seg;
-				if (pitSeg->type == TR_STR) {
-					v3d v1, v2;
-					/* v1 points in the direction of the segment */
-					v1.x = pitSeg->vertex[TR_EL].x - pitSeg->vertex[TR_SL].x;
-					v1.y = pitSeg->vertex[TR_EL].y - pitSeg->vertex[TR_SL].y;
-					v1.z = pitSeg->vertex[TR_EL].z - pitSeg->vertex[TR_SL].z;
-					v1.normalize();
-
-					/* v2 points to the side of the segment */
-					double s = (t->pits.side == TR_LFT) ? -1.0 : 1.0;
-					v2.x = s*(pitSeg->vertex[TR_SR].x - pitSeg->vertex[TR_SL].x);
-					v2.y = s*(pitSeg->vertex[TR_SR].y - pitSeg->vertex[TR_SL].y);
-					v2.z = s*(pitSeg->vertex[TR_SR].z - pitSeg->vertex[TR_SL].z);
-					v2.normalize();
-
-					/* loading starting point of segment */
-					pitLoc.x = (pitSeg->vertex[TR_SR].x + pitSeg->vertex[TR_SL].x) / 2.0;
-					pitLoc.y = (pitSeg->vertex[TR_SR].y + pitSeg->vertex[TR_SL].y) / 2.0;
-					pitLoc.z = (pitSeg->vertex[TR_SR].z + pitSeg->vertex[TR_SL].z) / 2.0;
-
-					/* going along the track */
-					double l = t->pits.len*car->index;
-					pitLoc = pitLoc + (t->pits.driversPits->pos.toStart + l)*v1;
-
-					/* going sideways, minus because of opposite sign of v2 and the value toMiddle */
-					double m = fabs(t->pits.driversPits->pos.toMiddle);
-					pitLoc = pitLoc + m*v2;
-
-					pitSegId = track->getNearestId(&pitLoc);
-
-					l = t->pits.len*(car->index + 2);
-					v2 = pitLoc - l*v1;
-					s3 = track->getNearestId(&v2);
-
-					l = t->pits.len*(t->pits.nMaxPits + 1 + 2);
-					v2 = v2 + l*v1;
-					e1 = track->getNearestId(&v2);
-				}
-				else pit = false;
-			}
-		}
-		else
-		{
-			printf("error: pit struct ptr == NULL. call this NOT in inittrack, call it in newrace.\n");
-		}
-	}
-
-
-	/* call this after you computed a static racing path with plan() */
-	void PPathfinder::initPitStopPath(void)
-	{
-		tTrack* t = track->GetTorcsTrack();
-		v3d p, q, *pp, *qq, *pmypitseg = track->getSegmentPtr(pitSegId)->getMiddle();
-		double d, dp, sgn;
-		double delta = t->pits.width;
-		int i;
-		double ypit[PITPOINTS], yspit[PITPOINTS], spit[PITPOINTS];
-		int snpit[PITPOINTS];
-
-		/* set up point 0 on the track (s1) */
-		ypit[0] = track->distToMiddle(s1, ps(s1)->getLoc());
-		snpit[0] = s1;
-
-		/* set up point 1 pit lane entry (s3) */
-		track->dirVector2D(&pitLoc, pmypitseg, &p);
-		dp = p.len();
-		d = dp - delta;
-
-		sgn = (t->pits.side == TR_LFT) ? -1.0 : 1.0;
-		ypit[1] = d*sgn;
-		snpit[1] = s3;
-
-		/* set up point 2 before we turn into the pit */
-		i = (pitSegId - (int)t->pits.len + ps.Count()) % ps.Count();
-		ypit[2] = d*sgn;
-		snpit[2] = i;
-
-		/* set up point 3, the pit, we know this already */
-		ypit[3] = dp*sgn;
-		snpit[3] = pitSegId;
-
-		/* compute point 4, go from pit back to pit lane */
-		i = (pitSegId + (int)t->pits.len + ps.Count()) % ps.Count();
-		ypit[4] = d*sgn;
-		snpit[4] = i;
-
-		/* compute point 5, drive to end of pit lane (e1) */
-		ypit[5] = d*sgn;
-		snpit[5] = e1;
-
-		/* compute point 6, back on the track */
-		ypit[6] = track->distToMiddle(e3, ps(e3)->getLoc());
-		snpit[6] = e3;
-
-		/* compute spit array */
-		spit[0] = 0.0;
-		for (i = 1; i < PITPOINTS; i++) {
-			d = 0.0;
-			for (int j = snpit[i - 1]; (j + 1) % ps.Count() != snpit[i]; j++) {
-				if (snpit[i] > snpit[i - 1]) {
-					d = (double)(snpit[i] - snpit[i - 1]);
-				}
-				else {
-					d = (double)(ps.Count() - snpit[i - 1] + snpit[i]);
-				}
-			}
-			spit[i] = spit[i - 1] + d;
-		}
-
-		/* set up slopes */
-		yspit[0] = pathSlope(s1);
-		yspit[6] = pathSlope(e3);
-
-		for (i = 1; i < PITPOINTS - 1; i++) {
-			yspit[i] = 0.0;
-		}
-
-		/* compute path to pit */
-		double l = 0.0;
-		for (i = s1; (i + ps.Count()) % ps.Count() != e3; i++) {
-			int j = (i + ps.Count()) % ps.Count();
-			d = spline(PITPOINTS, l, spit, ypit, yspit);
-
-			pp = track->getSegmentPtr(j)->getMiddle();
-			qq = track->getSegmentPtr(j)->getToRight();
-
-			p.x = qq->x; p.y = qq->y; p.z = 0.0;
-			p.normalize();
-
-			q.x = pp->x + p.x*d;
-			q.y = pp->y + p.y*d;
-			q.z = (t->pits.side == TR_LFT) ? track->getSegmentPtr(j)->getLeftBorder()->z : track->getSegmentPtr(j)->getRightBorder()->z;
-
-			pitcord[i - s1] = q;
-			ps(j)->setPitLoc(&pitcord[i - s1]);
-			l += TRACKRES;
-		}
-	}
-
-
-	/* plots pit trajectory to file for gnuplot */
-	void PPathfinder::plotPitStopPath(char* filename)
-	{
-		FILE* fd = fopen(filename, "w");
-
-		/* plot pit path */
-		for (int i = 0; i < ps.Count(); i++) {
-			fprintf(fd, "%f\t%f\n", ps(i)->getPitLoc()->x, ps(i)->getPitLoc()->y);
-		}
-		fclose(fd);
-	}
-
 
 	void PPathfinder::plotPath(char* filename)
 	{
@@ -237,7 +63,7 @@ namespace procBot
 
 		/* plot path */
 		for (int i = 0; i < ps.Count(); i++) {
-			fprintf(fd, "%f\t%f\n", ps(i)->getLoc()->x, ps(i)->getLoc()->y);
+			fprintf(fd, "%f,%f\n", ps(i)->getLoc()->x, ps(i)->getLoc()->y);
 		}
 		fclose(fd);
 	}
@@ -311,9 +137,6 @@ namespace procBot
 
 			u = v; v = w; w = (w + 1 + ps.Count()) % ps.Count();
 		}
-
-		/* add path to pit to pit-path */
-		if (isPitAvailable()) initPitStopPath();
 
 		// Record the PS count on this call
 		previousPSCount = ps.Count();
@@ -412,13 +235,6 @@ namespace procBot
 			double mu = track->getSegmentPtr(j)->getKfriction()*myc->CFRICTION*track->getSegmentPtr(j)->getKalpha();
 			double b = track->getSegmentPtr(j)->getKbeta();
 			speedsqr = myc->SPEEDSQRFACTOR*r*g*mu / (1.0 - MIN(1.0, (mu*myc->ca*r / myc->mass)) + mu*r*b);
-			if (pitStop && track->isBetween(s3, pitSegId, j)) {
-				double speedsqrpit = ((double)segmentsToPit(j) / TRACKRES) *2.0*g*track->getSegmentPtr(j)->getKfriction()*myc->CFRICTION*myc->cgcorr_b;
-				if (speedsqr > speedsqrpit) speedsqr = speedsqrpit;
-			}
-			if ((pitStop || inPit) && track->isBetween(s3, e1, j)) {
-				if (speedsqr > getPitSpeedSqrLimit()) speedsqr = getPitSpeedSqrLimit();
-			}
 
 			dir = (*ps(w)->getLoc()) - (*ps(u)->getLoc());
 			dir.normalize();

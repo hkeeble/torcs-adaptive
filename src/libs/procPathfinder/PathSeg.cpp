@@ -7,7 +7,7 @@
 
 #include "PathSeg.h"
 
-namespace procBot
+namespace procPathfinder
 {
 	PathSeg::PathSeg(v3d location, v3d optimalLocation, tdble speedsqr, tdble weight, tdble radius)
 	{

@@ -8,7 +8,7 @@ TrackPlot::TrackPlot()
 
 }
 
-TrackPlot::TrackPlot(std::string fileName)
+TrackPlot::TrackPlot(std::string config, std::string track)
 {
 	// Initialize max and minimum constraints
 	max = Point2D(0, 0);
@@ -20,7 +20,8 @@ TrackPlot::TrackPlot(std::string fileName)
 	actualLine = std::vector<Point2D>();
 
 	// Open the file
-	std::ifstream input = std::ifstream(fileName.c_str());
+	std::string file = "tracks/procedural/" + config + " Config/previousTracks/" + track + "/" + track + "Plot.dat";
+	std::ifstream input = std::ifstream(file);
 
 	std::string line;
 
@@ -29,6 +30,7 @@ TrackPlot::TrackPlot(std::string fileName)
 	// Read Track
 	do
 	{
+		std::getline(input, line);
 		std::vector<std::string> coords = split(line, ',');
 		trackPoints.push_back(Point2D(std::atof(coords[0].c_str()), std::atof(coords[1].c_str())));
 		
@@ -43,27 +45,37 @@ TrackPlot::TrackPlot(std::string fileName)
 			max.y = trackPoints.back().y;
 
 		std::getline(input, line);
-	} while (line != "");
+	} while (!input.eof() || line != "");
 
-	std::getline(input, line);
+	input.close();
 
 	// Read Optimal Line
+	input = std::ifstream(optimalFile.c_str());
+	
+	std::getline(input, line);
+
 	do
 	{
 		std::vector<std::string> coords = split(line, ',');
 		optimalLine.push_back(Point2D(std::atof(coords[0].c_str()), std::atof(coords[1].c_str())));
 		std::getline(input, line);
-	} while (line != "");
+	} while (!input.eof() || line != "");
+
+	input.close();
+
+	// Read Actual Line
+	input = std::ifstream(actualFile.c_str());
 
 	std::getline(input, line);
 
-	// Read Actual Line
 	do
 	{
 		std::vector<std::string> coords = split(line, ',');
 		actualLine.push_back(Point2D(std::atof(coords[0].c_str()), std::atof(coords[1].c_str())));
 		std::getline(input, line);
-	} while (!input.eof());
+	} while (!input.eof() || line != "");
+
+	input.close();
 }
 
 Point2D TrackPlot::Max()
@@ -94,8 +106,9 @@ void TrackPlot::renderTrack()
 void TrackPlot::renderOptimalLine()
 {
 	glColor3f(1.0f, 0.5f, 0.0f);
-
-	glBegin(GL_LINE_STRIP);
+	glPointSize(10.f);
+	
+	glBegin(GL_POINTS);
 	for (int i = 0; i < optimalLine.size(); i++)
 		glVertex2d(optimalLine[i].x, optimalLine[i].y);
 	glEnd();

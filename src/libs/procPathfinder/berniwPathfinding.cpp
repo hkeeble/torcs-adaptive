@@ -6,11 +6,11 @@
 */
 
 #include "PPathfinder.h"
-#include "spline.h"
+#include "taMath\spline.h"
 
 #ifdef PATH_BERNIW
 
-namespace procBot
+namespace procPathfinder
 {
 	/*
 	computes int(sin(u^2), u=0..alpha), where alpha is [0..PI).

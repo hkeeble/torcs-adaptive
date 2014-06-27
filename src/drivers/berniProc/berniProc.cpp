@@ -22,7 +22,7 @@ Desc: Modified version of the robot berniw for TORCS adaptive.
 #include "dmalloc.h"
 #endif
 
-using namespace procBot;
+using namespace procPathfinder;
 
 /* function prototypes */
 static void initTrack(int index, tTrack* track, void *carHandle, void **carParmHandle, tSituation * situation);

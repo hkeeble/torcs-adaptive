@@ -6,7 +6,7 @@
 
 #include "PathSegCollection.h"
 
-namespace procBot
+namespace procPathfinder
 {
 	PathSegCollection::PathSegCollection(int nSegs)
 	{

@@ -20,8 +20,8 @@
 
 #include "infernoProc.h"
 
-// Use the procBot namespace
-using namespace procBot;
+// Use the procPathfinder namespace
+using namespace procPathfinder;
 
 const double infernoCar::STEER_D_CONTROLLER_GAIN = 0.1;
 const float infernoCar::FUEL_SAFETY_MARGIN = 0.15f;

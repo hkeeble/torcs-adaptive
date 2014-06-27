@@ -23,6 +23,14 @@ struct Rect
 	int y;
 };
 
+struct v2d
+{
+	v2d() { x = y = 0; }
+	v2d(double x, double y) { this->x = x; this->y = 0; }
+	
+	double x, y;
+};
+
 inline double sign(double number)
 {
 	return (number >= 0.0) ? 1.0 : -1.0;

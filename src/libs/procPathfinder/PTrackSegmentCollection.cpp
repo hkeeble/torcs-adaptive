@@ -6,7 +6,7 @@
 
 #include "PTrackSegmentCollection.h"
 
-namespace procBot
+namespace procPathfinder
 {
 	PTrackSegmentCollection::PTrackSegmentCollection(const vector<PTrackSegment>& segs)
 	{

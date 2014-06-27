@@ -12,6 +12,7 @@
 
 #include "PMData.h"
 #include "PMEvaluator.h"
+#include "CurvatureApproximation.h"
 #include "RaceLineEvaluation.h"
 #include "PMDefs.h"
 #include "car.h"

@@ -7,7 +7,7 @@
 
 #include "PPathfinder.h"
 
-namespace procBot
+namespace procPathfinder
 {
 	/* computes curvature, from Remi Coulom, K1999.cpp */
 	inline double PPathfinder::curvature(double xp, double yp, double x, double y, double xn, double yn)

@@ -194,7 +194,9 @@ namespace torcsAdaptive
 		if (trackManager->CurrentLength() >= trackManager->TotalLength())
 		{
 			if (trackManager->IsCarFinished())
+			{
 				raceManager->s->raceInfo.state = RM_RACE_ENDED;
+			}
 		}
 	}
 

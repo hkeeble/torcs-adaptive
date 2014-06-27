@@ -3,11 +3,11 @@
 	Author: Henri Keeble
 	Desc: Defines a class to maintain and evaluate an outlook on a corner.
 */
-#include "perfMeasurement\RaceLineEvaluation.h"
+#include "perfMeasurement\CurvatureApproximation.h"
 
 namespace perfMeasurement
 {
-	void RaceLineEvaluation::CornerOutlook::GenerateOutlook(tTrackSeg* baseSeg, tdble carWidth, tdble carDepth)
+	void CurvatureApproximation::CornerOutlook::GenerateOutlook(tTrackSeg* baseSeg, tdble carWidth, tdble carDepth)
 	{
 		if (!clear)
 			Clear();
@@ -30,13 +30,13 @@ namespace perfMeasurement
 		corner.maxRange = (corner.seg->length / 2 + 10) / corner.seg->radius;
 
 		// Calculate optimal arc radius
-		PMPoint2D* optimalPoints = CalculateOptimalPoints(carWidth, carDepth);
+		optimalPoints = CalculateOptimalPoints(carWidth, carDepth);
 		optimalRadius = abs(radius(optimalPoints[0].x, optimalPoints[0].y, optimalPoints[1].x, optimalPoints[1].y, optimalPoints[2].x, optimalPoints[2].y));
 
 		clear = false;
 	}
 
-	PMPoint2D* RaceLineEvaluation::CornerOutlook::CalculateOptimalPoints(tdble carWidth, tdble carDepth)
+	PMPoint2D* CurvatureApproximation::CornerOutlook::CalculateOptimalPoints(tdble carWidth, tdble carDepth)
 	{
 		// Indices in arrays for optimal points
 		const int EN = 0;
@@ -117,7 +117,7 @@ namespace perfMeasurement
 		return globalOptimalPoints;
 	}
 
-	void RaceLineEvaluation::CornerOutlook::Segment::Update(CarData& data, std::vector<PMData>& dataSet, const tdble& currentTime)
+	void CurvatureApproximation::CornerOutlook::Segment::Update(CarData& data, std::vector<PMData>& dataSet, const tdble& currentTime)
 	{
 		if (data.LocalPosition().toStart > minRange && data.LocalPosition().toStart < maxRange)
 		{
@@ -131,7 +131,7 @@ namespace perfMeasurement
 		}
 	}
 
-	void RaceLineEvaluation::CornerOutlook::Update(CarData& data, std::vector<PMData>& dataSet, const tdble& currentTime)
+	void CurvatureApproximation::CornerOutlook::Update(CarData& data, std::vector<PMData>& dataSet, const tdble& currentTime)
 	{
 		// Get the current speed data
 		speedData.push_back(data.Speed());
@@ -148,7 +148,7 @@ namespace perfMeasurement
 			exit.Update(data, dataSet, currentTime);
 	}
 
-	tdble RaceLineEvaluation::CornerOutlook::AverageSpeed()
+	tdble CurvatureApproximation::CornerOutlook::AverageSpeed()
 	{
 		tdble tot = 0;
 		for (int i = 0; i < speedData.size(); i++)

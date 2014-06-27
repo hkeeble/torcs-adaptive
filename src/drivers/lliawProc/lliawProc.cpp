@@ -20,7 +20,7 @@
 
 #include "lliawProc.h"
 
-using namespace procBot;
+using namespace procPathfinder;
 
 const double lliawCar::STEER_D_CONTROLLER_GAIN = 0.1;
 const float lliawCar::FUEL_SAFETY_MARGIN = 0.15f;

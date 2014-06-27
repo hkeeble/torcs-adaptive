@@ -6,7 +6,7 @@
 
 #include "PStateManager.h"
 
-namespace procBot
+namespace procPathfinder
 {
 	PStateManager::PStateManager(tTrack* const track)
 	{

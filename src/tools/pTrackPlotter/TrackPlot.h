@@ -6,11 +6,14 @@
 #include <GL/glut.h>
 #include "Point2D.h"
 
+const std::string optimalFile = "optimal.dat";
+const std::string actualFile = "actual.dat";
+
 class TrackPlot
 {
 public:
 	TrackPlot();
-	TrackPlot(std::string fileName);
+	TrackPlot(std::string config, std::string track);
 	~TrackPlot();
 
 	void renderTrack();
@@ -24,6 +27,8 @@ private:
 	std::vector<Point2D> trackPoints;
 	std::vector<Point2D> optimalLine;
 	std::vector<Point2D> actualLine;
+
+
 
 	Point2D max, min;
 };

@@ -54,7 +54,7 @@
 #define BERNIW_ATT_STEERPGAIN_MAX	"steerpgainmax"
 #define BERNIW_ATT_TEAMMATE			"teammate"
 
-using namespace procBot;
+using namespace procPathfinder;
 
 /* Extended car desc - has some more static parameters */
 class infernoCar : public PCarDesc

@@ -24,13 +24,22 @@
     <ClCompile Include="PMData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RaceLineEvaluation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CornerOutlook.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TopSpeedDeviation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CurvatureApproximation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="K1999RaceLine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Pathfinder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RaceLineEvaluation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

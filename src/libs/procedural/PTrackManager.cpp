@@ -234,7 +234,7 @@ namespace procedural
 			// If the current leading car is a given distance from the end, generate a new segment
 			if (LeadingCar()->pub.trkPos.seg->id + MAX_SEGS_FROM_END >= track->GetEnd()->id) // If a new segment needs to be generated
 			{
-				if (!adaptive || track->GetEnd()->id < MAX_SEGS_FROM_END) // Generate random segment if not adaptive, and for first few segments of adaptive track
+				if (!adaptive) // Generate random segment if not adaptive
 					AddSegment(segFactory->CreateRandomSeg(track->state.curSegIndex));
 				else // Otherwise, generate segment taking into account skill level
 					GenerateAdaptiveSegment(skillLevel);

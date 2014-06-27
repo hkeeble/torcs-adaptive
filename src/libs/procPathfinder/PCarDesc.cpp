@@ -10,7 +10,7 @@
 #include "dmalloc.h"
 #endif
 
-namespace procBot
+namespace procPathfinder
 {
 	const double PCarDesc::PATHERR = 0.5;				/* if derror > PATHERR we take actions to come back to the path [m] */
 	const double PCarDesc::CORRLEN = 30.0;				/* CORRLEN * derror is the length of the correction [m] */

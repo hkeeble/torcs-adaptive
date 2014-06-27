@@ -298,7 +298,8 @@ reRaceRealStart(void)
 	if (taManager->IsActive())
 	{
 		if (taManager->GetRaceType() == torcsAdaptive::TARaceType::Adaptive)
-			taManager->InitPerfMeasurement(&ReInfo->carList[0], new RaceLineEvaluation());
+			taManager->InitPerfMeasurement(&ReInfo->carList[0],
+			new RaceLineEvaluation(new K1999RaceLine(taManager->GetTrack()->trk)));
 	}
 	return RM_SYNC | RM_NEXT_STEP;
 }

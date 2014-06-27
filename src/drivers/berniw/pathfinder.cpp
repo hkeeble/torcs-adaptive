@@ -663,8 +663,10 @@ void Pathfinder::plan(MyCar* myc)
 
 #ifdef PATH_K1999
 	/* compute path */
-	for (int step = 128; (step /= 2) > 0;) {
-		for (int i = 100 * int(sqrt((double)step)); --i >= 0;) smooth(step);
+	for (int step = 136; (step /= 2) > 0;) {
+		std::cout << step << std::endl;
+		for (int i = 100 * int(sqrt((double)step)); --i >= 0;)
+			smooth(step);
 		interpolate(step);
 	}
 #endif	// PATH_K1999
