@@ -77,19 +77,17 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="berniwPathfinding.cpp" />
-    <ClCompile Include="k1999Pathfinding.cpp" />
+    <ClCompile Include="BerniwPathfinding.cpp" />
+    <ClCompile Include="K1999.cpp" />
     <ClCompile Include="PathSeg.cpp" />
     <ClCompile Include="PathSegCollection.cpp" />
     <ClCompile Include="PCarDesc.cpp" />
     <ClCompile Include="PPathfinder.cpp" />
+    <ClCompile Include="PPathPlanner.cpp" />
     <ClCompile Include="PStateManager.cpp" />
     <ClCompile Include="PTrackDesc.cpp" />
     <ClCompile Include="PTrackSegment.cpp" />
     <ClCompile Include="PTrackSegmentCollection.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="PPathPlanner.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

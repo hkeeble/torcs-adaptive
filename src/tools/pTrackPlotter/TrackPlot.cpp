@@ -106,7 +106,7 @@ void TrackPlot::renderTrack()
 void TrackPlot::renderOptimalLine()
 {
 	glColor3f(1.0f, 0.5f, 0.0f);
-	glPointSize(10.f);
+	glPointSize(3.f);
 	
 	glBegin(GL_POINTS);
 	for (int i = 0; i < optimalLine.size(); i++)

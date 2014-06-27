@@ -13,14 +13,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Pathfinders">
+      <UniqueIdentifier>{10f597d4-d2e9-47bd-9d82-1278b87c4b6a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="berniwPathfinding.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="k1999Pathfinding.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PathSeg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -45,10 +42,14 @@
     <ClCompile Include="PTrackSegmentCollection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="PPathPlanner.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClCompile Include="PPathPlanner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="K1999.cpp">
+      <Filter>Source Files\Pathfinders</Filter>
+    </ClCompile>
+    <ClCompile Include="BerniwPathfinding.cpp">
+      <Filter>Source Files\Pathfinders</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -20,9 +20,9 @@
 #include <robottools.h>
 #include <math.h>
 #include "PTrackDesc.h"
-#include "PPathfinder.h"
+#include "PPathPlanner.h"
 
-namespace procBot
+namespace procPathfinder
 {
 	class PPathfinder;
 	class PathSeg;
@@ -152,7 +152,8 @@ namespace procBot
 			inline double getWheelBase() { return wheelbase; }
 			inline double getWheelTrack() { return wheeltrack; }
 			inline double getErrorSgn() { return derrorsgn; }
-			inline PPathfinder* getPathfinderPtr() { return pf; }
+			inline PPathPlanner* getPlannerPtr() { return planner; }
+			inline PPathfinder* getPathfinderPtr() { return planner->path; }
 
 		private:
 			enum { DRWD = 0, DFWD = 1, D4WD = 2 };
@@ -164,7 +165,7 @@ namespace procBot
 			double wheeltrack;
 			double derrorsgn;		/* on which side of the trajectory am i left -1 or 1 right */
 
-			PPathfinder* pf;
+			PPathPlanner* planner;
 
 			void updateCa();
 			void updateDError();

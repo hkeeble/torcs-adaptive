@@ -12,7 +12,7 @@
 
 using std::vector;
 
-namespace procBot
+namespace procPathfinder
 {
 	/* Class to represent a collection of track segments, used inside of PTrackDesc */
 	class PTrackSegmentCollection

@@ -180,13 +180,14 @@ static void drive(int index, tCarElt* car, tSituation *situation)
 	tdble steer, targetAngle, shiftaccel;
 
 	lliawCar* myc = mycar[index - 1];
-	PPathfinder* mpf = myc->getPathfinderPtr();
+	PPathfinder* path = myc->getPathfinderPtr();
+	PPathPlanner* planner = myc->getPlannerPtr();
 
 	b1 = b2 = b3 = b4 = 0.0;
 	shiftaccel = 0.0;
 
 	// Compute path according to the situation.
-	mpf->dynamicPlan(myc->getCurrentSegId(), car, situation, myc, ocar);
+	planner->Plan(myc->getCurrentSegId(), car, situation, myc, ocar);
 
 	// Update some values needed.
 	myc->update(myTrackDesc, car, situation);
@@ -224,13 +225,13 @@ static void drive(int index, tCarElt* car, tSituation *situation)
 	//if (!mpf->getPitStop()) mpf->setPitStop(true, myc->getCurrentSegId());
 
 	// Steer toward the next target point.
-	targetAngle = atan2(mpf->getPathSeg(myc->destsegid)->getLoc()->y - car->_pos_Y, mpf->getPathSeg(myc->destsegid)->getLoc()->x - car->_pos_X);
+	targetAngle = atan2(path->Seg(myc->destsegid)->getLoc()->y - car->_pos_Y, path->Seg(myc->destsegid)->getLoc()->x - car->_pos_X);
 	targetAngle -= car->_yaw;
 	NORM_PI_PI(targetAngle);
     steer = targetAngle / car->_steerLock;
 
 	// Try to control angular velocity with a D (differential) controller.
-	double omega = myc->getSpeed()/mpf->getPathSeg(myc->getCurrentSegId())->getRadius();
+	double omega = myc->getSpeed()/path->Seg(myc->getCurrentSegId())->getRadius();
 	steer += myc->STEER_D_CONTROLLER_GAIN*(omega - myc->getCarPtr()->_yaw_rate);
 
 
@@ -242,12 +243,12 @@ static void drive(int index, tCarElt* car, tSituation *situation)
 	brake = 0.0;
 
 	while (lookahead < brakecoeff * myc->getSpeedSqr()) {
-		lookahead += mpf->getPathSeg(i)->getLength();
-		brakespeed = myc->getSpeedSqr() - mpf->getPathSeg(i)->getSpeedsqr();
+		lookahead += path->Seg(i)->getLength();
+		brakespeed = myc->getSpeedSqr() - path->Seg(i)->getSpeedsqr();
 		if (brakespeed > 0.0) {
 			tdble gm, qb, qs;
 			gm = myTrackDesc->getSegmentPtr(myc->getCurrentSegId())->getKfriction()*myc->CFRICTION*myTrackDesc->getSegmentPtr(myc->getCurrentSegId())->getKalpha();
-			qs = mpf->getPathSeg(i)->getSpeedsqr();
+			qs = path->Seg(i)->getSpeedsqr();
 
 			brakedist = brakespeed*(myc->mass/(2.0*gm*g*myc->mass + qs*(gm*myc->ca + myc->cw)));
 
@@ -258,11 +259,11 @@ static void drive(int index, tCarElt* car, tSituation *situation)
 				}
 			}
 		}
-		i = (i + 1 + mpf->getnPathSeg()) % mpf->getnPathSeg();
+		i = (i + 1 + path->getnPathSeg()) % path->getnPathSeg();
 	}
 
-	if (myc->getSpeedSqr() > mpf->getPathSeg(myc->getCurrentSegId())->getSpeedsqr()) {
-		b1 = (myc->getSpeedSqr() - mpf->getPathSeg(myc->getCurrentSegId())->getSpeedsqr()) / (myc->getSpeedSqr());
+	if (myc->getSpeedSqr() > path->Seg(myc->getCurrentSegId())->getSpeedsqr()) {
+		b1 = (myc->getSpeedSqr() - path->Seg(myc->getCurrentSegId())->getSpeedsqr()) / (myc->getSpeedSqr());
 	}
 
 	// Try to avoid flying.
@@ -274,11 +275,11 @@ static void drive(int index, tCarElt* car, tSituation *situation)
 	if (myc->getSpeed() > myc->TURNSPEED && myc->tr_mode == 0) {
 		if (myc->derror > myc->PATHERR) {
 			v3d *cd = myc->getDir();
-			v3d *pd = mpf->getPathSeg(myc->getCurrentSegId())->getDir();
+			v3d *pd = path->Seg(myc->getCurrentSegId())->getDir();
 			float z = cd->x*pd->y - cd->y*pd->x;
 			// If the car points away from the path brake.
 			if (z*myc->getErrorSgn() >= 0.0) {
-				targetAngle = atan2(mpf->getPathSeg(myc->getCurrentSegId())->getDir()->y, mpf->getPathSeg(myc->getCurrentSegId())->getDir()->x);
+				targetAngle = atan2(path->Seg(myc->getCurrentSegId())->getDir()->y, path->Seg(myc->getCurrentSegId())->getDir()->x);
 				targetAngle -= car->_yaw;
 				NORM_PI_PI(targetAngle);
 				double toborder = MAX(1.0, myc->currentseg->getWidth()/2.0 - fabs(myTrackDesc->distToMiddle(myc->getCurrentSegId(), myc->getCurrentPos())));
@@ -350,7 +351,7 @@ static void drive(int index, tCarElt* car, tSituation *situation)
 			car->_accelCmd = myc->accel;
 			car->_brakeCmd = brake*cerror;
 		} else {
-			if (myc->getSpeedSqr() < mpf->getPathSeg(myc->getCurrentSegId())->getSpeedsqr()) {
+			if (myc->getSpeedSqr() < path->Seg(myc->getCurrentSegId())->getSpeedsqr()) {
 				if (myc->accel < myc->ACCELLIMIT) {
 					myc->accel += myc->ACCELINC;
 				}
@@ -375,7 +376,7 @@ static void drive(int index, tCarElt* car, tSituation *situation)
 	tdble cx = myc->currentseg->getMiddle()->x - car->_pos_X, cy = myc->currentseg->getMiddle()->y - car->_pos_Y;
 	tdble parallel = (cx*bx + cy*by) / (sqrt(cx*cx + cy*cy)*sqrt(bx*bx + by*by));
 
-	if ((myc->getSpeed() < myc->TURNSPEED) && (parallel < cos(90.0*PI / 180.0)) && (mpf->dist2D(myc->getCurrentPos(), mpf->getPathSeg(myc->getCurrentSegId())->getLoc()) > myc->TURNTOL)) {
+	if ((myc->getSpeed() < myc->TURNSPEED) && (parallel < cos(90.0*PI / 180.0)) && (path->dist2D(myc->getCurrentPos(), path->Seg(myc->getCurrentSegId())->getLoc()) > myc->TURNTOL)) {
 		myc->turnaround += situation->deltaTime;
 	} else myc->turnaround = 0.0;
 	if ((myc->turnaround >= waitToTurn) || (myc->tr_mode >= 1)) {
@@ -390,7 +391,7 @@ static void drive(int index, tCarElt* car, tSituation *situation)
 			car->_brakeCmd = 1.0;
 		} else {
 			myc->tr_mode = 2;
-			if (parallel < cos(90.0*PI / 180.0) && (mpf->dist2D(myc->getCurrentPos(), mpf->getPathSeg(myc->getCurrentSegId())->getLoc()) > myc->TURNTOL)) {
+			if (parallel < cos(90.0*PI / 180.0) && (path->dist2D(myc->getCurrentPos(), path->Seg(myc->getCurrentSegId())->getLoc()) > myc->TURNTOL)) {
 				angle = queryAngleToTrack(car);
 				car->_steerCmd = ( -angle > 0.0) ? 1.0 : -1.0;
 				car->_brakeCmd = 0.0;
@@ -435,7 +436,6 @@ static int pitcmd(int index, tCarElt* car, tSituation *s)
 	car->_pitFuel = MAX(MIN(myc->fuelperlap*(remaininglaps+myc->FUEL_SAFETY_MARGIN) - car->_fuel, car->_tank - car->_fuel), 0.0);
 	myc->lastpitfuel = MAX(car->_pitFuel, 0.0);
 	car->_pitRepair = car->_dammage;
-	mpf->setPitStop(false, myc->getCurrentSegId());
 	myc->loadBehaviour(myc->START);
 	myc->startmode = true;
 	myc->trtime = 0.0;

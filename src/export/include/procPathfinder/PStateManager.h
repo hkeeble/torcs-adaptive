@@ -9,7 +9,7 @@
 
 #include "track.h"
 
-namespace procBot
+namespace procPathfinder
 {
 	/*
 		Represents the internal state of a track, can be used by any object that must update according to an existing track.

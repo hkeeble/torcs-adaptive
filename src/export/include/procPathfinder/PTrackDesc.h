@@ -14,7 +14,7 @@
 #include "PStateManager.h"
 #include "PTrackSegmentCollection.h"
 
-namespace procBot
+namespace procPathfinder
 {
 	#define TRACKRES 1.0
 	#define RMAX 10000.0

@@ -6,6 +6,8 @@
 */
 
 #include "PCarDesc.h"
+#include "K1999.h"
+
 #ifdef DMALLOC
 #include "dmalloc.h"
 #endif
@@ -90,13 +92,13 @@ namespace procPathfinder
 
 		cgcorr_b = 0.46;
 
-		pf = new PPathfinder(track, this, situation);
-		currentsegid = destsegid = pf->getCurrentSegment(car);
+		planner = new PPathPlanner(new K1999(track, this, situation), situation);
+		currentsegid = destsegid = planner->path->getCurrentSegment(car);
 
 		currentseg = track->getSegmentPtr(currentsegid);
 		destseg = track->getSegmentPtr(destsegid);
-		currentpathseg = pf->getPathSeg(currentsegid);
-		destpathseg = pf->getPathSeg(destsegid);
+		currentpathseg = planner->path->Seg(currentsegid);
+		destpathseg = planner->path->Seg(destsegid);
 
 		turnaround = 0.0;
 		tr_mode = 0;
@@ -131,7 +133,7 @@ namespace procPathfinder
 
 	PCarDesc::~PCarDesc()
 	{
-		delete pf;
+		delete planner;
 	}
 
 
@@ -168,21 +170,21 @@ namespace procPathfinder
 
 		/* update currentsegment and destination segment id's */
 		int searchrange = MAX((int)ceil(situation->deltaTime*speed + 1.0) * 2, 4);
-		currentsegid = destsegid = pf->getCurrentSegment(car, searchrange);
+		currentsegid = destsegid = planner->path->getCurrentSegment(car, searchrange);
 		double l = 0.0;
 
 		while (l < 2.0 * wheelbase) {
-			l = l + pf->getPathSeg(destsegid)->getLength();
-			destsegid = (destsegid + 1 + pf->getnPathSeg()) % pf->getnPathSeg();
+			l = l + planner->path->Seg(destsegid)->getLength();
+			destsegid = (destsegid + 1 + planner->path->getnPathSeg()) % planner->path->getnPathSeg();
 		}
 
 		currentseg = track->getSegmentPtr(currentsegid);
 		destseg = track->getSegmentPtr(destsegid);
-		currentpathseg = pf->getPathSeg(currentsegid);
+		currentpathseg = planner->path->Seg(currentsegid);
 		updateDError();
 		int error = (int)(MIN(LOOKAHEAD_MAX_ERROR, derror));
-		int lookahead = (destsegid + (int)(error*speed*LOOKAHEAD_FACTOR)) % pf->getnPathSeg();
-		destpathseg = pf->getPathSeg(lookahead);
+		int lookahead = (destsegid + (int)(error*speed*LOOKAHEAD_FACTOR)) % planner->path->getnPathSeg();
+		destpathseg = planner->path->Seg(lookahead);
 
 		mass = carmass + car->priv.fuel;
 		trtime += situation->deltaTime;
@@ -300,7 +302,7 @@ namespace procPathfinder
 	/* Updates the direction to the desired trajectory */
 	void PCarDesc::updateDError()
 	{
-		derror = pf->distToPath(currentsegid, &currentpos); // Get the distance to the desired path for the current segment
+		derror = planner->path->distToPath(currentsegid, &currentpos); // Get the distance to the desired path for the current segment
 		derrorsgn = (derror >= 0.0) ? 1.0 : -1.0; // Determine which side of the path the car is
 		derror = fabs(derror); // Ensure value is absolute
 	}

@@ -12,7 +12,7 @@
 
 using std::vector;
 
-namespace procBot
+namespace procPathfinder
 {
 	/* Represents a collection of path segments */
 	class PathSegCollection

@@ -11,7 +11,7 @@
 #include "taMath\taMath.h"
 #include "tgf.h"
 
-namespace procBot
+namespace procPathfinder
 {
 	/* Represents a single segment of the planned path */
 	class PathSeg

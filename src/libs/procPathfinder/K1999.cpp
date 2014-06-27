@@ -5,12 +5,74 @@
 	Desc: Pathfinding functions from the TORCS robot K1999 by Remi Coulom, also used in the Berniw robot.
 */
 
-#include "PPathfinder.h"
+#include "K1999.h"
 
 namespace procPathfinder
 {
+	K1999::K1999(PTrackDesc* itrack, PCarDesc* carDesc, tSituation *situation) : PPathfinder(itrack, carDesc, situation)
+	{
+		// Nothing yet
+	}
+
+	K1999::~K1999()
+	{
+		// Nothing yet
+	}
+
+	void K1999::Plan(PCarDesc* myc)
+	{
+		double r, length, speedsqr;
+		int u, v, w;
+		v3d dir;
+		int i;
+
+		/* Initialize location to center of the given segment */
+		for (i = previousPSCount; i < ps.Count(); i++)
+			ps(i)->setLoc(track->getSegmentPtr(i)->getMiddle());
+
+		/* compute path */
+		for (int step = 128; (step /= 2) > 0;) {
+			for (int i = 100 * int(sqrt((double)step)); --i >= 0;) smooth(step);
+			interpolate(step);
+		}
+
+		/* init optimal path */
+		for (i = previousPSCount; i < ps.Count(); i++) {
+			ps(i)->setOptLoc(ps(i)->getLoc());
+			ps(i)->setPitLoc(ps(i)->getOptLoc());
+		}
+
+		/* compute possible speeds, direction vector and length of trajectoies */
+		u = ps.Count() - 1; v = 0; w = 1;
+
+		for (i = previousPSCount; i < ps.Count(); i++)
+		{
+			r = radius(ps(u)->getLoc()->x, ps(u)->getLoc()->y,
+				ps(v)->getLoc()->x, ps(v)->getLoc()->y, ps(w)->getLoc()->x, ps(w)->getLoc()->y);
+			ps(i)->setRadius(r);
+			r = fabs(r);
+
+			length = dist(ps(v)->getLoc(), ps(w)->getLoc());
+
+			tdble mu = track->getSegmentPtr(i)->getKfriction()*myc->CFRICTION*track->getSegmentPtr(i)->getKalpha();
+			tdble b = track->getSegmentPtr(i)->getKbeta();
+			speedsqr = myc->SPEEDSQRFACTOR*r*g*mu / (1.0 - MIN(1.0, (mu*myc->ca*r / myc->mass)) + mu*r*b);
+
+			dir = *(ps(w)->getLoc()) - (*ps(u)->getLoc());
+			dir.normalize();
+
+			//ps(i)->set(speedsqr, length, ps(v)->getLoc(), &dir);
+			ps(i)->set(speedsqr, length, &dir);
+
+			u = v; v = w; w = (w + 1 + ps.Count()) % ps.Count();
+		}
+
+		// Record the PS count on this call
+		previousPSCount = ps.Count();
+	}
+
 	/* computes curvature, from Remi Coulom, K1999.cpp */
-	inline double PPathfinder::curvature(double xp, double yp, double x, double y, double xn, double yn)
+	inline double K1999::curvature(double xp, double yp, double x, double y, double xn, double yn)
 	{
 		double x1 = xn - x;
 		double y1 = yn - y;
@@ -29,7 +91,7 @@ namespace procPathfinder
 
 
 	/* optimize point p ala k1999 (curvature), Remi Coulom, K1999.cpp */
-	inline void PPathfinder::adjustRadius(int s, int p, int e, double c, double security) {
+	inline void K1999::adjustRadius(int s, int p, int e, double c, double security) {
 		const double sidedistext = 2.0;
 		const double sidedistint = 1.2;
 
@@ -86,7 +148,7 @@ namespace procPathfinder
 
 
 	/* interpolation step from Remi Coulom, K1999.cpp */
-	void PPathfinder::stepInterpolate(int iMin, int iMax, int Step)
+	void K1999::stepInterpolate(int iMin, int iMax, int Step)
 	{
 		int next = (iMax + Step) % ps.Count();
 		if (next > ps.Count() - Step) next = 0;
@@ -112,7 +174,7 @@ namespace procPathfinder
 
 
 	/* interpolating from Remi Coulom, K1999.cpp */
-	void PPathfinder::interpolate(int step)
+	void K1999::interpolate(int step)
 	{
 		if (step > 1) {
 			int i;
@@ -123,7 +185,7 @@ namespace procPathfinder
 
 
 	/* smoothing from Remi Coulom, K1999.cpp */
-	void PPathfinder::smooth(int Step)
+	void K1999::smooth(int Step)
 	{
 		int prev = ((ps.Count() - Step) / Step) * Step;
 		int prevprev = prev - Step;

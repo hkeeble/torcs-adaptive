@@ -11,7 +11,7 @@
 #include <track.h>
 #include "taMath/taMath.h"
 
-namespace procBot
+namespace procPathfinder
 {
 	class PTrackSegment
 	{
