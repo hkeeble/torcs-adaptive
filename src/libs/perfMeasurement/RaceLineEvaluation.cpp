@@ -2,10 +2,9 @@
 
 namespace perfMeasurement
 {
-	RaceLineEvaluation::RaceLineEvaluation(Pathfinder* pathfinder)
+	RaceLineEvaluation::RaceLineEvaluation(PPathfinder* pathfinder)
 	{
 		this->pathfinder = pathfinder;
-		pathfinder->Plan();
 	}
 
 	void RaceLineEvaluation::Evaluate()
@@ -15,6 +14,6 @@ namespace perfMeasurement
 
 	void RaceLineEvaluation::Update(tdble deltaTimeIncrement, tdble currentTime)
 	{
-		pathfinder->UpdatePlan();
+
 	}
 }

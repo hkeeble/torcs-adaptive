@@ -78,6 +78,7 @@ static int InitFuncPt(int index, void *pt)
 
 static PCarDesc* mycar[BOTS] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 static POtherCarDesc* ocar = nullptr;
+static tTrack* currentTrack = nullptr;
 static PTrackDesc* myTrackDesc = nullptr;
 static int segsInCurrentTrack = 0;
 static double currenttime;
@@ -93,10 +94,6 @@ static void shutdown(int index) {
 		//free(botdesc[i]);
 		//free(botname[i]);
 	}
-	if (myTrackDesc != nullptr) {
-		delete myTrackDesc;
-		myTrackDesc = nullptr;
-	}
 	if (ocar != nullptr) {
 		delete[] ocar;
 		ocar = nullptr;
@@ -107,16 +104,11 @@ static void shutdown(int index) {
 /* initialize track data, called for every selected driver */
 static void initTrack(int index, tTrack* track, void *carHandle, void **carParmHandle, tSituation * situation)
 {
-	if ((myTrackDesc != nullptr) && (myTrackDesc->GetTorcsTrack() != track)) {
-		delete myTrackDesc;
-		myTrackDesc = nullptr;
-	}
-	if (myTrackDesc == nullptr) {
-		myTrackDesc = new PTrackDesc(track);
-	}
+	// Obtain pointer to the current track
+	currentTrack = track;
 
 	// Initialize number of segments
-	segsInCurrentTrack = myTrackDesc->GetTorcsTrack()->nseg;
+	segsInCurrentTrack = currentTrack->nseg;
 
 	char buffer[BUFSIZE];
 	char* trackname = track->internalname;
@@ -138,14 +130,18 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 /* initialize driver for the race, called for every selected driver */
 static void newRace(int index, tCarElt* car, tSituation *situation)
 {
-	if (ocar != nullptr) delete[] ocar;
+	if (mycar[index - 1] != nullptr) delete mycar[index - 1];
+	mycar[index - 1] = new PCarDesc(currentTrack, car, situation);
+
+	if (ocar != nullptr) {
+		delete[] ocar;
+	}
 	ocar = new POtherCarDesc[situation->_ncars];
 	for (int i = 0; i < situation->_ncars; i++) {
-		ocar[i].init(myTrackDesc, situation->cars[i], situation);
+		ocar[i].init(mycar[index - 1]->getPathfinderPtr()->Track(), situation->cars[i], situation);
 	}
 
-	if (mycar[index - 1] != nullptr) delete mycar[index - 1];
-	mycar[index - 1] = new PCarDesc(myTrackDesc, car, situation);
+	myTrackDesc = mycar[index - 1]->getPathfinderPtr()->Track();
 
 	currenttime = situation->currentTime;
 }
@@ -153,8 +149,7 @@ static void newRace(int index, tCarElt* car, tSituation *situation)
 /* Used to update the car's understanding of the track and pathfinder before the call to the drive function, in a procedural track */
 static void update(int index, tSituation *situation)
 {
-	myTrackDesc->Update(); // Update the track description
-	mycar[index - 1]->getPathfinderPtr()->Update(situation); // Update the pathfinder based upon the new track
+	mycar[index - 1]->getPathfinderPtr()->Update(situation, mycar[index - 1]); // Update the pathfinder based upon the new track
 }
 
 /* controls the car */

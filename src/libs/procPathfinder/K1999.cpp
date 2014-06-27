@@ -9,7 +9,7 @@
 
 namespace procPathfinder
 {
-	K1999::K1999(PTrackDesc* itrack, PCarDesc* carDesc, tSituation *situation) : PPathfinder(itrack, carDesc, situation)
+	K1999::K1999(tTrack* itrack, tCarElt* icar) : PPathfinder(itrack, icar)
 	{
 		// Nothing yet
 	}

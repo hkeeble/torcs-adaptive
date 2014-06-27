@@ -11,11 +11,13 @@ namespace procPathfinder
 {
 	const double PPathfinder::TPRES = PI / (NTPARAMS - 1);	/* resolution of the steps */
 
-	PPathfinder::PPathfinder(PTrackDesc* itrack, PCarDesc* carDesc, tSituation *s)
+	PPathfinder::PPathfinder(tTrack* itrack, tCarElt* icar)
 	{
-		track = itrack;
-		car = carDesc->getCarPtr();;
-		this->carDesc = carDesc;
+		// Construct a new track description
+		track = new PTrackDesc(itrack);
+		car = icar;
+
+		// Initialize previous segment count to 0
 		previousPSCount = 0;
 		
 		// Initialize Path Segment Collection
@@ -30,7 +32,8 @@ namespace procPathfinder
 
 	PPathfinder::~PPathfinder()
 	{
-		// Nothing yet
+		if (track)
+			delete track;
 	}
 
 	void PPathfinder::PlotPath(char* filename)
@@ -44,8 +47,9 @@ namespace procPathfinder
 		fclose(fd);
 	}
 
-	void PPathfinder::Update(tSituation* situation)
+	void PPathfinder::Update(tSituation* situation, PCarDesc* carDesc)
 	{
+		track->Update();
 		stateMngr.Update();
 
 		if (stateMngr.IsUpdateNeeded())
@@ -64,9 +68,6 @@ namespace procPathfinder
 
 			// Compute a new static plan
 			Plan(carDesc);
-
-			remove("optimal.dat");
-			PlotPath("optimal.dat");
 		}
 	}
 
@@ -78,21 +79,6 @@ namespace procPathfinder
 	PTrackDesc* PPathfinder::Track() const
 	{
 		return track;
-	}
-
-	PCarDesc* PPathfinder::CarDesc() const
-	{
-		return carDesc;
-	}
-
-	PStateManager PPathfinder::PState() const
-	{
-		return stateMngr;
-	}
-
-	tCarElt* PPathfinder::Car() const
-	{
-		return car;
 	}
 
 	int PPathfinder::LookAhead() const

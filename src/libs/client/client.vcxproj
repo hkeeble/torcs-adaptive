@@ -66,7 +66,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../interfaces;../../windows/include;../../..;%(AdditionalIncludeDirectories);$(SolutionDir)\config\;$(SolutionDir)/export/include/torcsAdaptive;$(ProjectDir)..\raceengineclient\torcsAdaptive\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../interfaces;../../windows/include;../../..;%(AdditionalIncludeDirectories);$(SolutionDir)\config\;$(SolutionDir)/export/include/torcsAdaptive;$(ProjectDir)..\raceengineclient\torcsAdaptive\;$(SolutionDir)/export/include/procPathfinder/</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CLIENT_EXPORTS;DEBUG;DEBUG_OUT;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -87,7 +87,7 @@
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>txml.lib;libpng15_vs2008_32.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;tgf.lib;robottools.lib;ssggraphlib.lib;ssg_vs2008_32.lib;ssgAux_vs2008_32.lib;sl_vs2008_32.lib;OpenAL32.lib;Alut.lib;libogg.lib;libvorbis.lib;libvorbisfile.lib;zlib1_vs2008_32.lib;js_vs2008_32.lib;Advapi32.lib;perfMeasurement.lib;procedural.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>txml.lib;libpng15_vs2008_32.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;tgf.lib;robottools.lib;ssggraphlib.lib;ssg_vs2008_32.lib;ssgAux_vs2008_32.lib;sl_vs2008_32.lib;OpenAL32.lib;Alut.lib;libogg.lib;libvorbis.lib;libvorbisfile.lib;zlib1_vs2008_32.lib;js_vs2008_32.lib;Advapi32.lib;perfMeasurement.lib;procedural.lib;procPathfinder.lib</AdditionalDependencies>
       <OutputFile>.\Debug/client.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(SolutionDir)/export/libd;../../windows/lib;$(SolutionDir)libs\perfMeasurement\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -124,7 +124,7 @@ copy "$(TargetDir)*.lib" "$(SolutionDir)\export\libd"</Command>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../interfaces;../../windows/include;../../..;%(AdditionalIncludeDirectories);$(SolutionDir)\config\;$(SolutionDir)/export/include/torcsAdaptive;$(ProjectDir)..\raceengineclient\torcsAdaptive\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/export/include;../../interfaces;../../windows/include;../../..;%(AdditionalIncludeDirectories);$(SolutionDir)\config\;$(SolutionDir)/export/include/torcsAdaptive;$(ProjectDir)..\raceengineclient\torcsAdaptive\;$(SolutionDir)/export/include/procPathfinder/</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CLIENT_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -145,7 +145,7 @@ copy "$(TargetDir)*.lib" "$(SolutionDir)\export\libd"</Command>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>txml.lib;libpng15_vs2008_32.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;tgf.lib;robottools.lib;ssggraphlib.lib;ssg_vs2008_32.lib;ssgAux_vs2008_32.lib;sl_vs2008_32.lib;OpenAL32.lib;Alut.lib;libogg.lib;libvorbis.lib;libvorbisfile.lib;zlib1_vs2008_32.lib;js_vs2008_32.lib;Advapi32.lib;perfMeasurement.lib;trackGeneration.lib;procedural.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>txml.lib;libpng15_vs2008_32.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;tgf.lib;robottools.lib;ssggraphlib.lib;ssg_vs2008_32.lib;ssgAux_vs2008_32.lib;sl_vs2008_32.lib;OpenAL32.lib;Alut.lib;libogg.lib;libvorbis.lib;libvorbisfile.lib;zlib1_vs2008_32.lib;js_vs2008_32.lib;Advapi32.lib;perfMeasurement.lib;procPathfinder.lib</AdditionalDependencies>
       <OutputFile>.\Release/client.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(SolutionDir)/export/lib;../../windows/lib;$(SolutionDir)libs\perfMeasurement\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

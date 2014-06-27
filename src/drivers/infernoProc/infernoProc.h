@@ -60,7 +60,7 @@ using namespace procPathfinder;
 class infernoCar : public PCarDesc
 {
 public:
-	infernoCar(PTrackDesc* track, tCarElt* car, tSituation *situation) : PCarDesc(track, car, situation) { };
+	infernoCar(tTrack* itrack, tCarElt* icar, tSituation *situation) : PCarDesc(itrack, icar, situation) { };
 	virtual ~infernoCar() { };
 
 	/* Additional statics */

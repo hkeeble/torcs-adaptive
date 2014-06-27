@@ -44,6 +44,8 @@
 #include "racemain.h"
 
 #include "torcsAdaptive.h"
+#include "perfMeasurement\RaceLineEvaluation.h"
+#include "K1999.h"
 #include "procedural\PTrack.h"
 
 /***************************************************************/
@@ -294,12 +296,11 @@ reRaceRealStart(void)
 		GfuiScreenActivate(ReInfo->_reGameScreen);
 	}
 
-	// If the race is adaptive, initialize performance measurement
+	// If the race is adaptive, initialize performance measurement. Uses strategy pattern, pass in the desired performance measurement object.
 	if (taManager->IsActive())
 	{
 		if (taManager->GetRaceType() == torcsAdaptive::TARaceType::Adaptive)
-			taManager->InitPerfMeasurement(&ReInfo->carList[0],
-			new RaceLineEvaluation(new K1999RaceLine(taManager->GetTrack()->trk)));
+			taManager->InitPerfMeasurement(&ReInfo->carList[0], new RaceLineEvaluation(new K1999(ReInfo->track, &ReInfo->carList[0])));
 	}
 	return RM_SYNC | RM_NEXT_STEP;
 }

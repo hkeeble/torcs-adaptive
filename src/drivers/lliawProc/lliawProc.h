@@ -59,7 +59,7 @@ using namespace procPathfinder;
 class lliawCar : public PCarDesc
 {
 public:
-	lliawCar(PTrackDesc* track, tCarElt* car, tSituation *situation) : PCarDesc(track, car, situation) { };
+	lliawCar(tTrack* itrack, tCarElt* icar, tSituation *situation) : PCarDesc(itrack, icar, situation) { };
 	virtual ~lliawCar() { };
 
 	/* Additional statics */

@@ -33,12 +33,6 @@
     <ClCompile Include="CurvatureApproximation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="K1999RaceLine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Pathfinder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="RaceLineEvaluation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

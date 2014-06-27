@@ -1,0 +1,15 @@
+TORCS Adaptive Change Log
+
+v1.1 Feature list:
+* Improved AI pathfinding 									(DONE)
+* More accurate race line evaluation 						(WIP)
+* More effective dynamic AI planning for procedural tracks  (WIP)
+
+---------------------------------------------------------------------------------------------------------------
+27/06/2014
+* Refactor procBot library to procPathfinder library.
+* Split PPathfinder class into PPathfinder and PPathPlanner class - one for planning static path, one for managing updates of path and 
+  dynamic planning.
+* Link procPathfinder to perfMeasurement library to share classes and pathfinding for more accurate race line evaluation.
+* Add output such that pTrackPlotter plots the optimal path calculated by procPathfinder.
+---------------------------------------------------------------------------------------------------------------

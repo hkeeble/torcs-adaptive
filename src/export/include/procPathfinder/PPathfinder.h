@@ -38,17 +38,17 @@ namespace procPathfinder
 	class POtherCarDesc;
 
 	/* The PPathfinder class, holds and manages an array of path segments */
-	class PPathfinder
+		class PPathfinder
 	{
 		public:
-			PPathfinder(PTrackDesc* itrack, PCarDesc* carDesc, tSituation *situation);
+			PPathfinder(tTrack* itrack, tCarElt* icar);
 			~PPathfinder();
 
 			/*!< Plan the path. Override in base classes. */
 			virtual void Plan(PCarDesc* myc) = 0;
 
 			/*!< Used to update the pathfinder when new track exists. */
-			void Update(tSituation* situation);
+			void Update(tSituation* situation, PCarDesc* carDesc);
 
 			/*!< Plots the current path to the optimal file. */
 			void PlotPath(char* filename);
@@ -66,9 +66,6 @@ namespace procPathfinder
 
 			// Accessors
 			PTrackDesc* Track() const;  
-			PCarDesc* CarDesc() const;
-			PStateManager PState() const;
-			tCarElt* Car() const;
 			int LookAhead() const;
 
 			/* Operator overload, returns path segment at given index. */
@@ -79,7 +76,6 @@ namespace procPathfinder
 			enum { NTPARAMS = 1001 };		/* # entries in dat files */
 
 			PTrackDesc* track;		 /* pointer to track data */
-			PCarDesc* carDesc;		 /* pointer to procedural car description */
 			PStateManager stateMngr; /* State manager for the pathfinder */
 			tCarElt* car;			 /* Pointer to torcs car structure */
 

@@ -140,7 +140,7 @@ namespace procPathfinder
 
 			double derror;			/* distance to desired trajectory */
 
-			PCarDesc(PTrackDesc* track, tCarElt* car, tSituation *situation);
+			PCarDesc(tTrack* track, tCarElt* car, tSituation *situation);
 			virtual ~PCarDesc();
 
 			void info(void);

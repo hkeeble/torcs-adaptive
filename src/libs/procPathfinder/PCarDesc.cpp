@@ -6,7 +6,7 @@
 */
 
 #include "PCarDesc.h"
-#include "K1999.h"
+#include "BerniwPathfinding.h"
 
 #ifdef DMALLOC
 #include "dmalloc.h"
@@ -42,8 +42,7 @@ namespace procPathfinder
 	const double PCarDesc::LOOKAHEAD_MAX_ERROR = 2.0;	/* [m] */
 	const double PCarDesc::LOOKAHEAD_FACTOR = 1.0 / 3.0; /* [-] */
 
-
-	PCarDesc::PCarDesc(PTrackDesc* track, tCarElt* car, tSituation *situation)
+	PCarDesc::PCarDesc(tTrack* track, tCarElt* car, tSituation *situation)
 	{
 		AEROMAGIC = GfParmGetNum(car->_carHandle, "berniProc private", "caero", (char*)NULL, 1.6f);
 		CFRICTION = GfParmGetNum(car->_carHandle, "berniProc private", "cfriction", (char*)NULL, 1.0f);
@@ -92,11 +91,13 @@ namespace procPathfinder
 
 		cgcorr_b = 0.46;
 
-		planner = new PPathPlanner(new K1999(track, this, situation), situation);
+		// Create a new path planner object for this car.
+		planner = new PPathPlanner(new BerniwPathfinding(track, getCarPtr()), situation);
+		
+		// Current and destination segment initialization
 		currentsegid = destsegid = planner->path->getCurrentSegment(car);
-
-		currentseg = track->getSegmentPtr(currentsegid);
-		destseg = track->getSegmentPtr(destsegid);
+		currentseg = planner->path->Track()->getSegmentPtr(currentsegid);
+		destseg = planner->path->Track()->getSegmentPtr(destsegid);
 		currentpathseg = planner->path->Seg(currentsegid);
 		destpathseg = planner->path->Seg(destsegid);
 

@@ -77,9 +77,10 @@ static int InitFuncPt(int index, void *pt)
 }
 
 
-static lliawCar* mycar[BOTS] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
-static POtherCarDesc* ocar = NULL;
-static PTrackDesc* myTrackDesc = NULL;
+static lliawCar* mycar[BOTS] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
+static POtherCarDesc* ocar = nullptr;
+static PTrackDesc* myTrackDesc = nullptr;
+static tTrack* currentTrack = nullptr;
 static double currenttime;
 static const tdble waitToTurn = 1.0; // How long should i wait till i try to turn backwards.
 
@@ -87,17 +88,13 @@ static const tdble waitToTurn = 1.0; // How long should i wait till i try to tur
 // Release resources when the module gets unloaded.
 static void shutdown(int index) {
 	int i = index - 1;
-	if (mycar[i] != NULL) {
+	if (mycar[i] != nullptr) {
 		delete mycar[i];
-		mycar[i] = NULL;
+		mycar[i] = nullptr;
 	}
-	if (myTrackDesc != NULL) {
-		delete myTrackDesc;
-		myTrackDesc = NULL;
-	}
-	if (ocar != NULL) {
+	if (ocar != nullptr) {
 		delete [] ocar;
-		ocar = NULL;
+		ocar = nullptr;
 	}
 }
 
@@ -105,13 +102,7 @@ static void shutdown(int index) {
 // Initialize track data, called for every selected driver.
 static void initTrack(int index, tTrack* track, void *carHandle, void **carParmHandle, tSituation * situation)
 {
-	if ((myTrackDesc != NULL) && (myTrackDesc->GetTorcsTrack() != track)) {
-		delete myTrackDesc;
-		myTrackDesc = NULL;
-	}
-	if (myTrackDesc == NULL) {
-		myTrackDesc = new PTrackDesc(track);
-	}
+	currentTrack = track;
 
 	char buffer[BUFSIZE];
 	char* trackname = strrchr(track->filename, '/') + 1;
@@ -131,7 +122,7 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 	}
 
 	*carParmHandle = GfParmReadFile(buffer, GFPARM_RMODE_STD);
-	if (*carParmHandle == NULL) {
+	if (*carParmHandle == nullptr) {
 		snprintf(buffer, BUFSIZE, "drivers/lliawProc/%d/default.xml", index);
 		*carParmHandle = GfParmReadFile(buffer, GFPARM_RMODE_STD);
     }
@@ -144,25 +135,26 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 /* Used to update the car's understanding of the track and pathfinder before the call to the drive function, in a procedural track */
 static void update(int index, tSituation *situation)
 {
-	myTrackDesc->Update(); // Update the track description
-	mycar[index - 1]->getPathfinderPtr()->Update(situation); // Update the pathfinder based upon the new track
+	mycar[index - 1]->getPathfinderPtr()->Update(situation, mycar[index - 1]); // Update the pathfinder based upon the new track
 }
 
 // Initialize driver for the race, called for every selected driver.
 static void newRace(int index, tCarElt* car, tSituation *situation)
 {
-	if (ocar != NULL) {
-		delete [] ocar;
+	if (mycar[index-1] != nullptr) {
+		delete mycar[index-1];
+	}
+	mycar[index-1] = new lliawCar(currentTrack, car, situation);
+
+	if (ocar != nullptr) {
+		delete[] ocar;
 	}
 	ocar = new POtherCarDesc[situation->_ncars];
 	for (int i = 0; i < situation->_ncars; i++) {
-		ocar[i].init(myTrackDesc, situation->cars[i], situation);
+		ocar[i].init(mycar[index - 1]->getPathfinderPtr()->Track(), situation->cars[i], situation);
 	}
 
-	if (mycar[index-1] != NULL) {
-		delete mycar[index-1];
-	}
-	mycar[index-1] = new lliawCar(myTrackDesc, car, situation);
+	myTrackDesc = mycar[index - 1]->getPathfinderPtr()->Track();
 
 	currenttime = situation->currentTime;
 }

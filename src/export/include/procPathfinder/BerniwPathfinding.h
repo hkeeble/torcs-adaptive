@@ -16,7 +16,7 @@ namespace procPathfinder
 	class BerniwPathfinding : public PPathfinder
 	{
 	public:
-		BerniwPathfinding(PTrackDesc* itrack, PCarDesc* carDesc, tSituation *situation);
+		BerniwPathfinding(tTrack* itrack, tCarElt* icar);
 		~BerniwPathfinding();
 
 		/*!< Plan the path. Override in base classes. */
