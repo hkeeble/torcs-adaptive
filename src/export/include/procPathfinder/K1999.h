@@ -8,7 +8,7 @@ namespace procPathfinder
 	class K1999 : public PPathfinder
 	{
 	public:
-		K1999(tTrack* itrack, tCarElt* icar);
+		K1999(PTrackDesc* track);
 		~K1999();
 
 		/*!< Plan the path. Override in base classes. */

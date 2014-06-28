@@ -9,7 +9,7 @@
 
 namespace procPathfinder
 {
-	K1999::K1999(tTrack* itrack, tCarElt* icar) : PPathfinder(itrack, icar)
+	K1999::K1999(PTrackDesc* track) : PPathfinder(track)
 	{
 		// Nothing yet
 	}
@@ -63,7 +63,7 @@ namespace procPathfinder
 
 			//ps(i)->set(speedsqr, length, ps(v)->getLoc(), &dir);
 			ps(i)->set(speedsqr, length, &dir);
-
+			
 			u = v; v = w; w = (w + 1 + ps.Count()) % ps.Count();
 		}
 

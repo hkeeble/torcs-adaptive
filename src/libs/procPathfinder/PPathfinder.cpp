@@ -11,11 +11,10 @@ namespace procPathfinder
 {
 	const double PPathfinder::TPRES = PI / (NTPARAMS - 1);	/* resolution of the steps */
 
-	PPathfinder::PPathfinder(tTrack* itrack, tCarElt* icar)
+	PPathfinder::PPathfinder(PTrackDesc* track)
 	{
 		// Construct a new track description
-		track = new PTrackDesc(itrack);
-		car = icar;
+		this->track = track;
 
 		// Initialize previous segment count to 0
 		previousPSCount = 0;
@@ -26,14 +25,12 @@ namespace procPathfinder
 		// Initialize the state manager
 		stateMngr = PStateManager(track->GetTorcsTrack());
 
-		// Calculate look ahead
-		ahead = track->GetTorcsTrack()->length - getCurrentSegment(car);
+		ahead = 0;
 	}
 
 	PPathfinder::~PPathfinder()
 	{
-		if (track)
-			delete track;
+		// Nothing yet, resources managed by track module
 	}
 
 	void PPathfinder::PlotPath(char* filename)
@@ -52,6 +49,9 @@ namespace procPathfinder
 		track->Update();
 		stateMngr.Update();
 
+		// Calculate distance to look ahead
+		ahead = track->GetTorcsTrack()->length - getCurrentSegment(carDesc->getCarPtr());
+
 		if (stateMngr.IsUpdateNeeded())
 		{
 			// Calculate the number of path segments that need to be added
@@ -63,9 +63,6 @@ namespace procPathfinder
 			// Append the collection of path segments
 			ps.Append(newSegs.Segments());
 
-			// Calculate distance to look ahead
-			ahead = track->GetTorcsTrack()->length - getCurrentSegment(car);;
-
 			// Compute a new static plan
 			Plan(carDesc);
 		}
@@ -74,6 +71,11 @@ namespace procPathfinder
 	PathSeg* PPathfinder::Seg(int index)
 	{
 		return ps(index);
+	}
+
+	const PathSegCollection& PPathfinder::Segs() const
+	{
+		return ps;
 	}
 
 	PTrackDesc* PPathfinder::Track() const

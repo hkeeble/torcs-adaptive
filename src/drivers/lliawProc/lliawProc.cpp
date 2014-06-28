@@ -84,7 +84,6 @@ static tTrack* currentTrack = nullptr;
 static double currenttime;
 static const tdble waitToTurn = 1.0; // How long should i wait till i try to turn backwards.
 
-
 // Release resources when the module gets unloaded.
 static void shutdown(int index) {
 	int i = index - 1;

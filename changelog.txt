@@ -13,3 +13,9 @@ v1.1 Feature list:
 * Link procPathfinder to perfMeasurement library to share classes and pathfinding for more accurate race line evaluation.
 * Add output such that pTrackPlotter plots the optimal path calculated by procPathfinder.
 ---------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------
+28/06/2014
+* Decoupled all procPathfinder classes. Robot modules now responsible for management of PTrackDesc, PCarDesc, PPathfinder and PPathPlanner.
+  this is such that the performance measurement does not have to instantiate a path planner, as this is unnecessary.
+---------------------------------------------------------------------------------------------------------------

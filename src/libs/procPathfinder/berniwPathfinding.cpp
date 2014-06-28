@@ -10,7 +10,7 @@
 
 namespace procPathfinder
 {
-	BerniwPathfinding::BerniwPathfinding(tTrack* itrack, tCarElt* icar) : PPathfinder(itrack, icar)
+	BerniwPathfinding::BerniwPathfinding(PTrackDesc* track) : PPathfinder(track)
 	{
 		// nothing yet
 	}

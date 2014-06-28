@@ -66,4 +66,14 @@ inline double radius(double x1, double y1, double x2, double y2, double x3, doub
 	}
 }
 
+inline double dist(v3d* a, v3d* b) 
+{ 
+	return sqrt(sqr(a->x-b->x) + sqr(a->y-b->y) + sqr(a->z-b->z));
+}
+
+inline double dist2D(v3d* a, v3d* b)
+{
+	return sqrt(sqr(a->x-b->x) + sqr(a->y-b->y));
+}
+
 #endif // _TA_MATH_H_

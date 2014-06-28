@@ -41,7 +41,7 @@ namespace procPathfinder
 		class PPathfinder
 	{
 		public:
-			PPathfinder(tTrack* itrack, tCarElt* icar);
+			PPathfinder(PTrackDesc* track);
 			~PPathfinder();
 
 			/*!< Plan the path. Override in base classes. */
@@ -54,9 +54,6 @@ namespace procPathfinder
 			void PlotPath(char* filename);
 
 			// Common Computations
-			inline double sqr(double a) { return a*a; };
-			inline double dist(v3d* a, v3d* b) { return sqrt(sqr(a->x-b->x) + sqr(a->y-b->y) + sqr(a->z-b->z)); }
-			inline double dist2D(v3d* a, v3d* b) { return sqrt(sqr(a->x-b->x) + sqr(a->y-b->y)); }
 			double distToPath(int trackSegId, v3d* p);
 
 			// Segment Accessors
@@ -68,8 +65,11 @@ namespace procPathfinder
 			PTrackDesc* Track() const;  
 			int LookAhead() const;
 
-			/* Operator overload, returns path segment at given index. */
+			/* Returns path segment at given index. */
 			PathSeg* Seg(int index);
+			
+			/* Returns segment collection. */
+			const PathSegCollection& Segs() const;
 
 		protected:
 			static const double TPRES;		/* resolution of the steps */
@@ -77,7 +77,6 @@ namespace procPathfinder
 
 			PTrackDesc* track;		 /* pointer to track data */
 			PStateManager stateMngr; /* State manager for the pathfinder */
-			tCarElt* car;			 /* Pointer to torcs car structure */
 
 			int previousPSCount;	/* Previous path segment count on last call to static plan */
 
@@ -88,7 +87,7 @@ namespace procPathfinder
 	};
 
 	/* Used to calculate the distance from the given path. */
-	inline double PPathfinder::distToPath(int trackSegId, v3d* p)
+	inline double distToPath(PTrackDesc* track, PathSegCollection ps, int trackSegId, v3d* p)
 	{
 		// Obtain direction vector to the right of the current segment
 		v3d *toright = track->getSegmentPtr(trackSegId)->getToRight();

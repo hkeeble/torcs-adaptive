@@ -140,7 +140,7 @@ namespace procPathfinder
 
 			double derror;			/* distance to desired trajectory */
 
-			PCarDesc(tTrack* track, tCarElt* car, tSituation *situation);
+			PCarDesc(PPathfinder* pathfinder, tCarElt* car, tSituation *situation);
 			virtual ~PCarDesc();
 
 			void info(void);
@@ -152,11 +152,11 @@ namespace procPathfinder
 			inline double getWheelBase() { return wheelbase; }
 			inline double getWheelTrack() { return wheeltrack; }
 			inline double getErrorSgn() { return derrorsgn; }
-			inline PPathPlanner* getPlannerPtr() { return planner; }
-			inline PPathfinder* getPathfinderPtr() { return planner->path; }
 
 		private:
 			enum { DRWD = 0, DFWD = 1, D4WD = 2 };
+
+			PPathfinder* path; /*!< Pointer to path finder. Should be managed in car module. */
 
 			int drivetrain;			/* RWD, FWD or 4WD */
 			double carmass;			/* mass of car without fuel */
@@ -165,10 +165,8 @@ namespace procPathfinder
 			double wheeltrack;
 			double derrorsgn;		/* on which side of the trajectory am i left -1 or 1 right */
 
-			PPathPlanner* planner;
-
 			void updateCa();
-			void updateDError();
+			void updateDError(PTrackDesc* trackDesc);
 			void initCarGeometry();
 	};
 

@@ -1,4 +1,5 @@
 #include "PPathfinder.h"
+#include "PathSegCollection.h"
 
 #ifndef _PATH_PLANNER_H_
 #define _PATH_PLANNER_H_
@@ -36,12 +37,17 @@ namespace procPathfinder
 	class PPathPlanner
 	{
 	public:
-		PPathPlanner(PPathfinder* pathfinder, tSituation* s);
+		PPathPlanner(PathSegCollection path, PTrackDesc* track, tSituation* s);
 		~PPathPlanner();
 
 		void Plan(int trackSegId, tCarElt* car, tSituation* situation, PCarDesc* myc, POtherCarDesc* ocar);
 
-		PPathfinder* path;	/* Pathfinding algorithm used by this path planner. */
+		/** Update the planner with a new optimal path. */
+		/*!
+			\param newPath The new path for the planner to use when dynamically planning a route.
+			\param newLookAhead New look ahead value.
+		 */
+		void Update(PathSegCollection newPath, int newLookAhead);
 
 	private:
 		int lastPlan;				/* start of the last plan */
@@ -49,18 +55,24 @@ namespace procPathfinder
 		int collcars;
 		int changed;
 
+		int lookAhead; /* Planner look ahead value. */
+
 		tOCar* o;
 		tOverlapTimer* overlaptimer;
+
+		PathSegCollection path; /*!< The optimal path currently stored by the planner. */
+
+		PTrackDesc* track;		/*!< Pointer to the track description. */
 
 		static const double COLLDIST;	/* up to this distance do we consider other cars as dangerous */
 
 		void Init(tSituation* s);
 
 		void Smooth(int s, int e, int p, double w);
+		int CorrectPath(int id, tCarElt* car, PCarDesc* myc);
 
 		int Collision(int trackSegId, tCarElt* mycar, tSituation *s, PCarDesc* myc, POtherCarDesc* ocar);
 		int Overtake(int trackSegId, tSituation *s, PCarDesc* myc, POtherCarDesc* ocar);
-		int CorrectPath(int id, tCarElt* car, PCarDesc* myc);
 		double PathSlope(int id);
 		int Letoverlap(int trackSegId, tSituation *s, PCarDesc* myc, POtherCarDesc* ocar, tOverlapTimer* ov);
 		int CountSegments(int from, int to);

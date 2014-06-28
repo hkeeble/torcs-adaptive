@@ -30,7 +30,7 @@
 #include <math.h>
 #include "PTrackDesc.h"
 #include "PCarDesc.h"
-#include "PPathfinder.h"
+#include "K1999.h"
 
 #define TRACKFILENAME		"/home/berniProc/track.dat"
 #define TRACKDESCFILENAME   "/home/berniProc/track.txt"
