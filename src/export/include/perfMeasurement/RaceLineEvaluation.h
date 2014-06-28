@@ -15,6 +15,12 @@ using namespace procPathfinder;
 
 namespace perfMeasurement
 {
+	enum class Pathfinder
+	{
+		K1999,
+		Berniw
+	};
+
 	/*!< A class that evaluates performance based upon the racing line. Uses a strategy pattern in order to accept different pathfinding algorithms. */
 	class RaceLineEvaluation : public PMEvaluator
 	{
@@ -28,8 +34,8 @@ namespace perfMeasurement
 		PStateManager stateMngr; /*!< Procedural track description state manager. */
 
 	public:
-		RaceLineEvaluation(PPathfinder* pathfinder);
-	
+		RaceLineEvaluation(Pathfinder pathfinder, tTrack* track);
+		
 		virtual void Update(tdble deltaTimeIncrement, tdble currentTime) override final;
 	};
 }
