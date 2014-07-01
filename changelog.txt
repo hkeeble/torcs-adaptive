@@ -19,3 +19,9 @@ v1.1 Feature list:
 * Decoupled all procPathfinder classes. Robot modules now responsible for management of PTrackDesc, PCarDesc, PPathfinder and PPathPlanner.
   this is such that the performance measurement does not have to instantiate a path planner, as this is unnecessary.
 ---------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------
+01/07/2013
+* Rewrote and expanded upon track plotter in Java, easier to maintain + extend in future. Can now read actual, optimal and track
+  plot. Also plot difference line between actual and optimal plots.
+---------------------------------------------------------------------------------------------------------------
