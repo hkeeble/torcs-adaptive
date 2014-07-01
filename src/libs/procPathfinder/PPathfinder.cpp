@@ -44,7 +44,7 @@ namespace procPathfinder
 		fclose(fd);
 	}
 
-	void PPathfinder::Update(tSituation* situation, PCarDesc* carDesc)
+	void PPathfinder::Update(PCarDesc* carDesc)
 	{
 		track->Update();
 		stateMngr.Update();

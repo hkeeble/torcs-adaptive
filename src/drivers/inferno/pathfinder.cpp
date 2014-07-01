@@ -369,6 +369,8 @@ void Pathfinder::plan(MyCar* myc, int currentsegid)
 		tdble b = track->getSegmentPtr(i)->getKbeta();
 		speedsqr = myc->SPEEDSQRFACTOR*r*g*mu/(1.0 - MIN(1.0, (mu*myc->ca*r/myc->mass)) + mu*r*b);
 
+		std::cout << speedsqr << std::endl;
+
 		dir = (*psopt->getOptLoc(w)) - (*psopt->getOptLoc(u));
 		dir.normalize();
 

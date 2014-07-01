@@ -80,8 +80,12 @@ static int InitFuncPt(int index, void *pt)
 
 static infernoCar* mycar[BOTS] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 static POtherCarDesc* ocar = nullptr;
-static PTrackDesc* myTrackDesc = nullptr;
+
 static tTrack* currentTrack = nullptr;
+static PTrackDesc* myTrackDesc = nullptr;
+static PPathfinder* myPathfinder = nullptr;
+static PPathPlanner* myPathPlanner = nullptr;
+
 static double currenttime;
 static const tdble waitToTurn = 1.0; // How long should i wait till i try to turn backwards.
 
@@ -97,6 +101,18 @@ static void shutdown(int index) {
 		delete [] ocar;
 		ocar = nullptr;
 	}
+	if (myTrackDesc != nullptr) {
+		delete myTrackDesc;
+		myTrackDesc = nullptr;
+	}
+	if (myPathfinder != nullptr) {
+		delete myPathfinder;
+		myPathfinder = nullptr;
+	}
+	if (myPathPlanner != nullptr) {
+		delete myPathPlanner;
+		myPathPlanner = nullptr;
+	}
 }
 
 
@@ -104,6 +120,16 @@ static void shutdown(int index) {
 static void initTrack(int index, tTrack* track, void *carHandle, void **carParmHandle, tSituation * situation)
 {
 	currentTrack = track;
+
+	if (myTrackDesc != nullptr) {
+		delete myTrackDesc;
+	}
+	if (myPathfinder != nullptr) {
+		delete myPathfinder;
+	}
+
+	myTrackDesc = new PTrackDesc(currentTrack);
+	myPathfinder = new K1999(myTrackDesc);
 
 	char buffer[BUFSIZE];
 	char* trackname = strrchr(track->filename, '/') + 1;
@@ -135,7 +161,9 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 /* Used to update the car's understanding of the track and pathfinder before the call to the drive function, in a procedural track */
 static void update(int index, tSituation *situation)
 {
-	mycar[index - 1]->getPathfinderPtr()->Update(situation, mycar[index-1]); // Update the pathfinder based upon the new track
+	myTrackDesc->Update();
+	myPathfinder->Update(mycar[index - 1]);
+	myPathPlanner->Update(myPathfinder->Segs(), myPathfinder->LookAhead());
 }
 
 // Initialize driver for the race, called for every selected driver.
@@ -144,17 +172,21 @@ static void newRace(int index, tCarElt* car, tSituation *situation)
 	if (mycar[index-1] != nullptr) {
 		delete mycar[index-1];
 	}
-	mycar[index-1] = new infernoCar(currentTrack, car, situation);
+	mycar[index-1] = new infernoCar(myPathfinder, car, situation);
 
 	if (ocar != nullptr) {
 		delete[] ocar;
 	}
 	ocar = new POtherCarDesc[situation->_ncars];
 	for (int i = 0; i < situation->_ncars; i++) {
-		ocar[i].init(mycar[index - 1]->getPathfinderPtr()->Track(), situation->cars[i], situation);
+		ocar[i].init(myTrackDesc, situation->cars[i], situation);
 	}
 
-	myTrackDesc = mycar[index - 1]->getPathfinderPtr()->Track();
+	if (myPathPlanner != nullptr) {
+		delete myPathPlanner;
+	}
+
+	myPathPlanner = new PPathPlanner(myPathfinder->Segs(), myTrackDesc, situation);
 
 	currenttime = situation->currentTime;
 }
@@ -172,14 +204,12 @@ static void drive(int index, tCarElt* car, tSituation *situation)
 				// Brake value for control (avoid loosing control).
 	tdble b4;				
 	infernoCar* myc = mycar[index-1];
-	PPathPlanner* planner = myc->getPlannerPtr();
-	PPathfinder* path = myc->getPathfinderPtr();
 
 	b1 = b2 = b3 = b4 = 0.0;
 	shiftaccel = 0.0;
 
-	// Compute path according to the situation.
-	planner->Plan(myc->getCurrentSegId(), car, situation, myc, ocar);
+	// Compute myPathfinder according to the situation.
+	myPathPlanner->Plan(myc->getCurrentSegId(), car, situation, myc, ocar);
 
 	// Update some values needed.
 	myc->update(myTrackDesc, car, situation);
@@ -246,12 +276,12 @@ static void drive(int index, tCarElt* car, tSituation *situation)
 	brake = 0.0;
 
 	while (lookahead < brakecoeff * myc->getSpeedSqr()) {
-		lookahead += path->Seg(i)->getLength();
-		brakespeed = myc->getSpeedSqr() - path->Seg(i)->getSpeedsqr();
+		lookahead += myPathfinder->Seg(i)->getLength();
+		brakespeed = myc->getSpeedSqr() - myPathfinder->Seg(i)->getSpeedsqr();
 		if (brakespeed > 0.0) {
 			tdble gm, qb, qs;
 			gm = myTrackDesc->getSegmentPtr(myc->getCurrentSegId())->getKfriction()*myc->CFRICTION*myTrackDesc->getSegmentPtr(myc->getCurrentSegId())->getKalpha();
-			qs = path->Seg(i)->getSpeedsqr();
+			qs = myPathfinder->Seg(i)->getSpeedsqr();
 			brakedist = brakespeed*(myc->mass / (2.0*gm*g*myc->mass + qs*(gm*myc->ca + myc->cw)));
 
 			if (brakedist > lookahead - myc->getWheelTrack()) {
@@ -261,7 +291,7 @@ static void drive(int index, tCarElt* car, tSituation *situation)
 				}
 			}
 		}
-		i = (i + 1 + path->getnPathSeg()) % path->getnPathSeg();
+		i = (i + 1 + myPathfinder->getnPathSeg()) % myPathfinder->getnPathSeg();
 	}
 
 	if (myc->getSpeedSqr() > myc->currentpathseg->getSpeedsqr()) {
@@ -348,7 +378,7 @@ static void drive(int index, tCarElt* car, tSituation *situation)
 			car->_brakeCmd = brake*cerror;
 		}
 		else {
-			if (myc->getSpeedSqr() < path->Seg(myc->getCurrentSegId())->getSpeedsqr()) {
+			if (myc->getSpeedSqr() < myPathfinder->Seg(myc->getCurrentSegId())->getSpeedsqr()) {
 				if (myc->accel < myc->ACCELLIMIT) {
 					myc->accel += myc->ACCELINC;
 				}
@@ -373,7 +403,7 @@ static void drive(int index, tCarElt* car, tSituation *situation)
 	tdble cx = myc->currentseg->getMiddle()->x - car->_pos_X, cy = myc->currentseg->getMiddle()->y - car->_pos_Y;
 	tdble parallel = (cx*bx + cy*by) / (sqrt(cx*cx + cy*cy)*sqrt(bx*bx + by*by));
 
-	if ((myc->getSpeed() < myc->TURNSPEED) && (parallel < cos(90.0*PI / 180.0)) && (path->dist2D(myc->getCurrentPos(), path->Seg(myc->getCurrentSegId())->getLoc()) > myc->TURNTOL)) {
+	if ((myc->getSpeed() < myc->TURNSPEED) && (parallel < cos(90.0*PI / 180.0)) && (dist2D(myc->getCurrentPos(), myPathfinder->Seg(myc->getCurrentSegId())->getLoc()) > myc->TURNTOL)) {
 		myc->turnaround += situation->deltaTime;
 	}
 	else myc->turnaround = 0.0;
@@ -390,7 +420,7 @@ static void drive(int index, tCarElt* car, tSituation *situation)
 		}
 		else {
 			myc->tr_mode = 2;
-			if (parallel < cos(90.0*PI / 180.0) && (path->dist2D(myc->getCurrentPos(), path->Seg(myc->getCurrentSegId())->getLoc()) > myc->TURNTOL)) {
+			if (parallel < cos(90.0*PI / 180.0) && (dist2D(myc->getCurrentPos(), myPathfinder->Seg(myc->getCurrentSegId())->getLoc()) > myc->TURNTOL)) {
 				angle = queryAngleToTrack(car);
 				car->_steerCmd = (-angle > 0.0) ? 1.0 : -1.0;
 				car->_brakeCmd = 0.0;
@@ -428,7 +458,6 @@ static void drive(int index, tCarElt* car, tSituation *situation)
 static int pitcmd(int index, tCarElt* car, tSituation *s)
 {
 	infernoCar* myc = mycar[index-1];
-	PPathfinder* mpf = myc->getPathfinderPtr();
 
 	float fullracedist = (myTrackDesc->GetTorcsTrack()->length*s->_totLaps);
 	float remaininglaps = (fullracedist - car->_distRaced)/myTrackDesc->GetTorcsTrack()->length;

@@ -33,10 +33,17 @@ namespace perfMeasurement
 		PTrackDesc* trackDesc;   /*!< Track description. */
 		PStateManager stateMngr; /*!< Procedural track description state manager. */
 
+		std::vector<PMPoint2D> actualPoints; /*!< Stores the actual points of the car, used for plotting. */
+
+		int currentSegmentID; /*!< ID of the current segment ID for which performance needs to be evaluated. */
+		int currentPathSegID; /*!< ID of the current path segment. */
+
 	public:
-		RaceLineEvaluation(Pathfinder pathfinder, tTrack* track);
+		RaceLineEvaluation(tCarElt* car, Pathfinder pathfinder, tTrack* track, tSituation* situation);
 		
 		virtual void Update(tdble deltaTimeIncrement, tdble currentTime) override final;
+
+		virtual void RaceEnd() override final;
 	};
 }
 

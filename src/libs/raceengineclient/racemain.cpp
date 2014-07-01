@@ -300,7 +300,7 @@ reRaceRealStart(void)
 	if (taManager->IsActive())
 	{
 		if (taManager->GetRaceType() == torcsAdaptive::TARaceType::Adaptive)
-			taManager->InitPerfMeasurement(&ReInfo->carList[0], new RaceLineEvaluation(Pathfinder::K1999, ReInfo->track));
+			taManager->InitPerfMeasurement(new RaceLineEvaluation(&ReInfo->carList[0], Pathfinder::K1999, ReInfo->track, ReInfo->s));
 	}
 	return RM_SYNC | RM_NEXT_STEP;
 }

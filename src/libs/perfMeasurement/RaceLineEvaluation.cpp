@@ -4,20 +4,19 @@
 
 namespace perfMeasurement
 {
-	RaceLineEvaluation::RaceLineEvaluation(Pathfinder pathfinder, tTrack* track)
+	RaceLineEvaluation::RaceLineEvaluation(tCarElt* car, Pathfinder pathfinder, tTrack* track, tSituation* situation) : PMEvaluator(car)
 	{
 		// Initialize track description
 		trackDesc = new PTrackDesc(track);
 
 		// Initialize pathfinder algo
-		PPathfinder* ppathfinder;
 		switch (pathfinder)
 		{
 		case Pathfinder::K1999:
-			ppathfinder = new K1999(trackDesc);
+			this->pathfinder = new K1999(trackDesc);
 			break;
 		case Pathfinder::Berniw:
-			ppathfinder = new BerniwPathfinding(trackDesc);
+			this->pathfinder = new BerniwPathfinding(trackDesc);
 			break;
 		default:
 			pmOut("Error, unrecognized pathfinder type passed into race line evaluation for performance measurement.");
@@ -25,10 +24,12 @@ namespace perfMeasurement
 		}
 
 		// Initialize car description
-		this->carDesc = new PCarDesc(ppathfinder, this->GetCar(), nullptr);
+		this->carDesc = new PCarDesc(this->pathfinder, this->GetCar(), situation);
 
-		// Plan the initial path
-		ppathfinder->Plan(carDesc);
+		currentSegmentID = 0; // ID of the current segment ID being evaluated
+		currentPathSegID = 0; // ID of the current path segment
+
+		actualPoints = std::vector<PMPoint2D>();
 	}
 
 	void RaceLineEvaluation::Evaluate()
@@ -41,13 +42,68 @@ namespace perfMeasurement
 			* Need to convert the result into a ratio to work correctly with segment generation, must weight both speed and distance
 			  from line appropriately.
 		*/
+
+		tdble avgDistDiff, avgSpdDistDiff;
+		tdble totalDistDiff = 0, totalSpdDiff = 0;
+
+		for (auto d : dataSet)
+		{
+			totalSpdDiff += abs(pathfinder->Seg(currentSegmentID)->getSpeedsqr() - d.Data().Speed());
+			totalDistDiff += abs(distToPath(trackDesc, pathfinder->Segs(), currentSegmentID, new v3d(d.Data().GetCar()->_pos_X,
+										d.Data().GetCar()->_pos_Y, d.Data().GetCar()->_pos_Z)));
+		}
+
+		// Calculate average distance from path over segment and average different from optimal speed
+		avgDistDiff = totalDistDiff / dataSet.size();
+		avgSpdDistDiff = totalSpdDiff / dataSet.size();
 	}
 
 	void RaceLineEvaluation::Update(tdble deltaTimeIncrement, tdble currentTime)
 	{
 		trackDesc->Update();
-		pathfinder->Update(nullptr, carDesc); // Need to add a situation somehow...
+		pathfinder->Update(carDesc); // Need to add a situation somehow...
 
 		// Collect data here, and when the end of a segment is reached call evaluation function to evaluate collected data
+		
+		car.Update(); // Update car data
+
+		// If the car is on a new path segment, add new data
+		int prev = currentPathSegID;
+		currentPathSegID = pathfinder->getCurrentSegment(car.GetCar());
+		if (prev < currentPathSegID)
+		{
+			dataSet.push_back(PMData(car, currentTime));
+		}
+
+		if (car.LocalPosition().seg->id > currentSegmentID)
+		{
+			Evaluate();
+			currentSegmentID++;
+
+			for (auto d : dataSet)
+			{
+				actualPoints.push_back(PMPoint2D(d.Data().GlobalPosition().x, d.Data().GlobalPosition().y));
+			}
+
+			dataSet.clear();
+		}
+	}
+
+	void RaceLineEvaluation::RaceEnd()
+	{
+		remove("optimal.dat");
+		remove("actual.dat");
+
+		pathfinder->PlotPath("optimal.dat");
+
+		std::fstream out = std::fstream("actual.dat", std::ios::app);
+		if (out.is_open())
+		{
+			for (auto point : actualPoints)
+			{
+				out << point.x << "," << point.y << std::endl;
+			}
+			out.close();
+		}
 	}
 }

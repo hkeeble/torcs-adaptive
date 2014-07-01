@@ -53,10 +53,9 @@ namespace perfMeasurement
 		return Evaluator->GetAverageEstimate();
 	}
 
-	void PMManager::Init(tCarElt* car, PMEvaluator* evaluator)
+	void PMManager::Init(PMEvaluator* evaluator)
 	{
 		Evaluator = evaluator;
-		Evaluator->Init(car);
 	}
 
 	void PMManager::OutputData(std::string filepath)
@@ -80,5 +79,7 @@ namespace perfMeasurement
 			file << i << "\n";
 
 		file.close();
+
+		Evaluator->RaceEnd();
 	}
 }

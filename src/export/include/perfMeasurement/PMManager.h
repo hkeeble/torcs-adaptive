@@ -35,10 +35,9 @@ namespace perfMeasurement
 		
 		//! Initialization function.
 		 /*!
-			\param car		 The car to monitor.
 			\param evaluator An uninitialized evaluator to use.
 		 */
-		void Init(tCarElt* car, PMEvaluator* evaluator);
+		void Init(PMEvaluator* evaluator);
 
 		/** Get the car currently being monitored */
 		tCarElt* GetCar();

@@ -25,7 +25,7 @@ namespace perfMeasurement
 		const tdble UPDATE_INTERVAL; /*!< The time interval on data collection. */
 		virtual void Evaluate() override final; /*!< Override for evaluation behaviour. */
 	public:
-		MeanDeviationFromTopSpeed() : UPDATE_INTERVAL(0.1f), timeOnLastUpdate(0), cumulativeTime(0) { }
+		MeanDeviationFromTopSpeed(tCarElt* car) : UPDATE_INTERVAL(0.1f), timeOnLastUpdate(0), cumulativeTime(0), PMEvaluator(car) { }
 		
 		//! Update the performance evaluator.
 		/*!

@@ -44,23 +44,20 @@ namespace perfMeasurement
 	public:
 	
 		/** Initializes a new evaluator, initializing the skill estimate to a null skill level. */
-		PMEvaluator() : currentEstimate(NULL_SKILL_LEVEL), totalEstimate(0), avgEstimate(0), nEstimates(0), dataSet(std::vector<PMData>()),
-			estimates(std::vector<tdble>()) { }
+		PMEvaluator(tCarElt* car) : currentEstimate(NULL_SKILL_LEVEL), totalEstimate(0), avgEstimate(0), nEstimates(0), dataSet(std::vector<PMData>()),
+			estimates(std::vector<tdble>()), car(car) { }
 		
 		/** Pure virtual update function. Override for bespoke update functionality, is also responsible for calling the Evaluate function. */
 		virtual void Update(tdble deltaTimeIncrement, tdble currentTime) = 0;
 		
+		/** Called at the end of each race. */
+		virtual void RaceEnd() = 0;
+
 		/** Get the car pointed to by the evaluator. */
 		tCarElt* GetCar() { return car.GetCar(); }
 		
 		/** Clear data held by the evaluator. */
 		void ClearData() { dataSet.clear(); }
-		
-		//! Initialize the evaluator with a car pointer.
-		/*!
-			\param carElt Pointer to the car structure that is controlled by the player or robot being evaluated.
-		*/
-		void Init(tCarElt* carElt) { car = carElt; dataSet = std::vector<PMData>(); }
 		
 		/** Retrieve the current skill level estimate from the evaluator. */
 		tdble GetCurrentEstimate() const { return currentEstimate; }

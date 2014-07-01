@@ -35,7 +35,7 @@
 #include <portability.h>
 #include "PTrackDesc.h"
 #include "PCarDesc.h"
-#include "PPathfinder.h"
+#include "K1999.h"
 
 #define TRACKFILENAME		"/home/berni/track.dat"
 #define TRACKDESCFILENAME   "/home/berni/track.txt"
@@ -59,7 +59,7 @@ using namespace procPathfinder;
 class lliawCar : public PCarDesc
 {
 public:
-	lliawCar(tTrack* itrack, tCarElt* icar, tSituation *situation) : PCarDesc(itrack, icar, situation) { };
+	lliawCar(PPathfinder* pathfinder, tCarElt* car, tSituation *situation) : PCarDesc(pathfinder, car, situation) { };
 	virtual ~lliawCar() { };
 
 	/* Additional statics */

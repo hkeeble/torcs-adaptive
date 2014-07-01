@@ -48,7 +48,7 @@ namespace procPathfinder
 			virtual void Plan(PCarDesc* myc) = 0;
 
 			/*!< Used to update the pathfinder when new track exists. */
-			void Update(tSituation* situation, PCarDesc* carDesc);
+			void Update(PCarDesc* carDesc);
 
 			/*!< Plots the current path to the optimal file. */
 			void PlotPath(char* filename);

@@ -102,6 +102,18 @@ static void shutdown(int index) {
 		delete[] ocar;
 		ocar = nullptr;
 	}
+	if (myTrackDesc != nullptr) {
+		delete myTrackDesc;
+		myTrackDesc = nullptr;
+	}
+	if (myPathfinder != nullptr) {
+		delete myPathfinder;
+		myPathfinder = nullptr;
+	}
+	if (myPathPlanner != nullptr) {
+		delete myPathPlanner;
+		myPathPlanner = nullptr;
+	}
 }
 
 
@@ -110,6 +122,14 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 {
 	// Obtain pointer to the current track
 	currentTrack = track;
+
+	if (myTrackDesc != nullptr) {
+		delete myTrackDesc;
+	}
+	if (myPathfinder != nullptr) {
+		delete myPathfinder;
+	}
+
 	myTrackDesc = new PTrackDesc(currentTrack);
 	myPathfinder = new K1999(myTrackDesc);
 
@@ -147,6 +167,12 @@ static void newRace(int index, tCarElt* car, tSituation *situation)
 		ocar[i].init(myTrackDesc, situation->cars[i], situation);
 	}
 
+	if (myPathPlanner != nullptr) {
+		delete myPathPlanner;
+	}
+
+	myPathPlanner = new PPathPlanner(myPathfinder->Segs(), myTrackDesc, situation);
+
 	currenttime = situation->currentTime;
 }
 
@@ -154,7 +180,7 @@ static void newRace(int index, tCarElt* car, tSituation *situation)
 static void update(int index, tSituation *situation)
 {
 	myTrackDesc->Update();
-	myPathfinder->Update(situation, mycar[index - 1]);
+	myPathfinder->Update(mycar[index - 1]);
 	myPathPlanner->Update(myPathfinder->Segs(), myPathfinder->LookAhead());
 }
 

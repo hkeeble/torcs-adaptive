@@ -110,8 +110,8 @@ namespace perfMeasurement
 		void OutputOptimalPoints(PMPoint2D* points, int count);
 
 	public:
-		CurvatureApproximation() : currentOutlook(CornerOutlook()), offTrackPenalty(0.5), offTrack(false), collision(false), curDmg(0), prevDmg(0), timeSinceOut(0), optimalOutputFile("optimal.dat"), actualOutputFile("actual.dat"),
-			millisecondsPerOut(0.5)
+		CurvatureApproximation(tCarElt* car) : currentOutlook(CornerOutlook()), offTrackPenalty(0.5), offTrack(false), collision(false), curDmg(0), prevDmg(0), timeSinceOut(0), optimalOutputFile("optimal.dat"), actualOutputFile("actual.dat"),
+			millisecondsPerOut(0.5), PMEvaluator(car)
 		{
 			remove(optimalOutputFile.c_str());
 			remove(actualOutputFile.c_str());

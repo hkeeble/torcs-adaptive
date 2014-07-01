@@ -102,12 +102,12 @@ namespace torcsAdaptive
 		trackManager->InitTrack();
 	}
 
-	void TAManager::InitPerfMeasurement(tCarElt* car, PMEvaluator* evaluator)
+	void TAManager::InitPerfMeasurement(PMEvaluator* evaluator)
 	{
 		if (!perfMeasurement)
 			perfMeasurement = PMManager::Get();
 
-		perfMeasurement->Init(car, evaluator);
+		perfMeasurement->Init(evaluator);
 	}
 
 	void TAManager::AddSegment(const PSeg& segment)

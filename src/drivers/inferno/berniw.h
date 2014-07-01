@@ -98,5 +98,24 @@ inline double radius(double x1, double y1, double x2, double y2, double x3, doub
 	}
 }
 
+/* Compute inverse radius off three points */
+inline double iRadius(double x1, double y1, double x2, double y2, double x3, double y3)
+{
+	double dx1 = x3 - x2;
+	double dy1 = y3 - y2;
+	double dx2 = x1 - x2;
+	double dy2 = y1 - y2;
+	double dx3 = x3 - x1;
+	double dy3 = y3 - y1;
+
+	double det = dx1 * dy2 - dx2 * dy1;
+	double n1 = dx1 * dx1 + dy1 * dy1;
+	double n2 = dx2 * dx2 + dy2 * dy2;
+	double n3 = dx3 * dx3 + dy3 * dy3;
+	double nnn = sqrt(n1 * n2 * n3);
+
+	return 2 * det / nnn;
+}
+
 #endif // _BERNIW_H_
 

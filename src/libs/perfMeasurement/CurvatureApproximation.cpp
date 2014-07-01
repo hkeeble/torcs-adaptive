@@ -34,7 +34,7 @@ namespace perfMeasurement
 			if (car.CurrentSeg()->next->type != TR_STR)
 			{
 				currentOutlook.GenerateOutlook(car.CurrentSeg(), car.GetCar()->info.dimension.x, car.GetCar()->info.dimension.z);
-				pmOut("Calculated optimal radius for upcoming corner as: " + std::to_string(currentOutlook.optimalRadius) + "\n");
+				pmOut("Calculated optimal radius for upcoming corner as: %s", std::to_string(currentOutlook.optimalRadius));
 				
 				// Output the current optimal points
 				OutputOptimalPoints(currentOutlook.optimalPoints, 3);
@@ -77,8 +77,8 @@ namespace perfMeasurement
 			// Calculate the actual radius
 			currentOutlook.actualRadius = abs(radius(actualPoints[0].x, actualPoints[0].y, actualPoints[1].x, actualPoints[1].y, actualPoints[2].x, actualPoints[2].y));
 
-			pmOut("Actual Radius: " + std::to_string(currentOutlook.actualRadius) + "\n");
-			pmOut("Optimal Radius: " + std::to_string(currentOutlook.optimalRadius) + "\n");
+			pmOut("Actual Radius: %s", std::to_string(currentOutlook.actualRadius));
+			pmOut("Optimal Radius: %s", std::to_string(currentOutlook.optimalRadius));
 
 			// Calculate ratios
 			tdble radiusRatio = currentOutlook.actualRadius / currentOutlook.optimalRadius;

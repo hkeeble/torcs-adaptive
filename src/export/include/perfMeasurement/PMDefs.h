@@ -8,15 +8,17 @@
 #define _PM_DEFS_H_
 
 #include "tgf.h"
+#include <stdio.h>
 
 namespace perfMeasurement
 {
-	#define PERFMEASURE_UPDATE_INTERVAL 0.1
+#define PERFMEASURE_UPDATE_INTERVAL 0.1
 
-	#define NULL_SKILL_LEVEL -1.f
+#define NULL_SKILL_LEVEL -1.f
 
-	#ifdef _DEBUG
-		#define pmOut(out) std::cout << "perfMeasurement >>" + std::string(out)
+#ifdef _DEBUG
+#define  pmOut(...) printf("perfMeasurement >> ", __VA_ARGS__); \
+					std::cout << std::endl;
 	#else
 		#define pmOut(out)
 	#endif // _DEBUG
@@ -25,6 +27,7 @@ namespace perfMeasurement
 	struct PMPoint2D
 	{
 		PMPoint2D() { };
+		PMPoint2D(tdble x, tdble y) { this->x = x; this->y = y; }
 
 		tdble x;
 		tdble y;

@@ -92,8 +92,8 @@ namespace torcsAdaptive
 		/* Initializes track and graphics for a TORCS Adaptive race */
 		void Init(tRmInfo* RaceManager);
 		
-		/* Initialize performance measurement. Pass in the car to monitor, and an evaluation behaviour to use. */
-		void InitPerfMeasurement(tCarElt* car, PMEvaluator* evaluator);
+		/* Initialize performance measurement. Pass in the evaluation behaviour to use. */
+		void InitPerfMeasurement(PMEvaluator* evaluator);
 
 		/* Initialize Graphics, must call Init and InitTrack before this */
 		void InitGraphics();

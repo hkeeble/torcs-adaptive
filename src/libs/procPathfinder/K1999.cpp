@@ -27,7 +27,7 @@ namespace procPathfinder
 		int i;
 
 		/* Initialize location to center of the given segment */
-		for (i = previousPSCount; i < ps.Count(); i++)
+		for (i = 0; i < ps.Count(); i++)
 			ps(i)->setLoc(track->getSegmentPtr(i)->getMiddle());
 
 		/* compute path */
@@ -37,7 +37,7 @@ namespace procPathfinder
 		}
 
 		/* init optimal path */
-		for (i = previousPSCount; i < ps.Count(); i++) {
+		for (i = 0; i < ps.Count(); i++) {
 			ps(i)->setOptLoc(ps(i)->getLoc());
 			ps(i)->setPitLoc(ps(i)->getOptLoc());
 		}
@@ -45,11 +45,12 @@ namespace procPathfinder
 		/* compute possible speeds, direction vector and length of trajectoies */
 		u = ps.Count() - 1; v = 0; w = 1;
 
-		for (i = previousPSCount; i < ps.Count(); i++)
+		for (i = 0; i < ps.Count(); i++)
 		{
 			r = radius(ps(u)->getLoc()->x, ps(u)->getLoc()->y,
 				ps(v)->getLoc()->x, ps(v)->getLoc()->y, ps(w)->getLoc()->x, ps(w)->getLoc()->y);
 			ps(i)->setRadius(r);
+
 			r = fabs(r);
 
 			length = dist(ps(v)->getLoc(), ps(w)->getLoc());
@@ -61,9 +62,8 @@ namespace procPathfinder
 			dir = *(ps(w)->getLoc()) - (*ps(u)->getLoc());
 			dir.normalize();
 
-			//ps(i)->set(speedsqr, length, ps(v)->getLoc(), &dir);
 			ps(i)->set(speedsqr, length, &dir);
-			
+
 			u = v; v = w; w = (w + 1 + ps.Count()) % ps.Count();
 		}
 
@@ -88,7 +88,6 @@ namespace procPathfinder
 		double nnn = sqrt(n1 * n2 * n3);
 		return 2 * det / nnn;
 	}
-
 
 	/* optimize point p ala k1999 (curvature), Remi Coulom, K1999.cpp */
 	inline void K1999::adjustRadius(int s, int p, int e, double c, double security) {
