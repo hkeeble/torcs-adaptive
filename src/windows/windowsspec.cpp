@@ -351,6 +351,7 @@ static int windowsModInfoDir(unsigned int gfid, char *dir, int level, tModList *
 				}
 				handle = LoadLibrary( sopath );
 				if (handle != NULL) {
+					GfOut(dname);
 					if ((fModInfo = (tfModInfo)GetProcAddress(handle, dname)) != NULL) {
 						GfOut("Request Info for %s\n", sopath);
 						/* DLL loaded, init function exists, call it... */

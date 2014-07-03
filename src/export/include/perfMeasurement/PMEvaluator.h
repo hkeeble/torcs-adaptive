@@ -32,7 +32,7 @@ namespace perfMeasurement
 	class PMEvaluator
 	{
 	protected:
-		CarData car;				 /*!< The car data currently held. This should be updated on each call to Update. */
+		tCarElt* car;				 /*!< The car being evauluated by this evaluator. */
 		std::vector<PMData> dataSet; /*!< The current data set */
 		std::vector<tdble> estimates;/*!< Set of all the skill estimates for this race. */
 		tdble currentEstimate;		 /*!< The current estimate for skill level */
@@ -54,7 +54,7 @@ namespace perfMeasurement
 		virtual void RaceEnd() = 0;
 
 		/** Get the car pointed to by the evaluator. */
-		tCarElt* GetCar() { return car.GetCar(); }
+		tCarElt* GetCar() { return car; }
 		
 		/** Clear data held by the evaluator. */
 		void ClearData() { dataSet.clear(); }

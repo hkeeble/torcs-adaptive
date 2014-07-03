@@ -22,64 +22,17 @@ enum class DirectionOfTravel
 	BACKWARD
 };
 
-/* Contains data about car's speed */
-struct SpeedData
-{
-private:
-	friend class CarData;
-	SpeedData() { }
-	tdble current;
-	tdble previous;
-	tdble CalculateSpeed(tdble x, tdble y, tdble z) { return sqrt((x*x) + (y*y) + (z*z)); }
-};
-
-/* Contains local position data */
-struct LocalPositionData
-{
-private:
-	friend class CarData;
-	LocalPositionData() { }
-	tTrkLocPos current;
-	tTrkLocPos previous;
-};
-
-struct GlobalPositionData
-{
-private:
-	friend class CarData;
-	GlobalPositionData() { }
-	Vector2D current;
-	Vector2D previous;
-};
-
-/* Contains segment data */
-struct SegData
-{
-private:
-	friend class CarData;
-	SegData() { }
-	tTrackSeg* current;
-	tTrackSeg* previous;
-};
-
-
 /* Represents the car data for use in procedural generation and performance measurement */
 class CarData
 {
 private:
-	tCarElt* car;
-	SpeedData speed;
-	GlobalPositionData globalPos;
-	LocalPositionData localPos;
-	SegData segment;
-	DirectionOfTravel dirOfTravel;
+	tCarElt car;
+	tdble speed;
+	Vector2D globalPos;
 public:
 	CarData();
 	CarData(tCarElt* car);
 	~CarData();
-
-	/* Update the data stored by using the tCarElt structure */
-	void Update();
 
 	/* Retrieve car's current local segment position */
 	tTrkLocPos LocalPosition();
@@ -94,7 +47,7 @@ public:
 	tTrackSeg* CurrentSeg();
 
 	/* Retrieve pointer the car's struct */
-	tCarElt* GetCar();
+	tCarElt GetCar();
 
 	/* Get speed currently recorded */
 	tdble Speed() const;

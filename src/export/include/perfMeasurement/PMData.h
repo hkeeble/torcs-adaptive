@@ -16,15 +16,18 @@ namespace perfMeasurement
 	class PMData
 	{
 		private:
-			CarData data; /*!< Car data stored in this set. */
+			CarData data; /*!< Car data stored in this set. */	
 			tdble currentTime; /*!< Time at which this data was recorded. */
 		public:
-			PMData(CarData newData, tdble timeStamp);
+			PMData(tCarElt* car, tdble timeStamp);
 			~PMData();
 			
 			/** Get car data stored by this object */
-			CarData Data() const;
+			tCarElt GetCar();
 			
+			/** Get the data stored by this data element. */
+			CarData GetData();
+
 			/** Get time stamp stored by this object */
 			tdble TimeStamp() const;
 	};

@@ -55,7 +55,6 @@ namespace procPathfinder
 			path(j)->setLoc(path(j)->getOptLoc());
 		}
 
-
 		collcars = UpdateOCar(trackSegId, situation, myc, ocar, o);
 		UpdateOverlapTimer(trackSegId, situation, myc, ocar, o, overlaptimer);
 

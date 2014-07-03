@@ -12,8 +12,6 @@ namespace perfMeasurement
 	{
 		cumulativeTime += deltaTimeIncrement;
 
-		car.Update();
-
 		if (cumulativeTime >= UPDATE_INTERVAL)
 		{
 			dataSet.push_back(PMData(car, currentTime)); // Add new data to collection
@@ -32,9 +30,9 @@ namespace perfMeasurement
 
 		float tot = 0.f;
 		for (int i = 0; i < dataSet.size(); i++)
-			tot += dataSet.at(i).Data().Speed();
+			tot += dataSet[i].GetData().Speed();
 
-		tot -= dataSet.at(0).Data().GetCar()->race.topSpeed; // Is this top speed in race or overall??
+		tot -= dataSet[0].GetData().GetCar().race.topSpeed; // Is this top speed in race or overall??
 
 		tot = tot / dataSet.size();
 		currentEstimate = tot / 100;

@@ -43,47 +43,62 @@ namespace perfMeasurement
 			  from line appropriately.
 		*/
 
-		tdble avgDistDiff, avgSpdDistDiff;
+		tdble avgDistDiff = 0, avgSpdDistDiff = 0, avgDistMax = 0, avgDistSpd = 0;
 		tdble totalDistDiff = 0, totalSpdDiff = 0;
+		tdble totalDistMax = 0, totalSpdMax = 0;
 
 		for (auto d : dataSet)
 		{
-			totalSpdDiff += abs(pathfinder->Seg(currentSegmentID)->getSpeedsqr() - d.Data().Speed());
-			totalDistDiff += abs(distToPath(trackDesc, pathfinder->Segs(), currentSegmentID, new v3d(d.Data().GetCar()->_pos_X,
-										d.Data().GetCar()->_pos_Y, d.Data().GetCar()->_pos_Z)));
+			int currentPathSeg = pathfinder->getCurrentSegment(&d.GetCar()); // Path segment in this data set
+			int currentTrackSeg = trackDesc->getCurrentSegment(&d.GetCar()); // Track segment in this data set
+
+			// Total actual distances
+			totalSpdDiff += abs(pathfinder->Seg(currentPathSeg)->getSpeedsqr() - d.GetData().Speed());
+
+			tdble dist = abs(distToPath(trackDesc, pathfinder->Segs(), currentTrackSeg, new v3d(d.GetCar()._pos_X, d.GetCar()._pos_Y, d.GetCar()._pos_Z)));
+			totalDistDiff += dist;
+
+			// Total maximum possible distances
+			PTrackSegment* nearestSeg = trackDesc->getSegmentPtr(currentTrackSeg);
+			tdble optLocX = pathfinder->Seg(currentPathSeg)->getOptLoc()->x;
+			tdble optLocY = pathfinder->Seg(currentPathSeg)->getOptLoc()->y;
+			tTrkLocPos pos;
+			RtTrackGlobal2Local(nearestSeg->getTrackSegment(), optLocX, optLocY, &pos, TR_LPOS_TRACK);
+
+			if (pos.toLeft > pos.toRight)
+				totalDistMax += pos.toLeft;
+			else
+				totalDistMax += pos.toRight;
 		}
 
 		// Calculate average distance from path over segment and average different from optimal speed
 		avgDistDiff = totalDistDiff / dataSet.size();
 		avgSpdDistDiff = totalSpdDiff / dataSet.size();
+
+		avgDistMax = totalDistMax / dataSet.size();
+
+		currentEstimate = avgDistDiff / avgDistMax;
 	}
 
 	void RaceLineEvaluation::Update(tdble deltaTimeIncrement, tdble currentTime)
 	{
 		trackDesc->Update();
-		pathfinder->Update(carDesc); // Need to add a situation somehow...
-
-		// Collect data here, and when the end of a segment is reached call evaluation function to evaluate collected data
+		pathfinder->Update(carDesc);
 		
-		car.Update(); // Update car data
-
 		// If the car is on a new path segment, add new data
 		int prev = currentPathSegID;
-		currentPathSegID = pathfinder->getCurrentSegment(car.GetCar());
-		if (prev < currentPathSegID)
-		{
-			dataSet.push_back(PMData(car, currentTime));
-		}
+		currentPathSegID = pathfinder->getCurrentSegment(car);
 
-		if (car.LocalPosition().seg->id > currentSegmentID)
+		if (prev < currentPathSegID)
+			dataSet.push_back(PMData(car, currentTime));
+
+		if (car->pub.trkPos.seg->id > currentSegmentID)
 		{
 			Evaluate();
 			currentSegmentID++;
 
 			for (auto d : dataSet)
-			{
-				actualPoints.push_back(PMPoint2D(d.Data().GlobalPosition().x, d.Data().GlobalPosition().y));
-			}
+				actualPoints.push_back(PMPoint2D(d.GetData().GlobalPosition().x, d.GetData().GlobalPosition().y));
 
 			dataSet.clear();
 		}

@@ -8,9 +8,9 @@
 
 namespace perfMeasurement
 {
-	PMData::PMData(CarData newData, tdble timeStamp)
+	PMData::PMData(tCarElt* car, tdble timeStamp)
 	{
-		data = newData;
+		this->data = CarData(car);
 		currentTime = timeStamp;
 	}
 
@@ -19,7 +19,12 @@ namespace perfMeasurement
 
 	}
 
-	CarData PMData::Data() const
+	tCarElt PMData::GetCar()
+	{
+		return data.GetCar();
+	}
+
+	CarData PMData::GetData()
 	{
 		return data;
 	}

@@ -5,24 +5,13 @@ namespace perfMeasurement
 {
 	void CurvatureApproximation::Update(tdble deltaTimeIncrement, tdble currentTime)
 	{
-		car.Update();
-
-		timeSinceOut += deltaTimeIncrement;
-		if (timeSinceOut >= millisecondsPerOut)
-		{
-			std::fstream output = std::fstream(actualOutputFile, std::ios::app);
-			output << car.GlobalPosition().x << "," << car.GlobalPosition().y << std::endl;
-			output.close();
-			timeSinceOut = 0;
-		}
-
 		// Retrieve current damage
-		curDmg = car.GetCar()->priv.dammage;
+		curDmg = car->priv.dammage;
 
 		// Check for collisions or leaving the track
 		if (curDmg > prevDmg)
 			collision = true;
-		if (car.LocalPosition().toMiddle > (car.LocalPosition().seg->width / 2))
+		if (car->pub.trkPos.toMiddle > (car->pub.trkPos.seg->width / 2))
 			offTrack = true;
 		
 		// Assign previous damage
@@ -31,9 +20,9 @@ namespace perfMeasurement
 		// When neccesary, generate a new outlook
 		if (currentOutlook.IsClear() == true)
 		{
-			if (car.CurrentSeg()->next->type != TR_STR)
+			if (car->pub.trkPos.seg->next->type != TR_STR)
 			{
-				currentOutlook.GenerateOutlook(car.CurrentSeg(), car.GetCar()->info.dimension.x, car.GetCar()->info.dimension.z);
+				currentOutlook.GenerateOutlook(car->pub.trkPos.seg, car->info.dimension.x, car->info.dimension.z);
 				pmOut("Calculated optimal radius for upcoming corner as: %s", std::to_string(currentOutlook.optimalRadius));
 				
 				// Output the current optimal points
@@ -70,8 +59,8 @@ namespace perfMeasurement
 			for (int i = 0; i < dataSet.size(); i++)
 			{
 				actualPoints[i] = PMPoint2D();
-				actualPoints[i].x = dataSet.at(i).Data().GlobalPosition().x;
-				actualPoints[i].y = dataSet.at(i).Data().GlobalPosition().y;
+				actualPoints[i].x = dataSet[i].GetData().GlobalPosition().x;
+				actualPoints[i].y = dataSet[i].GetData().GlobalPosition().y;
 			}
 
 			// Calculate the actual radius

@@ -117,42 +117,28 @@ namespace perfMeasurement
 		return globalOptimalPoints;
 	}
 
-	void CurvatureApproximation::CornerOutlook::Segment::Update(CarData& data, std::vector<PMData>& dataSet, const tdble& currentTime)
+	void CurvatureApproximation::CornerOutlook::Segment::Update(tCarElt* car, std::vector<PMData>& dataSet, const tdble& currentTime)
 	{
-		if (data.LocalPosition().toStart > minRange && data.LocalPosition().toStart < maxRange)
+		if (car->pub.trkPos.toStart > minRange && car->pub.trkPos.toStart < maxRange)
 		{
-			dataSet.push_back(PMData(data, currentTime));
+			dataSet.push_back(PMData(car, currentTime));
 			pmOut("Adding data to data set for race line evaluation.\n");
 		}
-		else if (data.LocalPosition().toStart > maxRange)
+		else if (car->pub.trkPos.toStart > maxRange)
 		{
-			dataSet.push_back(PMData(data, currentTime));
+			dataSet.push_back(PMData(car, currentTime));
 			pmOut("Car already passed data collection range, approximating position.");
 		}
 	}
 
-	void CurvatureApproximation::CornerOutlook::Update(CarData& data, std::vector<PMData>& dataSet, const tdble& currentTime)
+	void CurvatureApproximation::CornerOutlook::Update(tCarElt* car, std::vector<PMData>& dataSet, const tdble& currentTime)
 	{
-		// Get the current speed data
-		speedData.push_back(data.Speed());
-
-		if (data.GetCar()->priv.dammage > 1)
-			pmOut("TEST");
-
 		// Update position data where neccesary
-		if (data.CurrentSeg()->id == entrance.seg->id && dataSet.size() == 0)
-			entrance.Update(data, dataSet, currentTime);
-		else if (data.CurrentSeg()->id == corner.seg->id && dataSet.size() == 1)
-			corner.Update(data, dataSet, currentTime);
-		else if (data.CurrentSeg()->id == exit.seg->id && dataSet.size() == 2)
-			exit.Update(data, dataSet, currentTime);
-	}
-
-	tdble CurvatureApproximation::CornerOutlook::AverageSpeed()
-	{
-		tdble tot = 0;
-		for (int i = 0; i < speedData.size(); i++)
-			tot += speedData.at(i);
-		return tot / speedData.size();
+		if (car->pub.trkPos.seg->id == entrance.seg->id && dataSet.size() == 0)
+			entrance.Update(car, dataSet, currentTime);
+		else if (car->pub.trkPos.seg->id == corner.seg->id && dataSet.size() == 1)
+			corner.Update(car, dataSet, currentTime);
+		else if (car->pub.trkPos.seg->id == exit.seg->id && dataSet.size() == 2)
+			exit.Update(car, dataSet, currentTime);
 	}
 }

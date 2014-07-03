@@ -80,6 +80,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "procPathfinder", "libs\proc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "berniProc", "drivers\berniProc\berniProc.vcxproj", "{5F4EF67B-929C-4242-AA52-510BA60CB66C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "K1999", "drivers\K1999\K1999.vcxproj", "{DB6B70E4-C34A-4F3D-90EE-A816CBD7EB62}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -362,6 +364,14 @@ Global
 		{5F4EF67B-929C-4242-AA52-510BA60CB66C}.Release|Win32.ActiveCfg = Release|Win32
 		{5F4EF67B-929C-4242-AA52-510BA60CB66C}.Release|Win32.Build.0 = Release|Win32
 		{5F4EF67B-929C-4242-AA52-510BA60CB66C}.Release|x64.ActiveCfg = Release|Win32
+		{DB6B70E4-C34A-4F3D-90EE-A816CBD7EB62}.Debug|ARM.ActiveCfg = Debug|Win32
+		{DB6B70E4-C34A-4F3D-90EE-A816CBD7EB62}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DB6B70E4-C34A-4F3D-90EE-A816CBD7EB62}.Debug|Win32.Build.0 = Debug|Win32
+		{DB6B70E4-C34A-4F3D-90EE-A816CBD7EB62}.Debug|x64.ActiveCfg = Debug|Win32
+		{DB6B70E4-C34A-4F3D-90EE-A816CBD7EB62}.Release|ARM.ActiveCfg = Release|Win32
+		{DB6B70E4-C34A-4F3D-90EE-A816CBD7EB62}.Release|Win32.ActiveCfg = Release|Win32
+		{DB6B70E4-C34A-4F3D-90EE-A816CBD7EB62}.Release|Win32.Build.0 = Release|Win32
+		{DB6B70E4-C34A-4F3D-90EE-A816CBD7EB62}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

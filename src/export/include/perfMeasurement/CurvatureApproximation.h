@@ -52,7 +52,7 @@ namespace perfMeasurement
 					\param dataSet 		The dataset being used. Appended to where necessary.
 					\param currentTime  The current time stamp to use when recording data.
 				 */
-				void Update(CarData& data, std::vector<PMData>& dataSet, const tdble& currentTime);
+				void Update(tCarElt* car, std::vector<PMData>& dataSet, const tdble& currentTime);
 
 				float maxRange, minRange;
 			} entrance, corner, exit; // Each outlook stores three segments
@@ -75,7 +75,7 @@ namespace perfMeasurement
 				\param dataSet     The current data set. Appended to where necessary.
 				\param currentTime The current time stamp to use when recording new data.
 			 */
-			void Update(CarData& data, std::vector<PMData>& dataSet, const tdble& currentTime);
+			void Update(tCarElt* car, std::vector<PMData>& dataSet, const tdble& currentTime);
 
 			/** Returns whether or not the current outlook is empty */
 			bool IsClear() { return clear; }
