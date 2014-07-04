@@ -21,7 +21,7 @@ public class OutputPanel extends JPanel {
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		
-		scrollPane.setPreferredSize(new Dimension(400, 150));
+		scrollPane.setPreferredSize(new Dimension(400, 300));
 		
 		setLayout(new BorderLayout());
 		add(scrollPane, BorderLayout.CENTER);

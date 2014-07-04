@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
@@ -56,12 +57,12 @@ public class UserPanel extends Subject {
 		mainPanel.add(inputs);
 	}
 
-	private JTable createTable(ArrayList<Vector2D> data) {
+	private JTable createTable(ArrayList<Point2D> data) {
 		JTable table = new JTable(data.size(), 2);
 		
 		for(int i = 0; i < data.size(); i++) {
-			table.setValueAt(data.get(i).x, i, 0);
-			table.setValueAt(data.get(i).y, i, 1);
+			table.setValueAt(data.get(i).getX(), i, 0);
+			table.setValueAt(data.get(i).getY(), i, 1);
 		}
 		
 		JTableHeader th = table.getTableHeader();
@@ -77,7 +78,7 @@ public class UserPanel extends Subject {
 		return table;
 	}
 	
-	public void addTable(ArrayList<Vector2D> data, String name) {
+	public void addTable(ArrayList<Point2D> data, String name) {
 		JPanel panel = new JPanel(new BorderLayout());
 		JTable table = createTable(data);
 		panel.add(new JScrollPane(table), BorderLayout.CENTER);

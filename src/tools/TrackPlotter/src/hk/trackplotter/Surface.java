@@ -11,7 +11,8 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
-import java.awt.geom.Path2D.Double;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -19,23 +20,24 @@ import javax.swing.event.MouseInputListener;
 
 public class Surface implements MouseMotionListener, MouseInputListener, MouseWheelListener {
 
-	private ArrayList<ArrayList<Vector2D>> plotData;
+	private ArrayList<Path2D> plots;
+	private ArrayList<Integer> pointCount;
 	private ArrayList<Color> plotColors;
 	
 	private ArrayList<TextElement> textElements;
 	
 	private class TextElement {
 		String text;
-		Vector2D position;
+		Point2D position;
 		Color color;
 		
-		public TextElement(Vector2D pos, String text, Color color){
+		public TextElement(Point2D pos, String text, Color color){
 			this.position = pos;
 			this.color = color;
 			this.text = text;
 		}
 		
-		public Vector2D getPos() {
+		public Point2D getPos() {
 			return position;
 		}
 		
@@ -65,18 +67,9 @@ public class Surface implements MouseMotionListener, MouseInputListener, MouseWh
 			g2d.scale(1.0, -1.0);
 			g2d.translate(0, -this.getHeight());
 			
-			// Draw plot data
-			for(int i = 0; i < plotData.size(); i++) {
-				Path2D path = new Path2D.Double();
-				path.moveTo(plotData.get(i).get(0).x, plotData.get(i).get(0).y);
-				
+			for(int i = 0; i < plots.size(); i++) {
 				g2d.setColor(plotColors.get(i));
-				
-				for(int j = 0; j < plotData.get(i).size(); j++) { // Draw data for current plot
-					path.lineTo(plotData.get(i).get(j).x, plotData.get(i).get(j).y);
-				}
-				g2d.draw(path);
-				
+				g2d.draw(plots.get(i));
 			}
 
 			// Draw mouse position
@@ -84,12 +77,12 @@ public class Surface implements MouseMotionListener, MouseInputListener, MouseWh
 			g2d.drawString(String.valueOf(mousePos.x) + ", " + String.valueOf(mousePos.y), drawSurface.getWidth() - 60, drawSurface.getHeight() - 10);
 			
 			// Draw Plot Points
-			for(int i = 0; i < plotData.size(); i++) {
+			for(int i = 0; i < plots.size(); i++) {
 				Path2D path = new Path2D.Double();
 				g2d.setColor(plotColors.get(i));
 				path.moveTo(10, 30*i+10);
 				path.lineTo(20, 30*i+10);
-				g2d.drawString(String.valueOf(plotData.get(i).size()), 25, 30*i+15);
+				g2d.drawString(String.valueOf(pointCount.get(i)), 25, 30*i+15);
 				g2d.draw(path);
 			}
 		}
@@ -110,8 +103,9 @@ public class Surface implements MouseMotionListener, MouseInputListener, MouseWh
 	private double scrollSensitivity = MAX_SCROLL_SENSE;
 	
 	public Surface() {
-		plotData = new ArrayList<ArrayList<Vector2D>>();
+		plots = new ArrayList<Path2D>();
 		plotColors = new ArrayList<Color>();
+		pointCount = new ArrayList<Integer>();
 		
 		// Transformation matrix
 		plotTransform = new AffineTransform();
@@ -140,17 +134,28 @@ public class Surface implements MouseMotionListener, MouseInputListener, MouseWh
 	}
 	
 	public void clearPlots() {
-		plotData.clear();
+		plots.clear();
 		plotColors.clear();
+		pointCount.clear();
 		textElements.clear();
 	}
 	
-	public void addPlotData(ArrayList<Vector2D> data, Color color) {
-		plotData.add(data);
+	public void addPlotData(ArrayList<Point2D> data, Color color) {
+		
+		// Form path
+		Path2D path = new Path2D.Double();
+		path.moveTo(data.get(0).getX(), data.get(0).getY());
+		for(int i = 0; i < data.size(); i++) {
+			path.lineTo(data.get(i).getX(), data.get(i).getY());
+		}
+		
+		// Add all neccesary data to the surface
+		plots.add(path);
+		pointCount.add(data.size());
 		plotColors.add(color);
 	}
 
-	public void addTextElement(Vector2D position, String text, Color color) {
+	public void addTextElement(Point2D position, String text, Color color) {
 		textElements.add(new TextElement(position, text, color));
 	}
 	
@@ -187,10 +192,12 @@ public class Surface implements MouseMotionListener, MouseInputListener, MouseWh
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		Point p = e.getPoint();
-		Vector2D dir = new Vector2D(p.x - mouseClickPos.x, p.y - mouseClickPos.y);
-		dir.normalize();
+		Point2D dir = new Point2D.Double(p.x - mouseClickPos.x, p.y - mouseClickPos.y);
+		
+		double mag = Math.abs(Math.sqrt((dir.getX()*dir.getX()) + (dir.getY()*dir.getY())));
+		Point2D nDir = new Point2D.Double(dir.getX()/mag, dir.getY()/mag);
 			
-		plotTransform.translate(dir.x * scrollSensitivity, dir.y * scrollSensitivity);
+		plotTransform.translate(nDir.getX() * scrollSensitivity, nDir.getY() * scrollSensitivity);
 			
 		drawSurface.repaint();
 			
@@ -229,5 +236,20 @@ public class Surface implements MouseMotionListener, MouseInputListener, MouseWh
 	
 	public void repaint() {
 		drawSurface.repaint();
+	}
+	
+	private int largestPlot() {
+		int largest = 0;
+		Rectangle2D rect = plots.get(0).getBounds2D();
+		double previousSize = rect.getWidth() * rect.getHeight();
+		
+		for(int i = 1; i < plots.size(); i++) {
+			Rectangle2D currentRect = plots.get(i).getBounds2D();
+			double currentSize = currentRect.getWidth() * currentRect.getHeight();
+			if(currentSize > previousSize)
+				largest = i;
+		}
+		
+		return largest;
 	}
 }

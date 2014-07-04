@@ -3,15 +3,14 @@ package hk.trackplotter;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.LayoutManager;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JSplitPane;
-import javax.swing.JTable;
 
 public class MainFrame extends Observer {
 
@@ -27,8 +26,8 @@ public class MainFrame extends Observer {
 	private final String OPTIMAL_FILE = "optimal.dat";
 	private final String ACTUAL_FILE = "actual.dat";
 	
-	private ArrayList<Vector2D> trackPlot, optimalPlot, actualPlot, distancePlot;
-	private ArrayList<Vector2D> distAxes;
+	private ArrayList<Point2D> trackPlot, optimalPlot, actualPlot, distancePlot;
+	private ArrayList<Point2D> distAxes;
 	
 	private double maxDist;
 	
@@ -88,36 +87,41 @@ public class MainFrame extends Observer {
 		// Read track plot
 		fr = new FileReader(TRACK_FILE);
 		textReader = new BufferedReader(fr);
-		trackPlot = new ArrayList<Vector2D>();
+		trackPlot = new ArrayList<Point2D>();
 		outputPanel.send("Plotting track...");
 		String line;
 		while((line = textReader.readLine()) != null) {
 			String coords[] = line.split(",");
-			trackPlot.add(new Vector2D(Double.parseDouble(coords[0]), Double.parseDouble(coords[1])));
-			outputPanel.send(" - " + String.valueOf(trackPlot.get(trackPlot.size()-1).x + ", " + trackPlot.get(trackPlot.size()-1).y));
+			trackPlot.add(new Point2D.Double(Double.parseDouble(coords[0]), Double.parseDouble(coords[1])));
 		}
 		
 		// Read actual plot
 		fr = new FileReader(ACTUAL_FILE);
 		textReader = new BufferedReader(fr);
-		actualPlot = new ArrayList<Vector2D>();
+		actualPlot = new ArrayList<Point2D>();
 		outputPanel.send("Plotting actual path...");
 		while((line = textReader.readLine()) != null) {
 			String coords[] = line.split(",");
-			actualPlot.add(new Vector2D(Double.parseDouble(coords[0]), Double.parseDouble(coords[1])));
-			outputPanel.send(" - " + String.valueOf(trackPlot.get(trackPlot.size()-1).x + ", " + trackPlot.get(trackPlot.size()-1).y));
+			actualPlot.add(new Point2D.Double(Double.parseDouble(coords[0]), Double.parseDouble(coords[1])));
+			outputPanel.send(" - " + String.valueOf(trackPlot.get(trackPlot.size()-1).getX() + ", " + trackPlot.get(trackPlot.size()-1).getY()));
 		}
 		
 		// Read Optimal plot
 		fr = new FileReader(OPTIMAL_FILE);
 		textReader = new BufferedReader(fr);
-		optimalPlot = new ArrayList<Vector2D>();
+		optimalPlot = new ArrayList<Point2D>();
 		outputPanel.send("Plotting actual path...");
 		while((line = textReader.readLine()) != null) {
 			String coords[] = line.split(",");
-			optimalPlot.add(new Vector2D(Double.parseDouble(coords[0]), Double.parseDouble(coords[1])));
-			outputPanel.send(" - " + String.valueOf(trackPlot.get(trackPlot.size()-1).x + ", " + trackPlot.get(trackPlot.size()-1).y));
+			optimalPlot.add(new Point2D.Double(Double.parseDouble(coords[0]), Double.parseDouble(coords[1])));
+			outputPanel.send(" - " + String.valueOf(trackPlot.get(trackPlot.size()-1).getX() + ", " + trackPlot.get(trackPlot.size()-1).getY()));
 		}
+		
+//		for(int i = 0; i < 200; i++) {
+//			optimalPlot.add(new Point2D.Double(i, i));
+//			actualPlot.add(new Point2D.Double(i, 0));
+//		}
+		
 		
 		processData();
 		
@@ -131,24 +135,54 @@ public class MainFrame extends Observer {
 		maxDist = 0;
 		
 		// Compute distance plot
-		distancePlot = new ArrayList<Vector2D>();
-		for(int i = 0; i < actualPlot.size(); i++) {
-			Vector2D opt = optimalPlot.get(i);
-			Vector2D act = actualPlot.get(i);
+		distancePlot = new ArrayList<Point2D>();
+		
+		for(int i = 0; i < actualPlot.size()-1; i++) {
+			Point2D act = actualPlot.get(i);
+			Point2D opt = optimalPlot.get(i);
 			
-			distancePlot.add(new Vector2D(i, dist(opt.x, opt.y, act.x, act.y)));
-					
-			if(distancePlot.get(i).x > maxDist)
-				maxDist = distancePlot.get(i).y;
+			opt.distance(act);
+
+			// Find distance to this line, and add to plot
+			distancePlot.add(new Point2D.Double(i, opt.distance(act))); //line.ptLineDist(new Point2D.Double(act.getX(), act.getY()))));
+			outputPanel.send(String.valueOf(distancePlot.get(i).getY()));
 			
-			outputPanel.send(" - " + String.valueOf(distancePlot.get(i).x + ", " + String.valueOf(distancePlot.get(i).y)));
+			if(distancePlot.get(i).getX() > maxDist)
+				maxDist = distancePlot.get(i).getY();
 		}
 		
 		// Create distance axes
-		distAxes = new ArrayList<Vector2D>();
-		distAxes.add(new Vector2D(0, maxDist));
-		distAxes.add(new Vector2D(0, 0));
-		distAxes.add(new Vector2D(distancePlot.size(), 0));
+		distAxes = new ArrayList<Point2D>();
+		distAxes.add(new Point2D.Double(0, maxDist));
+		distAxes.add(new Point2D.Double(0, 0));
+		distAxes.add(new Point2D.Double(distancePlot.size(), 0));
+	}
+	
+	/**
+	 * Finds the index in the given array of the closest point to the given point.
+	 * @param points The set of points to search.
+	 * @param point The point to search for the closest point to.
+	 */
+	private int closestPoint(ArrayList<Point2D> points, Point2D point) {
+		int closest = 0;
+		
+		Point2D opt = optimalPlot.get(0);
+		double prevDist = opt.distance(point);
+			
+		for(int i = 1; i < optimalPlot.size(); i++) {
+			opt = optimalPlot.get(i);
+			double currentDist = opt.distance(point);
+					
+			if(currentDist > prevDist) {
+				closest = i-1;
+				outputPanel.send(String.valueOf(closest));
+				break;
+			}
+
+			prevDist = currentDist;
+		}
+		
+		return closest;
 	}
 	
 	public void setVisible(boolean vis) {
@@ -184,8 +218,8 @@ public class MainFrame extends Observer {
 			drawSurface.addPlotData(distancePlot, Color.red);
 			drawSurface.addPlotData(distAxes, Color.black);
 			
-			drawSurface.addTextElement(new Vector2D(-10, distAxes.get(1).y + (maxDist/2)), "Distance", Color.black);
-			drawSurface.addTextElement(new Vector2D(distAxes.get(1).x + (distancePlot.size()/2), -10), "Time", Color.black);
+			drawSurface.addTextElement(new Point2D.Double(-10, distAxes.get(1).getX() + (maxDist/2)), "Distance", Color.black);
+			drawSurface.addTextElement(new Point2D.Double(distAxes.get(1).getX() + (distancePlot.size()/2), -10), "Time", Color.black);
 			
 			drawSurface.repaint();
 		}
@@ -201,9 +235,5 @@ public class MainFrame extends Observer {
 		else if(message == GUIMessage.PLOT_TRACK) {
 			plotTrack();
 		}
-	}
-	
-	public double dist(double x1, double y1, double x2, double y2) {
-		return Math.sqrt(((x2*x2)-(x1*x1)) + ((y2*y2)-(y1*y1)));
 	}
 }
