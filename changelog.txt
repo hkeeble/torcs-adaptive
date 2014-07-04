@@ -2,7 +2,8 @@ TORCS Adaptive Change Log
 
 v1.1 Feature list:
 * Improved AI pathfinding 									(DONE)
-* More accurate race line evaluation 						(WIP)
+* More accurate race line evaluation 						(DONE)
+* Speed weighted race line evaluation						(WIP)
 * More effective dynamic AI planning for procedural tracks  (WIP)
 
 ---------------------------------------------------------------------------------------------------------------
@@ -24,4 +25,11 @@ v1.1 Feature list:
 01/07/2013
 * Rewrote and expanded upon track plotter in Java, easier to maintain + extend in future. Can now read actual, optimal and track
   plot. Also plot difference line between actual and optimal plots.
+---------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------
+04/07/2013
+* Fixed the race line evaluation method. New method: Find average distance from path, find average of maximum possible distances at each point.
+  Then find average distance as a percentage of average maximum possible distance. Then subtract this value from 1, for the race line part of the
+  approximation.
 ---------------------------------------------------------------------------------------------------------------
