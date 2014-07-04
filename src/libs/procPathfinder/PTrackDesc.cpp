@@ -142,6 +142,13 @@ namespace procPathfinder
 
 			int i;
 
+			/* setting up length */
+			for (i = 0; i < nOfNewSegs; i++) {
+				int k = (i + nOfNewSegs + 1) % nOfNewSegs;
+				v3d* p = newSegs[k].getMiddle();
+				newSegs[i].setLength(newSegs[i].distToMiddle2D(p->x, p->y));
+			}
+
 			/* init kbeta, for height profile of track */
 			v3d *p0, *p1, *p2;
 			double dz10, dz21;

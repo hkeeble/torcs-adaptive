@@ -63,7 +63,7 @@ namespace perfMeasurement
 			tdble optLocX = pathfinder->Seg(currentPathSeg)->getOptLoc()->x;
 			tdble optLocY = pathfinder->Seg(currentPathSeg)->getOptLoc()->y;
 			tTrkLocPos pos;
-			RtTrackGlobal2Local(nearestSeg->getTrackSegment(), optLocX, optLocY, &pos, TR_LPOS_TRACK);
+			RtTrackGlobal2Local(nearestSeg->getTrackSegment(), optLocX, optLocY, &pos, TR_LPOS_MAIN);
 
 			if (pos.toLeft > pos.toRight)
 				totalDistMax += pos.toLeft;
@@ -77,7 +77,7 @@ namespace perfMeasurement
 
 		avgDistMax = totalDistMax / dataSet.size();
 
-		currentEstimate = avgDistDiff / avgDistMax;
+		currentEstimate = 1 - (avgDistDiff / avgDistMax);
 	}
 
 	void RaceLineEvaluation::Update(tdble deltaTimeIncrement, tdble currentTime)
@@ -108,6 +108,7 @@ namespace perfMeasurement
 	{
 		remove("optimal.dat");
 		remove("actual.dat");
+		remove("optSpeed.dat");
 
 		pathfinder->PlotPath("optimal.dat");
 
@@ -119,6 +120,15 @@ namespace perfMeasurement
 				out << point.x << "," << point.y << std::endl;
 			}
 			out.close();
+		}
+
+		out = std::fstream("optSpeed.dat", std::ios::app);
+		if (out.is_open())
+		{
+			for (int i = 0; i < pathfinder->Segs().Count(); i++)
+			{
+				out << sqrt(pathfinder->Seg(i)->getSpeedsqr()) << std::endl;
+			}
 		}
 	}
 }
