@@ -1,10 +1,16 @@
 var searchData=
 [
-  ['radius',['Radius',['../classprocedural_1_1_p_segment_ranges.html#a083285054b7455a61306bc88e94cb1f0',1,'procedural::PSegmentRanges']]],
-  ['randbetween',['RandBetween',['../classprocedural_1_1_p_seg_factory.html#a0a2ee118df418a9c4c1ce8002c8aecc6',1,'procedural::PSegFactory']]],
-  ['randomsegtype',['RandomSegType',['../classprocedural_1_1_p_seg_factory.html#a1d0086989b39a113b46432640a8a79a4',1,'procedural::PSegFactory']]],
-  ['readsegment',['ReadSegment',['../classprocedural_1_1_p_track_file_manager.html#ab9972ce81237a96ce015179a9fd7a0ba',1,'procedural::PTrackFileManager']]],
-  ['readsegmentdatafrom',['ReadSegmentDataFrom',['../classprocedural_1_1_p_track_file_manager.html#aaf01f0cf5ccc0933774d93da59597af7',1,'procedural::PTrackFileManager']]],
-  ['readtrackfrom',['ReadTrackFrom',['../classprocedural_1_1_p_track_file_manager.html#a9bd3c31fc9a8ea0276d0d5f47dff104f',1,'procedural::PTrackFileManager']]],
-  ['rightarc',['RightArc',['../classprocedural_1_1_p_segment_ranges.html#acc89a474c64acc887c209fb19d28d84a',1,'procedural::PSegmentRanges']]]
+  ['setchances',['SetChances',['../classprocedural_1_1_p_seg_factory.html#acfcd1caeae5fdad541a44f18ad1918a3',1,'procedural::PSegFactory']]],
+  ['setconfiguration',['SetConfiguration',['../classprocedural_1_1_p_track_load_state.html#a64817b6cdae63ad1d79633aca31ff2d9',1,'procedural::PTrackLoadState']]],
+  ['setend',['SetEnd',['../classprocedural_1_1_p_track.html#a56ea590d110ab46fbe7d3ae95d6198cb',1,'procedural::PTrack']]],
+  ['setleftarc',['SetLeftArc',['../classprocedural_1_1_p_segment_ranges.html#a837aa9a5914eafbc3c3265c372bca13f',1,'procedural::PSegmentRanges']]],
+  ['setlength',['SetLength',['../classprocedural_1_1_p_segment_ranges.html#acad2fb79c89fa3ce5ea5aa9f04946de7',1,'procedural::PSegmentRanges::SetLength()'],['../classprocedural_1_1_p_track_load_state.html#aa909d47596085c90af8e00fe9c706e14',1,'procedural::PTrackLoadState::SetLength()']]],
+  ['setloaderoptions',['SetLoaderOptions',['../classprocedural_1_1_p_s_s_g_state.html#a4a990b66e80a9af47119904bf36486cc',1,'procedural::PSSGState']]],
+  ['setloadstate',['SetLoadState',['../classprocedural_1_1_p_track_file_manager.html#acddbcfe9df4c62579dfee164cb3099f3',1,'procedural::PTrackFileManager']]],
+  ['setloadstatelength',['SetLoadStateLength',['../classprocedural_1_1_p_track_file_manager.html#a253c64bb76a9ac6a51613d0dc4ba2d12',1,'procedural::PTrackFileManager']]],
+  ['setloc',['setLoc',['../classperf_measurement_1_1_path_segment.html#afff1e7d871b32861e9b9659fab03af91',1,'perfMeasurement::PathSegment']]],
+  ['setradius',['SetRadius',['../classprocedural_1_1_p_segment_ranges.html#a2f9f9e86ae2e72d04935a660cee48e7f',1,'procedural::PSegmentRanges']]],
+  ['setrightarc',['SetRightArc',['../classprocedural_1_1_p_segment_ranges.html#adefb935d34983da1b95dece233c3c4dc',1,'procedural::PSegmentRanges']]],
+  ['setstart',['SetStart',['../classprocedural_1_1_p_track.html#ae136809d63983f1ec3835806fd55049c',1,'procedural::PTrack']]],
+  ['strcon',['StrCon',['../classprocedural_1_1_p_track.html#a359e7b04e99952af6c0905f05d760a84',1,'procedural::PTrack']]]
 ];

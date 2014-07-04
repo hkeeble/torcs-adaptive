@@ -99,16 +99,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="_p_track_8h_source.html">PTrack.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="p_track_8h_source.html">pTrack.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a7c25a262dd422645317347d1c05a051f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classprocedural_1_1_p_track.html#a7c25a262dd422645317347d1c05a051f">PTrack</a> (tdble <a class="el" href="classprocedural_1_1_p_track.html#a5b2eda49220f8825f55624faf62aa106">totalLength</a>, string configpath, string acpath, string configname, string acname, ssgLoaderOptions *loaderoptions)</td></tr>
 <tr class="memdesc:a7c25a262dd422645317347d1c05a051f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a procedural track with a configuration. All given paths are relative to the executable.  <a href="#a7c25a262dd422645317347d1c05a051f">More...</a><br/></td></tr>
 <tr class="separator:a7c25a262dd422645317347d1c05a051f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a1565c1d99e110cbeddfcf60b168044"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classprocedural_1_1_p_track.html#a5a1565c1d99e110cbeddfcf60b168044">PTrack</a> (std::vector&lt; <a class="el" href="classprocedural_1_1_p_seg.html">PSeg</a> &gt; segs, string configpath, string acpath, string configname, string acname, ssgLoaderOptions *loaderoptions)</td></tr>
-<tr class="memdesc:a5a1565c1d99e110cbeddfcf60b168044"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a procedural track with a preloaded set of procedural segments. All given paths are relative to the executable.  <a href="#a5a1565c1d99e110cbeddfcf60b168044">More...</a><br/></td></tr>
-<tr class="separator:a5a1565c1d99e110cbeddfcf60b168044"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab43a9b45c632cebf467f70cf34bfa427"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classprocedural_1_1_p_track.html#ab43a9b45c632cebf467f70cf34bfa427">PTrack</a> (std::vector&lt; <a class="el" href="classprocedural_1_1_p_seg.html">PSeg</a> &gt; segs, tdble <a class="el" href="classprocedural_1_1_p_track.html#a5b2eda49220f8825f55624faf62aa106">totalLength</a>, string configpath, string acpath, string configname, string acname, ssgLoaderOptions *loaderoptions)</td></tr>
+<tr class="memdesc:ab43a9b45c632cebf467f70cf34bfa427"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a procedural track with a preloaded set of procedural segments. All given paths are relative to the executable.  <a href="#ab43a9b45c632cebf467f70cf34bfa427">More...</a><br/></td></tr>
+<tr class="separator:ab43a9b45c632cebf467f70cf34bfa427"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e19ffc2655507cd25dfbe10a5c06b32"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1e19ffc2655507cd25dfbe10a5c06b32"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>PTrack</b> (const <a class="el" href="classprocedural_1_1_p_track.html">PTrack</a> &amp;param)</td></tr>
 <tr class="separator:a1e19ffc2655507cd25dfbe10a5c06b32"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -122,9 +122,13 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a3c3fe0043980947c50f70b50fbb15e66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a588ce353de30074f2e8d046c210f440b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classprocedural_1_1_p_track.html#a588ce353de30074f2e8d046c210f440b">UpdateACFile</a> ()</td></tr>
 <tr class="separator:a588ce353de30074f2e8d046c210f440b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3a889ace632d1776e95aad1197faa64"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classprocedural_1_1_p_track.html#aa3a889ace632d1776e95aad1197faa64">AddSegment</a> (const <a class="el" href="classprocedural_1_1_p_seg.html">PSeg</a> &amp;seg)</td></tr>
-<tr class="memdesc:aa3a889ace632d1776e95aad1197faa64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a segment to the track structure. This function does not generate a 3D description for the new segment.  <a href="#aa3a889ace632d1776e95aad1197faa64">More...</a><br/></td></tr>
-<tr class="separator:aa3a889ace632d1776e95aad1197faa64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54d4aff02da7e2d14c5c771650b3f379"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classprocedural_1_1_p_track.html#a54d4aff02da7e2d14c5c771650b3f379">AddSegment</a> (const <a class="el" href="classprocedural_1_1_p_seg.html">PSeg</a> &amp;seg, bool isFinish=false)</td></tr>
+<tr class="memdesc:a54d4aff02da7e2d14c5c771650b3f379"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a segment to the track structure. This function does not generate a 3D description for the new segment.  <a href="#a54d4aff02da7e2d14c5c771650b3f379">More...</a><br/></td></tr>
+<tr class="separator:a54d4aff02da7e2d14c5c771650b3f379"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa32edec30209525b28681677fbef0ff1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa32edec30209525b28681677fbef0ff1"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classprocedural_1_1_p_track.html#aa32edec30209525b28681677fbef0ff1">AddFinishLine</a> ()</td></tr>
+<tr class="memdesc:aa32edec30209525b28681677fbef0ff1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a finish line to the track. A segment with a finish line surface. This function will only work once, a track may only have one finish line. <br/></td></tr>
+<tr class="separator:aa32edec30209525b28681677fbef0ff1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4227f3afd5fb92c627dff2e97425d7ba"><td class="memItemLeft" align="right" valign="top">const ssgLoaderOptions *const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classprocedural_1_1_p_track.html#a4227f3afd5fb92c627dff2e97425d7ba">GetLoaderOptions</a> ()</td></tr>
 <tr class="separator:a4227f3afd5fb92c627dff2e97425d7ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d7034cc742106489dd38e7cf76fa974"><td class="memItemLeft" align="right" valign="top">const string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classprocedural_1_1_p_track.html#a0d7034cc742106489dd38e7cf76fa974">GetACName</a> ()</td></tr>
@@ -139,12 +143,18 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ab423a5b741fae83631cb818a88d0a4c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0c98404d985e4586d60d44f1c5657a6"><td class="memItemLeft" align="right" valign="top">const string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classprocedural_1_1_p_track.html#ac0c98404d985e4586d60d44f1c5657a6">GetConfigPath</a> ()</td></tr>
 <tr class="separator:ac0c98404d985e4586d60d44f1c5657a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad59004e38bdcf40d6f66a7064bf93157"><td class="memItemLeft" align="right" valign="top">const string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classprocedural_1_1_p_track.html#ad59004e38bdcf40d6f66a7064bf93157">GetPlotName</a> ()</td></tr>
+<tr class="separator:ad59004e38bdcf40d6f66a7064bf93157"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99e8cf8aaa3bcc038cd3a7e9da2ba7f0"><td class="memItemLeft" align="right" valign="top">const string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classprocedural_1_1_p_track.html#a99e8cf8aaa3bcc038cd3a7e9da2ba7f0">GetPlotPath</a> ()</td></tr>
+<tr class="separator:a99e8cf8aaa3bcc038cd3a7e9da2ba7f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a295308260593ff8009a54ed12b20d756"><td class="memItemLeft" align="right" valign="top">const string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classprocedural_1_1_p_track.html#a295308260593ff8009a54ed12b20d756">GetTempACPathAndName</a> ()</td></tr>
 <tr class="separator:a295308260593ff8009a54ed12b20d756"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a88577f90aca2980f5696f245bc0b16fa"><td class="memItemLeft" align="right" valign="top">const string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classprocedural_1_1_p_track.html#a88577f90aca2980f5696f245bc0b16fa">GetACPathAndName</a> ()</td></tr>
 <tr class="separator:a88577f90aca2980f5696f245bc0b16fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac941debabef3877e1783bdd1d8e73103"><td class="memItemLeft" align="right" valign="top">const string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classprocedural_1_1_p_track.html#ac941debabef3877e1783bdd1d8e73103">GetConfigPathAndName</a> ()</td></tr>
 <tr class="separator:ac941debabef3877e1783bdd1d8e73103"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a725aa14450645bd8116b3427270636bc"><td class="memItemLeft" align="right" valign="top">const string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classprocedural_1_1_p_track.html#a725aa14450645bd8116b3427270636bc">GetPlotPathAndName</a> ()</td></tr>
+<tr class="separator:a725aa14450645bd8116b3427270636bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac5216fd2958e7f530acd9fd67edec2c7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classprocedural_1_1_p_s_s_g_state.html">PSSGState</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classprocedural_1_1_p_track.html#ac5216fd2958e7f530acd9fd67edec2c7">GetSSGState</a> ()</td></tr>
 <tr class="separator:ac5216fd2958e7f530acd9fd67edec2c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d3919f2ee4f9e4296a645a6d60fd16d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceprocedural.html#ae4301ddb088c564b7e7b36903ecd6e23">EntityDesc</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classprocedural_1_1_p_track.html#a4d3919f2ee4f9e4296a645a6d60fd16d">GetTrackDesc</a> () const </td></tr>
@@ -202,6 +212,8 @@ trackSeg *&#160;</td><td class="memItemRight" valign="bottom"><b>start</b></td><
 <tr class="separator:ac9001885365980b067a13749419416e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b2eda49220f8825f55624faf62aa106"><td class="memItemLeft" align="right" valign="top">tdble&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classprocedural_1_1_p_track.html#a5b2eda49220f8825f55624faf62aa106">totalLength</a></td></tr>
 <tr class="separator:a5b2eda49220f8825f55624faf62aa106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28e27ec0bb250b1b87b6d1768ebd610c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classprocedural_1_1_p_track.html#a28e27ec0bb250b1b87b6d1768ebd610c">hasFinishLine</a></td></tr>
+<tr class="separator:a28e27ec0bb250b1b87b6d1768ebd610c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents the lifetime of a procedural track. This class contains all of the functions and members necessary to store and manage a procedural track. </p>
@@ -268,7 +280,7 @@ trackSeg *&#160;</td><td class="memItemRight" valign="bottom"><b>start</b></td><
 
 </div>
 </div>
-<a class="anchor" id="a5a1565c1d99e110cbeddfcf60b168044"></a>
+<a class="anchor" id="ab43a9b45c632cebf467f70cf34bfa427"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -277,6 +289,12 @@ trackSeg *&#160;</td><td class="memItemRight" valign="bottom"><b>start</b></td><
           <td>(</td>
           <td class="paramtype">std::vector&lt; <a class="el" href="classprocedural_1_1_p_seg.html">PSeg</a> &gt;&#160;</td>
           <td class="paramname"><em>segs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">tdble&#160;</td>
+          <td class="paramname"><em>totalLength</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -320,6 +338,7 @@ trackSeg *&#160;</td><td class="memItemRight" valign="bottom"><b>start</b></td><
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">segs</td><td>The collection of segments that construct the track. </td></tr>
+    <tr><td class="paramname">totalLength</td><td>The total length of the track. </td></tr>
     <tr><td class="paramname">configpath</td><td>The path in which the configuration XML file can be found. </td></tr>
     <tr><td class="paramname">acpath</td><td>The path within which the AC file can be found. </td></tr>
     <tr><td class="paramname">configname</td><td>The name of the configuration file being used. </td></tr>
@@ -331,7 +350,7 @@ trackSeg *&#160;</td><td class="memItemRight" valign="bottom"><b>start</b></td><
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aa3a889ace632d1776e95aad1197faa64"></a>
+<a class="anchor" id="a54d4aff02da7e2d14c5c771650b3f379"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -339,8 +358,18 @@ trackSeg *&#160;</td><td class="memItemRight" valign="bottom"><b>start</b></td><
           <td class="memname">void procedural::PTrack::AddSegment </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classprocedural_1_1_p_seg.html">PSeg</a> &amp;&#160;</td>
-          <td class="paramname"><em>seg</em></td><td>)</td>
+          <td class="paramname"><em>seg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>isFinish</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -349,6 +378,7 @@ trackSeg *&#160;</td><td class="memItemRight" valign="bottom"><b>start</b></td><
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">seg</td><td>The segment to append to the track. </td></tr>
+    <tr><td class="paramname">isFinish</td><td>The segment is the last segment in the track, and requires a finish line surface. Defaults to false. </td></tr>
   </table>
   </dd>
 </dl>
@@ -544,6 +574,54 @@ trackSeg *&#160;</td><td class="memItemRight" valign="bottom"><b>start</b></td><
       </table>
 </div><div class="memdoc">
 <p>Retrieve the loader options. </p>
+
+</div>
+</div>
+<a class="anchor" id="ad59004e38bdcf40d6f66a7064bf93157"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const string&amp; procedural::PTrack::GetPlotName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Retrieve the name of the plot file. </p>
+
+</div>
+</div>
+<a class="anchor" id="a99e8cf8aaa3bcc038cd3a7e9da2ba7f0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const string&amp; procedural::PTrack::GetPlotPath </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Retrieve the path of the plot file. </p>
+
+</div>
+</div>
+<a class="anchor" id="a725aa14450645bd8116b3427270636bc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const string procedural::PTrack::GetPlotPathAndName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Retrieve the track's plot file path and file name. </p>
 
 </div>
 </div>
@@ -874,6 +952,27 @@ trackSeg *&#160;</td><td class="memItemRight" valign="bottom"><b>start</b></td><
 
 </div>
 </div>
+<a class="anchor" id="a28e27ec0bb250b1b87b6d1768ebd610c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool procedural::PTrack::hasFinishLine</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Whether or not a segment with a finish line surface has been added to the track. </p>
+
+</div>
+</div>
 <a class="anchor" id="a29673df8a7e92648d375d64462334159"></a>
 <div class="memitem">
 <div class="memproto">
@@ -977,12 +1076,12 @@ trackSeg *&#160;</td><td class="memItemRight" valign="bottom"><b>start</b></td><
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/Henri/Documents/Projects/torcs-adaptive/src/export/include/procedural/<a class="el" href="_p_track_8h_source.html">PTrack.h</a></li>
+<li>C:/Users/Henri/Documents/Projects/torcs-adaptive/src/export/include/procedural/<a class="el" href="p_track_8h_source.html">pTrack.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Mar 27 2014 18:58:07 for TORCS Adaptive by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jul 4 2014 14:38:27 for TORCS Adaptive by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

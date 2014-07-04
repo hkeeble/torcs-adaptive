@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['calculateoptimalpoints',['CalculateOptimalPoints',['../classperf_measurement_1_1_race_line_evaluation_1_1_corner_outlook.html#affc3a030d2ccae4e87a3082c3be4ac7c',1,'perfMeasurement::RaceLineEvaluation::CornerOutlook']]],
-  ['clear',['Clear',['../classperf_measurement_1_1_p_m_manager.html#a49aed3825c15fb0340cdd28f2301403e',1,'perfMeasurement::PMManager::Clear()'],['../classperf_measurement_1_1_race_line_evaluation_1_1_corner_outlook.html#a847e17d0d0b47d9c0ddc8a9e71695681',1,'perfMeasurement::RaceLineEvaluation::CornerOutlook::Clear()']]],
+  ['calculateoptimalpoints',['CalculateOptimalPoints',['../classperf_measurement_1_1_curvature_approximation_1_1_corner_outlook.html#abd93196d7b02143b4be1e38a3b035e9c',1,'perfMeasurement::CurvatureApproximation::CornerOutlook']]],
+  ['checkforfinishline',['CheckForFinishLine',['../classprocedural_1_1_p_track_manager.html#a93ee0c5d4700885bf3b5872ba0bd9b31',1,'procedural::PTrackManager']]],
+  ['clear',['Clear',['../classperf_measurement_1_1_curvature_approximation_1_1_corner_outlook.html#a3e2d5e1fe129f1c874d2a94dbacadb26',1,'perfMeasurement::CurvatureApproximation::CornerOutlook::Clear()'],['../classperf_measurement_1_1_p_m_manager.html#a49aed3825c15fb0340cdd28f2301403e',1,'perfMeasurement::PMManager::Clear()']]],
   ['cleardata',['ClearData',['../classperf_measurement_1_1_p_m_evaluator.html#ae341d0399ec7d5ad5012636eb2cdeb4e',1,'perfMeasurement::PMEvaluator']]],
   ['cleartables',['ClearTables',['../classprocedural_1_1_p_s_s_g_state.html#a5f18d9f9ab072b38c14d0d15572ad59b',1,'procedural::PSSGState']]],
   ['configfilename',['ConfigFileName',['../classprocedural_1_1_p_track_load_state.html#a3bbb769a794f0f15b15888d28e2a8179',1,'procedural::PTrackLoadState']]],

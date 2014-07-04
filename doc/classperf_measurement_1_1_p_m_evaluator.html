@@ -98,35 +98,37 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="_p_m_evaluator_8h_source.html">PMEvaluator.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="pmevaluator_8h_source.html">pmevaluator.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for perfMeasurement::PMEvaluator:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classperf_measurement_1_1_p_m_evaluator.png" usemap="#perfMeasurement::PMEvaluator_map" alt=""/>
   <map id="perfMeasurement::PMEvaluator_map" name="perfMeasurement::PMEvaluator_map">
-<area href="classperf_measurement_1_1_mean_deviation_from_top_speed.html" alt="perfMeasurement::MeanDeviationFromTopSpeed" shape="rect" coords="0,56,288,80"/>
-<area href="classperf_measurement_1_1_race_line_evaluation.html" alt="perfMeasurement::RaceLineEvaluation" shape="rect" coords="298,56,586,80"/>
+<area href="classperf_measurement_1_1_curvature_approximation.html" alt="perfMeasurement::CurvatureApproximation" shape="rect" coords="0,56,288,80"/>
+<area href="classperf_measurement_1_1_mean_deviation_from_top_speed.html" alt="perfMeasurement::MeanDeviationFromTopSpeed" shape="rect" coords="298,56,586,80"/>
+<area href="classperf_measurement_1_1_race_line_evaluation.html" title="A class that evaluates performance based upon the racing line. Uses a strategy pattern in order to ac..." alt="perfMeasurement::RaceLineEvaluation" shape="rect" coords="596,56,884,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a402935ea8040dbdf36dac2113d3535c7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classperf_measurement_1_1_p_m_evaluator.html#a402935ea8040dbdf36dac2113d3535c7">PMEvaluator</a> ()</td></tr>
-<tr class="separator:a402935ea8040dbdf36dac2113d3535c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a361189b94f6a13f0c0cf4ce8e74e6523"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classperf_measurement_1_1_p_m_evaluator.html#a361189b94f6a13f0c0cf4ce8e74e6523">PMEvaluator</a> (tCarElt *<a class="el" href="classperf_measurement_1_1_p_m_evaluator.html#ae3a5b18acf49d111e4701515c58afb59">car</a>)</td></tr>
+<tr class="separator:a361189b94f6a13f0c0cf4ce8e74e6523"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5e02f3208b30f1154121fd990b6b15c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classperf_measurement_1_1_p_m_evaluator.html#af5e02f3208b30f1154121fd990b6b15c">Update</a> (tdble deltaTimeIncrement, tdble currentTime)=0</td></tr>
 <tr class="separator:af5e02f3208b30f1154121fd990b6b15c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81a4e5f6e567cc58f8d214b7bfc23e8b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classperf_measurement_1_1_p_m_evaluator.html#a81a4e5f6e567cc58f8d214b7bfc23e8b">RaceEnd</a> ()=0</td></tr>
+<tr class="separator:a81a4e5f6e567cc58f8d214b7bfc23e8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e205a2c488b51d7f5b05b5aa2ada634"><td class="memItemLeft" align="right" valign="top">tCarElt *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classperf_measurement_1_1_p_m_evaluator.html#a5e205a2c488b51d7f5b05b5aa2ada634">GetCar</a> ()</td></tr>
 <tr class="separator:a5e205a2c488b51d7f5b05b5aa2ada634"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae341d0399ec7d5ad5012636eb2cdeb4e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classperf_measurement_1_1_p_m_evaluator.html#ae341d0399ec7d5ad5012636eb2cdeb4e">ClearData</a> ()</td></tr>
 <tr class="separator:ae341d0399ec7d5ad5012636eb2cdeb4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09ffc08cf644c38ab0a2e0756ea0be5f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classperf_measurement_1_1_p_m_evaluator.html#a09ffc08cf644c38ab0a2e0756ea0be5f">Init</a> (tCarElt *carElt)</td></tr>
-<tr class="memdesc:a09ffc08cf644c38ab0a2e0756ea0be5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the evaluator with a car pointer.  <a href="#a09ffc08cf644c38ab0a2e0756ea0be5f">More...</a><br/></td></tr>
-<tr class="separator:a09ffc08cf644c38ab0a2e0756ea0be5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9b54897e72e4d757e6e2589010e8e87"><td class="memItemLeft" align="right" valign="top">tdble&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classperf_measurement_1_1_p_m_evaluator.html#ac9b54897e72e4d757e6e2589010e8e87">GetCurrentEstimate</a> () const </td></tr>
 <tr class="separator:ac9b54897e72e4d757e6e2589010e8e87"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a80911cd2f6ae968c052cc994628840da"><td class="memItemLeft" align="right" valign="top">tdble&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classperf_measurement_1_1_p_m_evaluator.html#a80911cd2f6ae968c052cc994628840da">GetAverageEstimate</a> () const </td></tr>
 <tr class="separator:a80911cd2f6ae968c052cc994628840da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac132509ecb6588200dad5e4d41919993"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; tdble &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classperf_measurement_1_1_p_m_evaluator.html#ac132509ecb6588200dad5e4d41919993">GetEstimates</a> () const </td></tr>
+<tr class="separator:ac132509ecb6588200dad5e4d41919993"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -135,10 +137,12 @@ Protected Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:aecf4f750aae062cd1ecfeb90eae616ec"><td class="memItemLeft" align="right" valign="top">CarData&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classperf_measurement_1_1_p_m_evaluator.html#aecf4f750aae062cd1ecfeb90eae616ec">car</a></td></tr>
-<tr class="separator:aecf4f750aae062cd1ecfeb90eae616ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3a5b18acf49d111e4701515c58afb59"><td class="memItemLeft" align="right" valign="top">tCarElt *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classperf_measurement_1_1_p_m_evaluator.html#ae3a5b18acf49d111e4701515c58afb59">car</a></td></tr>
+<tr class="separator:ae3a5b18acf49d111e4701515c58afb59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7bbd0d35323eec42c0745067cde80a16"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classperf_measurement_1_1_p_m_data.html">PMData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classperf_measurement_1_1_p_m_evaluator.html#a7bbd0d35323eec42c0745067cde80a16">dataSet</a></td></tr>
 <tr class="separator:a7bbd0d35323eec42c0745067cde80a16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a361b8ce4e17d7411c6f1e0801e630008"><td class="memItemLeft" align="right" valign="top">std::vector&lt; tdble &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classperf_measurement_1_1_p_m_evaluator.html#a361b8ce4e17d7411c6f1e0801e630008">estimates</a></td></tr>
+<tr class="separator:a361b8ce4e17d7411c6f1e0801e630008"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a107d705d20c5295dff464d0320dd7f2a"><td class="memItemLeft" align="right" valign="top">tdble&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classperf_measurement_1_1_p_m_evaluator.html#a107d705d20c5295dff464d0320dd7f2a">currentEstimate</a></td></tr>
 <tr class="separator:a107d705d20c5295dff464d0320dd7f2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb5c3c59434cd7f3b9ce218c0267f1b4"><td class="memItemLeft" align="right" valign="top">tdble&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classperf_measurement_1_1_p_m_evaluator.html#adb5c3c59434cd7f3b9ce218c0267f1b4">totalEstimate</a></td></tr>
@@ -151,7 +155,7 @@ Protected Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Base Evaluation class. The idea is to derive from this class with bespoke update and evaluation behaviours, such that a data set is maintained and evaluated correctly for each method </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a402935ea8040dbdf36dac2113d3535c7"></a>
+<a class="anchor" id="a361189b94f6a13f0c0cf4ce8e74e6523"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -161,7 +165,8 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="memname">perfMeasurement::PMEvaluator::PMEvaluator </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">tCarElt *&#160;</td>
+          <td class="paramname"><em>car</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -222,7 +227,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Pure virtual member function. Override this for bespoke evaluation functionality. </p>
 
-<p>Implemented in <a class="el" href="classperf_measurement_1_1_race_line_evaluation.html#a8890cb71e52b1c3076a120081ec376d0">perfMeasurement::RaceLineEvaluation</a>, and <a class="el" href="classperf_measurement_1_1_mean_deviation_from_top_speed.html#abf9b62ad28db7cb7b3aec3a67c51ff66">perfMeasurement::MeanDeviationFromTopSpeed</a>.</p>
+<p>Implemented in <a class="el" href="classperf_measurement_1_1_curvature_approximation.html#ad9e13be76bb602759d67754f7544ef81">perfMeasurement::CurvatureApproximation</a>, <a class="el" href="classperf_measurement_1_1_race_line_evaluation.html#a8890cb71e52b1c3076a120081ec376d0">perfMeasurement::RaceLineEvaluation</a>, and <a class="el" href="classperf_measurement_1_1_mean_deviation_from_top_speed.html#abf9b62ad28db7cb7b3aec3a67c51ff66">perfMeasurement::MeanDeviationFromTopSpeed</a>.</p>
 
 </div>
 </div>
@@ -298,7 +303,7 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a09ffc08cf644c38ab0a2e0756ea0be5f"></a>
+<a class="anchor" id="ac132509ecb6588200dad5e4d41919993"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -306,11 +311,10 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void perfMeasurement::PMEvaluator::Init </td>
+          <td class="memname">const std::vector&lt;tdble&gt; perfMeasurement::PMEvaluator::GetEstimates </td>
           <td>(</td>
-          <td class="paramtype">tCarElt *&#160;</td>
-          <td class="paramname"><em>carElt</em></td><td>)</td>
-          <td></td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -319,14 +323,33 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Retrieve a collection of all the estimates in sequential order for the current race. </p>
 
-<p>Initialize the evaluator with a car pointer. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">carElt</td><td>Pointer to the car structure that is controlled by the player or robot being evaluated. </td></tr>
-  </table>
-  </dd>
-</dl>
+</div>
+</div>
+<a class="anchor" id="a81a4e5f6e567cc58f8d214b7bfc23e8b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void perfMeasurement::PMEvaluator::RaceEnd </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Called at the end of each race. </p>
+
+<p>Implemented in <a class="el" href="classperf_measurement_1_1_race_line_evaluation.html#a3ebf396c7fce0c477275454b522bed14">perfMeasurement::RaceLineEvaluation</a>.</p>
 
 </div>
 </div>
@@ -363,7 +386,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Pure virtual update function. Override for bespoke update functionality, is also responsible for calling the Evaluate function. </p>
 
-<p>Implemented in <a class="el" href="classperf_measurement_1_1_race_line_evaluation.html#a115687400a9f77bbbb2c687af1393f81">perfMeasurement::RaceLineEvaluation</a>, and <a class="el" href="classperf_measurement_1_1_mean_deviation_from_top_speed.html#aa42edb250455f81659ad1deb900dcfe6">perfMeasurement::MeanDeviationFromTopSpeed</a>.</p>
+<p>Implemented in <a class="el" href="classperf_measurement_1_1_curvature_approximation.html#a1f34aa5c27fb4baf30de70a0ff1568f6">perfMeasurement::CurvatureApproximation</a>, <a class="el" href="classperf_measurement_1_1_race_line_evaluation.html#a115687400a9f77bbbb2c687af1393f81">perfMeasurement::RaceLineEvaluation</a>, and <a class="el" href="classperf_measurement_1_1_mean_deviation_from_top_speed.html#aa42edb250455f81659ad1deb900dcfe6">perfMeasurement::MeanDeviationFromTopSpeed</a>.</p>
 
 </div>
 </div>
@@ -389,7 +412,7 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aecf4f750aae062cd1ecfeb90eae616ec"></a>
+<a class="anchor" id="ae3a5b18acf49d111e4701515c58afb59"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -397,7 +420,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">CarData perfMeasurement::PMEvaluator::car</td>
+          <td class="memname">tCarElt* perfMeasurement::PMEvaluator::car</td>
         </tr>
       </table>
   </td>
@@ -406,7 +429,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>The car data currently held. This should be updated on each call to Update. </p>
+<p>The car being evauluated by this evaluator. </p>
 
 </div>
 </div>
@@ -449,6 +472,27 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>The current data set </p>
+
+</div>
+</div>
+<a class="anchor" id="a361b8ce4e17d7411c6f1e0801e630008"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;tdble&gt; perfMeasurement::PMEvaluator::estimates</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Set of all the skill estimates for this race. </p>
 
 </div>
 </div>
@@ -495,12 +539,12 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/Henri/Documents/Projects/torcs-adaptive/src/export/include/perfMeasurement/<a class="el" href="_p_m_evaluator_8h_source.html">PMEvaluator.h</a></li>
+<li>C:/Users/Henri/Documents/Projects/torcs-adaptive/src/export/include/perfMeasurement/<a class="el" href="pmevaluator_8h_source.html">pmevaluator.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Mar 27 2014 18:58:07 for TORCS Adaptive by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jul 4 2014 14:38:26 for TORCS Adaptive by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

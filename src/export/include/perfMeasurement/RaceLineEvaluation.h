@@ -21,7 +21,7 @@ namespace perfMeasurement
 		Berniw
 	};
 
-	/*!< A class that evaluates performance based upon the racing line. Uses a strategy pattern in order to accept different pathfinding algorithms. */
+	//! A class that evaluates performance based upon the racing line. Uses a strategy pattern in order to accept different pathfinding algorithms.
 	class RaceLineEvaluation : public PMEvaluator
 	{
 	protected:
@@ -39,8 +39,20 @@ namespace perfMeasurement
 		int currentPathSegID; /*!< ID of the current path segment. */
 
 	public:
+		//! Create a new race-line evaluation object.
+		/*!
+			\param car		  The car to evaluate.
+			\param pathfinder The pathfinder algorithm to use.
+			\param track	  The track being evaluated.
+			\param situation  Situation object from the race manager.
+		*/
 		RaceLineEvaluation(tCarElt* car, Pathfinder pathfinder, tTrack* track, tSituation* situation);
 		
+		//! Used to calculate the optimal points the optimal arc must pass through.
+		/*!
+			\param deltaIncrement delta time.
+			\param currentTime The current time elapsed.
+		*/
 		virtual void Update(tdble deltaTimeIncrement, tdble currentTime) override final;
 
 		virtual void RaceEnd() override final;

@@ -101,11 +101,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0c0698d7c2994f4a8a9d12ccfb1716a7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0c0698d7c2994f4a8a9d12ccfb1716a7"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>PMData</b> (CarData newData, tdble timeStamp)</td></tr>
-<tr class="separator:a0c0698d7c2994f4a8a9d12ccfb1716a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58c5b9afed021156fe675a4d25bfe026"><td class="memItemLeft" align="right" valign="top">CarData&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classperf_measurement_1_1_p_m_data.html#a58c5b9afed021156fe675a4d25bfe026">Data</a> () const </td></tr>
-<tr class="separator:a58c5b9afed021156fe675a4d25bfe026"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a035ae908e38e64de715acd9775887fd4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a035ae908e38e64de715acd9775887fd4"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>PMData</b> (tCarElt *car, tdble timeStamp)</td></tr>
+<tr class="separator:a035ae908e38e64de715acd9775887fd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06cf34f998c4631f65f3e61af1b2415a"><td class="memItemLeft" align="right" valign="top">tCarElt&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classperf_measurement_1_1_p_m_data.html#a06cf34f998c4631f65f3e61af1b2415a">GetCar</a> ()</td></tr>
+<tr class="separator:a06cf34f998c4631f65f3e61af1b2415a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a961565f3155ea0430b8a78d6d4530844"><td class="memItemLeft" align="right" valign="top">CarData&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classperf_measurement_1_1_p_m_data.html#a961565f3155ea0430b8a78d6d4530844">GetData</a> ()</td></tr>
+<tr class="separator:a961565f3155ea0430b8a78d6d4530844"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab61ec809b225322f21149a680f82bb90"><td class="memItemLeft" align="right" valign="top">tdble&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classperf_measurement_1_1_p_m_data.html#ab61ec809b225322f21149a680f82bb90">TimeStamp</a> () const </td></tr>
 <tr class="separator:ab61ec809b225322f21149a680f82bb90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -119,19 +121,35 @@ Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Holds an individual set of performance measurement data. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a58c5b9afed021156fe675a4d25bfe026"></a>
+<a class="anchor" id="a06cf34f998c4631f65f3e61af1b2415a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">CarData perfMeasurement::PMData::Data </td>
+          <td class="memname">tCarElt perfMeasurement::PMData::GetCar </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Get car data stored by this object </p>
+
+</div>
+</div>
+<a class="anchor" id="a961565f3155ea0430b8a78d6d4530844"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CarData perfMeasurement::PMData::GetData </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get the data stored by this data element. </p>
 
 </div>
 </div>
@@ -200,7 +218,7 @@ Private Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Mar 27 2014 18:58:07 for TORCS Adaptive by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jul 4 2014 14:38:26 for TORCS Adaptive by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
