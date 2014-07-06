@@ -30,7 +30,7 @@ public class UserPanel extends Subject {
 	
 	JTabbedPane tablePane;
 	
-	JButton plotDistGraph, plotTrack;
+	JButton plotDistGraph;
 	
 	public UserPanel() {
 		super();
@@ -45,24 +45,21 @@ public class UserPanel extends Subject {
 		inputs = new JPanel();
 		inputs.setLayout(new GridLayout(3, 3));
 		plotDistGraph = new JButton("Plot Distance Graph");
-		plotTrack = new JButton("Plot Track");
 		
 		plotDistGraph.addActionListener(new PlotDistanceGraphButton());
-		plotTrack.addActionListener(new PlotTrackButton());
 		
 		inputs.add(plotDistGraph);
-		inputs.add(plotTrack);
 		
 		mainPanel.add(tablePane);
 		mainPanel.add(inputs);
 	}
 
-	private JTable createTable(ArrayList<Point2D> data) {
-		JTable table = new JTable(data.size(), 2);
+	private JTable createTable(Point2D[] data) {
+		JTable table = new JTable(data.length, 2);
 		
-		for(int i = 0; i < data.size(); i++) {
-			table.setValueAt(data.get(i).getX(), i, 0);
-			table.setValueAt(data.get(i).getY(), i, 1);
+		for(int i = 0; i < data.length; i++) {
+			table.setValueAt(data[i].getX(), i, 0);
+			table.setValueAt(data[i].getY(), i, 1);
 		}
 		
 		JTableHeader th = table.getTableHeader();
@@ -78,7 +75,7 @@ public class UserPanel extends Subject {
 		return table;
 	}
 	
-	public void addTable(ArrayList<Point2D> data, String name) {
+	public void addTable(Point2D[] data, String name) {
 		JPanel panel = new JPanel(new BorderLayout());
 		JTable table = createTable(data);
 		panel.add(new JScrollPane(table), BorderLayout.CENTER);
@@ -90,13 +87,6 @@ public class UserPanel extends Subject {
 		public void actionPerformed(ActionEvent arg0) {
 			sendMessage(GUIMessage.PLOT_DISTANCE_DIFF);
 		}
-	}
-	
-	private class PlotTrackButton implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			sendMessage(GUIMessage.PLOT_TRACK);
-		};
 	}
 	
 	private void sendMessage(GUIMessage message) {

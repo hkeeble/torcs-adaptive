@@ -3,7 +3,6 @@ package hk.trackplotter;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.LayoutManager;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,6 +10,11 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.xy.DefaultXYDataset;
 
 public class MainFrame extends Observer {
 
@@ -26,19 +30,15 @@ public class MainFrame extends Observer {
 	private final String OPTIMAL_FILE = "optimal.dat";
 	private final String ACTUAL_FILE = "actual.dat";
 	
-	private ArrayList<Point2D> trackPlot, optimalPlot, actualPlot, distancePlot;
 	private ArrayList<Point2D> distAxes;
+	private PathPlot track, optimalLine, actualLine, distanceData;
 	
 	private double maxDist;
 	
 	JSplitPane splitPane;
 	
-	PlotType plotType;
-	
 	public MainFrame() {
 		initUI();
-		
-		plotType = PlotType.NONE;
 		
 		try {
 			readData();
@@ -48,10 +48,10 @@ public class MainFrame extends Observer {
 		
 		plotTrack();
 		
-		userPanel.addTable(trackPlot, "Track Plot");
-		userPanel.addTable(optimalPlot, "Optimal Plot");
-		userPanel.addTable(actualPlot, "Actual Plot");
-		userPanel.addTable(distancePlot, "Distance Plot");
+		userPanel.addTable(track.getPoints(), "Track Plot");
+		userPanel.addTable(optimalLine.getPoints(), "Optimal Plot");
+		userPanel.addTable(actualLine.getPoints(), "Actual Plot");
+		userPanel.addTable(distanceData.getPoints(), "Distance Plot");
 	}
 	
 	private void initUI() {
@@ -78,6 +78,8 @@ public class MainFrame extends Observer {
 		frame.setLocationRelativeTo(null);
 		
 		frame.pack();
+		
+		this.setVisible(true);
 	}
 	
 	private void readData() throws Exception {
@@ -87,45 +89,44 @@ public class MainFrame extends Observer {
 		// Read track plot
 		fr = new FileReader(TRACK_FILE);
 		textReader = new BufferedReader(fr);
-		trackPlot = new ArrayList<Point2D>();
-		outputPanel.send("Plotting track...");
+		ArrayList<Point2D> trackPlot = new ArrayList<Point2D>();
+		outputPanel.send("Reading track...");
 		String line;
 		while((line = textReader.readLine()) != null) {
 			String coords[] = line.split(",");
 			trackPlot.add(new Point2D.Double(Double.parseDouble(coords[0]), Double.parseDouble(coords[1])));
 		}
 		
+		track = new PathPlot(trackPlot.toArray(new Point2D[trackPlot.size()])); // Create the plot object
+		
 		// Read actual plot
 		fr = new FileReader(ACTUAL_FILE);
 		textReader = new BufferedReader(fr);
-		actualPlot = new ArrayList<Point2D>();
-		outputPanel.send("Plotting actual path...");
+		ArrayList<Point2D> actualPlot = new ArrayList<Point2D>();
+		outputPanel.send("Reading actual path...");
 		while((line = textReader.readLine()) != null) {
 			String coords[] = line.split(",");
 			actualPlot.add(new Point2D.Double(Double.parseDouble(coords[0]), Double.parseDouble(coords[1])));
-			outputPanel.send(" - " + String.valueOf(trackPlot.get(trackPlot.size()-1).getX() + ", " + trackPlot.get(trackPlot.size()-1).getY()));
 		}
+		
+		actualLine = new PathPlot(actualPlot.toArray(new Point2D[actualPlot.size()])); // Create the plot object
 		
 		// Read Optimal plot
 		fr = new FileReader(OPTIMAL_FILE);
 		textReader = new BufferedReader(fr);
-		optimalPlot = new ArrayList<Point2D>();
-		outputPanel.send("Plotting actual path...");
+		ArrayList<Point2D> optimalPlot = new ArrayList<Point2D>();
+		outputPanel.send("Reading optimal path...");
 		while((line = textReader.readLine()) != null) {
 			String coords[] = line.split(",");
 			optimalPlot.add(new Point2D.Double(Double.parseDouble(coords[0]), Double.parseDouble(coords[1])));
-			outputPanel.send(" - " + String.valueOf(trackPlot.get(trackPlot.size()-1).getX() + ", " + trackPlot.get(trackPlot.size()-1).getY()));
 		}
 		
-//		for(int i = 0; i < 200; i++) {
-//			optimalPlot.add(new Point2D.Double(i, i));
-//			actualPlot.add(new Point2D.Double(i, 0));
-//		}
+		optimalLine = new PathPlot(optimalPlot.toArray(new Point2D[optimalPlot.size()])); // Create the plot object
 		
+		outputPanel.send("Successfully read all data.");
 		
 		processData();
 		
-		outputPanel.send("Successfully read all data.");
 		outputPanel.send("Left-click and move the mouse to drag the plot around. Mouse wheel to zoom. Press mouse wheel to reset view.");
 	}
 	
@@ -135,21 +136,16 @@ public class MainFrame extends Observer {
 		maxDist = 0;
 		
 		// Compute distance plot
-		distancePlot = new ArrayList<Point2D>();
+		outputPanel.send("Computing distance plot...");
+		ArrayList<Point2D> distancePlot = new ArrayList<Point2D>();
 		
-		for(int i = 0; i < actualPlot.size()-1; i++) {
-			Point2D act = actualPlot.get(i);
-			Point2D opt = optimalPlot.get(i);
-			
-			opt.distance(act);
-
-			// Find distance to this line, and add to plot
-			distancePlot.add(new Point2D.Double(i, opt.distance(act))); //line.ptLineDist(new Point2D.Double(act.getX(), act.getY()))));
-			outputPanel.send(String.valueOf(distancePlot.get(i).getY()));
-			
-			if(distancePlot.get(i).getX() > maxDist)
-				maxDist = distancePlot.get(i).getY();
+		for(int i = 0; i < actualLine.getPointCount(); i++) {
+			distancePlot.add(new Point2D.Double(i, optimalLine.getDistance(actualLine.getPoint(i))));
 		}
+		
+		distanceData = new PathPlot(distancePlot.toArray(new Point2D[distancePlot.size()]));
+		
+		outputPanel.send("Distance plot completed.");
 		
 		// Create distance axes
 		distAxes = new ArrayList<Point2D>();
@@ -158,82 +154,48 @@ public class MainFrame extends Observer {
 		distAxes.add(new Point2D.Double(distancePlot.size(), 0));
 	}
 	
-	/**
-	 * Finds the index in the given array of the closest point to the given point.
-	 * @param points The set of points to search.
-	 * @param point The point to search for the closest point to.
-	 */
-	private int closestPoint(ArrayList<Point2D> points, Point2D point) {
-		int closest = 0;
-		
-		Point2D opt = optimalPlot.get(0);
-		double prevDist = opt.distance(point);
-			
-		for(int i = 1; i < optimalPlot.size(); i++) {
-			opt = optimalPlot.get(i);
-			double currentDist = opt.distance(point);
-					
-			if(currentDist > prevDist) {
-				closest = i-1;
-				outputPanel.send(String.valueOf(closest));
-				break;
-			}
-
-			prevDist = currentDist;
-		}
-		
-		return closest;
-	}
-	
 	public void setVisible(boolean vis) {
 		frame.setVisible(vis);
 	}
 	
 	public static void main(String[] args) {
 		MainFrame mainFrame = new MainFrame();
-		mainFrame.setVisible(true);
 	}
 	
 	public void plotTrack() {
-		if(plotType != PlotType.TRACK) {
-			outputPanel.send("Plotting track.");
-			plotType = PlotType.TRACK;
-			
-			drawSurface.clearPlots();
-			drawSurface.addPlotData(trackPlot, Color.black);
-			drawSurface.addPlotData(actualPlot, Color.red);
-			drawSurface.addPlotData(optimalPlot, Color.orange);
-			drawSurface.repaint();
-		} else {
-			outputPanel.send("Already plotted this!");
-		}
+		outputPanel.send("Plotting track.");
+		
+		drawSurface.clearPlots();
+		drawSurface.addPlotData(track.getPath(), track.getPointCount(), Color.black);
+		drawSurface.addPlotData(actualLine.getPath(), actualLine.getPointCount(), Color.red);
+		drawSurface.addPlotData(optimalLine.getPath(), optimalLine.getPointCount(), Color.orange);
+		drawSurface.repaint();
 	}
 	
 	public void plotDistanceDifference() {
-		if(plotType != PlotType.DIST_DIFF) {
-			outputPanel.send("Plotting distance difference.");
-			plotType = PlotType.DIST_DIFF;
-			
-			drawSurface.clearPlots();
-			drawSurface.addPlotData(distancePlot, Color.red);
-			drawSurface.addPlotData(distAxes, Color.black);
-			
-			drawSurface.addTextElement(new Point2D.Double(-10, distAxes.get(1).getX() + (maxDist/2)), "Distance", Color.black);
-			drawSurface.addTextElement(new Point2D.Double(distAxes.get(1).getX() + (distancePlot.size()/2), -10), "Time", Color.black);
-			
-			drawSurface.repaint();
+		DefaultXYDataset dSet = new DefaultXYDataset();
+		
+		// Create primitive array for distance
+		double[][] dist = new double[2][distanceData.getPointCount()];
+		int i = 0;
+		for(Point2D p : distanceData.getPoints()) {
+			dist[0][i] = p.getX();
+			dist[1][i] = p.getY();
+			i++;
 		}
-		else {
-			outputPanel.send("Already plotted this!");
-		}
+		
+		dSet.addSeries("Distance Plot", dist);
+		
+		JFreeChart chart = ChartFactory.createXYLineChart("Distance to Optimal Path", "Distance Travelled", "Distance from Optimal Path (m)", dSet);
+		ChartFrame frame = new ChartFrame("Distance from Optimal Path", chart);
+		
+		frame.pack();
+		frame.setVisible(true);
 	}
 	
 	public void notify(GUIMessage message) {
 		if(message == GUIMessage.PLOT_DISTANCE_DIFF) {
 			plotDistanceDifference();
-		}
-		else if(message == GUIMessage.PLOT_TRACK) {
-			plotTrack();
 		}
 	}
 }

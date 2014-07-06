@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.RenderingHints;
+import java.awt.RenderingHints.Key;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
@@ -12,7 +14,6 @@ import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -24,32 +25,6 @@ public class Surface implements MouseMotionListener, MouseInputListener, MouseWh
 	private ArrayList<Integer> pointCount;
 	private ArrayList<Color> plotColors;
 	
-	private ArrayList<TextElement> textElements;
-	
-	private class TextElement {
-		String text;
-		Point2D position;
-		Color color;
-		
-		public TextElement(Point2D pos, String text, Color color){
-			this.position = pos;
-			this.color = color;
-			this.text = text;
-		}
-		
-		public Point2D getPos() {
-			return position;
-		}
-		
-		public Color getColor() {
-			return color;
-		}
-		
-		public String getText() {
-			return text;
-		}
-	}
-	
 	private class DrawSurface extends JPanel {
 		
 		public void paintComponent(Graphics g) {
@@ -59,6 +34,10 @@ public class Surface implements MouseMotionListener, MouseInputListener, MouseWh
 		
 		private void draw(Graphics g) {
 			Graphics2D g2d = (Graphics2D)g;
+			RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			g2d.setRenderingHints(rh);
+			
 			g2d.setColor(Color.white);
 			g.fillRect(0,  0, drawSurface.getWidth(), drawSurface.getHeight());
 			g2d.setColor(Color.black);
@@ -83,7 +62,7 @@ public class Surface implements MouseMotionListener, MouseInputListener, MouseWh
 				path.moveTo(10, 30*i+10);
 				path.lineTo(20, 30*i+10);
 				g2d.drawString(String.valueOf(pointCount.get(i)), 25, 30*i+15);
-				g2d.draw(path);
+				g2d.draw(path);	
 			}
 		}
 	}
@@ -128,35 +107,20 @@ public class Surface implements MouseMotionListener, MouseInputListener, MouseWh
 		drawSurface.addMouseListener(this);
 		drawSurface.addMouseMotionListener(this);
 		drawSurface.addMouseWheelListener(this);
-		
-		// Initialize text elements
-		textElements = new ArrayList<TextElement>();
 	}
 	
 	public void clearPlots() {
 		plots.clear();
 		plotColors.clear();
 		pointCount.clear();
-		textElements.clear();
 	}
 	
-	public void addPlotData(ArrayList<Point2D> data, Color color) {
-		
-		// Form path
-		Path2D path = new Path2D.Double();
-		path.moveTo(data.get(0).getX(), data.get(0).getY());
-		for(int i = 0; i < data.size(); i++) {
-			path.lineTo(data.get(i).getX(), data.get(i).getY());
-		}
+	public void addPlotData(Path2D path, int nPoints, Color color) {
 		
 		// Add all neccesary data to the surface
 		plots.add(path);
-		pointCount.add(data.size());
+		pointCount.add(nPoints);
 		plotColors.add(color);
-	}
-
-	public void addTextElement(Point2D position, String text, Color color) {
-		textElements.add(new TextElement(position, text, color));
 	}
 	
 	@Override
@@ -225,8 +189,6 @@ public class Surface implements MouseMotionListener, MouseInputListener, MouseWh
 		
 		scrollSensitivity = Math.max(MIN_SCROLL_SENSE, Math.min(MAX_SCROLL_SENSE, scrollSensitivity));
 		
-		System.out.println(scrollSensitivity);
-		
 		drawSurface.repaint();
 	}
 	
@@ -236,20 +198,5 @@ public class Surface implements MouseMotionListener, MouseInputListener, MouseWh
 	
 	public void repaint() {
 		drawSurface.repaint();
-	}
-	
-	private int largestPlot() {
-		int largest = 0;
-		Rectangle2D rect = plots.get(0).getBounds2D();
-		double previousSize = rect.getWidth() * rect.getHeight();
-		
-		for(int i = 1; i < plots.size(); i++) {
-			Rectangle2D currentRect = plots.get(i).getBounds2D();
-			double currentSize = currentRect.getWidth() * currentRect.getHeight();
-			if(currentSize > previousSize)
-				largest = i;
-		}
-		
-		return largest;
 	}
 }
