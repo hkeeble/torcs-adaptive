@@ -29,9 +29,15 @@ public class MainFrame extends Observer {
 	private final String TRACK_FILE = "track.dat";
 	private final String OPTIMAL_FILE = "optimal.dat";
 	private final String ACTUAL_FILE = "actual.dat";
+	private final String OPTIMAL_SPD_FILE = "optSpeed.dat";
+	
+	private final String FLT_ERR = "1.#INF";
+	
+	private final int SPEED_RESOLUTION = 50;
 	
 	private ArrayList<Point2D> distAxes;
 	private PathPlot track, optimalLine, actualLine, distanceData;
+	private ValueSequence optimalSpeeds;
 	
 	private double maxDist;
 	
@@ -43,10 +49,19 @@ public class MainFrame extends Observer {
 		try {
 			readData();
 		} catch (Exception e) {
-			outputPanel.send("Error reading and computing data: " + e.getMessage());
+			outputPanel.send("Error reading data: " + e.getMessage());
+		}
+		
+		try {
+			processData();
+		} catch(Exception e) {
+			outputPanel.send("Error processing data: " + e.getMessage());
 		}
 		
 		plotTrack();
+		plotData();
+		
+		outputPanel.send("Left-click and move the mouse to drag the plot around. Mouse wheel to zoom. Press mouse wheel to reset view.");
 		
 		userPanel.addTable(track.getPoints(), "Track Plot");
 		userPanel.addTable(optimalLine.getPoints(), "Optimal Plot");
@@ -97,7 +112,7 @@ public class MainFrame extends Observer {
 			trackPlot.add(new Point2D.Double(Double.parseDouble(coords[0]), Double.parseDouble(coords[1])));
 		}
 		
-		track = new PathPlot(trackPlot.toArray(new Point2D[trackPlot.size()])); // Create the plot object
+		track = new PathPlot(trackPlot.toArray(new Point2D[trackPlot.size()]), Color.black); // Create the plot object
 		
 		// Read actual plot
 		fr = new FileReader(ACTUAL_FILE);
@@ -109,7 +124,7 @@ public class MainFrame extends Observer {
 			actualPlot.add(new Point2D.Double(Double.parseDouble(coords[0]), Double.parseDouble(coords[1])));
 		}
 		
-		actualLine = new PathPlot(actualPlot.toArray(new Point2D[actualPlot.size()])); // Create the plot object
+		actualLine = new PathPlot(actualPlot.toArray(new Point2D[actualPlot.size()]), Color.red); // Create the plot object
 		
 		// Read Optimal plot
 		fr = new FileReader(OPTIMAL_FILE);
@@ -121,16 +136,45 @@ public class MainFrame extends Observer {
 			optimalPlot.add(new Point2D.Double(Double.parseDouble(coords[0]), Double.parseDouble(coords[1])));
 		}
 		
-		optimalLine = new PathPlot(optimalPlot.toArray(new Point2D[optimalPlot.size()])); // Create the plot object
+		optimalLine = new PathPlot(optimalPlot.toArray(new Point2D[optimalPlot.size()]), Color.orange); // Create the plot object
+		
+		// Read Optimal Speed
+		fr = new FileReader(OPTIMAL_SPD_FILE);
+		textReader = new BufferedReader(fr);
+		ArrayList<TextObject> optSpeedPlot = new ArrayList<TextObject>();
+		float highest = 0.0f;
+		int count = 0;
+		while((line = textReader.readLine()) != null) {
+			optSpeedPlot.add(new TextObject(line, optimalPlot.get(count), Color.black));
+			count++;
+			
+			if(!line.equals(FLT_ERR)) {
+				float current = Float.parseFloat(line);
+				if(current > highest) {
+					highest = current;
+				}
+			}
+		}
+		
+		// Set color values based on interpolation
+		for(TextObject t : optSpeedPlot) {
+			if(!t.getText().equals(FLT_ERR)) {
+				float val = Float.parseFloat(t.getText());
+				float weight = val/highest;
+				t.setColor(interpolate(Color.green, Color.red, weight));
+			}
+		}
+		
+		// Convert into a value sequence object
+		optimalSpeeds = new ValueSequence(optSpeedPlot.toArray(new TextObject[optSpeedPlot.size()]), optSpeedPlot.size()/20, 1);
+		
+		textReader.close();
+		fr.close();
 		
 		outputPanel.send("Successfully read all data.");
-		
-		processData();
-		
-		outputPanel.send("Left-click and move the mouse to drag the plot around. Mouse wheel to zoom. Press mouse wheel to reset view.");
 	}
 	
-	public void processData() {
+	public void processData() throws Exception {
 		outputPanel.send("Processing data from plots.");
 		
 		maxDist = 0;
@@ -143,7 +187,7 @@ public class MainFrame extends Observer {
 			distancePlot.add(new Point2D.Double(i, optimalLine.getDistance(actualLine.getPoint(i))));
 		}
 		
-		distanceData = new PathPlot(distancePlot.toArray(new Point2D[distancePlot.size()]));
+		distanceData = new PathPlot(distancePlot.toArray(new Point2D[distancePlot.size()]), Color.red);
 		
 		outputPanel.send("Distance plot completed.");
 		
@@ -152,6 +196,8 @@ public class MainFrame extends Observer {
 		distAxes.add(new Point2D.Double(0, maxDist));
 		distAxes.add(new Point2D.Double(0, 0));
 		distAxes.add(new Point2D.Double(distancePlot.size(), 0));
+		
+		outputPanel.send("Successfully processed all data.");
 	}
 	
 	public void setVisible(boolean vis) {
@@ -166,10 +212,15 @@ public class MainFrame extends Observer {
 		outputPanel.send("Plotting track.");
 		
 		drawSurface.clearPlots();
-		drawSurface.addPlotData(track.getPath(), track.getPointCount(), Color.black);
-		drawSurface.addPlotData(actualLine.getPath(), actualLine.getPointCount(), Color.red);
-		drawSurface.addPlotData(optimalLine.getPath(), optimalLine.getPointCount(), Color.orange);
+		drawSurface.addPlotData(track);
+		drawSurface.addPlotData(actualLine);
+		drawSurface.addPlotData(optimalLine);
 		drawSurface.repaint();
+	}
+	
+	public void plotData() {
+		drawSurface.addValueSequence(optimalSpeeds);
+		userPanel.setSliderValues(optimalSpeeds.getMaxRes(), optimalSpeeds.getMinRes());
 	}
 	
 	public void plotDistanceDifference() {
@@ -193,9 +244,36 @@ public class MainFrame extends Observer {
 		frame.setVisible(true);
 	}
 	
-	public void notify(GUIMessage message) {
+	public void notify(GUIMessage message, Object userValue) {
 		if(message == GUIMessage.PLOT_DISTANCE_DIFF) {
 			plotDistanceDifference();
 		}
+		if(message == GUIMessage.TOGGLE_POINT_RENDER) {
+			drawSurface.togglePointRender();
+		}
+		if(message == GUIMessage.TOGGLE_SPEED_RENDER) {
+			if(drawSurface.containsValueSequence(optimalSpeeds))
+				drawSurface.removeValueSequence(optimalSpeeds);
+			else
+				drawSurface.addValueSequence(optimalSpeeds);
+		}
+		if(message == GUIMessage.CHANGE_SPEED_RES) {
+			optimalSpeeds.setResolution((int) userValue);
+			drawSurface.repaint();
+		}
+	}
+	
+	public Color interpolate(Color a, Color b, float weight) {
+		float[] aRGB = new float[3];
+		float[] bRGB = new float[3];
+		
+		aRGB = a.getRGBColorComponents(aRGB);
+		bRGB = b.getRGBColorComponents(bRGB);
+		
+		return new Color(interpolate(aRGB[0], bRGB[0], weight), interpolate(aRGB[1], bRGB[1], weight), interpolate(aRGB[2], bRGB[2], weight));
+	}
+	
+	public float interpolate(float a, float b, float weight) {
+		return a + weight * (b - a);
 	}
 }

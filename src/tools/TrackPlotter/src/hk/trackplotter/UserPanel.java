@@ -6,15 +6,17 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -24,13 +26,17 @@ public class UserPanel extends Subject {
 	JPanel mainPanel;
 	
 	JPanel data;
-	JPanel inputs;
+	
+	JPanel buttons;
+	JPanel configs;
 	
 	JLabel optimalVerts, actualVerts, trackVerts;
 	
 	JTabbedPane tablePane;
 	
-	JButton plotDistGraph;
+	JButton plotDistGraph, togglePointRender, toggleSpeedRender;
+	
+	JSlider speedResSlider;
 	
 	public UserPanel() {
 		super();
@@ -41,19 +47,45 @@ public class UserPanel extends Subject {
 		// INITIALIZE TABLE PANELS
 		tablePane = new JTabbedPane();
 
-		// INITIALIZE USER INPUT PANEL
-		inputs = new JPanel();
-		inputs.setLayout(new GridLayout(3, 3));
+		// INITIALIZE BUTTONS
+		buttons = new JPanel();
+		buttons.setLayout(new GridLayout(0, 1));
 		plotDistGraph = new JButton("Plot Distance Graph");
+		togglePointRender = new JButton("Toggle Point/Line Render");
+		toggleSpeedRender = new JButton("Toggle Speed Render");
 		
 		plotDistGraph.addActionListener(new PlotDistanceGraphButton());
+		togglePointRender.addActionListener(new TogglePointRender());
+		toggleSpeedRender.addActionListener(new ToggleSpeedRender());
 		
-		inputs.add(plotDistGraph);
+		buttons.add(plotDistGraph);
+		buttons.add(togglePointRender);
+		buttons.add(toggleSpeedRender);
+		
+		configs = new JPanel();
+		configs.setLayout(new GridLayout(1, 1));
+		JLabel label = new JLabel("Speed Display Resolution:");
+		speedResSlider = new JSlider(JSlider.HORIZONTAL, 0, 10, 5);
+		speedResSlider.addChangeListener(new SpeedResSlider());
+
+		speedResSlider.setPaintLabels(true);
+		
+		configs.add(label);
+		configs.add(speedResSlider);
 		
 		mainPanel.add(tablePane);
-		mainPanel.add(inputs);
+		mainPanel.add(buttons);
+		mainPanel.add(configs);
 	}
 
+	public void setSliderValues(int max, int min) {
+		speedResSlider.setMaximum(max);
+		speedResSlider.setMinimum(min);
+		speedResSlider.setMajorTickSpacing(max/5);
+		speedResSlider.setMinorTickSpacing(max/25);
+		speedResSlider.setValue(max/2);
+	}
+	
 	private JTable createTable(Point2D[] data) {
 		JTable table = new JTable(data.length, 2);
 		
@@ -85,12 +117,37 @@ public class UserPanel extends Subject {
 	private class PlotDistanceGraphButton implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			sendMessage(GUIMessage.PLOT_DISTANCE_DIFF);
+			sendMessage(GUIMessage.PLOT_DISTANCE_DIFF, null);
 		}
 	}
 	
-	private void sendMessage(GUIMessage message) {
-		notifyObservers(message);
+	private class TogglePointRender implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			sendMessage(GUIMessage.TOGGLE_POINT_RENDER, null);
+		}
+	}
+	
+	private class ToggleSpeedRender implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			sendMessage(GUIMessage.TOGGLE_SPEED_RENDER, null);
+		}
+	}
+	
+	private class SpeedResSlider implements ChangeListener {
+		@Override
+		public void stateChanged(ChangeEvent e) {
+			JSlider source = (JSlider)e.getSource();
+			if(source.getValueIsAdjusting()) {
+				sendMessage(GUIMessage.CHANGE_SPEED_RES, source.getValue());
+			}
+			
+		}
+	}
+	
+	private void sendMessage(GUIMessage message, Object userValue) {
+		notifyObservers(message, userValue);
 	}
 	
 	public JPanel get() {

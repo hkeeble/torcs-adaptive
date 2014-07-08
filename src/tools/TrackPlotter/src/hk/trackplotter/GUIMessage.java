@@ -1,5 +1,8 @@
 package hk.trackplotter;
 
 public enum GUIMessage {
-	PLOT_DISTANCE_DIFF
+	PLOT_DISTANCE_DIFF,
+	TOGGLE_POINT_RENDER,
+	TOGGLE_SPEED_RENDER,
+	CHANGE_SPEED_RES
 }

@@ -199,6 +199,12 @@ namespace procedural
 					// Most difficult: smaller radius, larger arc.
 					PSegmentRanges ranges = segFactory->ranges;
 					
+					// Seed random number generator by the current time
+					std::default_random_engine engine(std::chrono::system_clock::now().time_since_epoch().count());
+					std::normal_distribution<tdble> distribution(skillLevel, 0.1f);
+
+					std::cout << distribution(engine);
+
 					// Ensure that weighting is never 0.0f, if skill level estimate is 1 use 0.1f, as this is the lowest possible weighting
 					tdble radius = lerp(ranges.Radius().Min(), ranges.Radius().Max(), skillLevel < 1.0f ? 1.0f - skillLevel : 0.1f);
 					

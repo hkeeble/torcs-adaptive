@@ -1,9 +1,9 @@
 package hk.trackplotter;
 
+import java.awt.Color;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Path2D.Double;
 
 /**
  * Represents a path plot. Used to construct a path, and it's individual line segments, from the given data. Can then be
@@ -16,13 +16,16 @@ public class PathPlot {
 	private Point2D[] points;
 	private Line2D[] segs;
 	private Path2D path;
+	private Color color;
 	
 	/**
 	 * Create a new path plot.
 	 * @param points The points within the path plot.
+	 * @param color The color to draw this plot as.
 	 */
-	public PathPlot(Point2D[] points) {
+	public PathPlot(Point2D[] points, Color color) {
 		this.points = points;
+		this.color = color;
 		
 		segs = new Line2D[points.length];
 		for(int i = 0; i < points.length-1; i++) {
@@ -76,6 +79,10 @@ public class PathPlot {
 	 */
 	public int getPointCount() {
 		return points.length;
+	}
+	
+	public Color getColor() {
+		return color;
 	}
 	
 	/**

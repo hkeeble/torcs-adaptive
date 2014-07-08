@@ -123,6 +123,8 @@ namespace perfMeasurement
 			\param currentTime		  The current total time.
 		*/
 		virtual void Update(tdble deltaTimeIncrement, tdble currentTime) override final;
+
+		virtual void RaceEnd() override final { }
 	};
 }
 

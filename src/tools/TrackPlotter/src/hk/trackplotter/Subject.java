@@ -18,9 +18,9 @@ public class Subject {
 		observers.remove(observer);
 	}
 	
-	public void notifyObservers(GUIMessage message) {
+	public void notifyObservers(GUIMessage message, Object userValue) {
 		for(Observer o : observers) {
-			o.notify(message);
+			o.notify(message, userValue);
 		}
 	}
 }

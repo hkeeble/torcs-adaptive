@@ -183,6 +183,8 @@ namespace procPathfinder
 		currentpathseg = path->Seg(currentsegid);
 		updateDError(track);
 		int error = (int)(MIN(LOOKAHEAD_MAX_ERROR, derror));
+		if (error < 0)
+			error = 0;
 		int lookahead = (destsegid + (int)(error*speed*LOOKAHEAD_FACTOR)) % path->getnPathSeg();
 		destpathseg = path->Seg(lookahead);
 

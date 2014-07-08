@@ -45,6 +45,7 @@
 
 #include "torcsAdaptive.h"
 #include "perfMeasurement\RaceLineEvaluation.h"
+#include "perfMeasurement\CurvatureApproximation.h"
 #include "K1999.h"
 #include "procedural\PTrack.h"
 

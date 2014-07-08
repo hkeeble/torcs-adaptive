@@ -6,7 +6,7 @@ public class Observer {
 		
 	}
 
-	public void notify(GUIMessage message) {
+	public void notify(GUIMessage message, Object userValue) {
 		
 	}
 }
