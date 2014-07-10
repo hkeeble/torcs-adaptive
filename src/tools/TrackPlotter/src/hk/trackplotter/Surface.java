@@ -7,6 +7,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
@@ -112,6 +114,30 @@ public class Surface implements MouseMotionListener, MouseInputListener, MouseWh
 		}
 	}
 	
+	private class SurfaceListener implements ComponentListener {
+
+		@Override
+		public void componentHidden(ComponentEvent arg0) {
+
+		}
+
+		@Override
+		public void componentMoved(ComponentEvent arg0) {
+
+		}
+
+		@Override
+		public void componentResized(ComponentEvent arg0) {
+			drawSurface.repaint();
+		}
+
+		@Override
+		public void componentShown(ComponentEvent arg0) {
+
+		}
+		
+	}
+	
 	private DrawSurface drawSurface;
 	
 	private AffineTransform plotTransform;
@@ -153,6 +179,8 @@ public class Surface implements MouseMotionListener, MouseInputListener, MouseWh
 		drawSurface.addMouseListener(this);
 		drawSurface.addMouseMotionListener(this);
 		drawSurface.addMouseWheelListener(this);
+		
+		drawSurface.addComponentListener(new SurfaceListener());
 	}
 	
 	public void clearPlots() {

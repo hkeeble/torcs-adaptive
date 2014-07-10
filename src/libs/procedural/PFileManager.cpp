@@ -74,7 +74,7 @@ namespace procedural
 
 			// Write out track plot
 			TrackDesc desc = TrackDesc(track->trk);
-			desc.plot(const_cast<char*>((relativeCfgPath + "previousTracks/" + trackName + "/" + trackName + "Plot.dat").c_str()));
+			desc.plot(const_cast<char*>((relativeCfgPath + "previousTracks/" + trackName + "/track.dat").c_str()));
 
 			pOut("Track files output successfully!\n");
 		}
