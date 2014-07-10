@@ -1,12 +1,14 @@
 package hk.trackplotter;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -23,19 +25,24 @@ import javax.swing.table.TableColumnModel;
 
 public class UserPanel extends Subject {
 	
+	// The main panel for this class
 	JPanel mainPanel;
 	
+	// Data panel
 	JPanel data;
 	
-	JPanel buttons;
-	JPanel configs;
+	// Input Panels
+	JPanel inputs;
+	JPanel renderPanel, speedPanel, plotPanel;
 	
-	JLabel optimalVerts, actualVerts, trackVerts;
+	// Plot panel buttons
+	JButton plotDistGraph, plotSpeedDiffGraph;
 	
-	JTabbedPane tablePane;
-	
-	JButton plotDistGraph, togglePointRender, toggleSpeedRender;
-	
+	// Render Panel Buttons
+	JButton toggleSpeedRender, togglePointRender;
+
+	// Speed panel buttons
+	JButton showOptimalSpeed, showActualSpeed;
 	JSlider speedResSlider;
 	
 	public UserPanel() {
@@ -44,40 +51,67 @@ public class UserPanel extends Subject {
 		mainPanel.setPreferredSize(new Dimension(300, 100));
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		
-		// INITIALIZE TABLE PANELS
-		tablePane = new JTabbedPane();
+		initInputPanel(); // Initialize the input panel
+		
+		mainPanel.add(inputs);
+	}
 
-		// INITIALIZE BUTTONS
-		buttons = new JPanel();
-		buttons.setLayout(new GridLayout(0, 1));
-		plotDistGraph = new JButton("Plot Distance Graph");
+	private void initInputPanel() {
+		inputs = new JPanel();
+		renderPanel = new JPanel();
+		speedPanel = new JPanel();
+		plotPanel = new JPanel();
+		
+		inputs.setLayout(new GridLayout(0, 1));
+		inputs.setBorder(BorderFactory.createTitledBorder("Inputs"));
+		
+		// Render Panel
+		renderPanel.setLayout(new GridLayout(0, 1));
+		renderPanel.setBorder(BorderFactory.createTitledBorder("Rendering Options"));
 		togglePointRender = new JButton("Toggle Point/Line Render");
 		toggleSpeedRender = new JButton("Toggle Speed Render");
-		
-		plotDistGraph.addActionListener(new PlotDistanceGraphButton());
 		togglePointRender.addActionListener(new TogglePointRender());
 		toggleSpeedRender.addActionListener(new ToggleSpeedRender());
+		renderPanel.add(toggleSpeedRender);
+		renderPanel.add(togglePointRender);
 		
-		buttons.add(plotDistGraph);
-		buttons.add(togglePointRender);
-		buttons.add(toggleSpeedRender);
-		
-		configs = new JPanel();
-		configs.setLayout(new GridLayout(1, 1));
+		// Speed Panel
+		speedPanel.setLayout(new GridLayout(0, 1));
+		speedPanel.setBorder(BorderFactory.createTitledBorder("Speed Display Options"));
 		JLabel label = new JLabel("Speed Display Resolution:");
 		speedResSlider = new JSlider(JSlider.HORIZONTAL, 0, 10, 5);
 		speedResSlider.addChangeListener(new SpeedResSlider());
-
 		speedResSlider.setPaintLabels(true);
+		showOptimalSpeed = new JButton("Show Optimal Speed");
+		showActualSpeed = new JButton("Show Actual Speed");
+		showOptimalSpeed.addActionListener(new ShowOptimalSpeed());
+		showActualSpeed.addActionListener(new ShowActualSpeed());
 		
-		configs.add(label);
-		configs.add(speedResSlider);
+		speedPanel.add(showActualSpeed);
+		speedPanel.add(showOptimalSpeed);
+		speedPanel.add(label);
+		speedPanel.add(speedResSlider);
 		
-		mainPanel.add(tablePane);
-		mainPanel.add(buttons);
-		mainPanel.add(configs);
+		// Plot Panel
+		plotPanel.setLayout(new GridLayout(0, 1));
+		plotPanel.setBorder(BorderFactory.createTitledBorder("Graph Plotting"));
+		plotDistGraph = new JButton("Plot Distance Graph");
+		plotSpeedDiffGraph = new JButton("Plot Speed Difference Graph");
+		
+		plotDistGraph.addActionListener(new PlotDistanceGraphButton());
+		plotSpeedDiffGraph.addActionListener(new PlotSpeedDiffGraph());
+		
+		plotPanel.add(plotDistGraph);
+		plotPanel.add(plotSpeedDiffGraph);
+		
+		// Add to input panel
+		inputs.add(renderPanel);
+		inputs.add(speedPanel);
+		inputs.add(plotPanel);
+		
+		setActive(false);
 	}
-
+	
 	public void setSliderValues(int max, int min) {
 		speedResSlider.setMaximum(max);
 		speedResSlider.setMinimum(min);
@@ -107,17 +141,17 @@ public class UserPanel extends Subject {
 		return table;
 	}
 	
-	public void addTable(Point2D[] data, String name) {
-		JPanel panel = new JPanel(new BorderLayout());
-		JTable table = createTable(data);
-		panel.add(new JScrollPane(table), BorderLayout.CENTER);
-		tablePane.addTab(name, panel);
-	}
-	
 	private class PlotDistanceGraphButton implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			sendMessage(GUIMessage.PLOT_DISTANCE_DIFF, null);
+		}
+	}
+	
+	private class PlotSpeedDiffGraph implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			sendMessage(GUIMessage.PLOT_SPEED_DIFF, null);
 		}
 	}
 	
@@ -132,6 +166,13 @@ public class UserPanel extends Subject {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			sendMessage(GUIMessage.TOGGLE_SPEED_RENDER, null);
+			
+			boolean isEnabled = !speedPanel.isEnabled();
+			Component[] components = speedPanel.getComponents();
+			for(int i = 0; i < components.length; i++) {
+				components[i].setEnabled(isEnabled);
+			}
+			speedPanel.setEnabled(isEnabled);
 		}
 	}
 	
@@ -142,7 +183,20 @@ public class UserPanel extends Subject {
 			if(source.getValueIsAdjusting()) {
 				sendMessage(GUIMessage.CHANGE_SPEED_RES, source.getValue());
 			}
-			
+		}
+	}
+	
+	private class ShowOptimalSpeed implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			sendMessage(GUIMessage.CHANGE_SPD_RENDER, SpeedPlotType.OPTIMAL);
+		}
+	}
+	
+	private class ShowActualSpeed implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			sendMessage(GUIMessage.CHANGE_SPD_RENDER, SpeedPlotType.ACTUAL);
 		}
 	}
 	
@@ -152,5 +206,19 @@ public class UserPanel extends Subject {
 	
 	public JPanel get() {
 		return mainPanel;
+	}
+	
+	public void setActive(boolean active) {
+		setPanelActive(inputs, active);
+	}
+	
+	public void setPanelActive(JPanel panel, boolean active) {
+		Component[] components = panel.getComponents();
+		for(int i = 0; i < components.length; i++) {
+			if(components[i] instanceof JPanel) {
+				setPanelActive((JPanel)components[i], active);
+			}
+			components[i].setEnabled(active);
+		}
 	}
 }

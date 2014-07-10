@@ -201,7 +201,7 @@ namespace procedural
 					
 					// Seed random number generator by the current time
 					std::default_random_engine engine(std::chrono::system_clock::now().time_since_epoch().count());
-					std::normal_distribution<tdble> distribution(skillLevel, 0.1f);
+					std::normal_distribution<tdble> distribution(skillLevel, NORMAL_DSTRIBUTION);
 
 					std::cout << distribution(engine);
 

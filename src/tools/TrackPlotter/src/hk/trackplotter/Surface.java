@@ -159,6 +159,20 @@ public class Surface implements MouseMotionListener, MouseInputListener, MouseWh
 		plots.clear();
 	}
 	
+	public void clearValueSequences() {
+		valueSequences.clear();
+	}
+	
+	public void clearTextObjects() {
+		textObjects.clear();
+	}
+	
+	public void clearAll() {
+		clearPlots();
+		clearValueSequences();
+		clearTextObjects();
+	}
+	
 	public void addPlotData(PathPlot path) {
 		plots.add(path);
 	}

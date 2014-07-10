@@ -29,7 +29,7 @@ namespace perfMeasurement
 		currentSegmentID = 0; // ID of the current segment ID being evaluated
 		currentPathSegID = 0; // ID of the current path segment
 
-		actualPoints = std::vector<PMPoint2D>();
+		actualData = std::vector<PMData>();
 	}
 
 	void RaceLineEvaluation::Evaluate()
@@ -97,8 +97,9 @@ namespace perfMeasurement
 			Evaluate();
 			currentSegmentID++;
 
+			// Record all data for future reference before clearing the current data set
 			for (auto d : dataSet)
-				actualPoints.push_back(PMPoint2D(d.GetData().GlobalPosition().x, d.GetData().GlobalPosition().y));
+				actualData.push_back(d);
 
 			dataSet.clear();
 		}
@@ -109,16 +110,16 @@ namespace perfMeasurement
 		remove("optimal.dat");
 		remove("actual.dat");
 		remove("optSpeed.dat");
+		remove("actSpeed.dat");
 
 		pathfinder->PlotPath("optimal.dat");
 
 		std::fstream out = std::fstream("actual.dat", std::ios::app);
 		if (out.is_open())
 		{
-			for (auto point : actualPoints)
-			{
-				out << point.x << "," << point.y << std::endl;
-			}
+			for (auto data : actualData)
+				out << data.GetData().GlobalPosition().x << "," << data.GetData().GlobalPosition().y << std::endl;
+
 			out.close();
 		}
 
@@ -126,9 +127,18 @@ namespace perfMeasurement
 		if (out.is_open())
 		{
 			for (int i = 0; i < pathfinder->Segs().Count(); i++)
-			{
 				out << sqrt(pathfinder->Seg(i)->getSpeedsqr()) << std::endl;
-			}
+
+			out.close();
+		}
+
+		out = std::fstream("actSpeed.dat", std::ios::app);
+		if (out.is_open())
+		{
+			for(auto data : actualData)
+				out << data.GetData().Speed() << std::endl;
+
+			out.close();
 		}
 	}
 }

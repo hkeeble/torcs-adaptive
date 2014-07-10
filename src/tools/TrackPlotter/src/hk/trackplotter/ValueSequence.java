@@ -2,6 +2,7 @@ package hk.trackplotter;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
 
 /**
  * Represents a sequence of values that can be plotted onto a surface.
@@ -60,5 +61,23 @@ public class ValueSequence {
 	
 	public int getMinRes() {
 		return minResolution;
+	}
+	
+	public double getValueAt(int index) {
+		return Double.parseDouble(objects[index].getText());
+	}
+	
+	public TextObject getClosest(Point2D point) {
+		TextObject closest = objects[0];
+		double currentDist = closest.getPosition().distance(point);
+		for(int i = 0; i < objects.length; i++) {
+			double dist = objects[i].getPosition().distance(point);
+			if(dist < currentDist) {
+				currentDist = dist;
+				closest = objects[i];
+			}
+		}
+		
+		return closest;
 	}
 }

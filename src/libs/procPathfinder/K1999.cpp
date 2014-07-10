@@ -50,24 +50,17 @@ namespace procPathfinder
 			r = radius( ps(u)->getLoc()->x, ps(u)->getLoc()->y,
 						ps(v)->getLoc()->x, ps(v)->getLoc()->y,
 						ps(w)->getLoc()->x, ps(w)->getLoc()->y);
-
 			ps(i)->setRadius(r);
-
 			r = fabs(r);
 
-			// std::cout << r << std::endl;
-
-			length = dist(ps(v)->getLoc(), ps(w)->getLoc());
-
-			tdble mu = track->getSegmentPtr(i)->getKfriction()*
-				       myc->CFRICTION*track->getSegmentPtr(i)->getKalpha();
-
+			tdble mu = track->getSegmentPtr(i)->getKfriction()*myc->CFRICTION*track->getSegmentPtr(i)->getKalpha();
 			tdble b = track->getSegmentPtr(i)->getKbeta();
 
-			speedsqr = myc->SPEEDSQRFACTOR*r*g*mu /
-					  (1.0 - MIN(1.0, (mu*myc->ca*r / myc->mass)) + mu*r*b);
+			speedsqr = myc->SPEEDSQRFACTOR*r*g*mu / (1.0 - MIN(1.0, (mu*myc->ca*r / myc->mass)) + mu*r*b);
 
 			dir = *(ps(w)->getLoc()) - (*ps(u)->getLoc());
+			length = dist(ps(v)->getLoc(), ps(w)->getLoc());
+
 			dir.normalize();
 
 			ps(i)->set(speedsqr, length, &dir);

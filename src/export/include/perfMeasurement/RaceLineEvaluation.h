@@ -33,7 +33,8 @@ namespace perfMeasurement
 		PTrackDesc* trackDesc;   /*!< Track description. */
 		PStateManager stateMngr; /*!< Procedural track description state manager. */
 
-		std::vector<PMPoint2D> actualPoints; /*!< Stores the actual points of the car, used for plotting. */
+		std::vector<PMData> actualData; /*!< Represents all recorded actual data for the car. Stored such that the evaluator can release data
+											 used for actual performance measurement after each evaluation. */
 
 		int currentSegmentID; /*!< ID of the current segment ID for which performance needs to be evaluated. */
 		int currentPathSegID; /*!< ID of the current path segment. */

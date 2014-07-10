@@ -85,9 +85,10 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)/export/lib;../../windows/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>tgf.lib;robottools.lib;sg_vs2008_32.lib;ul_vs2008_32.lib;procPathfinder.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile>K1999.def</ModuleDefinitionFile>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(TargetDir)*.dll" "$(SolutionDir)..\runtimed\drivers\K1999"</Command>
+      <Command>copy "$(TargetDir)*.dll" "$(SolutionDir)..\runtime\drivers\K1999"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -573,7 +573,6 @@ void CK1999Data::InitTrack(tTrack* track, void **carParmHandle, tSituation *p)
    MaxSpeed = 10000;
 
   tSpeed[i] = tMaxSpeed[i] = MaxSpeed;
-  std::cout << tSpeed[i] << std::endl;
  }
  
  //
@@ -713,7 +712,6 @@ void CK1999Data::Drive(tCarElt* car, tSituation *s)
  // Find target speed
  //
  double TargetSpeed = (1 - c0) * tSpeed[Next] + c0 * tSpeed[Index];
- std::cout << TargetSpeed << std::endl;
 
  //
  // Steering control
