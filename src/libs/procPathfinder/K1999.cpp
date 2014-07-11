@@ -58,6 +58,13 @@ namespace procPathfinder
 
 			speedsqr = myc->SPEEDSQRFACTOR*r*g*mu / (1.0 - MIN(1.0, (mu*myc->ca*r / myc->mass)) + mu*r*b);
 
+			double maxSpeed = myc->getMaxSpeed();
+			double maxSpeedSqr = maxSpeed*maxSpeed;
+
+			if (speedsqr > maxSpeedSqr) {
+				speedsqr = maxSpeedSqr;
+			}
+
 			dir = *(ps(w)->getLoc()) - (*ps(u)->getLoc());
 			length = dist(ps(v)->getLoc(), ps(w)->getLoc());
 

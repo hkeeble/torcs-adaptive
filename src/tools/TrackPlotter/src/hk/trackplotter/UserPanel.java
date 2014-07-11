@@ -36,7 +36,7 @@ public class UserPanel extends Subject {
 	JPanel renderPanel, speedPanel, plotPanel;
 	
 	// Plot panel buttons
-	JButton plotDistGraph, plotSpeedDiffGraph;
+	JButton plotDistGraph, plotSpeedDiffGraph, plotSpeedComparisonGraph;
 	
 	// Render Panel Buttons
 	JButton toggleSpeedRender, togglePointRender;
@@ -97,12 +97,15 @@ public class UserPanel extends Subject {
 		plotPanel.setBorder(BorderFactory.createTitledBorder("Graph Plotting"));
 		plotDistGraph = new JButton("Plot Distance Graph");
 		plotSpeedDiffGraph = new JButton("Plot Speed Difference Graph");
+		plotSpeedComparisonGraph = new JButton("Plot Actual Speed against Optimal Speed");
 		
 		plotDistGraph.addActionListener(new PlotDistanceGraphButton());
 		plotSpeedDiffGraph.addActionListener(new PlotSpeedDiffGraph());
+		plotSpeedComparisonGraph.addActionListener(new PlotSpeedComparisonGraph());
 		
 		plotPanel.add(plotDistGraph);
 		plotPanel.add(plotSpeedDiffGraph);
+		plotPanel.add(plotSpeedComparisonGraph);
 		
 		// Add to input panel
 		inputs.add(renderPanel);
@@ -152,6 +155,13 @@ public class UserPanel extends Subject {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			sendMessage(GUIMessage.PLOT_SPEED_DIFF, null);
+		}
+	}
+	
+	private class PlotSpeedComparisonGraph implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			sendMessage(GUIMessage.PLOT_SPEED_COMPARISON, null);
 		}
 	}
 	

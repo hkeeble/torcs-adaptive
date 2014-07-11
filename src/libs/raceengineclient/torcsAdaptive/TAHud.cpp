@@ -1,7 +1,7 @@
 /*
 	File: TAhHud.h
 	Author: Henri Keeble
-	Desc: Defines a class to handle the TORCS Adaptive HUD.
+	Desc: Defines a class to handle the TORCS Adaptive.
 */
 
 #include "TAHud.h"

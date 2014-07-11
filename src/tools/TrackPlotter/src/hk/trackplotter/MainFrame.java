@@ -52,7 +52,7 @@ public class MainFrame extends Observer {
 	private ValueSequence optimalSpeeds, actualSpeeds;
 	
 	// Processed data
-	private double[][] distancePlot, speedDifferencePlot;
+	private double[][] distancePlot, speedDifferencePlot, optimalSpeedPlot, actualSpeedPlot;
 	
 	// Split pane between surface and input panel
 	private JSplitPane splitPane;
@@ -301,6 +301,29 @@ public class MainFrame extends Observer {
 			success = false;
 		}
 		
+		try {
+			outputPanel.send("Formatting optimal/actual speeds for graph plotting.");
+
+			// Form native arrays for optimal/actual speed plots
+			actualSpeedPlot = new double[2][actualSpeeds.size()];
+			optimalSpeedPlot = new double[2][optimalSpeeds.size()];
+
+			for(int i = 0; i < actualSpeeds.size(); i++) {
+				actualSpeedPlot[0][i] = i;
+				actualSpeedPlot[1][i] = actualSpeeds.getValueAt(i);
+			}
+
+			for(int i = 0; i < optimalSpeeds.size(); i++) {
+				optimalSpeedPlot[0][i] = i;
+				optimalSpeedPlot[1][i] = optimalSpeeds.getValueAt(i);
+			}
+
+			outputPanel.send("Optimal/actual speeds formatted correctly.");
+		} catch (Exception e) {
+			outputPanel.send("Error formatting optimal/actual speeds: " + e.getMessage());
+			success = false;
+		}
+		
 		outputPanel.send("Successfully processed all data.");
 		
 		return success;
@@ -348,6 +371,16 @@ public class MainFrame extends Observer {
 	private void plotXYGraph(double[][] data, String title, String xTag, String yTag) {
 		DefaultXYDataset dSet = new DefaultXYDataset();
 		dSet.addSeries(title, data);
+		JFreeChart chart = ChartFactory.createXYLineChart(title, xTag, yTag, dSet);
+		ChartFrame frame = new ChartFrame(title, chart);
+		frame.pack();
+		frame.setVisible(true);
+	}
+	
+	private void plotXYGraph(double[][] dataA, double[][] dataB, String seriesAName, String seriesBName, String title, String xTag, String yTag) {
+		DefaultXYDataset dSet = new DefaultXYDataset();
+		dSet.addSeries(seriesAName, dataA);
+		dSet.addSeries(seriesBName, dataB);
 		JFreeChart chart = ChartFactory.createXYLineChart(title, xTag, yTag, dSet);
 		ChartFrame frame = new ChartFrame(title, chart);
 		frame.pack();
@@ -419,6 +452,10 @@ public class MainFrame extends Observer {
 		
 		if(message == GUIMessage.PLOT_SPEED_DIFF) {
 			plotXYGraph(speedDifferencePlot, "Difference between Actual and Optimal Speeds", "Distance Travelled", "Speed Difference");
+		}
+		
+		if(message == GUIMessage.PLOT_SPEED_COMPARISON) {
+			plotXYGraph(actualSpeedPlot, optimalSpeedPlot,"Actual Speed", "Optimal Speed", "Optimal and Actual Speed", "Distance Travelled", "Speed");
 		}
 		
 		if(message == GUIMessage.EXIT) {

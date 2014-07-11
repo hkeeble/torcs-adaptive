@@ -274,6 +274,26 @@ namespace procPathfinder
 		if (a > 1.0) return 1.0; else return a;
 	}
 
+	double PCarDesc::getMaxSpeed()
+	{
+		// Maximum car speed calculation:
+
+		// Get required values from car handle
+		double maxRPM = GfParmGetNum(me->priv.carHandle, "Engine", "revs maxi", "rpm", 0);
+		double gearRatio = GfParmGetNum(me->priv.carHandle, "Gearbox/gears/6", "ratio", (char*)NULL, 0);
+		double diffRatio = GfParmGetNum(me->priv.carHandle, "Rear Differential", "ratio", (char*)NULL, 0);
+		double wheelDiameter = GfParmGetNum(me->priv.carHandle, "Front Right Wheel", "rim diameter", "in", 0);
+
+		// Compute final gear ratio and wheel circumference in meters
+		double finalGear = gearRatio*diffRatio;
+		double wheelCircumference = (wheelDiameter * M_PI) / 39.370;
+
+		// Calculate maximum theoretical speed in KM/H
+		double maxVel = (maxRPM / 60) * (1 / finalGear) * wheelCircumference;
+		maxVel = (maxVel*3.6)*0.9;
+
+		return maxVel;
+	}
 
 	void POtherCarDesc::init(PTrackDesc* itrack, tCarElt* car, tSituation *situation)
 	{

@@ -64,7 +64,14 @@ public class ValueSequence {
 	}
 	
 	public double getValueAt(int index) {
-		return Double.parseDouble(objects[index].getText());
+		double d = Double.parseDouble(objects[index].getText());
+		System.out.println("Returning:");
+		System.out.println(d);
+		return d;
+	}
+	
+	public String getTextAt(int index) {
+		return objects[index].getText();
 	}
 	
 	public TextObject getClosest(Point2D point) {

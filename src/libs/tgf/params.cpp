@@ -1676,7 +1676,7 @@ evalUnit (char *unit, tdble *dest, int flg)
     @param	val	value in units
     @return	the value in corresponding SI unit
     @warning	The supported units are:
-    			<br><ul><li><b>feet</b> or <b>ft</b>  converted to <b>m</b></li>
+    		<br><ul><li><b>feet</b> or <b>ft</b>  converted to <b>m</b></li>
 			<li><b>inches</b> or <b>in</b> converted to <b>m</b></li>
 			<li><b>lbs</b> converted to <b>kg</b></li>
 			<li><b>slug</b> or <b>slugs</b> converted to <b>kg</b></li>

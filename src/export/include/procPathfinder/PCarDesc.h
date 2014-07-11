@@ -153,6 +153,8 @@ namespace procPathfinder
 			inline double getWheelTrack() { return wheeltrack; }
 			inline double getErrorSgn() { return derrorsgn; }
 
+			double getMaxSpeed();
+
 		private:
 			enum { DRWD = 0, DFWD = 1, D4WD = 2 };
 

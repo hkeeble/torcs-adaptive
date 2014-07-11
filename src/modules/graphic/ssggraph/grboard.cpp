@@ -945,7 +945,7 @@ void grInitBoardCar(tCarElt *car)
 	/* Speedometer */
 	curInst = &(carInfo->instrument[1]);
 	
-	/* Load the Speedometer texture */
+	/* Load the texture */
 	param = GfParmGetStr(handle, SECT_GROBJECTS, PRM_SPEEDO_TEX, "speed360.rgb");
 	snprintf(buf, BUFSIZE, "drivers/%s/%d;drivers/%s;cars/%s;data/textures", car->_modName, car->_driverIndex, car->_modName, car->_carName);
 	grFilePath = _strdup(buf);
