@@ -276,8 +276,6 @@ namespace procPathfinder
 
 	double PCarDesc::getMaxSpeed()
 	{
-		// Maximum car speed calculation:
-
 		// Get required values from car handle
 		double maxRPM = GfParmGetNum(me->priv.carHandle, "Engine", "revs maxi", "rpm", 0);
 		double gearRatio = GfParmGetNum(me->priv.carHandle, "Gearbox/gears/6", "ratio", (char*)NULL, 0);
@@ -290,7 +288,6 @@ namespace procPathfinder
 
 		// Calculate maximum theoretical speed in KM/H
 		double maxVel = (maxRPM / 60) * (1 / finalGear) * wheelCircumference;
-		maxVel = (maxVel*3.6)*0.9;
 
 		return maxVel;
 	}

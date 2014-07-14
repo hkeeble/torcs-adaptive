@@ -4,7 +4,7 @@
 
 namespace perfMeasurement
 {
-	RaceLineEvaluation::RaceLineEvaluation(tCarElt* car, Pathfinder pathfinder, tTrack* track, tSituation* situation) : PMEvaluator(car), speedWeight(0.4), positionWeight(0.6)
+	RaceLineEvaluation::RaceLineEvaluation(tCarElt* car, Pathfinder pathfinder, tTrack* track, tSituation* situation) : PMEvaluator(car), speedWeight(0.1), positionWeight(0.9)
 	{
 		// Initialize track description
 		trackDesc = new PTrackDesc(track);
