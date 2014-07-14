@@ -16,7 +16,7 @@ CarData::CarData(tCarElt* car)
 
 	globalPos - Vector2D();
 	RtTrackLocal2Global(&this->car.pub.trkPos, &globalPos.x, &globalPos.y, TR_TORIGHT);
-	speed = car->_speed_x*3.6;
+	speed = sqrt((car->_speed_x*car->_speed_x) + (car->_speed_y*car->_speed_y) + (car->_speed_z*car->_speed_z)) *3.6;
 }
 
 CarData::~CarData()

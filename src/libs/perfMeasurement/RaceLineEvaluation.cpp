@@ -131,7 +131,7 @@ namespace perfMeasurement
 		if (out.is_open())
 		{
 			for (int i = 0; i < pathfinder->Segs().Count(); i++)
-				out << sqrt(pathfinder->Seg(i)->getSpeedsqr()*3.6) << std::endl;
+				out << sqrt(pathfinder->Seg(i)->getSpeedsqr())*3.6 << std::endl;
 
 			out.close();
 		}

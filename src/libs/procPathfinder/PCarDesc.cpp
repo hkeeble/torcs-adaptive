@@ -287,8 +287,7 @@ namespace procPathfinder
 		double wheelCircumference = (wheelDiameter * M_PI) / 39.370;
 
 		// Calculate maximum theoretical speed in KM/H
-		double maxVel = (maxRPM / 60) * (1 / finalGear) * wheelCircumference;
-
+		double maxVel = ((maxRPM / 60) * wheelCircumference) / (finalGear * gearRatio);
 		return maxVel;
 	}
 
