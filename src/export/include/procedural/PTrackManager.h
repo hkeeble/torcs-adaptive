@@ -29,7 +29,7 @@ namespace procedural
 	#define MAX_SEGS_FROM_END 4
 
 	// The distibution used when generating segment parameters for adaptive tracks.
-	#define NORMAL_DSTRIBUTION 0.1f
+	#define NORMAL_DSTRIBUTION 0.3f
 
 	/*
 	 *! Represents a procedural track type.

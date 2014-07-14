@@ -39,6 +39,8 @@ namespace perfMeasurement
 		int currentSegmentID; /*!< ID of the current segment ID for which performance needs to be evaluated. */
 		int currentPathSegID; /*!< ID of the current path segment. */
 
+		const tdble speedWeight, positionWeight;
+
 	public:
 		//! Create a new race-line evaluation object.
 		/*!

@@ -4,7 +4,7 @@
 
 namespace perfMeasurement
 {
-	RaceLineEvaluation::RaceLineEvaluation(tCarElt* car, Pathfinder pathfinder, tTrack* track, tSituation* situation) : PMEvaluator(car)
+	RaceLineEvaluation::RaceLineEvaluation(tCarElt* car, Pathfinder pathfinder, tTrack* track, tSituation* situation) : PMEvaluator(car), speedWeight(0.4), positionWeight(0.6)
 	{
 		// Initialize track description
 		trackDesc = new PTrackDesc(track);
@@ -43,19 +43,18 @@ namespace perfMeasurement
 			  from line appropriately.
 		*/
 
-		tdble avgDistDiff = 0, avgSpdDistDiff = 0, avgDistMax = 0, avgDistSpd = 0;
-		tdble totalDistDiff = 0, totalSpdDiff = 0;
-		tdble totalDistMax = 0, totalSpdMax = 0;
+		tdble avgDistDiff = 0, avgDistMax = 0;
+		tdble totalDistDiff = 0, totalDistMax = 0;
+
+		tdble totalSpeed = 0, desiredTotalSpeed = 0;
+		tdble avgSpeed = 0, desiredAvgSpeed = 0;
 
 		for (auto d : dataSet)
 		{
 			int currentPathSeg = pathfinder->getCurrentSegment(&d.GetCar()); // Path segment in this data set
 			int currentTrackSeg = trackDesc->getCurrentSegment(&d.GetCar()); // Track segment in this data set
 
-			// Total actual distances
-			totalSpdDiff += abs(pathfinder->Seg(currentPathSeg)->getSpeedsqr() - d.GetData().Speed());
-
-			tdble dist = abs(distToPath(trackDesc, pathfinder->Segs(), currentTrackSeg, new v3d(d.GetCar()._pos_X, d.GetCar()._pos_Y, d.GetCar()._pos_Z)));
+			tdble dist = fabs(distToPath(trackDesc, pathfinder->Segs(), currentTrackSeg, new v3d(d.GetCar()._pos_X, d.GetCar()._pos_Y, d.GetCar()._pos_Z)));
 			totalDistDiff += dist;
 
 			// Total maximum possible distances
@@ -69,15 +68,20 @@ namespace perfMeasurement
 				totalDistMax += pos.toLeft;
 			else
 				totalDistMax += pos.toRight;
+
+			// Speed weighting
+			totalSpeed += d.GetData().Speed();
+			desiredTotalSpeed += pathfinder->Seg(currentPathSeg)->getSpeedsqr();
 		}
 
 		// Calculate average distance from path over segment and average different from optimal speed
 		avgDistDiff = totalDistDiff / dataSet.size();
-		avgSpdDistDiff = totalSpdDiff / dataSet.size();
-
 		avgDistMax = totalDistMax / dataSet.size();
+		
+		tdble positionRating = 1 - (avgDistDiff / avgDistMax); // The position rating for this estimation
+		tdble speedRating = (totalSpeed / dataSet.size()) / (desiredTotalSpeed / dataSet.size());
 
-		currentEstimate = 1 - (avgDistDiff / avgDistMax);
+		currentEstimate = (positionWeight * positionRating) + (speedWeight * speedRating); // Produce final estimate using weighted mean
 	}
 
 	void RaceLineEvaluation::Update(tdble deltaTimeIncrement, tdble currentTime)
@@ -127,7 +131,7 @@ namespace perfMeasurement
 		if (out.is_open())
 		{
 			for (int i = 0; i < pathfinder->Segs().Count(); i++)
-				out << sqrt(pathfinder->Seg(i)->getSpeedsqr()) << std::endl;
+				out << sqrt(pathfinder->Seg(i)->getSpeedsqr()*3.6) << std::endl;
 
 			out.close();
 		}
