@@ -145,4 +145,49 @@ namespace perfMeasurement
 			out.close();
 		}
 	}
+
+	std::vector<tdble> RaceLineEvaluation::Smooth(std::vector<tdble> data, int smoothWidth)
+	{
+		if (smoothWidth < data.size() || smoothWidth <= 0) 
+		{
+			tdble* currentValues = new tdble[smoothWidth];
+			std::vector<tdble> smoothedValues = std::vector<tdble>();
+
+			// Add initial values excluded from smoothing loop
+			for (int i = 0; i < smoothWidth - 2; i++)
+				smoothedValues.push_back(data[i]);
+
+			// Perform smoothing loop
+			for (int n = smoothWidth - 2; n < data.size() - (smoothWidth / 2); n++)
+			{
+
+				tdble sum = 0;
+				for (int i = 1, j = -1;
+					i < floor(smoothWidth / 2) + 1 &&
+					j > -(floor(smoothWidth / 2) + 1);
+					i++, j--) 
+				{
+					sum += data[n + j];
+					sum += data[n + i];
+				}
+
+				sum += data[n];
+
+				smoothedValues.push_back(sum / smoothWidth);
+			}
+
+			// Add final values excluded from smoothing loop
+			for (int i = data.size() - (smoothWidth / 2); i < data.size(); i++)
+				smoothedValues.push_back(data[i]);
+
+			delete[] currentValues;
+
+			return smoothedValues;
+		}
+		else
+		{
+			pmOut("Error! Smoothing width invalid. Returning data set");
+			return data;
+		}
+	}
 }

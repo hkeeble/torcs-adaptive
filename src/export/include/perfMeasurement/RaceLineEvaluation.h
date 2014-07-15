@@ -41,6 +41,14 @@ namespace perfMeasurement
 
 		const tdble speedWeight, positionWeight;
 
+		//! Smooths the given values by a given smooth width. The higher the width, the smoother the values will be.
+		/*!
+			\param data The data to smooth.
+			\param smoothWidth Smooth width. Higher values produce smoother curves. Must be above 0, and below size of the data set.
+			\return The smoothed version of the data passed in.
+		*/
+		std::vector<tdble> Smooth(std::vector<tdble> data, int smoothWidth);
+
 	public:
 		//! Create a new race-line evaluation object.
 		/*!
