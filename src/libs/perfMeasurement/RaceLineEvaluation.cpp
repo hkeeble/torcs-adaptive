@@ -4,7 +4,7 @@
 
 namespace perfMeasurement
 {
-	RaceLineEvaluation::RaceLineEvaluation(tCarElt* car, Pathfinder pathfinder, tTrack* track, tSituation* situation) : PMEvaluator(car), speedWeight(0.1), positionWeight(0.9)
+	RaceLineEvaluation::RaceLineEvaluation(tCarElt* car, Pathfinder pathfinder, tTrack* track, tSituation* situation) : PMEvaluator(car), speedWeight(0.4), positionWeight(0.6)
 	{
 		// Initialize track description
 		trackDesc = new PTrackDesc(track);
@@ -82,6 +82,8 @@ namespace perfMeasurement
 		tdble speedRating = (totalSpeed / dataSet.size()) / (desiredTotalSpeed / dataSet.size());
 
 		currentEstimate = (positionWeight * positionRating) + (speedWeight * speedRating); // Produce final estimate using weighted mean
+
+		estimates.push_back(currentEstimate); // Add to estimate list
 	}
 
 	void RaceLineEvaluation::Update(tdble deltaTimeIncrement, tdble currentTime)
@@ -115,6 +117,7 @@ namespace perfMeasurement
 		remove("actual.dat");
 		remove("optSpeed.dat");
 		remove("actSpeed.dat");
+		remove("perfData.dat");
 
 		pathfinder->PlotPath("optimal.dat");
 
@@ -141,6 +144,15 @@ namespace perfMeasurement
 		{
 			for(auto data : actualData)
 				out << data.GetData().Speed() << std::endl;
+
+			out.close();
+		}
+
+		out = std::fstream("perfData.dat", std::ios::app);
+		if (out.is_open())
+		{
+			for (auto i : estimates)
+				out << i << std::endl;
 
 			out.close();
 		}

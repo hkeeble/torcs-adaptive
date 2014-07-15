@@ -36,10 +36,10 @@ public class UserPanel extends Subject {
 	JPanel renderPanel, speedPanel, plotPanel;
 	
 	// Plot panel buttons
-	JButton plotDistGraph, plotSpeedDiffGraph, plotSpeedComparisonGraph;
+	JButton plotDistGraph, plotSpeedDiffGraph, plotSpeedComparisonGraph, plotSkillLevelGraph;
 	
 	// Render Panel Buttons
-	JButton toggleSpeedRender, togglePointRender;
+	JButton toggleSpeedRender, togglePointRender, toggleSkillRender;
 
 	// Speed panel buttons
 	JButton showOptimalSpeed, showActualSpeed;
@@ -70,10 +70,13 @@ public class UserPanel extends Subject {
 		renderPanel.setBorder(BorderFactory.createTitledBorder("Rendering Options"));
 		togglePointRender = new JButton("Toggle Point/Line Render");
 		toggleSpeedRender = new JButton("Toggle Speed Render");
+		toggleSkillRender = new JButton("Toggle Skill Level Render");
 		togglePointRender.addActionListener(new TogglePointRender());
 		toggleSpeedRender.addActionListener(new ToggleSpeedRender());
+		toggleSkillRender.addActionListener(new ToggleSkillRender());
 		renderPanel.add(toggleSpeedRender);
 		renderPanel.add(togglePointRender);
+		renderPanel.add(toggleSkillRender);
 		
 		// Speed Panel
 		speedPanel.setLayout(new GridLayout(0, 1));
@@ -98,14 +101,17 @@ public class UserPanel extends Subject {
 		plotDistGraph = new JButton("Plot Distance Graph");
 		plotSpeedDiffGraph = new JButton("Plot Speed Difference Graph");
 		plotSpeedComparisonGraph = new JButton("Plot Actual Speed against Optimal Speed");
+		plotSkillLevelGraph = new JButton("Plot Skill Level Graph");
 		
 		plotDistGraph.addActionListener(new PlotDistanceGraphButton());
 		plotSpeedDiffGraph.addActionListener(new PlotSpeedDiffGraph());
 		plotSpeedComparisonGraph.addActionListener(new PlotSpeedComparisonGraph());
+		plotSkillLevelGraph.addActionListener(new PlotSkillLevelGraph());
 		
 		plotPanel.add(plotDistGraph);
 		plotPanel.add(plotSpeedDiffGraph);
 		plotPanel.add(plotSpeedComparisonGraph);
+		plotPanel.add(plotSkillLevelGraph);
 		
 		// Add to input panel
 		inputs.add(renderPanel);
@@ -165,6 +171,15 @@ public class UserPanel extends Subject {
 		}
 	}
 	
+	private class PlotSkillLevelGraph implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			sendMessage(GUIMessage.PLOT_SKILL_LEVEL, null);
+		}
+		
+	}
+	
 	private class TogglePointRender implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
@@ -184,6 +199,15 @@ public class UserPanel extends Subject {
 			}
 			speedPanel.setEnabled(isEnabled);
 		}
+	}
+	
+	private class ToggleSkillRender implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			sendMessage(GUIMessage.TOGGLE_SKILL_RENDER, null);
+		}
+		
 	}
 	
 	private class SpeedResSlider implements ChangeListener {

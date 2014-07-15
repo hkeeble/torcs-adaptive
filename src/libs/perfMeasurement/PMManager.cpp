@@ -67,10 +67,10 @@ namespace perfMeasurement
 
 		// Output driver name
 		file << "-- INFORMATION --\n";
-		file << "Driver: " << Evaluator->GetCar()->info.name << "\n";
-		file << "Car: " << Evaluator->GetCar()->info.carName << "\n";
-		file << "Average Skill Estimate: " << Evaluator->GetAverageEstimate() << "\n";
-		file << "Total number of Estimates: " << Evaluator->GetEstimates().size() << "\n\n";
+		file << "Driver: "						<< Evaluator->GetCar()->info.name		<< "\n";
+		file << "Car: "							<< Evaluator->GetCar()->info.carName	<< "\n";
+		file << "Average Skill Estimate: "		<< Evaluator->GetAverageEstimate()		<< "\n";
+		file << "Total number of Estimates: "	<< Evaluator->GetEstimates().size()		<< "\n\n";
 
 		// Output all estimates in sequential order
 		file << "-- RAW ESTIMATE DATA --\n";

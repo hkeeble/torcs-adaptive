@@ -18,6 +18,8 @@ import javax.swing.JSplitPane;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.data.Range;
 import org.jfree.data.xy.DefaultXYDataset;
 
 public class MainFrame extends Observer {
@@ -43,22 +45,23 @@ public class MainFrame extends Observer {
 	private final String ACTUAL_FILE = "actual.dat";
 	private final String OPTIMAL_SPD_FILE = "optSpeed.dat";
 	private final String ACTUAL_SPD_FILE = "actSpeed.dat";
+	private final String PERF_DATA_FILE = "perfData.dat";
 	
 	// String to represent infinite values
 	private final String FLT_ERR = "1.#INF";
 	
 	// Plots and value sequences
 	private PathPlot track, optimalLine, actualLine;
-	private ValueSequence optimalSpeeds, actualSpeeds;
+	private ValueSequence optimalSpeeds, actualSpeeds, skillLevels;
 	
 	// Processed data
-	private double[][] distancePlot, speedDifferencePlot, optimalSpeedPlot, actualSpeedPlot;
+	private double[][] distancePlot, speedDifferencePlot, optimalSpeedPlot, actualSpeedPlot, skillLevelPlot;
 	
 	// Split pane between surface and input panel
 	private JSplitPane splitPane;
 	
 	// The current type of speed plot
-	private boolean renderSpeed;
+	private boolean renderSpeed, renderSkill;
 	private SpeedPlotType speedPlotType;
 	
 	// The previous directory used for loading data
@@ -149,6 +152,13 @@ public class MainFrame extends Observer {
 			readSpeeds();	
 		} catch (Exception e) {
 			outputPanel.send("Error reading speeds: " + e.getMessage());
+			success = false;
+		}
+		
+		try {
+			readSkillLevels();
+		} catch(Exception e) {
+			outputPanel.send("Error reading performance measurement data: " + e.getMessage());
 			success = false;
 		}
 		
@@ -262,6 +272,26 @@ public class MainFrame extends Observer {
 		fr.close();
 	}
 	
+	private void readSkillLevels() throws IOException, FileNotFoundException {
+		FileReader fr = new FileReader(CURRENT_DATA_DIR + "/" + PERF_DATA_FILE);
+		BufferedReader textReader = new BufferedReader(fr);
+		ArrayList<TextObject> skillPlot = new ArrayList<TextObject>();
+		String line;
+		while((line = textReader.readLine()) != null) {
+			skillPlot.add(new TextObject(line, new Point2D.Double(0, 0), Color.black));
+		}
+
+		double div = Math.floor(actualLine.getPointCount()/skillPlot.size());
+		for(int i = 0, j = 0; i < skillPlot.size(); i++, j+=div) {
+			skillPlot.get(i).setPosition(actualLine.getPoint(j));
+		}
+		
+		skillLevels = new ValueSequence(skillPlot.toArray(new TextObject[skillPlot.size()]));
+		
+		fr.close();
+		textReader.close();
+	}
+	
 	private boolean processData() {
 		outputPanel.send("Processing data from plots.");
 		
@@ -324,6 +354,17 @@ public class MainFrame extends Observer {
 			success = false;
 		}
 		
+		try {
+			skillLevelPlot = new double[2][skillLevels.size()];	
+			for(int i = 0; i < skillLevels.size(); i++) {
+				skillLevelPlot[0][i] = i;
+				skillLevelPlot[1][i] = skillLevels.getValueAt(i);
+			}
+		} catch (Exception e) {
+			outputPanel.send("Error formatting skill data for plotting: " + e.getMessage());
+			success = false;
+		}
+		
 		outputPanel.send("Successfully processed all data.");
 		
 		return success;
@@ -355,8 +396,6 @@ public class MainFrame extends Observer {
 		drawSurface.addPlotData(actualLine);
 		drawSurface.addPlotData(optimalLine);
 		drawSurface.repaint();
-		
-		outputPanel.send(String.valueOf(Double.POSITIVE_INFINITY));
 	}
 	
 	private void plotData() {
@@ -368,23 +407,23 @@ public class MainFrame extends Observer {
 		userPanel.setSliderValues(optimalSpeeds.getMaxRes(), optimalSpeeds.getMinRes());
 	}
 	
-	private void plotXYGraph(double[][] data, String title, String xTag, String yTag) {
+	private ChartFrame plotXYGraph(double[][] data, String title, String xTag, String yTag) {
 		DefaultXYDataset dSet = new DefaultXYDataset();
 		dSet.addSeries(title, data);
 		JFreeChart chart = ChartFactory.createXYLineChart(title, xTag, yTag, dSet);
 		ChartFrame frame = new ChartFrame(title, chart);
 		frame.pack();
-		frame.setVisible(true);
+		return frame;
 	}
 	
-	private void plotXYGraph(double[][] dataA, double[][] dataB, String seriesAName, String seriesBName, String title, String xTag, String yTag) {
+	private ChartFrame plotXYGraph(double[][] dataA, double[][] dataB, String seriesAName, String seriesBName, String title, String xTag, String yTag) {
 		DefaultXYDataset dSet = new DefaultXYDataset();
 		dSet.addSeries(seriesAName, dataA);
 		dSet.addSeries(seriesBName, dataB);
 		JFreeChart chart = ChartFactory.createXYLineChart(title, xTag, yTag, dSet);
 		ChartFrame frame = new ChartFrame(title, chart);
 		frame.pack();
-		frame.setVisible(true);
+		return frame;
 	}
 	
 	public void notify(GUIMessage message, Object userValue) {
@@ -421,6 +460,20 @@ public class MainFrame extends Observer {
 			drawSurface.repaint();
 		}
 		
+		// Handle toggle of skill level rendering
+		if(message == GUIMessage.TOGGLE_SKILL_RENDER) {
+			renderSkill = !renderSkill;
+			
+			if(renderSkill) {
+				drawSurface.addValueSequence(skillLevels);
+			}
+			else {
+				drawSurface.removeValueSequence(skillLevels);
+			}
+			
+			drawSurface.repaint();
+		}
+		
 		// Modify the speed display resolution
 		if(message == GUIMessage.CHANGE_SPEED_RES) {
 			if(speedPlotType == SpeedPlotType.OPTIMAL)
@@ -451,11 +504,17 @@ public class MainFrame extends Observer {
 		}
 		
 		if(message == GUIMessage.PLOT_SPEED_DIFF) {
-			plotXYGraph(speedDifferencePlot, "Difference between Actual and Optimal Speeds", "Distance Travelled", "Speed Difference");
+			plotXYGraph(speedDifferencePlot, "Difference between Actual and Optimal Speeds", "Distance Travelled", "Speed Difference").setVisible(true);
 		}
 		
 		if(message == GUIMessage.PLOT_SPEED_COMPARISON) {
-			plotXYGraph(actualSpeedPlot, optimalSpeedPlot,"Actual Speed", "Optimal Speed", "Optimal and Actual Speed", "Distance Travelled", "Speed");
+			plotXYGraph(actualSpeedPlot, optimalSpeedPlot,"Actual Speed", "Optimal Speed", "Optimal and Actual Speed", "Distance Travelled", "Speed").setVisible(true);
+		}
+		
+		if(message == GUIMessage.PLOT_SKILL_LEVEL) {
+			ChartFrame chart = plotXYGraph(skillLevelPlot, "Skill Level Plot", "Evaluation Index", "Performance Value");
+			chart.getChartPanel().getChart().getXYPlot().getRangeAxis().setRange(new Range(0, 1));
+			chart.setVisible(true);
 		}
 		
 		if(message == GUIMessage.EXIT) {

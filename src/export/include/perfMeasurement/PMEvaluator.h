@@ -63,7 +63,7 @@ namespace perfMeasurement
 		tdble GetCurrentEstimate() const { return currentEstimate; }
 		
 		/** Retrieve the current average skill level estimate from the evaluator. */
-		tdble GetAverageEstimate() const { return avgEstimate; }
+		tdble GetAverageEstimate() const { tdble sum = 0; for (auto i : estimates) sum += i; return sum / estimates.size(); }
 
 		/** Retrieve a collection of all the estimates in sequential order for the current race. */
 		const std::vector<tdble> GetEstimates() const { return estimates; }
