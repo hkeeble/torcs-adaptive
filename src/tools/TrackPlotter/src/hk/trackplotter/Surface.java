@@ -118,12 +118,12 @@ public class Surface implements MouseMotionListener, MouseInputListener, MouseWh
 
 		@Override
 		public void componentHidden(ComponentEvent arg0) {
-
+			drawSurface.repaint();
 		}
 
 		@Override
 		public void componentMoved(ComponentEvent arg0) {
-
+			drawSurface.repaint();
 		}
 
 		@Override
@@ -133,7 +133,7 @@ public class Surface implements MouseMotionListener, MouseInputListener, MouseWh
 
 		@Override
 		public void componentShown(ComponentEvent arg0) {
-
+			drawSurface.repaint();
 		}
 		
 	}

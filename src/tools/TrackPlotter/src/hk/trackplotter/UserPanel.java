@@ -33,7 +33,7 @@ public class UserPanel extends Subject {
 	
 	// Input Panels
 	JPanel inputs;
-	JPanel renderPanel, speedPanel, plotPanel;
+	JPanel renderPanel, speedPanel, plotPanel, miscPanel;
 	
 	// Plot panel buttons
 	JButton plotDistGraph, plotSpeedDiffGraph, plotSpeedComparisonGraph, plotSkillLevelGraph;
@@ -44,6 +44,9 @@ public class UserPanel extends Subject {
 	// Speed panel buttons
 	JButton showOptimalSpeed, showActualSpeed;
 	JSlider speedResSlider;
+	
+	// Summary Button
+	JButton showRaceSummary;
 	
 	public UserPanel() {
 		super();
@@ -61,6 +64,7 @@ public class UserPanel extends Subject {
 		renderPanel = new JPanel();
 		speedPanel = new JPanel();
 		plotPanel = new JPanel();
+		miscPanel = new JPanel();
 		
 		inputs.setLayout(new GridLayout(0, 1));
 		inputs.setBorder(BorderFactory.createTitledBorder("Inputs"));
@@ -113,10 +117,17 @@ public class UserPanel extends Subject {
 		plotPanel.add(plotSpeedComparisonGraph);
 		plotPanel.add(plotSkillLevelGraph);
 		
+		miscPanel.setLayout(new GridLayout(0, 1));
+		miscPanel.setBorder(BorderFactory.createTitledBorder("Other Options"));
+		showRaceSummary = new JButton("Show Race Summary");
+		showRaceSummary.addActionListener(new ShowRaceSummary());
+		miscPanel.add(showRaceSummary);
+		
 		// Add to input panel
 		inputs.add(renderPanel);
 		inputs.add(speedPanel);
 		inputs.add(plotPanel);
+		inputs.add(miscPanel);
 		
 		setActive(false);
 	}
@@ -231,6 +242,13 @@ public class UserPanel extends Subject {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			sendMessage(GUIMessage.CHANGE_SPD_RENDER, SpeedPlotType.ACTUAL);
+		}
+	}
+	
+	private class ShowRaceSummary implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			sendMessage(GUIMessage.SHOW_RACE_SUMMARY, null);
 		}
 	}
 	

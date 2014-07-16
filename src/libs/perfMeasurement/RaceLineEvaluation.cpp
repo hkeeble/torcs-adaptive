@@ -49,6 +49,14 @@ namespace perfMeasurement
 		tdble totalSpeed = 0, desiredTotalSpeed = 0;
 		tdble avgSpeed = 0, desiredAvgSpeed = 0;
 
+		// Smooth speeds for this segment before evaluating
+		
+		// First, construct a vector containing neccesary speed values
+		std::vector<tdble> smoothedSpeeds = std::vector<tdble>();
+		for (auto d : dataSet)
+			smoothedSpeeds.push_back(pathfinder->Seg(pathfinder->getCurrentSegment(&d.GetCar()))->getSpeedsqr());
+
+		int count = 0;
 		for (auto d : dataSet)
 		{
 			int currentPathSeg = pathfinder->getCurrentSegment(&d.GetCar()); // Path segment in this data set
@@ -71,7 +79,8 @@ namespace perfMeasurement
 
 			// Speed weighting
 			totalSpeed += d.GetData().Speed();
-			desiredTotalSpeed += pathfinder->Seg(currentPathSeg)->getSpeedsqr();
+			desiredTotalSpeed += sqrt(smoothedSpeeds[count]);
+			count++;
 		}
 
 		// Calculate average distance from path over segment and average different from optimal speed
@@ -91,6 +100,9 @@ namespace perfMeasurement
 		trackDesc->Update();
 		pathfinder->Update(carDesc);
 		
+		// Smooth all speed values
+		// SmoothSpeeds(219);
+
 		// If the car is on a new path segment, add new data
 		int prev = currentPathSegID;
 		currentPathSegID = pathfinder->getCurrentSegment(car);
@@ -200,6 +212,20 @@ namespace perfMeasurement
 		{
 			pmOut("Error! Smoothing width invalid. Returning data set");
 			return data;
+		}
+	}
+
+	void RaceLineEvaluation::SmoothSpeeds(int width)
+	{
+		std::vector<tdble> smoothed = std::vector<tdble>();
+		for (int i = 0; i < pathfinder->Segs().Count(); i++) {
+			smoothed.push_back(pathfinder->Seg(i)->getSpeedsqr());
+		}
+
+		smoothed = Smooth(smoothed, width);
+
+		for (int i = 0; i < pathfinder->Segs().Count(); i++) {
+			pathfinder->Seg(i)->setSpeedsqr(smoothed[i]);
 		}
 	}
 }

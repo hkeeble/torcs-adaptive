@@ -74,6 +74,10 @@ public class ValueSequence {
 		return objects[index].getText();
 	}
 	
+	public Point2D getPositionOf(int index) {
+		return objects[index].getPosition();
+	}
+	
 	public TextObject getClosest(Point2D point) {
 		TextObject closest = objects[0];
 		double currentDist = closest.getPosition().distance(point);

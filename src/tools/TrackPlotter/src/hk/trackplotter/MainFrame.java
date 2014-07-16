@@ -9,16 +9,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.ValueAxis;
 import org.jfree.data.Range;
 import org.jfree.data.xy.DefaultXYDataset;
 
@@ -56,6 +57,9 @@ public class MainFrame extends Observer {
 	
 	// Processed data
 	private double[][] distancePlot, speedDifferencePlot, optimalSpeedPlot, actualSpeedPlot, skillLevelPlot;
+	
+	// Averages
+	double averageDistance, averageSpeed, optimalAverageSpeed, averageSkillLevel;
 	
 	// Split pane between surface and input panel
 	private JSplitPane splitPane;
@@ -282,9 +286,12 @@ public class MainFrame extends Observer {
 		}
 
 		double div = Math.floor(actualLine.getPointCount()/skillPlot.size());
+		double total = 0;
 		for(int i = 0, j = 0; i < skillPlot.size(); i++, j+=div) {
 			skillPlot.get(i).setPosition(actualLine.getPoint(j));
+			total += Double.parseDouble(skillPlot.get(i).getText());
 		}
+		averageSkillLevel = total/skillPlot.size();
 		
 		skillLevels = new ValueSequence(skillPlot.toArray(new TextObject[skillPlot.size()]));
 		
@@ -298,14 +305,17 @@ public class MainFrame extends Observer {
 		boolean success = true;
 		
 		// Compute distance plot
+		double total = 0; // Used to calculate the averages
 		try {
 			outputPanel.send("Computing distance plot...");
 			distancePlot = new double[2][actualLine.getPointCount()];
 			for(int i = 0; i < actualLine.getPointCount(); i++) {
 				distancePlot[0][i] = i;
 				distancePlot[1][i] = optimalLine.getDistance(actualLine.getPoint(i));
+				total += optimalLine.getDistance(actualLine.getPoint(i));
 			}
 			outputPanel.send("Distance plot completed.");
+			averageDistance = total/actualLine.getPointCount();
 		} catch (Exception e) {
 			outputPanel.send("Error computing distance plot: " + e.getMessage());
 			success = false;
@@ -315,6 +325,7 @@ public class MainFrame extends Observer {
 		try {
 			outputPanel.send("Computing speed difference plot...");
 			speedDifferencePlot = new double[2][actualLine.getPointCount()];
+			total = 0;
 			for(int i = 0; i < actualLine.getPointCount(); i++) {
 				speedDifferencePlot[0][i] = i;
 
@@ -338,10 +349,15 @@ public class MainFrame extends Observer {
 			actualSpeedPlot = new double[2][actualSpeeds.size()];
 			optimalSpeedPlot = new double[2][optimalSpeeds.size()];
 
+			double totalSpeed = 0, totalOptSpeed = 0;
 			for(int i = 0; i < actualSpeeds.size(); i++) {
 				actualSpeedPlot[0][i] = i;
 				actualSpeedPlot[1][i] = actualSpeeds.getValueAt(i);
+				totalSpeed += actualSpeedPlot[1][i];
+				totalOptSpeed += Double.parseDouble(optimalSpeeds.getClosest(actualSpeeds.getPositionOf(i)).getText());
 			}
+			averageSpeed = totalSpeed/actualSpeeds.size();
+			optimalAverageSpeed = totalOptSpeed/actualSpeeds.size();
 
 			for(int i = 0; i < optimalSpeeds.size(); i++) {
 				optimalSpeedPlot[0][i] = i;
@@ -430,7 +446,7 @@ public class MainFrame extends Observer {
 		
 		// Plot a distance difference graph
 		if(message == GUIMessage.PLOT_DISTANCE_DIFF) {
-			plotXYGraph(distancePlot, "Distance to Optimal Path", "Distance Travelled", "Distance to Optimal Path");
+			plotXYGraph(distancePlot, "Distance to Optimal Path", "Distance Travelled", "Distance to Optimal Path").setVisible(true);
 		}
 		
 		// Handle toggle point render
@@ -543,6 +559,14 @@ public class MainFrame extends Observer {
 			}
 			
 			prevDir = fileChooser.getCurrentDirectory().toString();
+		}
+		
+		if(message == GUIMessage.SHOW_RACE_SUMMARY) {
+			DecimalFormat d = new DecimalFormat("#.##");
+			
+			JOptionPane.showMessageDialog(frame, "Average Speed: " + String.valueOf(d.format(averageSpeed)) + "   Optimal Average Speed: " + String.valueOf(d.format(optimalAverageSpeed)) + "\n" +
+												  "Average Distance from path: " + String.valueOf(d.format(averageDistance)) + "\n" +
+												  "Average Skill Level: " + String.valueOf(d.format(averageSkillLevel)), "Race Summary", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 	

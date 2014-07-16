@@ -48,6 +48,12 @@ namespace perfMeasurement
 			\return The smoothed version of the data passed in.
 		*/
 		std::vector<tdble> Smooth(std::vector<tdble> data, int smoothWidth);
+		
+		//! Smooths all the speed values currently held by the pathfinder by the given width.
+		/*!
+			\param width The width of the rectangular smoothing function.
+		*/
+		void SmoothSpeeds(int width);
 
 	public:
 		//! Create a new race-line evaluation object.
