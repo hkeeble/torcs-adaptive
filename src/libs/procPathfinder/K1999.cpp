@@ -9,9 +9,9 @@
 
 namespace procPathfinder
 {
-	K1999::K1999(PTrackDesc* track) : PPathfinder(track)
+	K1999::K1999(PTrackDesc* track) : PPathfinder(track), SEGMENT_RANGE(6)
 	{
-		// Nothing yet
+		currentSegID = 0;
 	}
 
 	K1999::~K1999()
@@ -26,9 +26,45 @@ namespace procPathfinder
 		v3d dir;
 		int i;
 
+		// Calculate the range that needs to be planned
+		int firstID = 0; // ID of the first path segment in the range
+		int segCount = 0; // Number of path segments in the range
+
+		path = std::vector<PathSeg>(); // The segments in the path
+
+		currentSegID = track->getSegmentPtr(track->getCurrentSegment(myc->getCarPtr()))->getTrackSegment()->id;
+
+		// Construct a path segment collection of the correct size
+		if (currentSegID >= SEGMENT_RANGE+1)
+		{
+			tdble segsAhead = ceil((tdble)SEGMENT_RANGE / 2.0f);
+			tdble segsBehind = SEGMENT_RANGE - segsAhead;
+
+			// Loop to find first segment ID
+			PTrackSegment* trkSeg = track->getSegmentPtr(0);
+			i = 0;
+			while (trkSeg->getTrackSegment()->id != currentSegID - segsBehind) {
+				i++;
+				trkSeg = track->getSegmentPtr(i);
+			}
+
+			firstID = i;
+
+			// Find the number of segments
+			while (trkSeg->getTrackSegment()->id != currentSegID + segsAhead) {
+				segCount++;
+				trkSeg = track->getSegmentPtr(firstID + segCount);
+			}
+
+			path = std::vector<PathSeg>(segCount);
+		}
+		else
+			path = std::vector<PathSeg>(track->segmentCount());
+
 		/* Initialize location to center of the given segment */
-		for (i = 0; i < ps.Count(); i++)
-			ps(i)->setLoc(track->getSegmentPtr(i)->getMiddle());
+		for (i = 0; i < path.size(); i++) {
+			path[i].setLoc(track->getSegmentPtr(firstID+i)->getMiddle());
+		}
 
 		/* compute path */
 		for (int step = 128; (step /= 2) > 0;) {
@@ -37,27 +73,29 @@ namespace procPathfinder
 		}
 
 		/* init optimal path */
-		for (i = 0; i < ps.Count(); i++) {
-			ps(i)->setOptLoc(ps(i)->getLoc());
-			ps(i)->setPitLoc(ps(i)->getOptLoc());
+		for (i = 0; i < path.size(); i++) {
+			path[i].setOptLoc(path[i].getLoc());
+			path[i].setPitLoc(path[i].getOptLoc());
 		}
 
 		/* compute possible speeds, direction vector and length of trajectoies */
-		u = ps.Count() - 1; v = 0; w = 1;
+		u = path.size() - 1; v = 0; w = 1;
 
-		for (i = 0; i < ps.Count(); i++)
+		for (i = 0; i < path.size(); i++)
 		{
-			r = radius( ps(u)->getLoc()->x, ps(u)->getLoc()->y,
-						ps(v)->getLoc()->x, ps(v)->getLoc()->y,
-						ps(w)->getLoc()->x, ps(w)->getLoc()->y);
-			ps(i)->setRadius(r);
+			r = radius(path[u].getLoc()->x, path[u].getLoc()->y,
+						path[v].getLoc()->x, path[v].getLoc()->y,
+						path[w].getLoc()->x, path[w].getLoc()->y);
+
+			path[i].setRadius(r);
+
 			r = fabs(r);
 
 			tdble mu = track->getSegmentPtr(i)->getKfriction()*myc->CFRICTION*track->getSegmentPtr(i)->getKalpha();
 			tdble b = track->getSegmentPtr(i)->getKbeta();
 
 			speedsqr = myc->SPEEDSQRFACTOR*r*g*mu / (1.0 - MIN(1.0, (mu*myc->ca*r / myc->mass)) + mu*r*b);
-
+			
 			double maxSpeed = myc->getMaxSpeed();
 			double maxSpeedSqr = maxSpeed*maxSpeed;
 
@@ -65,15 +103,18 @@ namespace procPathfinder
 				speedsqr = maxSpeedSqr;
 			}
 
-			dir = *(ps(w)->getLoc()) - (*ps(u)->getLoc());
-			length = dist(ps(v)->getLoc(), ps(w)->getLoc());
+			dir = *path[w].getLoc() - *path[u].getLoc();
+			length = dist(path[v].getLoc(), path[w].getLoc());
 
 			dir.normalize();
 
-			ps(i)->set(speedsqr, length, &dir);
+			path[i].set(speedsqr, length, &dir);
 
-			u = v; v = w; w = (w + 1 + ps.Count()) % ps.Count();
+			u = v; v = w; w = (w + 1 + path.size()) % path.size();
 		}
+
+		// Insert calculated path into segment collection
+		ps.Insert(path, firstID);
 
 		// Record the PS count on this call
 		previousPSCount = ps.Count();
@@ -106,14 +147,14 @@ namespace procPathfinder
 		v3d *rgh = t->getToRight();
 		v3d *left = t->getLeftBorder();
 		v3d *right = t->getRightBorder();
-		v3d *rs = ps(s)->getLoc(), *rp = ps(p)->getLoc(), *re = ps(e)->getLoc(), n;
+		v3d *rs = path[s].getLoc(), *rp = path[p].getLoc(), *re = path[e].getLoc(), n;
 		double oldlane = track->distToMiddle(p, rp) / t->getWidth() + 0.5;
 
 		double rgx = (re->x - rs->x), rgy = (re->y - rs->y);
 		double m = (rs->x * rgy + rgx * rp->y - rs->y * rgx - rp->x * rgy) / (rgy * rgh->x - rgx * rgh->y);
 
 		n = (*rp) + (*rgh)*m;
-		ps(p)->setLoc(&n);
+		path[p].setLoc(&n);
 		double newlane = track->distToMiddle(p, rp) / t->getWidth() + 0.5;
 
 		/* get an estimate how much the curvature changes by moving the point 1/10000 of track width */
@@ -149,7 +190,7 @@ namespace procPathfinder
 			v3d* trackmiddle = t->getMiddle();
 
 			n = (*trackmiddle) + (*rgh)*d;
-			ps(p)->setLoc(&n);
+			path[p].setLoc(&n);
 		}
 	}
 
@@ -157,17 +198,17 @@ namespace procPathfinder
 	/* interpolation step from Remi Coulom, K1999.cpp */
 	void K1999::stepInterpolate(int iMin, int iMax, int Step)
 	{
-		int next = (iMax + Step) % ps.Count();
-		if (next > ps.Count() - Step) next = 0;
+		int next = (iMax + Step) % path.size();
+		if (next > path.size() - Step) next = 0;
 
-		int prev = (((ps.Count() + iMin - Step) % ps.Count()) / Step) * Step;
-		if (prev > ps.Count() - Step)
+		int prev = (((path.size() + iMin - Step) % path.size()) / Step) * Step;
+		if (prev > path.size() - Step)
 			prev -= Step;
 
-		v3d *pp = ps(prev)->getLoc();
-		v3d *p = ps(iMin)->getLoc();
-		v3d *pn = ps(iMax % ps.Count())->getLoc();
-		v3d *pnn = ps(next)->getLoc();
+		v3d *pp = path[prev].getLoc();
+		v3d *p = path[iMin].getLoc();
+		v3d *pn = path[iMax % path.size()].getLoc();
+		v3d *pnn = path[next].getLoc();
 
 		double ir0 = curvature(pp->x, pp->y, p->x, p->y, pn->x, pn->y);
 		double ir1 = curvature(p->x, p->y, pn->x, pn->y, pnn->x, pnn->y);
@@ -175,7 +216,7 @@ namespace procPathfinder
 		for (int k = iMax; --k > iMin;) {
 			double x = double(k - iMin) / double(iMax - iMin);
 			double TargetRInverse = x * ir1 + (1 - x) * ir0;
-			adjustRadius(iMin, k, iMax % ps.Count(), TargetRInverse, 0.0);
+			adjustRadius(iMin, k, iMax % path.size(), TargetRInverse, 0.0);
 		}
 	}
 
@@ -185,8 +226,8 @@ namespace procPathfinder
 	{
 		if (step > 1) {
 			int i;
-			for (i = step; i <= ps.Count() - step; i += step) stepInterpolate(i - step, i, step);
-			stepInterpolate(i - step, ps.Count(), step);
+			for (i = step; i <= path.size() - step; i += step) stepInterpolate(i - step, i, step);
+			stepInterpolate(i - step, path.size(), step);
 		}
 	}
 
@@ -194,19 +235,19 @@ namespace procPathfinder
 	/* smoothing from Remi Coulom, K1999.cpp */
 	void K1999::smooth(int Step)
 	{
-		int prev = ((ps.Count() - Step) / Step) * Step;
+		int prev = ((path.size() - Step) / Step) * Step;
 		int prevprev = prev - Step;
 		int next = Step;
 		int nextnext = next + Step;
 
 		v3d *pp, *p, *n, *nn, *cp;
 
-		for (int i = 0; i <= ps.Count() - Step; i += Step) {
-			pp = ps(prevprev)->getLoc();
-			p = ps(prev)->getLoc();
-			cp = ps(i)->getLoc();
-			n = ps(next)->getLoc();
-			nn = ps(nextnext)->getLoc();
+		for (int i = 0; i <= path.size() - Step; i += Step) {
+			pp = path[prevprev].getLoc();
+			p = path[prev].getLoc();
+			cp = path[i].getLoc();
+			n = path[next].getLoc();
+			nn = path[nextnext].getLoc();
 
 			double ir0 = curvature(pp->x, pp->y, p->x, p->y, cp->x, cp->y);
 			double ir1 = curvature(cp->x, cp->y, n->x, n->y, nn->x, nn->y);
@@ -225,7 +266,7 @@ namespace procPathfinder
 			prev = i;
 			next = nextnext;
 			nextnext = next + Step;
-			if (nextnext > ps.Count() - Step) nextnext = 0;
+			if (nextnext > path.size() - Step) nextnext = 0;
 		}
 	}
 }

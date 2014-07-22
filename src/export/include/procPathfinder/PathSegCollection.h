@@ -37,6 +37,12 @@ namespace procPathfinder
 		/* Appends the new segments into the collection. A copy is made of the segments passed in - calling code is responsible for deletion of the other segments */ 
 		void Append(const vector<PathSeg> newSegs);
 		
+		/* Clears the segment collection. */
+		void Clear() { segs.clear(); }
+
+		/* Inserts a collection of path segments from the given ID. If the segments overrun the size of the collection, they will be appended to the end. */
+		void Insert(const vector<PathSeg> newSegs, int id);
+
 		/* The number of pathsegs stored */
 		int Count() const { return segs.size(); }
 

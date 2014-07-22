@@ -1,6 +1,7 @@
 #include "perfMeasurement\RaceLineEvaluation.h"
 #include "K1999.h"
 #include "BerniwPathfinding.h"
+#include <math.h>
 
 namespace perfMeasurement
 {

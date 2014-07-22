@@ -48,7 +48,7 @@ namespace procPathfinder
 			virtual void Plan(PCarDesc* myc) = 0;
 
 			/*!< Used to update the pathfinder when new track exists. */
-			void Update(PCarDesc* carDesc);
+			virtual void Update(PCarDesc* carDesc);
 
 			/*!< Plots the current path to the optimal file. */
 			void PlotPath(char* filename);
@@ -72,6 +72,9 @@ namespace procPathfinder
 			const PathSegCollection& Segs() const;
 
 		protected:
+			virtual void UpdateTrackDesc(PCarDesc* carDesc); /*!< Used to update the track description where neccesary. */
+			virtual void UpdatePath(PCarDesc* carDesc); /*!< Used to update the path where neccesary. */
+
 			static const double TPRES;		/* resolution of the steps */
 			enum { NTPARAMS = 1001 };		/* # entries in dat files */
 

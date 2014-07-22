@@ -62,6 +62,16 @@ namespace procPathfinder
 			segs.push_back(i);
 	}
 
+	void PathSegCollection::Insert(const vector<PathSeg> newSegs, int id)
+	{
+		for (int i = 0; i < newSegs.size(); i++) {
+			if (segs.size() > i + id)
+				segs.at(id + i) = newSegs[i];
+			else
+				segs.push_back(newSegs[i]);
+		}
+	}
+
 	void PathSegCollection::cpy(const PathSegCollection& param)
 	{
 		segs = vector<PathSeg>(param.segs);

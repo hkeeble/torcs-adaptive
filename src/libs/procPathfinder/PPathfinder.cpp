@@ -46,12 +46,22 @@ namespace procPathfinder
 
 	void PPathfinder::Update(PCarDesc* carDesc)
 	{
+		UpdateTrackDesc(carDesc);
+		UpdatePath(carDesc);
+	}
+
+	void PPathfinder::UpdateTrackDesc(PCarDesc* carDesc)
+	{
 		track->Update();
-		stateMngr.Update();
 
 		// Calculate distance to look ahead
 		ahead = track->GetTorcsTrack()->length - getCurrentSegment(carDesc->getCarPtr());
 
+	}
+
+	void PPathfinder::UpdatePath(PCarDesc* carDesc)
+	{
+		stateMngr.Update();
 		if (stateMngr.IsUpdateNeeded())
 		{
 			// Calculate the number of path segments that need to be added
