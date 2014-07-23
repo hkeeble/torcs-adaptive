@@ -51,11 +51,6 @@ namespace perfMeasurement
 
 		// Smooth speeds for this segment before evaluating
 		
-		// First, construct a vector containing neccesary speed values
-		std::vector<tdble> smoothedSpeeds = std::vector<tdble>();
-		for (auto d : dataSet)
-			smoothedSpeeds.push_back(pathfinder->Seg(pathfinder->getCurrentSegment(&d.GetCar()))->getSpeedsqr());
-
 		int count = 0;
 		for (auto d : dataSet)
 		{
@@ -79,7 +74,7 @@ namespace perfMeasurement
 
 			// Speed weighting
 			totalSpeed += d.GetData().Speed();
-			desiredTotalSpeed += sqrt(smoothedSpeeds[count]);
+			desiredTotalSpeed += sqrt(pathfinder->Seg(pathfinder->getCurrentSegment(&d.GetCar()))->getSpeedsqr());
 			count++;
 		}
 
@@ -155,7 +150,7 @@ namespace perfMeasurement
 		if (out.is_open())
 		{
 			for(auto data : actualData)
-				out << data.GetData().Speed() << std::endl;
+				out << data.GetData().Speed()*3.6 << std::endl;
 
 			out.close();
 		}
