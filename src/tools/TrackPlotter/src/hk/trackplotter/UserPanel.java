@@ -36,7 +36,7 @@ public class UserPanel extends Subject {
 	JPanel renderPanel, speedPanel, plotPanel, miscPanel;
 	
 	// Plot panel buttons
-	JButton plotDistGraph, plotSpeedDiffGraph, plotSpeedComparisonGraph, plotSkillLevelGraph;
+	JButton plotDistGraph, plotSpeedDiffGraph, plotSpeedComparisonGraph, plotSkillLevelGraph, plotCurvatureGraph;
 	
 	// Render Panel Buttons
 	JButton toggleSpeedRender, togglePointRender, toggleSkillRender;
@@ -106,16 +106,19 @@ public class UserPanel extends Subject {
 		plotSpeedDiffGraph = new JButton("Plot Speed Difference Graph");
 		plotSpeedComparisonGraph = new JButton("Plot Actual Speed against Optimal Speed");
 		plotSkillLevelGraph = new JButton("Plot Skill Level Graph");
+		plotCurvatureGraph = new JButton("Plot Track Curvature");
 		
 		plotDistGraph.addActionListener(new PlotDistanceGraphButton());
 		plotSpeedDiffGraph.addActionListener(new PlotSpeedDiffGraph());
 		plotSpeedComparisonGraph.addActionListener(new PlotSpeedComparisonGraph());
 		plotSkillLevelGraph.addActionListener(new PlotSkillLevelGraph());
+		plotCurvatureGraph.addActionListener(new PlotTrackCurvatureGraph());
 		
 		plotPanel.add(plotDistGraph);
 		plotPanel.add(plotSpeedDiffGraph);
 		plotPanel.add(plotSpeedComparisonGraph);
 		plotPanel.add(plotSkillLevelGraph);
+		plotPanel.add(plotCurvatureGraph);
 		
 		miscPanel.setLayout(new GridLayout(0, 1));
 		miscPanel.setBorder(BorderFactory.createTitledBorder("Other Options"));
@@ -159,6 +162,13 @@ public class UserPanel extends Subject {
 		mainPanel.setPreferredSize(new Dimension(200, 900));
 		
 		return table;
+	}
+	
+	private class PlotTrackCurvatureGraph implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			sendMessage(GUIMessage.PLOT_TRACK_CURVATURE, null);
+		}
 	}
 	
 	private class PlotDistanceGraphButton implements ActionListener {

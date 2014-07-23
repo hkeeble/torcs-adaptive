@@ -47,6 +47,7 @@ public class MainFrame extends Observer {
 	private final String OPTIMAL_SPD_FILE = "optSpeed.dat";
 	private final String ACTUAL_SPD_FILE = "actSpeed.dat";
 	private final String PERF_DATA_FILE = "perfData.dat";
+	private final String TRACK_CURVATURE_FILE = "curvature.dat";
 	
 	// String to represent infinite values
 	private final String FLT_ERR = "1.#INF";
@@ -56,10 +57,10 @@ public class MainFrame extends Observer {
 	private ValueSequence optimalSpeeds, actualSpeeds, skillLevels;
 	
 	// Processed data
-	private double[][] distancePlot, speedDifferencePlot, optimalSpeedPlot, actualSpeedPlot, skillLevelPlot;
+	private double[][] distancePlot, speedDifferencePlot, optimalSpeedPlot, actualSpeedPlot, skillLevelPlot, curvaturePlot;
 	
 	// Averages
-	double averageDistance, averageSpeed, optimalAverageSpeed, averageSkillLevel;
+	double averageDistance, averageSpeed, optimalAverageSpeed, averageSkillLevel, averageCurvature;
 	
 	// Split pane between surface and input panel
 	private JSplitPane splitPane;
@@ -163,6 +164,13 @@ public class MainFrame extends Observer {
 			readSkillLevels();
 		} catch(Exception e) {
 			outputPanel.send("Error reading performance measurement data: " + e.getMessage());
+			success = false;
+		}
+		
+		try {
+			readCurvature();
+		} catch(Exception e) {
+			outputPanel.send("Error reading curvature data: " + e.getMessage());
 			success = false;
 		}
 		
@@ -294,6 +302,32 @@ public class MainFrame extends Observer {
 		averageSkillLevel = total/skillPlot.size();
 		
 		skillLevels = new ValueSequence(skillPlot.toArray(new TextObject[skillPlot.size()]));
+		
+		fr.close();
+		textReader.close();
+	}
+	
+	private void readCurvature() throws IOException, FileNotFoundException {
+		FileReader fr = new FileReader(CURRENT_DATA_DIR + "/" + TRACK_CURVATURE_FILE);
+		BufferedReader textReader = new BufferedReader(fr);
+		
+		ArrayList<Double> points = new ArrayList<Double>();
+		String line;
+		double total = 0;
+		while((line = textReader.readLine()) != null) {
+			points.add(Math.abs(Double.parseDouble(line)));
+			total += points.get(points.size()-1);
+		}
+		
+		averageCurvature = total/points.size();
+		
+		// Convert into an array for plotting
+		curvaturePlot = new double[2][points.size()];
+		for(int i = 0; i < points.size(); i++) {
+			curvaturePlot[0][i] = i;
+			curvaturePlot[1][i] = points.get(i);
+			outputPanel.send(String.valueOf(curvaturePlot[0][i]) + " - " + String.valueOf(curvaturePlot[1][i]));
+		}
 		
 		fr.close();
 		textReader.close();
@@ -533,6 +567,11 @@ public class MainFrame extends Observer {
 			chart.setVisible(true);
 		}
 		
+		if(message == GUIMessage.PLOT_TRACK_CURVATURE) {
+			ChartFrame chart = plotXYGraph(curvaturePlot, "Track Curvature", "Distance", "Curvature");
+			chart.setVisible(true);
+		}
+		
 		if(message == GUIMessage.EXIT) {
 			frame.setVisible(false);
 			frame.dispose();
@@ -562,11 +601,14 @@ public class MainFrame extends Observer {
 		}
 		
 		if(message == GUIMessage.SHOW_RACE_SUMMARY) {
-			DecimalFormat d = new DecimalFormat("#.##");
+			DecimalFormat d1 = new DecimalFormat("#.##");
+			DecimalFormat d2 = new DecimalFormat("#.####");
 			
-			JOptionPane.showMessageDialog(frame, "Average Speed: " + String.valueOf(d.format(averageSpeed)) + "   Optimal Average Speed: " + String.valueOf(d.format(optimalAverageSpeed)) + "\n" +
-												  "Average Distance from path: " + String.valueOf(d.format(averageDistance)) + "\n" +
-												  "Average Skill Level: " + String.valueOf(d.format(averageSkillLevel)), "Race Summary", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "Average Speed: " + 				String.valueOf(d1.format(averageSpeed)) + "\n" +
+												  "Optimal Average Speed: " +	    String.valueOf(d1.format(optimalAverageSpeed)) + "\n" +
+												  "Average Distance from path: " +  String.valueOf(d1.format(averageDistance)) + "\n" +
+												  "Average Skill Level: " +	 		String.valueOf(d1.format(averageSkillLevel)) + "\n" +
+												  "Average Track Curvature: " + 	String.valueOf(d2.format(averageCurvature)), "Race Summary", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 	

@@ -255,7 +255,6 @@ void TrackDesc::plot(char* filename)
 	fclose(fd);
 }
 
-
 /* get the segment on which the car is, searching ALL the segments */
 int TrackDesc::getCurrentSegment(tCarElt* car)
 {

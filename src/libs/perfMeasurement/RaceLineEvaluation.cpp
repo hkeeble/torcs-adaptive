@@ -168,6 +168,9 @@ namespace perfMeasurement
 
 			out.close();
 		}
+
+		// Output the curvature of the track created
+		pathfinder->Track()->outputCurvature("curvature.dat");
 	}
 
 	std::vector<tdble> RaceLineEvaluation::Smooth(std::vector<tdble> data, int smoothWidth)

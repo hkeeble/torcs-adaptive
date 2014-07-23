@@ -27,8 +27,12 @@ namespace procPathfinder
 		public:
 			PTrackDesc(const tTrack* track);
 			~PTrackDesc();
+
 			/* output track data to gnuplot readable file */
 			void plot(char* filename);
+
+			/* outputs the curvature of each point on the track */
+			void outputCurvature(char* filename);
 
 			inline tTrack* GetTorcsTrack() { return stateMngr.GetTorcsTrack(); }
 			inline PTrackSegment* getSegmentPtr(int index) { return ts(index); }

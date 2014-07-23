@@ -216,6 +216,21 @@ namespace procPathfinder
 		fclose(fd);
 	}
 
+	void PTrackDesc::outputCurvature(char* filename)
+	{
+		FILE *fd = fopen(filename, "w");
+
+		tTrack* track = GetTorcsTrack();
+		tTrackSeg* firstSeg = track->seg->next;
+		tTrackSeg* currentSeg = firstSeg;
+
+		do {
+			fprintf(fd, "%f \n", currentSeg->radius > 0 ? 1 / currentSeg->radius : 0.f);
+			currentSeg = currentSeg->next;
+		} while (currentSeg->id != firstSeg->id);
+
+		fclose(fd);
+	}
 
 	/* get the segment on which the car is, searching ALL the segments */
 	int PTrackDesc::getCurrentSegment(tCarElt* car)

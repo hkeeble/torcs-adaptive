@@ -107,6 +107,7 @@ class TrackDesc
 	public:
 		TrackDesc(const tTrack* track);
 		~TrackDesc();
+
 		/* output track data to gnuplot readable file */
 		void plot(char* filename);
 
