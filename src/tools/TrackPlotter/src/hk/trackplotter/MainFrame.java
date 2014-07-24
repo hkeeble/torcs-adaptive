@@ -48,19 +48,22 @@ public class MainFrame extends Observer {
 	private final String ACTUAL_SPD_FILE = "actSpeed.dat";
 	private final String PERF_DATA_FILE = "perfData.dat";
 	private final String TRACK_CURVATURE_FILE = "curvature.dat";
+	private final String SPEED_RATING_FILE = "spdRatings.dat";
+	private final String TRAJECTORY_RATING_FILE = "trajRatings.dat";
 	
 	// String to represent infinite values
 	private final String FLT_ERR = "1.#INF";
 	
-	// Plots and value sequences
+	// Main surface plots and value sequences
 	private PathPlot track, optimalLine, actualLine;
 	private ValueSequence optimalSpeeds, actualSpeeds, skillLevels;
 	
-	// Processed data
-	private double[][] distancePlot, speedDifferencePlot, optimalSpeedPlot, actualSpeedPlot, skillLevelPlot, curvaturePlot;
+	// Processed plot data
+	private double[][] distancePlot, speedDifferencePlot, optimalSpeedPlot, actualSpeedPlot, skillLevelPlot,
+							curvaturePlot, speedRatingPlot, trajectoryRatingPlot;
 	
-	// Averages
-	double averageDistance, averageSpeed, optimalAverageSpeed, averageSkillLevel, averageCurvature;
+	// Averaged data
+	double averageDistance, averageSpeed, optimalAverageSpeed, averageSkillLevel, averageCurvature, averageSpeedRating, averageTrajectoryRating;
 	
 	// Split pane between surface and input panel
 	private JSplitPane splitPane;
@@ -171,6 +174,13 @@ public class MainFrame extends Observer {
 			readCurvature();
 		} catch(Exception e) {
 			outputPanel.send("Error reading curvature data: " + e.getMessage());
+			success = false;
+		}
+		
+		try {
+			readRatings();
+		} catch(Exception e) {
+			outputPanel.send("Error reading rating data: " + e.getMessage());
 			success = false;
 		}
 		
@@ -320,17 +330,50 @@ public class MainFrame extends Observer {
 		}
 		
 		averageCurvature = total/points.size();
-		
-		// Convert into an array for plotting
-		curvaturePlot = new double[2][points.size()];
-		for(int i = 0; i < points.size(); i++) {
-			curvaturePlot[0][i] = i;
-			curvaturePlot[1][i] = points.get(i);
-			outputPanel.send(String.valueOf(curvaturePlot[0][i]) + " - " + String.valueOf(curvaturePlot[1][i]));
-		}
+		curvaturePlot = toPlotArray(points);
 		
 		fr.close();
 		textReader.close();
+	}
+	
+	private void readRatings() throws IOException, FileNotFoundException {
+		FileReader fr = new FileReader(CURRENT_DATA_DIR + "/" + SPEED_RATING_FILE);
+		BufferedReader textReader = new BufferedReader(fr);
+		
+		ArrayList<Double> ratings = new ArrayList<Double>();
+		String line;
+		double total = 0;
+		while((line = textReader.readLine()) != null) {
+			ratings.add(Double.parseDouble(line));
+			total += ratings.get(ratings.size()-1);
+		}
+		
+		averageSpeedRating = total/ratings.size();
+		speedRatingPlot = toPlotArray(ratings);
+		
+		fr = new FileReader(CURRENT_DATA_DIR + "/" + TRAJECTORY_RATING_FILE);
+		textReader = new BufferedReader(fr);
+		ratings.clear();
+		total = 0;
+		while((line = textReader.readLine()) != null) {
+			ratings.add(Double.parseDouble(line));
+			total += ratings.get(ratings.size()-1);
+		}
+		
+		averageTrajectoryRating = total/ratings.size();
+		trajectoryRatingPlot = toPlotArray(ratings);
+		
+		fr.close();
+		textReader.close();
+	}
+	
+	private double[][] toPlotArray(ArrayList<Double> data) {
+		double[][] plot = new double[2][data.size()];
+		for(int i = 0; i < data.size(); i++) {
+			plot[0][i] = i;
+			plot[1][i] = data.get(i);
+		}
+		return plot;
 	}
 	
 	private boolean processData() {
@@ -609,6 +652,18 @@ public class MainFrame extends Observer {
 												  "Average Distance from path: " +  String.valueOf(d1.format(averageDistance)) + "\n" +
 												  "Average Skill Level: " +	 		String.valueOf(d1.format(averageSkillLevel)) + "\n" +
 												  "Average Track Curvature: " + 	String.valueOf(d2.format(averageCurvature)), "Race Summary", JOptionPane.INFORMATION_MESSAGE);
+		}
+		
+		if(message == GUIMessage.PLOT_SPEED_RATINGS) {
+			plotXYGraph(speedRatingPlot, "Speed Ratings", "Distance Travelled", "Speed Rating").setVisible(true);
+		}
+		
+		if(message == GUIMessage.PLOT_TRAJECTORY_RATINGS) {
+			plotXYGraph(trajectoryRatingPlot, "Trajectory Ratings", "Distance Travelled", "Trajectory Rating").setVisible(true);
+		}
+
+		if(message == GUIMessage.PLOT_RATING_COMPARISON) {
+			plotXYGraph(speedRatingPlot, trajectoryRatingPlot, "Speed Rating", "Trajectory Rating", "Rating Comparison", "Distance Travelled", "Rating").setVisible(true);
 		}
 	}
 	

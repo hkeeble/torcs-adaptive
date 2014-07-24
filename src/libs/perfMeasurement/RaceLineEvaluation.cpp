@@ -30,6 +30,8 @@ namespace perfMeasurement
 		currentPathSegID = 0; // ID of the current path segment
 
 		actualData = std::vector<PMData>();
+		trajectoryRatings = std::vector<double>();
+		speedRatings = std::vector<double>();
 	}
 
 	void RaceLineEvaluation::Evaluate()
@@ -85,6 +87,9 @@ namespace perfMeasurement
 		tdble positionRating = 1 - (avgDistDiff / avgDistMax); // The position rating for this estimation
 		tdble speedRating = (totalSpeed / dataSet.size()) / (desiredTotalSpeed / dataSet.size());
 
+		speedRatings.push_back(speedRating);
+		trajectoryRatings.push_back(positionRating);
+
 		currentEstimate = (positionWeight * positionRating) + (speedWeight * speedRating); // Produce final estimate using weighted mean
 
 		estimates.push_back(currentEstimate); // Add to estimate list
@@ -125,6 +130,8 @@ namespace perfMeasurement
 		remove("optSpeed.dat");
 		remove("actSpeed.dat");
 		remove("perfData.dat");
+		remove("trajRatings.dat");
+		remove("spdRatings.dat");
 
 		pathfinder->PlotPath("optimal.dat");
 
@@ -159,6 +166,24 @@ namespace perfMeasurement
 		if (out.is_open())
 		{
 			for (auto i : estimates)
+				out << i << std::endl;
+
+			out.close();
+		}
+
+		out = std::fstream("spdRatings.dat", std::ios::app);
+		if (out.is_open())
+		{
+			for (auto i : speedRatings)
+				out << i << std::endl;
+
+			out.close();
+		}
+
+		out = std::fstream("trajRatings.dat", std::ios::app);
+		if (out.is_open())
+		{
+			for (auto i : trajectoryRatings)
 				out << i << std::endl;
 
 			out.close();

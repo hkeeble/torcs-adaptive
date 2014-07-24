@@ -13,6 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
@@ -28,6 +29,9 @@ public class UserPanel extends Subject {
 	// The main panel for this class
 	JPanel mainPanel;
 	
+	// Scroll pane to contain main panel
+	JScrollPane scrollPane;
+	
 	// Data panel
 	JPanel data;
 	
@@ -36,7 +40,7 @@ public class UserPanel extends Subject {
 	JPanel renderPanel, speedPanel, plotPanel, miscPanel;
 	
 	// Plot panel buttons
-	JButton plotDistGraph, plotSpeedDiffGraph, plotSpeedComparisonGraph, plotSkillLevelGraph, plotCurvatureGraph;
+	JButton plotDistGraph, plotSpeedDiffGraph, plotSpeedComparisonGraph, plotSkillLevelGraph, plotCurvatureGraph, plotSpeedRatingGraph, plotTrajectoryRatingGraph, plotRatingComparisonGraph;
 	
 	// Render Panel Buttons
 	JButton toggleSpeedRender, togglePointRender, toggleSkillRender;
@@ -48,15 +52,22 @@ public class UserPanel extends Subject {
 	// Summary Button
 	JButton showRaceSummary;
 	
+	// Scroll bar
+	JScrollBar scrollbar;
+	
 	public UserPanel() {
 		super();
 		mainPanel = new JPanel();
 		mainPanel.setPreferredSize(new Dimension(300, 100));
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		
+
 		initInputPanel(); // Initialize the input panel
 		
 		mainPanel.add(inputs);
+		scrollPane = new JScrollPane(mainPanel);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setSize(10, 100);
 	}
 
 	private void initInputPanel() {
@@ -65,6 +76,9 @@ public class UserPanel extends Subject {
 		speedPanel = new JPanel();
 		plotPanel = new JPanel();
 		miscPanel = new JPanel();
+		
+		scrollbar = new JScrollBar();
+
 		
 		inputs.setLayout(new GridLayout(0, 1));
 		inputs.setBorder(BorderFactory.createTitledBorder("Inputs"));
@@ -107,23 +121,33 @@ public class UserPanel extends Subject {
 		plotSpeedComparisonGraph = new JButton("Plot Actual Speed against Optimal Speed");
 		plotSkillLevelGraph = new JButton("Plot Skill Level Graph");
 		plotCurvatureGraph = new JButton("Plot Track Curvature");
+		plotSpeedRatingGraph = new JButton("Plot Speed Ratings");
+		plotTrajectoryRatingGraph = new JButton("Plot Trajectory Ratings");
+		plotRatingComparisonGraph = new JButton("Plot Rating Comparison");
 		
 		plotDistGraph.addActionListener(new PlotDistanceGraphButton());
-		plotSpeedDiffGraph.addActionListener(new PlotSpeedDiffGraph());
-		plotSpeedComparisonGraph.addActionListener(new PlotSpeedComparisonGraph());
-		plotSkillLevelGraph.addActionListener(new PlotSkillLevelGraph());
-		plotCurvatureGraph.addActionListener(new PlotTrackCurvatureGraph());
+		plotSpeedDiffGraph.addActionListener(new PlotSpeedDiffGraphButton());
+		plotSpeedComparisonGraph.addActionListener(new PlotSpeedComparisonGraphButton());
+		plotSkillLevelGraph.addActionListener(new PlotSkillLevelGraphButton());
+		plotCurvatureGraph.addActionListener(new PlotTrackCurvatureGraphButton());
+		plotSpeedRatingGraph.addActionListener(new PlotSpeedRatingGraphButton());
+		plotTrajectoryRatingGraph.addActionListener(new PlotTrajectoryRatingGraphButton());
+		plotRatingComparisonGraph.addActionListener(new PlotRatingComparisonGraphButton());
 		
 		plotPanel.add(plotDistGraph);
 		plotPanel.add(plotSpeedDiffGraph);
 		plotPanel.add(plotSpeedComparisonGraph);
 		plotPanel.add(plotSkillLevelGraph);
 		plotPanel.add(plotCurvatureGraph);
+		plotPanel.add(plotSpeedRatingGraph);
+		plotPanel.add(plotTrajectoryRatingGraph);
+		plotPanel.add(plotRatingComparisonGraph);
 		
 		miscPanel.setLayout(new GridLayout(0, 1));
 		miscPanel.setBorder(BorderFactory.createTitledBorder("Other Options"));
 		showRaceSummary = new JButton("Show Race Summary");
 		showRaceSummary.addActionListener(new ShowRaceSummary());
+		showRaceSummary.setPreferredSize(new Dimension(100, 50));
 		miscPanel.add(showRaceSummary);
 		
 		// Add to input panel
@@ -131,6 +155,9 @@ public class UserPanel extends Subject {
 		inputs.add(speedPanel);
 		inputs.add(plotPanel);
 		inputs.add(miscPanel);
+		
+		
+		inputs.add(scrollbar);
 		
 		setActive(false);
 	}
@@ -164,7 +191,7 @@ public class UserPanel extends Subject {
 		return table;
 	}
 	
-	private class PlotTrackCurvatureGraph implements ActionListener {
+	private class PlotTrackCurvatureGraphButton implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			sendMessage(GUIMessage.PLOT_TRACK_CURVATURE, null);
@@ -178,25 +205,52 @@ public class UserPanel extends Subject {
 		}
 	}
 	
-	private class PlotSpeedDiffGraph implements ActionListener {
+	private class PlotSpeedDiffGraphButton implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			sendMessage(GUIMessage.PLOT_SPEED_DIFF, null);
 		}
 	}
 	
-	private class PlotSpeedComparisonGraph implements ActionListener {
+	private class PlotSpeedComparisonGraphButton implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			sendMessage(GUIMessage.PLOT_SPEED_COMPARISON, null);
 		}
 	}
 	
-	private class PlotSkillLevelGraph implements ActionListener {
+	private class PlotSkillLevelGraphButton implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			sendMessage(GUIMessage.PLOT_SKILL_LEVEL, null);
+		}
+		
+	}
+	
+	private class PlotSpeedRatingGraphButton implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			sendMessage(GUIMessage.PLOT_SPEED_RATINGS, null);
+		}
+		
+	}
+	
+	private class PlotTrajectoryRatingGraphButton implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			sendMessage(GUIMessage.PLOT_TRAJECTORY_RATINGS, null);
+		}
+		
+	}
+	
+	private class PlotRatingComparisonGraphButton implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			sendMessage(GUIMessage.PLOT_RATING_COMPARISON, null);
 		}
 		
 	}
@@ -266,8 +320,8 @@ public class UserPanel extends Subject {
 		notifyObservers(message, userValue);
 	}
 	
-	public JPanel get() {
-		return mainPanel;
+	public JScrollPane get() {
+		return scrollPane;
 	}
 	
 	public void setActive(boolean active) {

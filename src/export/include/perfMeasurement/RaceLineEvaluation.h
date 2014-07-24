@@ -36,6 +36,9 @@ namespace perfMeasurement
 		std::vector<PMData> actualData; /*!< Represents all recorded actual data for the car. Stored such that the evaluator can release data
 											 used for actual performance measurement after each evaluation. */
 
+		std::vector<double> trajectoryRatings; /*!< The individual trajectory ratings collected by the evaluator. */
+		std::vector<double> speedRatings; /*!< The individual speed ratings collected by the evaluator. */
+
 		int currentSegmentID; /*!< ID of the current segment ID for which performance needs to be evaluated. */
 		int currentPathSegID; /*!< ID of the current path segment. */
 
