@@ -225,7 +225,8 @@ namespace procPathfinder
 		tTrackSeg* currentSeg = firstSeg;
 
 		do {
-			fprintf(fd, "%f \n", currentSeg->radius > 0 ? 1 / currentSeg->radius : 0.f);
+			if(currentSeg->radius != 0.f)
+				fprintf(fd, "%f \n", 1 / currentSeg->radius);
 			currentSeg = currentSeg->next;
 		} while (currentSeg->id != firstSeg->id);
 

@@ -19,7 +19,8 @@ namespace perfMeasurement
 			this->pathfinder = new BerniwPathfinding(trackDesc);
 			break;
 		default:
-			pmOut("Error, unrecognized pathfinder type passed into race line evaluation for performance measurement.");
+			pmOut("Error, unrecognized pathfinder type passed into race line evaluation for performance measurement. Using K1999 by default.");
+			this->pathfinder = new K1999(trackDesc);
 			break;
 		}
 

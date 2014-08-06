@@ -79,13 +79,19 @@ public class ValueSequence {
 	}
 	
 	public TextObject getClosest(Point2D point) {
-		TextObject closest = objects[0];
-		double currentDist = closest.getPosition().distance(point);
+		return objects[getClosestID(point)];
+	}
+	
+	public int getClosestID(Point2D point) {
+		TextObject closestObj = objects[0];
+		int closest = 0;
+		double currentDist = closestObj.getPosition().distance(point);
 		for(int i = 0; i < objects.length; i++) {
 			double dist = objects[i].getPosition().distance(point);
 			if(dist < currentDist) {
 				currentDist = dist;
-				closest = objects[i];
+				closestObj = objects[i];
+				closest = i;
 			}
 		}
 		

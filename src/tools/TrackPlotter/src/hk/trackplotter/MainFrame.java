@@ -65,6 +65,9 @@ public class MainFrame extends Observer {
 	// Averaged data
 	double averageDistance, averageSpeed, optimalAverageSpeed, averageSkillLevel, averageCurvature, averageSpeedRating, averageTrajectoryRating;
 	
+	// Total data
+	double totalCurvature;
+	
 	// Split pane between surface and input panel
 	private JSplitPane splitPane;
 	
@@ -323,13 +326,13 @@ public class MainFrame extends Observer {
 		
 		ArrayList<Double> points = new ArrayList<Double>();
 		String line;
-		double total = 0;
+		totalCurvature = 0;
 		while((line = textReader.readLine()) != null) {
 			points.add(Math.abs(Double.parseDouble(line)));
-			total += points.get(points.size()-1);
+			totalCurvature += points.get(points.size()-1);
 		}
 		
-		averageCurvature = total/points.size();
+		averageCurvature = totalCurvature/points.size();
 		curvaturePlot = toPlotArray(points);
 		
 		fr.close();
@@ -408,9 +411,6 @@ public class MainFrame extends Observer {
 
 				String closestSpd = optimalSpeeds.getClosest(actualLine.getPoint(i)).getText();
 
-				if(closestSpd.equals(FLT_ERR)) {
-					closestSpd = "100";
-				}
 				speedDifferencePlot[1][i] = Double.parseDouble(closestSpd);
 			}
 			outputPanel.send("Speed difference plot completed.");
@@ -428,7 +428,7 @@ public class MainFrame extends Observer {
 
 			double totalSpeed = 0, totalOptSpeed = 0;
 			for(int i = 0; i < actualSpeeds.size(); i++) {
-				actualSpeedPlot[0][i] = i;
+				actualSpeedPlot[0][i] = optimalSpeeds.getClosestID(actualSpeeds.getPositionOf(i));
 				actualSpeedPlot[1][i] = actualSpeeds.getValueAt(i);
 				totalSpeed += actualSpeedPlot[1][i];
 				totalOptSpeed += Double.parseDouble(optimalSpeeds.getClosest(actualSpeeds.getPositionOf(i)).getText());
@@ -651,7 +651,10 @@ public class MainFrame extends Observer {
 												  "Optimal Average Speed: " +	    String.valueOf(d1.format(optimalAverageSpeed)) + "\n" +
 												  "Average Distance from path: " +  String.valueOf(d1.format(averageDistance)) + "\n" +
 												  "Average Skill Level: " +	 		String.valueOf(d1.format(averageSkillLevel)) + "\n" +
-												  "Average Track Curvature: " + 	String.valueOf(d2.format(averageCurvature)), "Race Summary", JOptionPane.INFORMATION_MESSAGE);
+												  "Average Speed Rating: " +	 	String.valueOf(d1.format(averageSpeedRating)) + "\n" +
+												  "Average Trajectory Rating: " +	String.valueOf(d1.format(averageTrajectoryRating)) + "\n" +
+												  "Average Track Curvature: " + 	String.valueOf(d2.format(averageCurvature)) + "\n" + 
+												  "Total Curvature: " + 			String.valueOf(d2.format(totalCurvature)), "Race Summary", JOptionPane.INFORMATION_MESSAGE);
 		}
 		
 		if(message == GUIMessage.PLOT_SPEED_RATINGS) {
@@ -663,7 +666,7 @@ public class MainFrame extends Observer {
 		}
 
 		if(message == GUIMessage.PLOT_RATING_COMPARISON) {
-			plotXYGraph(speedRatingPlot, trajectoryRatingPlot, "Speed Rating", "Trajectory Rating", "Rating Comparison", "Distance Travelled", "Rating").setVisible(true);
+			plotXYGraph(speedRatingPlot, trajectoryRatingPlot, "Speed Rating", "Trajectory Rating", "Rating Comparison", "Segment #", "Rating").setVisible(true);
 		}
 	}
 	

@@ -200,23 +200,23 @@ namespace procedural
 					PSegmentRanges ranges = segFactory->ranges;
 					
 					// Seed random number generator by the current time
-					// std::default_random_engine engine(std::chrono::system_clock::now().time_since_epoch().count());
-					// std::normal_distribution<tdble> distribution(skillLevel, NORMAL_DSTRIBUTION);
+					 std::default_random_engine engine(std::chrono::system_clock::now().time_since_epoch().count());
+					 std::normal_distribution<tdble> distribution(skillLevel, NORMAL_DSTRIBUTION);
 
-					// Produce a variant of the skill level using normal distribution, follow by clamping the value
-					// tdble variant = distribution(engine);
-					// if (variant > 1) variant = 1;
-					// else if (variant < 0) variant = 0;
+					 // Produce a variant of the skill level using normal distribution, follow by clamping the value
+					 tdble variant = distribution(engine);
+					 if (variant > 1) variant = 1;
+					 else if (variant < 0) variant = 0;
 
 					// Ensure that weighting is never 0.0f, if skill level estimate is 1 use 0.1f, as this is the lowest possible weighting
-					tdble radius = lerp(ranges.Radius().Min(), ranges.Radius().Max(), skillLevel < 1.0f ? 1.0f - skillLevel : 0.1f);
-					
+					tdble radius = lerp(ranges.Radius().Min(), ranges.Radius().Max(), variant < 1.0f ? 1.0f - variant : 0.1f);
+
 					// Generate arc weighted with skill level, based upon corner type
 					tdble arc = 0.f;
 					if (cType == PCornerType::CTRight)
-						arc = lerp(ranges.RightArc().Min(), ranges.RightArc().Max(), skillLevel);
+						arc = lerp(ranges.RightArc().Min(), ranges.RightArc().Max(), variant);
 					else
-						arc = lerp(ranges.LeftArc().Min(), ranges.LeftArc().Max(), skillLevel);
+						arc = lerp(ranges.LeftArc().Min(), ranges.LeftArc().Max(), variant);
 
 					// Create the segment with the segment factory
 					curSeg = &segFactory->CreateSegCnr(track->state.curSegIndex, cType, radius, arc);
