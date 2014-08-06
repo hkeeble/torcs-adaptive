@@ -5,6 +5,7 @@
 */
 
 #include "PathSegCollection.h"
+#include <iostream>
 
 namespace procPathfinder
 {
@@ -65,8 +66,10 @@ namespace procPathfinder
 	void PathSegCollection::Insert(const vector<PathSeg> newSegs, int id)
 	{
 		for (int i = 0; i < newSegs.size(); i++) {
-			if (segs.size() > i + id)
+			if (segs.size() > i + id) {
 				segs.at(id + i) = newSegs[i];
+				std::cout << "Replacing at " << id + i << std::endl;
+			}
 			else
 				segs.push_back(newSegs[i]);
 		}

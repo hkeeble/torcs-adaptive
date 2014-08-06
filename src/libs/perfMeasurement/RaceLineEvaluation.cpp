@@ -100,9 +100,6 @@ namespace perfMeasurement
 	{
 		trackDesc->Update();
 		pathfinder->Update(carDesc);
-		
-		// Smooth all speed values
-		// SmoothSpeeds(219);
 
 		// If the car is on a new path segment, add new data
 		int prev = currentPathSegID;

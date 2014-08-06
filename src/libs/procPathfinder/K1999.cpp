@@ -9,7 +9,9 @@
 
 namespace procPathfinder
 {
-	K1999::K1999(PTrackDesc* track) : PPathfinder(track), SEGMENT_RANGE(6)
+	K1999::K1999(PTrackDesc* track) :
+		PPathfinder(track),
+		SEGMENT_RANGE(4)
 	{
 		currentSegID = 0;
 	}
@@ -57,6 +59,7 @@ namespace procPathfinder
 			}
 
 			path = std::vector<PathSeg>(segCount);
+			std::cout << segCount << std::endl;
 		}
 		else
 			path = std::vector<PathSeg>(track->segmentCount());
